@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     //Get default organisations
     this.organisations = [
       { name: "Admin", authmethod: "Demo" },
-      { name: "Fylde Coast", authmethod: "xfyldecoast" },
+      { name: "Collaborative Partners", authmethod: "Demo" },
     ];
     this.getOrganisations();
   }

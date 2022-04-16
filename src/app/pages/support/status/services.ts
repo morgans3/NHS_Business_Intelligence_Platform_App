@@ -1,23 +1,15 @@
 export const MonitoredServices = [
   {
-    statename: "auth",
-    description: "Authentication Service",
+    statename: "api",
+    description: "API Service, includes Authentication, Authorization, and data access",
     status: {
       state: "darkgrey",
       msg: "Unknown",
     },
   },
   {
-    statename: "interface",
-    description: "Interface Service",
-    status: {
-      state: "darkgrey",
-      msg: "Unknown",
-    },
-  },
-  {
-    statename: "patient",
-    description: "Patient Service",
+    statename: "apig",
+    description: "Serverless API Service: includes logging and transactional data access",
     status: {
       state: "darkgrey",
       msg: "Unknown",
