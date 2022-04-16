@@ -2,6 +2,8 @@
 
 Our application is a BI Platform along with a collection of other optional, configurable tools such as Population Health Management and Place Based Intelligence.
 
+Demo: <https://www.nhs-bi-platform.co.uk/> (login required)
+
 ## Pre-requisites
 
 - Typescript v2.7 or later installed

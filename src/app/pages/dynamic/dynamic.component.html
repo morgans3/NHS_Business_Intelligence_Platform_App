@@ -1,0 +1,9 @@
+<div *ngIf="pageConfig && pageConfig.children">
+  <ng-container *ngFor="let child of pageConfig.children" dynamicComponent [config]="modify(child.config)"></ng-container>
+</div>
+
+<div *ngIf="!pageConfig">
+  <mat-card>
+    <mat-card-content fxLayoutAlign="center center"> Page configuration not found. Please contact support. </mat-card-content>
+  </mat-card>
+</div>

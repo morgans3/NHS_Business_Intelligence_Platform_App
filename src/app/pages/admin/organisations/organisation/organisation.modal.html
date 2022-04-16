@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Edit App</h1>
+<div mat-dialog-content>
+    <form [formGroup]="org">
+        <mat-form-field>
+            <mat-label>Code</mat-label>
+            <input matInput formControlName="code">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Contact</mat-label>
+            <input matInput formControlName="contact">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="Authentication Method" formControlName="authmethod">
+                <mat-option value="xfyldecoast">X-Fylde Coast Active Directory</mat-option>
+                <mat-option value="lcsu">LCSU Active Directory</mat-option>
+                <mat-option value="xmlcsu">MLCSU Active Directory</mat-option>
+                <mat-option value="lth">LTH Active Directory</mat-option>
+                <mat-option value="uhmbt">UHMBT Active Directory</mat-option>
+                <mat-option value="Demo">Nexus Intelligence</mat-option>
+                <mat-option value="global">L&SC Region Active Directory</mat-option>
+                <mat-option value="nwas">NWAS Active Directory</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button (click)="save()" mat-raised-button color="primary">Save</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+</div>

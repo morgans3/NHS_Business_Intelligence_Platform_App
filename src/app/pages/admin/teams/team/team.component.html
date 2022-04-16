@@ -1,0 +1,133 @@
+<!-- Team details -->
+<div class="m-b-30">
+    <mat-card-title class="m-b-15">Team details</mat-card-title>
+
+    <form [formGroup]="team" (ngSubmit)="update()" style="width: 100%">
+        <div fxLayout="row wrap" fxLayoutGap="15px">
+            <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input formControlName="name" matInput />
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Responsible people</mat-label>
+                    <input-chiplist formControlName="responsiblepeople" placeholder="Input a name and then press enter"></input-chiplist>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-form-field>
+                    <mat-label>Code</mat-label>
+                    <input formControlName="code" matInput />
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <mat-label>Organisation code</mat-label>
+                    <input formControlName="organisationcode" matInput />
+                </mat-form-field>
+            </div>
+
+            <div fxFlex.gt-md="calc(100% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-form-field style="margin-bottom: -1.34375em;">
+                    <mat-label>Description</mat-label>
+                    <textarea formControlName="description" matInput placeholder="Describe what the team does..."></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Assigned roles -->
+<div class="m-b-30">
+    <mat-card-title class="m-b-15">Assigned roles</mat-card-title>
+
+    <mat-form-field style="margin-bottom: -1.34375em;">
+        <mat-label>Add new role</mat-label>
+        <input (keyup)="roles.search($event.target.value)" (focus)="roles.search()" type="text" placeholder="Search by name" matInput [matAutocomplete]="roleSearchAutocomplete" #rolesSearchInput>
+        <mat-autocomplete (optionSelected)="roles.assign($event, rolesSearchInput)" #roleSearchAutocomplete="matAutocomplete">
+            <mat-option *ngFor="let role of roles.list.filtered" [value]="role">
+                {{ role.name }}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <table mat-table [dataSource]="roles.selected" class="w-100" #rolesTable>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="w-25"> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef class="w-75"> Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <button (click)="roles.revoke(i)" mat-raised-button color="warn">Revoke</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['name', 'description', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'description', 'actions'];"></tr>
+        
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="3">No roles assigned to this team</td>
+        </tr>
+    </table>
+</div>
+
+<!-- Assigned capabilities -->
+<div class="m-b-30">
+    <mat-card-title class="m-b-15">Assigned capabilities</mat-card-title>
+
+    <mat-form-field style="margin-bottom: -1.34375em;">
+        <mat-label>Add new capability</mat-label>
+        <input (keyup)="capabilities.search($event.target.value)" (focus)="capabilities.search()" type="text" placeholder="Search by name" matInput [matAutocomplete]="capabilitySearchAutocomplete" #capabilitiesSearchInput>
+        <mat-autocomplete (optionSelected)="capabilities.assign($event, capabilitiesSearchInput)" #capabilitySearchAutocomplete="matAutocomplete">
+            <mat-option *ngFor="let role of capabilities.list.filtered" [value]="role">
+                {{ role.name }}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <table mat-table [dataSource]="capabilities.selected" class="w-100" #capabilitiesTable>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element" class="w-25"> {{element.name}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element" class="w-75"> {{element.description}} </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <button (click)="capabilities.revoke(i)" mat-raised-button color="warn">Revoke</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['name', 'description', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'description', 'actions'];"></tr>
+        
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="3">No capabilities assigned to this team</td>
+        </tr>
+    </table>
+</div>
+
+
+<button (click)="save()" class="m-r-10" mat-raised-button color="primary">Save team</button>
+<button routerLink="/admin/teams" mat-raised-button mat-dialog-close color="warn">Cancel</button>    

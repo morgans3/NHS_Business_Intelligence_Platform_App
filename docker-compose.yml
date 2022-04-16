@@ -1,0 +1,10 @@
+version: "2.1"
+
+services:
+  frontend-nhsbiplatform:
+    image: frontend-nhsbiplatform
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3200:3200

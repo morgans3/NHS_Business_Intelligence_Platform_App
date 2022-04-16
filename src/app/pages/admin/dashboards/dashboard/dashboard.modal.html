@@ -1,0 +1,58 @@
+<h1 mat-dialog-title>Edit App</h1>
+<div mat-dialog-content>
+    <form [formGroup]="dashboard">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>URL</mat-label>
+            <input matInput formControlName="url">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Owner Name</mat-label>
+            <input matInput formControlName="ownerName">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Owner Email</mat-label>
+            <input matInput formControlName="ownerEmail">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Icon</mat-label>
+            <input matInput formControlName="icon">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="Status" formControlName="status">
+                <mat-option value="Public">Public</mat-option>
+                <mat-option value="Global">Global</mat-option>
+                <mat-option value="Organisation">Organisation</mat-option>
+                <mat-option value="Team">Team</mat-option>
+                <mat-option value="Staff">Staff</mat-option>
+                <mat-option value="Role">Role</mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field>
+            <mat-select placeholder="Environment" formControlName="environment">
+                <mat-option value="Shiny">Shiny</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <textarea matInput placeholder="Description" formControlName="description"></textarea>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input-chiplist formControlName="images" placeholder="Input an image name and then press enter"></input-chiplist>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button (click)="save()" mat-raised-button color="primary">Save</button>
+    <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+</div>

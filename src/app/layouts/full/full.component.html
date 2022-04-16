@@ -1,0 +1,41 @@
+<div class="main-container" style="min-height: 100vh" [ngClass]="{ minisidebar: minisidebar }">
+  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0" [ngClass]="{ minisidebar: minisidebar }">
+    <mat-sidenav
+      #snav
+      id="snav"
+      class="pl-xs"
+      mode="side"
+      fixedTopGap="0"
+      style="overflow: hidden"
+      (open)="sidebarOpened = true"
+      (close)="sidebarOpened = false"
+      [opened]="mobileQuery.matches"
+      [disableClose]="mobileQuery.matches"
+      [ngClass]="{ matsidenavsmall: minisidebar, matsidenavbig: !minisidebar }"
+    >
+      <lib-diu-angular-navigation [isMinisidebar]="minisidebar" [menuItems]="shownMenuItems"></lib-diu-angular-navigation>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="page-wrapper">
+      <div class="page-content">
+        <lib-diu-angular-header [strAppName]="appName" [strHome]="'home'" [alerts]="myAlerts" [tokenDecoded]="tokenDecoded" (endSession)="logout($event)" (changeSidebar)="toggleSidebar($event)"></lib-diu-angular-header>
+
+        <div fxLayout="row wrap" *ngIf="isIE">
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card class="slim-top bg-warning" style="padding-bottom: 10px">
+              <mat-card-content class="text-white" style="padding-top: 0px; padding-bottom: 0px">
+                <div fxLayoutAlign="center center">
+                  <fa-icon class="icon-2x" [icon]="faExclamation"></fa-icon>
+                  <p style="margin-left: 5px; text-align: center">This browser is not optimized for Nexus Intelligence, we would recommend using an up-to-date browser like Microsoft Edge or Google Chrome for an improved user experience.</p>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+
+        <router-outlet><app-spinner></app-spinner></router-outlet>
+        <lib-diu-angular-speed-dial [token]="jwtToken" (errorMessage)="showErrors($event)" (newMFAToken)="updateToken($event)"></lib-diu-angular-speed-dial>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

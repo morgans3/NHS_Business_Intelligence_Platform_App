@@ -1,0 +1,27 @@
+/**
+ * Table Of Content
+ *
+ * 	1. Globals
+ *	2. Headers
+ *	3. Navigations
+ *	4. Banners
+ *	5. Footers
+ *	6. app
+ *	7. Widgets
+ *	8. Custom Templates
+ */
+
+@import "variable";
+@import "icons/themify-icons/themify-icons.css";
+@import "icons/font-awesome/font-awesome/css/all.css";
+@import "spinner";
+@import "app";
+@import "header";
+@import "widgets";
+@import "pages";
+@import "sidebar";
+@import "responsive";
+@import "rtl";
+@import "custom";
+@import "~ngx-toastr/toastr";
+@import "../styles/icons/material-design-iconic-font/css/materialdesignicons.min.css";

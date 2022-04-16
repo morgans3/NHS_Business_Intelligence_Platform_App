@@ -1,0 +1,62 @@
+mat-card-header {
+    padding: 24px 24px 0px 24px !important;
+    mat-card-title {
+        font-weight: 600;
+        font-size: 1.5rem !important;
+    }
+}
+
+/* Navigation menu */
+.menu .list {
+    mat-list-item {
+        padding: 0px 15px;
+        .excerpt {
+            color: #67757c;
+            max-width: 90%;
+        }
+    }
+    button {
+        margin-left: auto;
+    }
+}
+
+/* User guide content */
+.content ::ng-deep {
+    max-width: 800px;
+    margin: auto;
+    h1, h2 {
+        font-size: 1.4rem;
+        font-weight: 500;
+    }
+    h3, h4 {
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+     h5 {
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+    .confluence-embedded-file-wrapper {
+        max-width: 100%;
+        margin: auto;
+        display: block;
+        text-align: center;
+        img {
+            cursor: pointer;
+            max-width: 100%;
+        }
+    }
+    ul {
+        padding-inline-start: 20px !important;
+    }
+    table {
+        border-spacing: 0px;
+        border: 1px solid #dfe6eb;
+        td, th {
+            border: 1px solid #dfe6eb;
+            p {
+                padding: 6px;
+            }
+        }
+    }
+}

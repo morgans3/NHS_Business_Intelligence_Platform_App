@@ -1,8 +1,11 @@
 export const environment = {
+  name: "Production",
+  version: "1.0.0",
   production: true,
-  name: 'Production',
-  version: '1.0.0',
-  userNameDev: 'Demo.User@example.com',
-  homepage: 'dashboard',
-  appName: 'NHS BI Platform',
+  userNameDev: "Demo.User@nhs.net",
+  homepage: "dashboard",
+  appName: "Nexus Intelligence",
+  isDemo: true,
+  admins: ["stewart.morgan@nhs.net"],
+  websiteURL: "nexusintelligencenw.nhs.uk",
 };

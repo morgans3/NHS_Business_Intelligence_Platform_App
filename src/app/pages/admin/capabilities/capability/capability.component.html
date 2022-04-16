@@ -1,0 +1,31 @@
+<mat-card-title class="m-b-15">Add/Edit Capability</mat-card-title>
+
+<form [formGroup]="capability">
+    <mat-form-field class="m-b-10">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field class="m-b-10">
+        <textarea matInput placeholder="Description" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="m-b-10">
+        <textarea matInput placeholder="Value (JSON string)" formControlName="value"></textarea>
+        <mat-error *ngIf="capability?.get('value').errors?.invalid_json">
+            The JSON string is invalid
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="m-b-10">
+        <mat-label>Authoriser</mat-label>
+        <input matInput formControlName="authoriser">
+    </mat-form-field>
+
+    <mat-form-field class="m-b-10">
+        <input-chiplist formControlName="tags" placeholder="List of tags for the capability"></input-chiplist>
+    </mat-form-field>
+</form>
+
+<button class="m-r-10" (click)="save()" mat-raised-button color="primary">Save</button>
+<button routerLink="/admin/capabilities" mat-raised-button color="warn">Cancel</button>

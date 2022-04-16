@@ -1,0 +1,21 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field>
+        <input matInput formControlName="password" placeholder="Enter a new password" type="password" autocomplete="new-password" />
+    </mat-form-field>
+
+    <p style="text-align: left;margin-block: 0.25rem;margin-top: -1rem;">
+        <small>Minimum of 8 characters and must include: a capital letter, number and symbol.</small>
+    </p>
+    <div class="progress">
+        <div class="progress-bar bg-{{password_validity.color}}" role="progressbar" [ngStyle]="{ width: password_validity.score + '%' }">{{ password_validity.strength }}</div>
+    </div>
+
+    <mat-form-field>
+        <input matInput formControlName="password_match" placeholder="Re-enter your password" type="password" autocomplete="new-password" />
+        <mat-error *ngIf="form?.get('password_match').errors?.matches">
+            Passwords do not match!
+        </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" style="width: 100%;margin-top: 1.25rem;" type="submit">Update</button>
+</form>

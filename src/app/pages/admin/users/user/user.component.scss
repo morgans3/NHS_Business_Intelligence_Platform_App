@@ -1,0 +1,19 @@
+.pill {
+    background: #eef5f9;
+    border-radius: 10px;
+    padding: 10px 20px;
+    border: 2px solid #ffffff;
+    .mat-card-avatar {
+        height: 100px;
+        width: 100px;
+        border: 2px solid #ffffff;
+    }
+}
+:host ::ng-deep {
+    tr.mat-header-row {
+        height: 39px !important;
+    }
+    th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+        padding-left: 0px !important;
+    }
+}

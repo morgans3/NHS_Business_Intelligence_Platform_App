@@ -1,0 +1,132 @@
+<div fxLayout="row wrap">
+    <div fxFlex="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>COVID 19 Data Hub Access Request</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <form *ngIf="!formComplete; else formCompleteTemplate" [formGroup]="form" (ngSubmit)="submit()">
+                    <mat-vertical-stepper (selectionChange)="stepChanged($event)" #formStepper>
+                        <mat-step>
+                            <ng-template matStepLabel>Your details</ng-template>
+                            <div fxLayout="row wrap" fxLayoutGap="15px">
+                                <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
+                                    <mat-form-field class="m-b-10">
+                                        <input matInput formControlName="firstname" placeholder="First name" type="text" autocomplete="false" />
+                                    </mat-form-field>
+
+                                    <mat-form-field class="m-b-10">
+                                        <input matInput formControlName="professional_role" placeholder="Professional role" type="text" autocomplete="false" />
+                                        <mat-hint>E.g. Clinician/Social Worker/Community Nurse</mat-hint>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="m-b-10">
+                                        <input matInput formControlName="organisation" placeholder="Employing organisation" type="text" autocomplete="false" />
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
+                                    <mat-form-field class="m-b-10">
+                                        <input matInput formControlName="surname" placeholder="Surname" type="text" autocomplete="false" />
+                                    </mat-form-field>
+
+                                    <mat-form-field class="m-b-10">
+                                        <input matInput formControlName="professional_number" placeholder="Professional registration number" type="text" autocomplete="false" />
+                                        <mat-hint>If relevant</mat-hint>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="m-b-10">
+                                        <input matInput formControlName="email" placeholder="Work email address" type="email" autocomplete="false" />
+                                        <mat-error *ngIf="form?.get('email').errors?.is_personal">
+                                            Please make sure to use your <b>work</b> email address
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <mat-form-field class="m-b-10" formGroupName="request_sponsor">
+                                <input matInput formControlName="email" placeholder="Sponsor email address" type="email" autocomplete="false" />
+                                <mat-hint>Enter the email for the individual responsible for authorising your account</mat-hint>
+                                <mat-error *ngIf="form?.get('request_sponsor.email').errors?.not_valid">
+                                    Email cannot be the same as your own and must be a <b>work</b> email address
+                                </mat-error>
+                            </mat-form-field>
+                        </mat-step>
+                        <mat-step formGroupName="pid_access">
+                            <ng-template matStepLabel>PID access - Relevant legitimate relationship</ng-template>
+                            <b>If PID access is required then please complete the following...</b>
+                            <p class="m-t-5">I require access to citizen identifiable data because my professional role as a {{ form.get('professional_role').value }} requires such access to enable me to deliver an appropriate service[s].</p>
+                            
+                            <div fxLayout="row wrap" fxLayoutGap="15px">
+                                <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
+                                    <gp-select class="m-b-10" formControlName="patient_gps" placeholder="Patient's registered GP practice"></gp-select>
+                                    
+                                    <mat-form-field class="m-b-10">
+                                        <input matInput formControlName="citizen_council" placeholder="Citizen local authority/district council" type="text" autocomplete="false" />
+                                        <mat-hint>Enter local authority/district council</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
+                                    <mat-form-field class="m-b-10">
+                                        <input matInput formControlName="patient_chs" placeholder="Patient's community health service" type="text" autocomplete="false" />
+                                        <mat-hint>Enter service code</mat-hint>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="m-b-10">
+                                        <input matInput formControlName="related_ch" placeholder="Related community hub" type="text" autocomplete="false" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <mat-form-field>
+                                <mat-label>Related multi-discplinary team</mat-label>
+                                <mat-chip-list #relatedMdtList>
+                                    <mat-chip *ngFor="let mdt of form.get('pid_access.related_mdt').value" (removed)="relatedMDT.remove(mdt)">
+                                        {{mdt}} <mat-icon matChipRemove>cancel</mat-icon>
+                                    </mat-chip>
+                                    <input placeholder="Type MDT name or code then press enter" [matChipInputFor]="relatedMdtList" [matChipInputSeparatorKeyCodes]="relatedMDT.separatorKeysCodes" [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="relatedMDT.add($event)">
+                                </mat-chip-list>
+                                <mat-hint>(Multiple MDT access is also permissible, please list all MDTs if required)</mat-hint>
+                            </mat-form-field>
+                        </mat-step>
+                        <mat-step>
+                            <ng-template matStepLabel>Apps' access</ng-template>
+                            <p class="m-t-0 m-b-0"><b>Please select the Nexus applications you require access to...</b></p>
+                            <mat-selection-list style="margin-left: -16px;" formControlName="app_access">
+                                <mat-list-option *ngFor="let app of apps" [value]="app.name">
+                                    <div mat-line>{{ app.name }}</div>
+                                    <div mat-line>{{app.description}}</div>
+                                </mat-list-option>
+                            </mat-selection-list>
+                            <mat-error *ngIf="form?.get('app_access').errors?.required">Please select at least one app</mat-error>
+                        </mat-step>
+                        <mat-step>
+                            <ng-template matStepLabel>Verify your email</ng-template>
+                            <ng-container *ngIf="form.get('email').valid; else emailInvalidTemplate">
+                                <p class="m-t-0"><b>A verification code has been sent to your email, please enter it below</b></p>
+                                <mat-form-field class="m-b-10">
+                                    <input matInput formControlName="email_verification_code" placeholder="Enter verification code" type="text" autocomplete="false" />
+                                    <mat-error *ngIf="form?.get('email_verification_code').errors?.not_valid">Verification code invalid!</mat-error>
+                                </mat-form-field>
+                                <button (click)="checkEmailVerificationCode(formStepper)" mat-raised-button color="primary" type="button" class="m-r-20">Verify</button>
+                                <button (click)="messagingService.sendVerificationCode(form.get('email').value)" mat-raised-button color="primary" type="button">Re-send code</button>
+                            </ng-container>
+                            <ng-template #emailInvalidTemplate>
+                                <p class="m-t-0"><b>You must enter your email correctly before it can be verified!</b></p>
+                            </ng-template>
+                        </mat-step>
+                         <mat-step>
+                            <ng-template matStepLabel>Declaration</ng-template>
+                            <mat-checkbox formControlName="terms_agreed" class="m-r-10"></mat-checkbox><b>I, the undersigned, commit to upholding all legal and civil responsibilities in relation to
+                            maintaining the Privacy and Confidentiality of all individuals whose information I am granted access to under this agreement.</b>
+                            <p class="m-t-5">Digitally signed by {{ form.get('email').value }} on {{ form.get('date').value | date: 'd/MM/yyyy' }}</p>
+                            <button mat-raised-button color="primary" type="submit">Submit for approval</button>
+                        </mat-step>
+                    </mat-vertical-stepper>
+                </form>
+                <ng-template #formCompleteTemplate>
+                    <p style="text-align: center; padding: 50px 0px;">Thank you! Your request has been submitted, once it's approved by your sponsor you'll receive an email detailing how to access your account.</p>
+                </ng-template>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

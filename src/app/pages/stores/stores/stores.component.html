@@ -1,0 +1,7 @@
+<div *ngIf="storeConfig">
+  <ng-container dynamicComponent [config]="modify(storeConfig)"></ng-container>
+</div>
+
+<div *ngIf="!storeConfig">
+  <mat-spinner></mat-spinner>
+</div>

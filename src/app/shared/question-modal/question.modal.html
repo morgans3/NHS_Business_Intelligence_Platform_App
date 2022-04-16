@@ -1,0 +1,8 @@
+<div mat-dialog-content>
+    <p>{{ message }}</p>
+</div>
+<div mat-dialog-actions style="justify-content: center;">
+    <button *ngFor="let button of buttons" (click)="dialogRef.close(button.value)" mat-raised-button [color]="button.color">
+        {{ button.title }}
+    </button>
+</div>

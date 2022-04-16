@@ -1,0 +1,63 @@
+<div class="filters">
+    <mat-form-field appearance="outline" class="m-r-10">
+        <mat-label>Search by</mat-label>
+        <mat-select [ngModel]="filters.query_by" (selectionChange)="changeType($event.value)">
+            <mat-option value="date">Date</mat-option>
+            <mat-option value="type">Type</mat-option>
+            <mat-option value="user">Username#Organisation</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="filters.query_by !== 'date'" appearance="outline">
+        <input type="text" placeholder="Enter a {{ filters.query_by }}" [(ngModel)]="filters[filters.query_by]" matInput (keyup)="filter()">
+    </mat-form-field>
+
+    <mat-form-field *ngIf="filters.query_by == 'date'" appearance="outline">
+        <mat-label>Select a date</mat-label>
+        <input matInput [matDatepicker]="datePicker" [(ngModel)]="filters.date" (dateChange)="filter()">
+        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
+    </mat-form-field>
+</div>
+
+<table mat-table [dataSource]="logs.all" class="w-100">
+    <!-- Code Column -->
+    <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Type </th>
+        <td mat-cell *matCellDef="let element"> <a href="javascript:;" (click)="changeType('type', element.type)">{{element.type}}</a> </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef> Username </th>
+        <td mat-cell *matCellDef="let element"> <a href="javascript:;" (click)="changeType('user', element['username#org'])">{{element['username#org'].split('#')[0]}}</a> </td>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="organisation">
+        <th mat-header-cell *matHeaderCellDef> Organisation </th>
+        <td mat-cell *matCellDef="let element"> {{element['username#org'].split('#')[1]}} </td>
+    </ng-container>
+
+    <!-- Tags Column -->
+    <ng-container matColumnDef="timestamp">
+        <th mat-header-cell *matHeaderCellDef> Timestamp </th>
+        <td mat-cell *matCellDef="let element"> {{(element.date + " " + element.time) | date : 'd/M/Y h:mm a'}} </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+            <button (click)="view(element)" mat-raised-button color="primary" class="m-r-15">View</button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['type', 'username', 'organisation', 'timestamp', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['type', 'username', 'organisation', 'timestamp', 'actions'];"></tr>
+    <tr class="mat-row" *matNoDataRow><td class="mat-cell" colspan="3">No results</td></tr>
+</table>
+
+<div class="w-100 m-t-15 text-center">
+    <button *ngIf="logs.nextPageKey" (click)="getLogs(logs.nextPageKey)" mat-raised-button color="primary" class="m-r-15">Load more</button>
+</div>

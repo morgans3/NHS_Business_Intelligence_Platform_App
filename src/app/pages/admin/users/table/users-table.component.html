@@ -1,0 +1,31 @@
+<mat-card-title class="m-b-15">Users</mat-card-title>
+<table mat-table [dataSource]="users" class="w-100">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Username Column -->
+    <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef> Username </th>
+        <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+    </ng-container>
+
+    <!-- Organisation Column -->
+    <ng-container matColumnDef="organisation">
+        <th mat-header-cell *matHeaderCellDef> Organisation </th>
+        <td mat-cell *matCellDef="let element"> {{element.organisation}} </td>
+    </ng-container>
+
+    <!-- Organisation Column -->
+    <ng-container matColumnDef="linemanager">
+        <th mat-header-cell *matHeaderCellDef> Line manager </th>
+        <td mat-cell *matCellDef="let element"> {{element.linemanager}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['name', 'username', 'organisation', 'linemanager']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name', 'username', 'organisation', 'linemanager'];"></tr>
+    <tr class="mat-row" *matNoDataRow><td class="mat-cell" colspan="3">No results</td></tr>
+</table>

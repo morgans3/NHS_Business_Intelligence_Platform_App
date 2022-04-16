@@ -1,0 +1,24 @@
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center" *ngFor="let service of MonitoredServices">
+        <mat-card style="width: 100%" (click)="fireevent(service)">
+            <mat-card-content fxLayoutAlign="start center" style="padding: 5px 15px; cursor: pointer; min-height: 60px">
+            {{ service.description }} :&nbsp; <span [ngStyle]="{ color: service.status.state }">{{ service.status.msg }}</span>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxLayoutAlign="center center">
+    <mat-card style="width: 100%">
+      <mat-card-content fxLayoutAlign="space-around center">
+        <button type="button" mat-raised-button color="primary" style="width: 85%" (click)="refreshAll()" title="Retry Lookups">
+          <i class="fas fa-sync-alt"></i>
+        </button>
+        <!-- <button type="button" mat-raised-button [color]="!monitoring ? 'accent' : 'warn'" style="width: 45%" (click)="monitor()" [title]="!monitoring ? 'Enable Monitor' : 'Diasble Monitor'">
+          <i class="fas fa-heartbeat"></i>
+        </button> -->
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

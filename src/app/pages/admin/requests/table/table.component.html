@@ -1,0 +1,32 @@
+<mat-card-title class="m-b-15">Requests</mat-card-title>
+
+<div class="filters">
+    <mat-form-field appearance="outline">
+        <mat-label>Change type</mat-label>
+        <mat-select (selectionChange)="getRequestsByType($event.value)">
+            <mat-option value="AccountRequest">Account Request</mat-option>
+            <mat-option value="AccountRequestComplete">Account Request Response</mat-option>
+        </mat-select>
+    </mat-form-field>    
+</div>
+
+<table mat-table [dataSource]="table.data" class="w-100">
+
+    <!-- Loop through each column -->
+    <ng-container *ngFor="let column of table.columns" [matColumnDef]="column.def">
+        <th mat-header-cell *matHeaderCellDef>{{ column.name }}</th>
+        <td mat-cell *matCellDef="let element">{{ getValueByKey(column.key, element) }}</td>
+    </ng-container>
+
+    <!-- Actions -->
+     <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+            <button *ngFor="let tableAction of table.actions" (click)="action(tableAction, element)" mat-raised-button color="primary">{{ tableAction.name }}</button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="table.displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: table.displayedColumns;"></tr>
+    <tr class="mat-row" *matNoDataRow><td class="mat-cell" colspan="3">No results</td></tr>
+</table>

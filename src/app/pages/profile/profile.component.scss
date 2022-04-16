@@ -1,0 +1,17 @@
+mat-card ::ng-deep {
+    mat-divider {
+        margin: 20px 0px;
+        position: relative !important;
+    }
+    mat-card-header {
+        padding: 24px 24px 0px 24px !important;
+    }
+    .mat-card-avatar {
+        width: 100px;
+        height: 100px;
+        margin: auto 24px auto 0;
+    }
+    .mat-card-header-text {
+        margin: auto 0 !important;
+    }
+}

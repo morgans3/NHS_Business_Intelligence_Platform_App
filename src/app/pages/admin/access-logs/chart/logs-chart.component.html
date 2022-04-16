@@ -1,0 +1,15 @@
+<div class="filters">
+    <mat-form-field appearance="outline">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input  [rangePicker]="matDateRangePicker">
+            <input matStartDate [(ngModel)]="date.from" placeholder="Period start">
+            <input matEndDate [(ngModel)]="date.to" (dateChange)="getStatistics()" placeholder="Period end">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="matDateRangePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #matDateRangePicker></mat-date-range-picker>
+    </mat-form-field>
+</div>
+
+<div style="position: relative; width: 100%;">
+    <canvas #chartElement height="400px"></canvas>
+</div>

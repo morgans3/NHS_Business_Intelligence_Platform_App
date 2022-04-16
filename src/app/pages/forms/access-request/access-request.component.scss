@@ -1,0 +1,21 @@
+mat-card-header {
+    padding: 24px 24px 0px 24px !important;
+    mat-card-title {
+        font-weight: 600;
+        font-size: 1.5rem !important;
+    }
+}
+::ng-deep {
+    .mat-vertical-content {
+        padding: 24px !important;
+    }
+    .mat-step-header {
+        padding: 15px 7px !important;
+        &[aria-selected="true"] {
+            background-color: rgba(0, 0, 0, 0.04);
+        }
+    }
+    .mat-vertical-content-container {
+        margin-left: 18px !important;
+    }
+}

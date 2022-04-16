@@ -1,0 +1,66 @@
+<mat-card-title>Roles</mat-card-title>
+<mat-list>
+  <div mat-subheader>ASSIGNED</div>
+  <mat-list-item *ngFor="let item of assignedRoles">
+    <h4 mat-line>
+      <strong>{{ item.name }}</strong>
+    </h4>
+    <p mat-line>{{ item.description }}</p>
+    <span style="float: right; display: inline-flex">
+      <button mat-icon-button type="button" color="warn" [matTooltip]="Unassign" class="margin-left-right" (click)="unassign(item)">
+        <mat-icon>remove_circle</mat-icon>
+      </button>
+    </span>
+  </mat-list-item>
+</mat-list>
+<p *ngIf="!assignedRoles || assignedRoles.length === 0" style="padding-left: 20px">No Roles assigned</p>
+<mat-list>
+  <div mat-subheader>ROLE LIBRARY</div>
+  <mat-list-item *ngFor="let item of allRoles">
+    <h4 mat-line>
+      <strong>{{ item.name }}</strong>
+    </h4>
+    <p mat-line>{{ item.description }}</p>
+    <span style="float: right; display: inline-flex">
+      <button mat-icon-button type="button" color="primary" [matTooltip]="Request" class="margin-left-right" (click)="request(item)">
+        <mat-icon>check_circle</mat-icon>
+      </button>
+    </span>
+  </mat-list-item>
+</mat-list>
+
+<mat-card-title>Capabilties</mat-card-title>
+<mat-list>
+  <div mat-subheader>ASSIGNED</div>
+  <mat-list-item *ngFor="let item of assignedCapabilties">
+    <h4 mat-line>
+      <strong>{{ item.name }}</strong>
+    </h4>
+    <p mat-line>{{ item.description }}</p>
+    <span *ngIf="item.tags">
+      <mat-chip-list>
+        <mat-chip *ngFor="let tag of item.tags">{{ tag.name }}</mat-chip>
+      </mat-chip-list>
+    </span>
+    <span style="float: right; display: inline-flex">
+      <button mat-icon-button type="button" color="warn" [matTooltip]="Unassign" class="margin-left-right" (click)="unassign(item)">
+        <mat-icon>remove_circle</mat-icon>
+      </button>
+    </span>
+  </mat-list-item>
+</mat-list>
+<p *ngIf="!assignedCapabilties || assignedCapabilties.length === 0" style="padding-left: 20px">No Capabilties assigned</p>
+<mat-list>
+  <div mat-subheader>CAPABILITY LIBRARY</div>
+  <mat-list-item *ngFor="let item of allCapabilities">
+    <h4 mat-line>
+      <strong>{{ item.name }}</strong>
+    </h4>
+    <p mat-line>{{ item.description }}</p>
+    <span style="float: right; display: inline-flex">
+      <button mat-icon-button type="button" color="primary" [matTooltip]="Request" class="margin-left-right" (click)="request(item)">
+        <mat-icon>check_circle</mat-icon>
+      </button>
+    </span>
+  </mat-list-item>
+</mat-list>

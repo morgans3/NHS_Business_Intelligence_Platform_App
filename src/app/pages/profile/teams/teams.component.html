@@ -1,0 +1,49 @@
+<mat-card-title class="m-t-20">My teams</mat-card-title>
+<mat-list>
+  <div *ngIf="myTeams.length > 0">
+    <mat-list-item *ngFor="let team of myTeams">
+      <mat-icon mat-list-icon>group</mat-icon>
+      <h4 mat-line>{{ team.name }}</h4>
+      <p mat-line>{{ team.description }}</p>
+      <span style="float: right; display: flex">
+        <button mat-raised-button type="button" color="primary" routerLink="/teams/{{team.code}}">View</button>&nbsp;
+        <button mat-raised-button type="button" color="warn" (click)="leaveTeam(team)">Leave</button>
+      </span>
+    </mat-list-item>
+  </div>
+  <div *ngIf="!myTeams || myTeams.length === 0">No teams have been assigned...</div>
+</mat-list>
+
+<mat-divider></mat-divider>
+<mat-card-title>Team requests</mat-card-title>
+<h5 class="font-medium m-t-20 m-b-0">Join a new team...</h5>
+<form [formGroup]="joinTeamForm">
+  <div fxLayout="row wrap" fxLayoutGap="15px" fxLayoutAlign="center center">
+    <div fxFlex="calc(80% - 15px)">
+      <mat-form-field>
+        <input type="text" placeholder="Search by team name and then click join" matInput [matAutocomplete]="teamSearchAc" formControlName="team">
+        <mat-autocomplete #teamSearchAc="matAutocomplete" [displayWith]="getTeamName">
+          <mat-option *ngFor="let team of teams.filtered" [value]="team">
+            {{ team?.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div fxFlex="calc(20% - 15px)">
+      <button class="w-100" mat-raised-button type="button" color="primary" (click)="joinTeam();">Join</button>
+    </div>
+  </div>
+</form>
+<h5 class="font-medium m-t-0 m-b-15">Request history</h5>
+<table class="mat-table w-100">
+  <thead class="mat-header-row">
+    <th class="mat-header-cell text-left">Team Name</th>
+    <th class="mat-header-cell text-left">Organisation</th>
+    <th class="mat-header-cell text-center">Date joined/requested</th>
+  </thead>
+  <tr *ngFor="let team of myTeamRequests" class="mat-row">
+    <td class="mat-cell">{{ team.teamname }}</td>
+    <td class="mat-cell">{{ getOrganisationName(team.organisationcode) }}</td>
+    <td class="mat-cell text-center">{{ team.requestdate | date: "dd/MM/yyyy" }}</td>
+  </tr>
+</table>
