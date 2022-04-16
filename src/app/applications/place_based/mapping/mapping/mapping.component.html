@@ -1,0 +1,59 @@
+<div #mapGraph [ngStyle]="mapHeight">
+  <app-map [hidden]="!MapData && mapStyle.display !== 'block'" [MapData]="MapData" MapName="MapName" [MapZoom]="MapZoom" [MapCenter]="MapCenter" [rerender]="mapRender" (mapObject)="setMapObject($event)"></app-map>
+</div>
+
+<div id="sidebar" class="leaflet-sidebar collapsed">
+  <div class="leaflet-sidebar-tabs">
+    <!-- added dynamically in this.sidebarPanels -->
+  </div>
+
+  <div class="leaflet-sidebar-content">
+    <div class="leaflet-sidebar-pane" id="home">
+      <h1 class="leaflet-sidebar-header">
+        Place Based Intelligence
+        <div class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></div>
+      </h1>
+      <app-homepanel></app-homepanel>
+    </div>
+
+    <div class="leaflet-sidebar-pane" id="legend">
+      <h1 class="leaflet-sidebar-header">
+        Legend
+        <div class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></div>
+      </h1>
+      <app-incidentLegend [input]="mapLegend"></app-incidentLegend>
+    </div>
+
+    <div class="leaflet-sidebar-pane" id="upload">
+      <h1 class="leaflet-sidebar-header">
+        Datasets
+        <div class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></div>
+      </h1>
+      <app-mapdatasets (updateMap)="drawMap($event)"></app-mapdatasets>
+    </div>
+
+    <div class="leaflet-sidebar-pane" id="filter">
+      <h1 class="leaflet-sidebar-header">
+        Filter
+        <div class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></div>
+      </h1>
+      <app-mapfilters [mapreference]="mapObject" [mapLayers]="MapData.layers" (updateFilter)="filterData($event)"></app-mapfilters>
+    </div>
+
+    <div class="leaflet-sidebar-pane" id="settings">
+      <h1 class="leaflet-sidebar-header">
+        Settings
+        <div class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></div>
+      </h1>
+      <app-mapsettings [mapreference]="mapObject" (changeMapType)="changeTileLayer($event)"></app-mapsettings>
+    </div>
+
+    <div class="leaflet-sidebar-pane" id="views">
+      <h1 class="leaflet-sidebar-header">
+        Saved Views
+        <div class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></div>
+      </h1>
+      <app-savedviews></app-savedviews>
+    </div>
+  </div>
+</div>

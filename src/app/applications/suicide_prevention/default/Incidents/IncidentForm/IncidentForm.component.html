@@ -1,0 +1,298 @@
+<form class="m-t-20" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-header> Incident Administration Information </mat-card-header>
+    <mat-card-content>
+      <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="padding: 20px">
+          <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="50" style="padding: 4px 15px 4px 0px">
+              <mat-form-field class="example-full-width">
+                <input autocomplete="off" matInput placeholder="Index" type="text" formControlName="index" />
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="BCU" formControlName="bcu">
+                  <mat-option *ngFor="let val of bcu_options" [value]="val.method">{{ val.method }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="CSP/District" formControlName="csp_district">
+                  <mat-option *ngFor="let val of csp_districts" [value]="val.method">{{ val.method }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="CSP resident" formControlName="csp_resident">
+                  <mat-option *ngFor="let val of csp_resident" [value]="val.method">{{ val.method }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Lancs12" formControlName="lancs12">
+                  <mat-option value="Y">True</mat-option>
+                  <mat-option value="N">False</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Adult Social Care LCC" formControlName="asc_lcc_update">
+                  <mat-option *ngFor="let val of asc_lcc_update" [value]="val.method">{{ val.method }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="MH Services / LSCFT update" formControlName="mh_services_lscft_update">
+                  <mat-option *ngFor="let val of mh_services_lscft_update" [value]="val.method">{{ val.method }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="50" style="padding: 4px 15px 4px 0px">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="ICS" formControlName="ics">
+                  <mat-option *ngFor="let val of ics_values" [value]="val.method">{{ val.method }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="CC (Coroner) Area" formControlName="coroner_area">
+                  <mat-option *ngFor="let val of coroner_areas" [value]="val.method">{{ val.method }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="CCG" formControlName="ccg">
+                  <mat-option *ngFor="let val of ccg_values" [value]="val.method">{{ val.method }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Local Authority" formControlName="local_authority">
+                  <mat-option *ngFor="let val of local_authorities" [value]="val.method">{{ val.method }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="CGL Update" formControlName="cgl_update">
+                  <mat-option *ngFor="let val of cgl_update" [value]="val.method">{{ val.method }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="da" formControlName="da">
+                  <mat-option *ngFor="let val of da" [value]="val.method">{{ val.method }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Delphi Update" formControlName="delphi_update">
+                  <mat-option *ngFor="let val of delphi_update" [value]="val.method">{{ val.method }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header> Incident Details </mat-card-header>
+    <mat-card-content>
+      <mat-form-field class="example-full-width">
+        <input autocomplete="off" matInput placeholder="Incident Ref" type="text" formControlName="incident_ref" />
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Incident Date" readonly="true" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker type="datetime" touchUi clockStep="5" #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Method" formControlName="method">
+          <mat-option *ngFor="let opt of incidentmethods" [value]="opt.method">{{ opt.method }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Type (Suicide / Drug related)" formControlName="type">
+          <mat-option *ngFor="let val of suicide_type" [value]="val.method">{{ val.method }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Reported By" formControlName="reported_by">
+          <mat-option *ngFor="let val of reporters" [value]="val.method">{{ val.method }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Bereavement Offered" formControlName="bereavement_offered">
+          <mat-option *ngFor="let opt of bereavement_options" [value]="opt.method">{{ opt.method }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Vic/ Perp/ Both" formControlName="vic_perp_both">
+          <mat-option *ngFor="let opt of vic_perp_both" [value]="opt.method">{{ opt.method }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <textarea style="min-height: 250px" autocomplete="off" matInput placeholder="Details" type="text" formControlName="details"></textarea>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header> Person's Demographics </mat-card-header>
+    <mat-card-content>
+      <mat-form-field class="example-full-width">
+        <input autocomplete="off" matInput placeholder="Forename" type="text" formControlName="forename" />
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input autocomplete="off" matInput placeholder="Surname" type="text" formControlName="surname" />
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Gender" formControlName="gender">
+          <mat-option *ngFor="let opt of gender" [value]="opt.method">{{ opt.method }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Ethnicity" formControlName="ethnicity">
+          <mat-option *ngFor="let opt of ethnicity" [value]="opt.method">{{ opt.method }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="picker3" formControlName="date_of_birth" placeholder="Date of Birth" readonly="true" />
+        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+        <mat-datepicker type="date" touchUi #picker3></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input autocomplete="off" matInput placeholder="Occupation" type="text" formControlName="occupation" />
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input autocomplete="off" matInput placeholder="Type of Job" type="text" formControlName="type_of_job" />
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Employment" formControlName="employment">
+          <mat-option *ngFor="let opt of employment_values" [value]="opt.method">{{ opt.method }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input autocomplete="off" matInput placeholder="IMD Decile" type="number" formControlName="imd_decile" />
+      </mat-form-field>
+      <!-- <mat-form-field class="example-full-width">
+        <mat-select placeholder="Local" formControlName="local">
+          <mat-option [value]="true">Yes</mat-option>
+          <mat-option [value]="false">No</mat-option>
+          <mat-option [value]="null">Unknown</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header> Person's Medical Information </mat-card-header>
+    <mat-card-content>
+      <mat-form-field class="example-full-width">
+        <input autocomplete="off" matInput placeholder="GP Practice" type="text" formControlName="registered_gp_practice" />
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input autocomplete="off" matInput placeholder="GP Name" type="text" formControlName="gp_name" />
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <textarea style="min-height: 250px" autocomplete="off" matInput placeholder="Medical History" type="text" formControlName="medical_history"></textarea>
+      </mat-form-field>
+      <p *ngIf="medicationlist.length > 0">Medications:</p>
+      <ul *ngIf="medicationlist.length > 0" style="list-style: none">
+        <li *ngFor="let medication of medicationlist">
+          <button mat-icon-button color="warn" class="margin-right-left" (click)="removeMedication(medication)">
+            <mat-icon>cancel</mat-icon>
+          </button>
+          {{ medication }}
+        </li>
+      </ul>
+      <p *ngIf="medicationlist.length === 0">No medication added.</p>
+
+      <button mat-raised-button type="button" color="accent" (click)="addMedication()" style="width: 100%">Add Medication</button>
+    </mat-card-content>
+  </mat-card>
+
+  <div fxLayout="row wrap">
+    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="50">
+      <mat-card>
+        <mat-card-header> Location of Incident </mat-card-header>
+        <mat-card-content>
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Type of Location" formControlName="type_of_location">
+              <mat-option *ngFor="let opt of type_of_location" [value]="opt.method">{{ opt.method }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <app-findlocation [read]="read_incident_loc" (updated)="updateLocation($event)"></app-findlocation>
+          <div *ngIf="incidicentMosType">Mosaic Type: {{ incidicentMosType }}</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="50">
+      <mat-card>
+        <mat-card-header> Location of Residence </mat-card-header>
+        <mat-card-content>
+          <app-findlocation [read]="read_residence_loc" (updated)="updateResidence($event)"></app-findlocation>
+          <app-findMosaic *ngIf="residence_loc" [inputPostcode]="residence_loc.postcode" [inputMosType]="mosType" (outputMosType)="changeMosType($event)"></app-findMosaic>
+          <div>
+            <div *ngIf="postcode_mosaic" id="mosaicToolTip" class="container d3-tip mosaic-{{ postcode_mosaic.substr(0, 1) }}" style="margin: 30px auto; width: 100% !important; max-width: 400px !important">
+              <div fxLayout="row wrap">
+                <div>
+                  <h2 style="margin: 0px">{{ postcode_mosaic }}</h2>
+                  <h3 style="margin: 0px" *ngIf="toolTipData && toolTipData.name">{{ toolTipData.name }}</h3>
+                </div>
+              </div>
+              <div fxLayout="row wrap" *ngIf="toolTipData && toolTipData.desc">
+                <h6>{{ toolTipData.desc }}</h6>
+              </div>
+              <div fxLayout="row wrap">
+                <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                  <img alt="image" class="img-container" src="assets/images/mosaic/mosaic_{{ postcode_mosaic }}.jpg" />
+                </div>
+              </div>
+              <div fxLayout="row wrap">
+                <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                  <ul>
+                    <li *ngIf="toolTipData && toolTipData.Feat1">{{ toolTipData.Feat1 }}</li>
+                    <li *ngIf="toolTipData && toolTipData.Feat2">{{ toolTipData.Feat2 }}</li>
+                    <li *ngIf="toolTipData && toolTipData.Feat3">{{ toolTipData.Feat3 }}</li>
+                    <li *ngIf="toolTipData && toolTipData.Feat4">{{ toolTipData.Feat4 }}</li>
+                    <li *ngIf="toolTipData && toolTipData.Feat5">{{ toolTipData.Feat5 }}</li>
+                    <li *ngIf="toolTipData && toolTipData.Feat6">{{ toolTipData.Feat6 }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <mat-card>
+    <mat-card-header> Inquest Information </mat-card-header>
+    <mat-card-content>
+      <mat-form-field class="example-full-width">
+        <input matInput [matDatepicker]="picker2" formControlName="inquest_date" placeholder="Inquest Date" readonly="true" />
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker type="datetime" touchUi clockStep="5" #picker2></mat-datepicker>
+      </mat-form-field>
+      <!-- <mat-form-field class="example-full-width">
+        <textarea autocomplete="off" matInput placeholder="Inquest Conclusion" type="text"
+          formControlName="inquest_conclusion" cdkTextareaAutosize cdkAutosizeMinRows="6"></textarea>
+      </mat-form-field> -->
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Inquest Conclusion" formControlName="inquest_conclusion">
+          <mat-option *ngFor="let val of inquest_conclusion_vals" [value]="val.method">{{ val.method }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="RTS Accurate" formControlName="rts_accurate">
+          <mat-option [value]="'Awaiting Coroner Conclusion'">Awaiting Coroner Conclusion</mat-option>
+          <mat-option [value]="'Yes'">Yes</mat-option>
+          <mat-option [value]="'No'">No</mat-option>
+          <mat-option [value]="'Unknown'">Unknown</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-content>
+      <mat-card-actions fxLayoutAlign="center center">
+        <button mat-raised-button color="primary" type="submit" *ngIf="!editForm" [disabled]="!myForm.valid">Submit</button>
+        <button mat-raised-button color="primary" type="submit" *ngIf="editForm" [disabled]="!myForm.valid">Update</button>
+        <button type="button" mat-raised-button color="warn" (click)="exitEditMode()">Clear</button>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</form>

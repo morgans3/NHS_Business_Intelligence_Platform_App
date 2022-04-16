@@ -1,0 +1,9 @@
+<div class="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-evenly; align-items: center; align-content: center; margin-top: 10px">
+      <button *ngIf="!mosType" mat-raised-button color="accent" type="button" (click)="findMosaicType()">Find Mosaic Type</button>
+      <span *ngIf="mosType">{{ "Mosaic Type: " + mosType }}</span>
+      <button *ngIf="mosType" mat-raised-button color="warn" type="button" (click)="clearMosaicType()">Clear Mosaic Type</button>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ import { AuthGuard } from "./_guards/auth.guard";
 import { FullComponent } from "./layouts/full/full.component";
 import { FormLayoutComponent } from "./layouts/form/form.component";
 import { SupportLayoutComponent } from "./layouts/support/support.component";
+import { FullmapComponent } from "./layouts/fullmap/fullmap.component";
 
 export const AppRoutes: Routes = [
   {
@@ -63,6 +64,17 @@ export const AppRoutes: Routes = [
         path: "**",
         loadChildren: () => import("./pages/dynamic/dynamic.module").then((m) => m.DynamicPageModule),
         pathMatch: "full",
+      },
+    ],
+  },
+  {
+    path: "",
+    component: FullmapComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: "",
+        loadChildren: () => import("./applications/place_based/mapping/mapping.module").then((m) => m.MappingModule),
       },
     ],
   },

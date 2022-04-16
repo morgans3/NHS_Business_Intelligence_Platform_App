@@ -1,0 +1,18 @@
+Date Range:
+<mat-form-field appearance="fill">
+  <mat-label>Enter a date range</mat-label>
+  <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+    <input matStartDate formControlName="start" placeholder="Start date" />
+    <input matEndDate formControlName="end" placeholder="End date" />
+  </mat-date-range-input>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-date-range-picker #picker class="rise-above"></mat-date-range-picker>
+</mat-form-field>
+Contains text:
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Type here to add a text filter..." />
+</mat-form-field>
+
+<h6 class="margin-block-none">Markers on Map</h6>
+
+<app-markeroptions [data]="markerData" [mapreference]="mapreference"></app-markeroptions>

@@ -63,7 +63,7 @@ export class RequestInterceptor implements HttpInterceptor {
   }
 
   private addTokenToRequest(request: HttpRequest<any>, token: string): HttpRequest<any> {
-    if (request.url.includes("rss2json.com")) {
+    if (request.url.includes("rss2json.com") || request.url.includes("postcodes.io")) {
       return request;
     }
     return request.clone({

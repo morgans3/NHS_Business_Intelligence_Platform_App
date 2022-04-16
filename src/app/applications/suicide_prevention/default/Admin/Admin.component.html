@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-content>
+    <div id="content">
+      <div id="main-content">
+        <mat-tab-group id="leftTabGroup">
+          <mat-tab *ngFor="let fl of fulllist" [label]="fl.displayname">
+            <app-Methods [displayName]="fl.displayname" [list]="fl.listname" [inputmethods]="fl.list"
+              (updatedmethods)="updatelists($event)">
+            </app-Methods>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

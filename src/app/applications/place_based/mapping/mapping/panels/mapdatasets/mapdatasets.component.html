@@ -1,0 +1,66 @@
+<h5 class="margin-block-none">Sources of Information</h5>
+<p>Select a source for more options to be able to apply to the map...</p>
+<ul>
+  <li>Councils</li>
+  <li class="selected-source">Police</li>
+  <li>Department for Levelling Up, Housing & Communities</li>
+  <li>Consumer Data Research Centre (CDRC)</li>
+  <li>Experian (Mosaic)</li>
+  <li>Office for National Statistics</li>
+  <li>NHS Organisations</li>
+</ul>
+
+<hr class="strong-hr" />
+
+<h5 class="margin-block-none">Apply to map...</h5>
+
+<p>Selected source: Police</p>
+
+<ul>
+  <li>
+    <button type="button" mat-icon-button color="primary" (click)="showDataset()" [matTooltip]="'Remove dataset from map'">
+      <i class="fas fa-eye"></i>
+    </button>
+    Latest Crimes
+  </li>
+  <li>
+    <button type="button" mat-icon-button color="default" (click)="showDataset()" [matTooltip]="'Add dataset to map'">
+      <i class="fas fa-plus-circle"></i>
+    </button>
+    Crime Levels
+  </li>
+</ul>
+
+<p>For configuration options for each selected dataset applied, please navigate to the Filter tab.</p>
+
+<hr class="strong-hr" />
+
+<h5 class="margin-block-none">Upload New Dataset</h5>
+
+<div class="file_input_div">
+  <div class="file_input">
+    Select Data File [xlsx] :-
+    <label class="mat-raised-button mat-primary" *ngIf="!workbook">
+      <span class="mat-button-wrapper">
+        Upload File
+        <input id="file_input_file" (change)="incomingfile($event)" accept=".xlsx" type="file" style="display: none" multiple="false" />
+      </span>
+    </label>
+    <div *ngIf="workbook" style="display: inline-block">&nbsp; {{ workbook.name }}</div>
+
+    <button type="button" mat-icon-button color="warn" (click)="clearFile()" [disabled]="!file" [matTooltip]="'Clear File'">
+      <i class="fas fa-backspace"></i>
+    </button>
+    <button type="button" mat-icon-button color="primary" (click)="storeFile()" [disabled]="!file" [matTooltip]="'Store in Data Warehouse'">
+      <i class="fas fa-cloud-upload-alt"></i>
+    </button>
+  </div>
+</div>
+
+<h5 class="margin-block-none" *ngIf="workbook">Uploaded Data</h5>
+
+<mat-tab-group *ngIf="workbook">
+  <mat-tab *ngFor="let sheet of workbook.worksheets; let i = index" [label]="sheet.name">
+    <app-worksheet [sheet]="sheet.data" [filtertext]="filtertext" [filterrange]="filterrange"></app-worksheet>
+  </mat-tab>
+</mat-tab-group>

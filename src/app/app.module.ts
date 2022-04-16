@@ -35,9 +35,12 @@ import { SharedModule } from "./shared/shared.module";
 import { InstallationsBrokerService } from "./_services/installations-broker.service";
 import { NotificationService } from "./_services/notification.service";
 import { DIUServicesModule } from "diu-component-library";
+import { PostcodeService } from "./_services/postcodes.service";
+import { StorageService } from "./_services/storage.service";
+import { FullmapComponent } from "./layouts/fullmap/fullmap.component";
 
 @NgModule({
-  declarations: [AppComponent, FullComponent, SpinnerComponent, FormLayoutComponent, SupportLayoutComponent, SupportLayoutSidebarComponent],
+  declarations: [AppComponent, FullComponent, FullmapComponent, SpinnerComponent, FormLayoutComponent, SupportLayoutComponent, SupportLayoutSidebarComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -90,6 +93,8 @@ import { DIUServicesModule } from "diu-component-library";
     NotificationService,
     InstallationsBrokerService,
     UserGroupService,
+    PostcodeService,
+    StorageService,
   ],
   bootstrap: [AppComponent],
 })

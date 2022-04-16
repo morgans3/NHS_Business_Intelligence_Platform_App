@@ -1,0 +1,70 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
+    <mat-card-title *ngIf="displayName">{{ displayName }}</mat-card-title>
+  </div>
+</div>
+
+<hr />
+
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="30" fxFlex.gt-xs="100" fxFlex="100" style="padding: 20px">
+    <form class="m-t-20" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="example-full-width">
+        <input autocomplete="off" matInput placeholder="Item" type="text" formControlName="method" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input autocomplete="off" matInput placeholder="Priority (higher number = higher in the feed)" type="text" formControlName="priority" />
+      </mat-form-field>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" *ngIf="!editForm" [disabled]="!myForm.valid">Submit</button>
+        <button mat-raised-button color="primary" type="submit" *ngIf="editForm" [disabled]="!myForm.valid">Update</button>
+        <button mat-raised-button color="warn" (click)="exitEditMode()" *ngIf="editForm">Exit edit mode</button>
+      </mat-card-actions>
+    </form>
+  </div>
+
+  <div fxFlex.gt-sm="70" fxFlex.gt-xs="100" fxFlex="100" style="padding: 25px">
+    <div class="bg-light p-10 p-r-20 p-l-20">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" />
+      </mat-form-field>
+    </div>
+    <div class="responsive-table">
+      <mat-table #Table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="method">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Item </mat-header-cell>
+          <mat-cell *matCellDef="let task" [title]="task.method"> {{ trunc(task.method, 20) }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="priority">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Priority </mat-header-cell>
+          <mat-cell *matCellDef="let task"> {{ task.priority }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dateCreated">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Date Created </mat-header-cell>
+          <mat-cell *matCellDef="let task"> {{ task.dateCreated }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button (click)="updateRecord(row)" mat-button color="primary">
+              <i class="material-icons">border_color</i>
+            </button>
+            <button (click)="removeRecord(row)" mat-button color="primary">
+              <i class="material-icons">delete</i>
+            </button>
+          </mat-cell>
+        </ng-container>
+      </mat-table>
+
+      <mat-paginator #paginator [pageSize]="20" [pageSizeOptions]="[20, 50, 100]"> </mat-paginator>
+    </div>
+  </div>
+</div>
