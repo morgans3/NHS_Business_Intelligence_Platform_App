@@ -9,8 +9,6 @@ import { AdminRoutes } from "./admin.routing";
 import { DiuComponentLibraryModule } from "diu-component-library";
 
 import { AdminComponent } from "./admin.component";
-import { UsersTableComponent } from "./users/table/users-table.component";
-import { UserComponent } from "./users/user/user.component";
 import { RequestsTableComponent } from "./requests/table/table.component";
 import { RequestComponent } from "./requests/request/request.component";
 import { AppsTableComponent } from "./apps/table/apps-table.component";
@@ -21,8 +19,6 @@ import { DashboardsTableComponent } from "./dashboards/table/dashboards-table.co
     imports: [CommonModule, FormsModule, ReactiveFormsModule, DemoMaterialModule, FlexLayoutModule, RouterModule.forChild(AdminRoutes), DiuComponentLibraryModule],
     declarations: [
         AdminComponent, 
-        UsersTableComponent,
-        UserComponent,
         RequestsTableComponent,
         RequestComponent,
         AppsTableComponent,

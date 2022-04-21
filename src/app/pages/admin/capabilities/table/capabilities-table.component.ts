@@ -29,11 +29,11 @@ export class CapabilitiesTableComponent implements OnInit {
       });
     } else {
       //Search by name and tag
-      // this.authService.getCapabilitiesByTag(this.filters.tags).subscribe((capabilities: any) => {
-      //     this.capabilities.filtered = (capabilities instanceof Array ? capabilities : []).filter((item) => {
-      //         return (item.name.toLowerCase() + item.description.toLowerCase()).includes(this.filters.name.toLowerCase());
-      //     });
-      // });
+      this.authService.getCapabilitiesByTag(this.filters.tags).subscribe((capabilities: any) => {
+        this.capabilities.filtered = (capabilities instanceof Array ? capabilities : []).filter((item) => {
+          return (item.name.toLowerCase() + item.description.toLowerCase()).includes(this.filters.name.toLowerCase());
+        });
+      });
     }
   }
 

@@ -1,7 +1,5 @@
 import { Routes } from "@angular/router";
 import { AdminComponent } from "./admin.component";
-import { UsersTableComponent } from "./users/table/users-table.component";
-import { UserComponent } from "./users/user/user.component";
 import { RequestsTableComponent } from "./requests/table/table.component";
 import { RequestComponent } from "./requests/request/request.component";
 import { AppsTableComponent } from "./apps/table/apps-table.component";
@@ -15,11 +13,7 @@ export const AdminRoutes: Routes = [
         children: [
             {
                 path: "users",
-                component: UsersTableComponent,
-            },
-            {
-                path: "users/:username",
-                component: UserComponent,
+                loadChildren: () => import("./users/user.module").then((m) => m.UsersAdminModule),
             },
             {
                 path: "requests",

@@ -9,8 +9,10 @@ import { forkJoin } from "rxjs";
 @Component({
   selector: "admin-team",
   templateUrl: "./team.component.html",
+  styleUrls: ["./team.component.scss"]
 })
 export class TeamComponent implements OnInit {
+
   @ViewChild("rolesTable") rolesTable: MatTable<any>;
   @ViewChild("capabilitiesTable") capabilitiesTable: MatTable<any>;
 
@@ -23,7 +25,13 @@ export class TeamComponent implements OnInit {
     responsiblepeople: new FormControl([]),
   });
 
-  constructor(private router: Router, private authService: MFAAuthService, private activatedRoute: ActivatedRoute, private userGroupService: UserGroupService, private notificationService: NotificationService) {}
+  constructor(
+    private router: Router, 
+    private authService: MFAAuthService, 
+    private activatedRoute: ActivatedRoute, 
+    private userGroupService: UserGroupService, 
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit() {
     //Listen for id param
@@ -144,7 +152,7 @@ export class TeamComponent implements OnInit {
       //Get roles list?
       if (this.capabilities.list.all.length == 0) {
         this.capabilities.list.all = (await this.authService.getCapabilities().toPromise()) as any;
-      }
+      } 
 
       //Filter roles
       let selectedIds = this.capabilities.selected.map((item) => item.id);

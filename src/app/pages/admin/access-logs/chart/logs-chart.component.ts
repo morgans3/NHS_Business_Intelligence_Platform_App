@@ -56,22 +56,22 @@ export class AccessLogsChartComponent implements OnInit {
     ];
 
     //Get stats
-    // this.authService.getAccessLogStatistics({
-    //     date_from: this.date.from.format('YYYY-MM-DD'),
-    //     date_to: this.date.to.format('YYYY-MM-DD'),
-    // }).subscribe((statistics: any) => {
-    //     //Update chart data
-    //     this.chart.data.labels = statistics.periods;
-    //     this.chart.data.datasets = statistics.data.map((type) => {
-    //         return {
-    //             fill: false,
-    //             tension: 0.1,
-    //             label: type.name,
-    //             data: type.statistics,
-    //             borderColor: colors[Math.floor(Math.random() * 19)],
-    //         }
-    //     });
-    //     this.chart.update();
-    // });
+    this.authService.getAccessLogStatistics({
+        date_from: this.date.from.format('YYYY-MM-DD'),
+        date_to: this.date.to.format('YYYY-MM-DD'),
+    }).subscribe((statistics: any) => {
+        //Update chart data
+        this.chart.data.labels = statistics.periods;
+        this.chart.data.datasets = statistics.data.map((type) => {
+            return {
+                fill: false,
+                tension: 0.1,
+                label: type.name,
+                data: type.statistics,
+                borderColor: colors[Math.floor(Math.random() * 19)],
+            }
+        });
+        this.chart.update();
+    });
   }
 }

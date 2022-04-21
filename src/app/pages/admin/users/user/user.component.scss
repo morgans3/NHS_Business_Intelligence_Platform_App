@@ -9,10 +9,10 @@
         border: 2px solid #ffffff;
     }
 }
-:host ::ng-deep {
-    tr.mat-header-row {
-        height: 39px !important;
-    }
+mat-panel-title {
+    min-width: 40%;
+}
+:host ::ng-deep mat-expansion-panel {
     th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
         padding-left: 0px !important;
     }
