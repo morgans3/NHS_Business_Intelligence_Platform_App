@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 //@ts-ignore
 import * as d3 from "d3";
 import { Store } from "@ngxs/store";
-import { iFullUser, iUserDetails, UserGroupService } from "diu-component-library";
+import { iFullUser, iUserDetails, APIService } from "diu-component-library";
 import { AuthState } from "../../_states/auth.state";
 import { NotificationService } from "../../_services/notification.service";
 import { decodeToken, generateID } from "../../_pipes/functions";
@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
   userDecodedToken: any;
   selectedtab: any;
 
-  constructor(public store: Store, private usergroupService: UserGroupService, private notificationService: NotificationService, private route: ActivatedRoute) {
+  constructor(public store: Store, private usergroupService: APIService, private notificationService: NotificationService, private route: ActivatedRoute) {
     //Get jwt token
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {

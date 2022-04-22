@@ -2,9 +2,8 @@ import { Component, OnInit, Input, OnChanges } from "@angular/core";
 import { Store } from "@ngxs/store";
 import { NotificationService } from "src/app/_services/notification.service";
 import { AuthState } from "src/app/_states/auth.state";
-import { iApplication, iInstallation, iTeam, iDisplayList, MFAAuthService } from "diu-component-library";
+import { iApplication, iInstallation, iTeam, iDisplayList, APIService } from "diu-component-library";
 import { decodeToken } from "src/app/_pipes/functions";
-import { InstallationsBrokerService } from "src/app/_services/installations-broker.service";
 
 @Component({
   selector: "app-team-admin",
@@ -21,7 +20,7 @@ export class TeamAdminComponent implements OnInit, OnChanges {
   displayLists: { title: string; data: iDisplayList[] }[] = [];
   teamInstallations: iInstallation[] = [];
 
-  constructor(private authService: MFAAuthService, public store: Store, private notificationService: NotificationService, private installbroker: InstallationsBrokerService) {
+  constructor(private apiService: APIService, public store: Store, private notificationService: NotificationService) {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
       this.tokenDecoded = decodeToken(token);
@@ -43,7 +42,7 @@ export class TeamAdminComponent implements OnInit, OnChanges {
   }
 
   getTeamRoles() {
-    this.authService.getRolesByTeamcode(this.team.code).subscribe((res: any) => {
+    this.apiService.getRolesByTeamcode(this.team.code).subscribe((res: any) => {
       this.roles = [];
       if (res) {
         res.forEach((role) => {
@@ -59,53 +58,56 @@ export class TeamAdminComponent implements OnInit, OnChanges {
   }
 
   getInstallations() {
-    if (this.installbroker.getAllInstallations.length === 0) this.installbroker.buildUserData();
-    this.installbroker.getAllTeamInstallations(this.selectedTeam.code, (err: any, res: any) => {
-      this.teamInstallations = res;
-    });
-    this.installbroker.createDisplayLists(
-      "team",
-      (err: any, res: any) => {
-        this.displayLists = res;
-      },
-      this.selectedTeam.code
-    );
+    // TODO: get installations
+    // if (this.installbroker.getAllInstallations.length === 0) this.installbroker.buildUserData();
+    // this.installbroker.getAllTeamInstallations(this.selectedTeam.code, (err: any, res: any) => {
+    //   this.teamInstallations = res;
+    // });
+    // this.installbroker.createDisplayLists(
+    //   "team",
+    //   (err: any, res: any) => {
+    //     this.displayLists = res;
+    //   },
+    //   this.selectedTeam.code
+    // );
   }
 
   install(event: any, type: string) {
-    this.installbroker.addInstallation(
-      event.name,
-      type.toLowerCase(),
-      (err: any, res: iInstallation[]) => {
-        if (err) this.notificationService.warning(err);
-        else {
-          this.notificationService.success("Installed");
-        }
-        this.getInstallations();
-      },
-      undefined,
-      this.team.code
-    );
+    // TODO: install app
+    // this.installbroker.addInstallation(
+    //   event.name,
+    //   type.toLowerCase(),
+    //   (err: any, res: iInstallation[]) => {
+    //     if (err) this.notificationService.warning(err);
+    //     else {
+    //       this.notificationService.success("Installed");
+    //     }
+    //     this.getInstallations();
+    //   },
+    //   undefined,
+    //   this.team.code
+    // );
   }
 
   remove(event: any, type: string) {
     const install = this.teamInstallations.find((x) => x.app_name === event.name);
     if (install) {
-      this.installbroker.removeInstallationFromAList(
-        install,
-        (err: any, res: iInstallation[]) => {
-          this.getInstallations();
-          if (err) this.notificationService.warning(err);
-          else {
-            this.notificationService.success("Request Updated");
-          }
-        },
-        this.teamInstallations
-      );
+      // TODO: remove app
+      // this.installbroker.removeInstallationFromAList(
+      //   install,
+      //   (err: any, res: iInstallation[]) => {
+      //     this.getInstallations();
+      //     if (err) this.notificationService.warning(err);
+      //     else {
+      //       this.notificationService.success("Request Updated");
+      //     }
+      //   },
+      //   this.teamInstallations
+      // );
     }
   }
   removeTeamRole(role) {
-    this.authService.removeTeamRole(role).subscribe((res: any) => {
+    this.apiService.removeTeamRole(role).subscribe((res: any) => {
       if (res.success) {
         this.notificationService.success(res.msg);
       } else {

@@ -7,7 +7,7 @@ import { TeamsComponent } from "./teams.component";
 import { DemoMaterialModule } from "src/app/demo-material-module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { CommonModule } from "@angular/common";
-import { UserGroupService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { HttpClientModule } from "@angular/common/http";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgxsModule } from "@ngxs/store";
@@ -22,7 +22,7 @@ describe("TeamsComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [DemoMaterialModule, FlexLayoutModule, CommonModule, RouterTestingModule, HttpClientModule, NgxsModule.forRoot([AuthState, ReferenceState]), BrowserAnimationsModule],
-      providers: [UserGroupService],
+      providers: [APIService],
       declarations: [TeamsComponent],
     }).compileComponents();
   }));

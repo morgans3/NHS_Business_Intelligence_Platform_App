@@ -12,7 +12,7 @@ import { SupportLayoutSidebarComponent } from "./layouts/support/sidebar/status-
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AccordionLinkModule } from "./shared/accordion/accordionLinkModule";
 import { SpinnerComponent } from "./shared/spinner.component";
-import { DiuAngularNavigationModule, DiuHeaderModule, MaterialModule, UserGroupService } from "diu-component-library";
+import { DiuAngularNavigationModule, DiuHeaderModule, MaterialModule } from "diu-component-library";
 import { ToastrModule } from "ngx-toastr";
 import { AuthGuard } from "./_guards/auth.guard";
 import { RequestInterceptor } from "./_services/requestinterceptor.service";
@@ -32,12 +32,12 @@ import { MAT_DATE_LOCALE } from "@angular/material/core";
 import { NgxTwitterTimelineModule } from "ngx-twitter-timeline";
 import { SharedModule } from "./shared/shared.module";
 
-import { InstallationsBrokerService } from "./_services/installations-broker.service";
 import { NotificationService } from "./_services/notification.service";
 import { DIUServicesModule } from "diu-component-library";
 import { PostcodeService } from "./_services/postcodes.service";
 import { StorageService } from "./_services/storage.service";
 import { FullmapComponent } from "./layouts/fullmap/fullmap.component";
+import { environment } from "src/environments/environment";
 
 @NgModule({
   declarations: [AppComponent, FullComponent, FullmapComponent, SpinnerComponent, FormLayoutComponent, SupportLayoutComponent, SupportLayoutSidebarComponent],
@@ -90,11 +90,11 @@ import { FullmapComponent } from "./layouts/fullmap/fullmap.component";
       multi: true,
     },
     { provide: MAT_DATE_LOCALE, useValue: "en-GB" },
-    NotificationService,
-    InstallationsBrokerService,
-    UserGroupService,
     PostcodeService,
     StorageService,
+    DIUServicesModule,
+    { provide: "environment", useValue: environment },
+    NotificationService,
   ],
   bootstrap: [AppComponent],
 })

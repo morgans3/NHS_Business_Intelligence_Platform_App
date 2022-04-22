@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { NotificationService } from "../../../../_services/notification.service";
 import { ActivatedRoute } from "@angular/router";
-import { MessagingService, MFAAuthService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 
 @Component({
   selector: "app-access-request-action",
@@ -12,7 +12,7 @@ export class AccessRequestActionFormComponent implements OnInit {
   request: any = {};
   action = "approve";
 
-  constructor(private activatedRoute: ActivatedRoute, private notificationService: NotificationService, public messagingService: MessagingService, private authService: MFAAuthService) {}
+  constructor(private activatedRoute: ActivatedRoute, private notificationService: NotificationService, private apiService: APIService) {}
 
   ngOnInit() {
     //Listen for request id
@@ -30,7 +30,7 @@ export class AccessRequestActionFormComponent implements OnInit {
   }
 
   getRequest(id) {
-    this.authService.getAccessRequest(id).subscribe((request) => {
+    this.apiService.getAccessRequest(id).subscribe((request) => {
       this.request = request;
     });
   }
@@ -56,7 +56,7 @@ export class AccessRequestActionFormComponent implements OnInit {
       }
 
       //Submit form
-      this.authService.sendAccessRequestComplete(actionData).subscribe((data) => {
+      this.apiService.sendAccessRequestComplete(actionData).subscribe((data) => {
         //Set status
         this.request.data.approved = this.action == "approve" ? true : false;
       });

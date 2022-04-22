@@ -1,6 +1,6 @@
 import { Component, OnChanges, SimpleChanges } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
-import { DynamicApiService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { iAppConfig, iPageConfig } from "../../layouts/full/full.component";
 
 @Component({
@@ -12,7 +12,7 @@ export class DynamicComponent implements OnChanges {
   appConfig: iAppConfig | undefined;
   location: string = "";
 
-  constructor(private router: Router, private dynapiService: DynamicApiService) {
+  constructor(private router: Router, private apiService: APIService) {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         this.location = this.getLocation();
@@ -50,7 +50,7 @@ export class DynamicComponent implements OnChanges {
 
   getPage(currentpage: string) {
     this.pageConfig = undefined;
-    this.dynapiService.getPayloadById(currentpage).subscribe((data: any) => {
+    this.apiService.getPayloadById(currentpage).subscribe((data: any) => {
       if (data && data.length > 0) {
         const thisPage = data[0];
         this.constructPage(thisPage);
@@ -64,7 +64,7 @@ export class DynamicComponent implements OnChanges {
     if (configuration.children) {
       this.pageConfig.children = [];
       configuration.children.forEach((child: any) => {
-        this.dynapiService.getPayloadById(child.id).subscribe((data: any) => {
+        this.apiService.getPayloadById(child.id).subscribe((data: any) => {
           if (data && data.length > 0) {
             const thisChild = data[0];
             this.pageConfig!.children.push(thisChild);

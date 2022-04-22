@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { MFAAuthService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import * as moment from "moment";
 import { Chart } from "chart.js";
 
@@ -12,7 +12,7 @@ export class AccessLogsChartComponent implements OnInit {
   chart;
   date = { from: moment().add(-3, "day"), to: moment().add(3, "day") };
 
-  constructor(private authService: MFAAuthService) {}
+  constructor(private apiService: APIService) {}
 
   ngOnInit() {}
 
@@ -56,7 +56,7 @@ export class AccessLogsChartComponent implements OnInit {
     ];
 
     //Get stats
-    // this.authService.getAccessLogStatistics({
+    // this.apiService.getAccessLogStatistics({
     //     date_from: this.date.from.format('YYYY-MM-DD'),
     //     date_to: this.date.to.format('YYYY-MM-DD'),
     // }).subscribe((statistics: any) => {

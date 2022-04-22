@@ -2,10 +2,11 @@ import { AuthState } from "../_states/auth.state";
 import { BehaviorSubject, throwError } from "rxjs";
 import { HttpErrorResponse, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { catchError, filter, switchMap, take } from "rxjs/operators";
-import { MFAAuthService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { Injectable } from "@angular/core";
 import { NotificationService } from "./notification.service";
 import { Store } from "@ngxs/store";
+import { environment } from "src/environments/environment";
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
@@ -14,7 +15,7 @@ export class RequestInterceptor implements HttpInterceptor {
   model: any = {};
   lastRequest: any = null;
 
-  constructor(private authService: MFAAuthService, private notificationService: NotificationService, public store: Store) {}
+  constructor(private apiService: APIService, private notificationService: NotificationService, public store: Store) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): any {
     if (request !== this.lastRequest) {
@@ -35,7 +36,7 @@ export class RequestInterceptor implements HttpInterceptor {
             const applicationError = err.headers.get("Application-Error");
             if (applicationError) {
               if (applicationError === "Invalid refresh token") {
-                this.authService.logout();
+                this.apiService.logout("www." + environment.websiteURL);
               } else {
                 this.notificationService.error(applicationError);
                 return throwError(applicationError);

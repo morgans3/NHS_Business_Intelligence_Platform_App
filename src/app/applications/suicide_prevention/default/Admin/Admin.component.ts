@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { DynamicApiService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { IncidentMethods } from "src/app/_models/SPI_Lookups";
 
 export interface AdminLists {
@@ -128,7 +128,7 @@ export class AdminComponent implements OnInit {
       displayname: "MH Services / LSCFT update",
     },
   ];
-  constructor(private referenceService: DynamicApiService) {
+  constructor(private referenceService: APIService) {
     this.fulllist.sort((a, b) => {
       return a.displayname < b.displayname ? -1 : a.displayname > b.displayname ? 1 : 0;
     });

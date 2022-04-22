@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
-import { DynamicApiService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { NotificationService } from "src/app/_services/notification.service";
 
 @Component({
@@ -13,7 +13,7 @@ export class FindMosaicComponent implements OnChanges {
   mosType: string;
   @Output() outputMosType = new EventEmitter<string>();
 
-  constructor(private referenceService: DynamicApiService, private notificationService: NotificationService) {}
+  constructor(private referenceService: APIService, private notificationService: NotificationService) {}
 
   ngOnChanges() {
     if (this.inputPostcode) {

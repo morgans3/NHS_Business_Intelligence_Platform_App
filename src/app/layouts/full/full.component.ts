@@ -4,7 +4,7 @@ import { environment } from "src/environments/environment";
 import { MENUITEMS } from "../../shared/menu-items/menu-items";
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { Title } from "@angular/platform-browser";
-import { DynamicApiService, iSystemAlerts, MFAAuthService } from "diu-component-library";
+import { APIService, iSystemAlerts } from "diu-component-library";
 import { iMenu } from "diu-component-library/lib/_models/menu-items.interface";
 import { Store } from "@ngxs/store";
 import { AuthState, ManualSetAuthTokens } from "src/app/_states/auth.state";
@@ -48,7 +48,7 @@ export class FullComponent implements OnDestroy, AfterViewInit, OnInit {
 
   private _mobileQueryListener: () => void;
 
-  constructor(private dynapiService: DynamicApiService, private router: Router, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private titleService: Title, public store: Store, private authService: MFAAuthService, private notificationService: NotificationService) {
+  constructor(private router: Router, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private titleService: Title, public store: Store, private apiService: APIService, private notificationService: NotificationService) {
     this.mobileQuery = media.matchMedia("(min-width: 768px)");
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -83,8 +83,8 @@ export class FullComponent implements OnDestroy, AfterViewInit, OnInit {
     }, 400);
   }
 
-  logout(event: any) {
-    this.authService.logout();
+  logout() {
+    this.apiService.logout("www." + environment.websiteURL);
   }
 
   showErrors(event: any) {
@@ -111,7 +111,7 @@ export class FullComponent implements OnDestroy, AfterViewInit, OnInit {
     this.shownMenuItems = MENUITEMS;
     localStorage.removeItem("@AppConfig");
     // Call in App Settings and MenuItems
-    this.dynapiService.getPayloadById("Nexus_Intelligence").subscribe((data: any) => {
+    this.apiService.getPayloadById("Nexus_Intelligence").subscribe((data: any) => {
       if (data && data.length > 0) {
         const thisApp = data[0];
         this.loadAppConfiguration(JSON.parse(thisApp.config));

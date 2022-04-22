@@ -6,7 +6,7 @@ import { DebugElement } from "@angular/core";
 import { DemoMaterialModule } from "src/app/demo-material-module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { CommonModule } from "@angular/common";
-import { ResizeService, UserGroupService } from "diu-component-library";
+import { ResizeService, APIService } from "diu-component-library";
 import { TeamMembersComponent } from "./team-members.component";
 import { NotificationService } from "src/app/_services/notification.service";
 import { AuthState } from "src/app/_states/auth.state";
@@ -22,7 +22,7 @@ describe("TeamMembersComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [DemoMaterialModule, FlexLayoutModule, CommonModule, NgxsModule.forRoot([AuthState]), BrowserAnimationsModule, HttpClientModule, ToastrModule.forRoot()],
-      providers: [UserGroupService, ResizeService, NotificationService, ToastrService],
+      providers: [APIService, ResizeService, NotificationService, ToastrService],
       declarations: [TeamMembersComponent],
     }).compileComponents();
   }));

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { MFAAuthService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { MatTable } from "@angular/material/table";
 import { NotificationService } from "../../../../_services/notification.service";
 
@@ -13,10 +13,10 @@ export class CapabilitiesTableComponent implements OnInit {
   capabilities = { all: [], filtered: [] };
   filters = { name: "", tags: [] };
 
-  constructor(private authService: MFAAuthService, private notificationService: NotificationService) {}
+  constructor(private apiService: APIService, private notificationService: NotificationService) {}
 
   ngOnInit() {
-    this.authService.getCapabilities().subscribe((capabilities: any) => {
+    this.apiService.getCapabilities().subscribe((capabilities: any) => {
       this.capabilities = { all: capabilities, filtered: capabilities };
     });
   }
@@ -29,7 +29,7 @@ export class CapabilitiesTableComponent implements OnInit {
       });
     } else {
       //Search by name and tag
-      // this.authService.getCapabilitiesByTag(this.filters.tags).subscribe((capabilities: any) => {
+      // this.apiService.getCapabilitiesByTag(this.filters.tags).subscribe((capabilities: any) => {
       //     this.capabilities.filtered = (capabilities instanceof Array ? capabilities : []).filter((item) => {
       //         return (item.name.toLowerCase() + item.description.toLowerCase()).includes(this.filters.name.toLowerCase());
       //     });
@@ -40,7 +40,7 @@ export class CapabilitiesTableComponent implements OnInit {
   delete(item) {
     this.notificationService.question("Are you sure you want to delete this capability?").then((confirmed) => {
       if (confirmed == true) {
-        this.authService.deleteCapability(item.id).subscribe((res) => {
+        this.apiService.deleteCapability(item.id).subscribe((res) => {
           //Notify success
           this.notificationService.success("Capability has been removed successfully!");
 

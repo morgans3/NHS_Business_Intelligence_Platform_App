@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { UserGroupService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 
 @Component({
   selector: "app-users-table",
@@ -9,10 +9,10 @@ import { UserGroupService } from "diu-component-library";
 export class UsersTableComponent implements OnInit {
   users: any;
 
-  constructor(private userGroupService: UserGroupService) {}
+  constructor(private apiService: APIService) {}
 
   ngOnInit() {
-    // this.userGroupService.getUsers().subscribe((users) => {
+    // this.apiService.getUsers().subscribe((users) => {
     //     this.users = users;
     // })
   }

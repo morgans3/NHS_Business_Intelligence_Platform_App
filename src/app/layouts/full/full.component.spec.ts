@@ -1,14 +1,11 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { DebugElement } from "@angular/core";
 
 import { DemoMaterialModule } from "src/app/demo-material-module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { CommonModule } from "@angular/common";
-import { DynamicApiService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { FullComponent } from "./full.component";
-import { AuthService } from "src/app/_services/auth.service";
 import { NotificationService } from "src/app/_services/notification.service";
 import { HttpClientModule } from "@angular/common/http";
 import { AuthState } from "src/app/_states/auth.state";
@@ -26,7 +23,7 @@ describe("FullComponent", () => {
     TestBed.configureTestingModule({
       // public store: Store
       imports: [DemoMaterialModule, FlexLayoutModule, CommonModule, HttpClientModule, NgxsModule.forRoot([AuthState, AlertState]), ToastrModule.forRoot(), BrowserAnimationsModule, RouterTestingModule],
-      providers: [DynamicApiService, AuthService, NotificationService, ToastrService],
+      providers: [APIService, ToastrService, NotificationService],
       declarations: [FullComponent],
     }).compileComponents();
   }));

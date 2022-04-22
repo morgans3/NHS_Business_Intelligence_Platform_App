@@ -1,21 +1,17 @@
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog } from "@angular/material/dialog";
 
 @Injectable()
 export class NotificationService {
-
   private toastr: any;
 
-  constructor(
-    private dialog: MatDialog,
-    toastrService: ToastrService
-  ) {
+  constructor(private dialog: MatDialog, toastrService: ToastrService) {
     //Set defaults
     this.toastr = <any>toastrService;
     this.toastr.options = {
       positionClass: "toast-bottom-right",
-    }
+    };
   }
 
   question(message, buttons = null): Promise<any> {
@@ -23,13 +19,13 @@ export class NotificationService {
       import("../shared/question-modal/question.modal").then((c) => {
         //Open modal with data
         let questionModal = this.dialog.open(c.QuestionModalComponent, {
-          data: { message: message, buttons: buttons }
-        })
+          data: { message: message, buttons: buttons },
+        });
 
         //Listen for close
         questionModal.afterClosed().subscribe((value) => {
           resolve(value || false);
-        })
+        });
       });
     });
   }

@@ -5,7 +5,7 @@ import { Store } from "@ngxs/store";
 import { MatDialog } from "@angular/material/dialog";
 
 import { iTeam, iTeamMembers, iOrganisation, iTeamRequest, iFullUser } from "diu-component-library";
-import { UserGroupService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { NotificationService } from "../../../_services/notification.service";
 import { AuthState } from "../../../_states/auth.state";
 import { ReferenceState } from "../../../_states/reference.state";
@@ -28,7 +28,7 @@ export class ProfileTeamsComponent implements OnInit {
 
   organisations: iOrganisation[] = [];
 
-  constructor(private userGroupService: UserGroupService, private notificationService: NotificationService, public dialog: MatDialog, public store: Store) {
+  constructor(private apiService: APIService, private notificationService: NotificationService, public dialog: MatDialog, public store: Store) {
     //Get user JWT and memberships
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
@@ -66,7 +66,7 @@ export class ProfileTeamsComponent implements OnInit {
 
         //Get user's team requests
         //@ts-ignore
-        this.userGroupService.getTeamRequestsByUsername(this.user.username).subscribe((res: iTeamRequest[]) => {
+        this.apiService.getTeamRequestsByUsername(this.user.username).subscribe((res: iTeamRequest[]) => {
           this.myTeamRequests = res.map((teamRequest: any) => {
             //Find corresponding team
             let teamDetails = this.teams.all.find((team) => teamRequest.teamcode == team.code);
@@ -103,7 +103,7 @@ export class ProfileTeamsComponent implements OnInit {
     //Get selected team
     let team = this.joinTeamForm.value.team;
     if (team) {
-      this.userGroupService
+      this.apiService
         .addTeamRequest({
           username: this.user.username,
           teamcode: team.code,
@@ -127,7 +127,7 @@ export class ProfileTeamsComponent implements OnInit {
       if (confirmed == true) {
         const membership = this.myTeamMemberships.filter((x) => x.teamcode === team.code);
         if (membership.length > 0) {
-          this.userGroupService.removeTeamMember(membership[0]).subscribe((res: any) => {
+          this.apiService.removeTeamMember(membership[0]).subscribe((res: any) => {
             if (res.success) {
               this.notificationService.success("You have now left this Team");
               this.getTeams();

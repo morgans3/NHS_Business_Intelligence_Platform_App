@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { Store } from "@ngxs/store";
-import { MessagingService, iOrganisation } from "diu-component-library";
+import { APIService, iOrganisation } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
 import { ReferenceState, UpdateOrganisations } from "../../../../_states/reference.state";
 import { PasswordResetService } from "../password-reset.service";
@@ -19,7 +19,7 @@ export class PasswordResetRequestComponent implements OnInit {
 
   organisations: iOrganisation[] = [];
 
-  constructor(private store: Store, private messagingService: MessagingService, private notificationService: NotificationService, private passwordResetService: PasswordResetService) {}
+  constructor(private store: Store, private apiService: APIService, private notificationService: NotificationService, private passwordResetService: PasswordResetService) {}
 
   ngOnInit() {
     //Initialise org dropdown
@@ -28,7 +28,7 @@ export class PasswordResetRequestComponent implements OnInit {
 
   submit() {
     //Send request for code
-    this.messagingService.requestResetPasswordCode(this.form.value.username, this.form.value.organisation.authmethod).subscribe(
+    this.apiService.requestResetPasswordCode(this.form.value.username, this.form.value.organisation.authmethod).subscribe(
       (res: any) => {
         //Set details for next step
         this.passwordResetService.userSource.next({

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormGroup, FormControl, Validators, FormGroupDirective } from "@angular/forms";
-import { iFullUser, iOrganisation, iTeam, UserGroupService, UserSearchDialogComponent } from "diu-component-library";
+import { iFullUser, iOrganisation, iTeam, APIService, UserSearchDialogComponent } from "diu-component-library";
 import { Store } from "@ngxs/store";
 import { NotificationService } from "src/app/_services/notification.service";
 import { MatDialog } from "@angular/material/dialog";
@@ -27,7 +27,7 @@ export class CreateTeamComponent implements OnInit {
   form: iTeam;
   existingteams: iTeam[] = [];
 
-  constructor(private usergroupService: UserGroupService, private notificationService: NotificationService, public store: Store, public dialog: MatDialog) {}
+  constructor(private usergroupService: APIService, private notificationService: NotificationService, public store: Store, public dialog: MatDialog) {}
 
   ngOnInit() {
     this.getData();

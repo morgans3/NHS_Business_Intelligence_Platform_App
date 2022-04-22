@@ -6,20 +6,18 @@ import { ToastrModule, ToastrService } from "ngx-toastr";
 import { RouterTestingModule } from "@angular/router/testing";
 import { IncidentsComponent } from "./Incidents.component";
 import { FormsModule } from "@angular/forms";
-import { StorageService } from "../../_services/storage.service";
-import { NotificationService } from "../../_services/notification.service";
-import { MaterialModule } from "../../material/material.module";
-import { ReferenceService } from "../../_services/reference.service";
 import { NgxsModule } from "@ngxs/store";
-import { AuthState } from "../../_states/auth.state";
+import { DemoMaterialModule } from "src/app/demo-material-module";
+import { APIService } from "diu-component-library";
+import { AuthState } from "src/app/_states/auth.state";
 
 describe("IncidentsComponent", () => {
   let component: IncidentsComponent;
   let fixture: ComponentFixture<IncidentsComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, MaterialModule, ToastrModule.forRoot(), HttpClientModule, FormsModule, RouterTestingModule, NgxsModule.forRoot([AuthState])],
-      providers: [NotificationService, ToastrService, StorageService, ReferenceService],
+      imports: [BrowserAnimationsModule, DemoMaterialModule, ToastrModule.forRoot(), HttpClientModule, FormsModule, RouterTestingModule, NgxsModule.forRoot([AuthState])],
+      providers: [APIService, ToastrService],
       declarations: [IncidentsComponent],
     }).compileComponents();
   }));

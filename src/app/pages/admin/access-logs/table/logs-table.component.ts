@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { MFAAuthService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { MatTable } from "@angular/material/table";
 import { MatDialog } from "@angular/material/dialog";
 import * as moment from "moment";
@@ -22,7 +22,7 @@ export class AccessLogsTableComponent implements OnInit {
   logs = { all: [], nextPageKey: null };
   filters = { query_by: "date", user: "", type: "", date: moment(), pageKey: null };
 
-  constructor(private dialog: MatDialog, private authService: MFAAuthService) {}
+  constructor(private dialog: MatDialog, private apiService: APIService) {}
 
   ngOnInit() {
     //Get initial data
@@ -37,19 +37,19 @@ export class AccessLogsTableComponent implements OnInit {
     //     if (startItem) { this.filters.pageKey = JSON.stringify({ date: startItem.date, uuid: startItem.uuid }); }
 
     //     //Get by date
-    //     dataObservable = this.authService.getAccessLogs({ date: this.filters.date.format('YYYY-MM-DD'), pageKey: this.filters.pageKey });
+    //     dataObservable = this.apiService.getAccessLogs({ date: this.filters.date.format('YYYY-MM-DD'), pageKey: this.filters.pageKey });
     // } else if (this.filters.query_by == 'user') {
     //     //Set page key?
     //     if (startItem) { this.filters.pageKey = JSON.stringify({ date: startItem.date, uuid: startItem.uuid, "username#org": startItem['username#org'] }); }
 
     //     //Get by user
-    //     dataObservable = this.authService.getAccessLogsByUser(this.filters.user, { pageKey: this.filters.pageKey });
+    //     dataObservable = this.apiService.getAccessLogsByUser(this.filters.user, { pageKey: this.filters.pageKey });
     // } else {
     //     //Set page key?
     //     if (startItem) { this.filters.pageKey = JSON.stringify({ date: startItem.date, uuid: startItem.uuid, type: startItem.type }); }
 
     //     //Get by type
-    //     dataObservable = this.authService.getAccessLogs({ type: this.filters.type, pageKey: this.filters.pageKey });
+    //     dataObservable = this.apiService.getAccessLogs({ type: this.filters.type, pageKey: this.filters.pageKey });
     // }
 
     dataObservable.subscribe((data: any) => {

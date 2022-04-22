@@ -24,7 +24,7 @@ export class GuideComponent implements OnInit {
   filters = { keyword: "" };
 
   selectedGuide = null;
-  baseURL = "https://interface.dev." + environment.websiteURL + "/confluence/content/";
+  baseURL = "https://api." + environment.websiteURL + "/confluence/content/";
 
   constructor(private http: HttpClient, private dialog: MatDialog) {}
 

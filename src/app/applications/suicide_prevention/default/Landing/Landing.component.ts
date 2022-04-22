@@ -15,7 +15,7 @@ import { ExpandTextDialogComponent } from "../modals/dialogexpand";
 import { StatCardData } from "src/app/_models/SPI_Lookups";
 import { MosaicColours, MosaicDomain } from "src/app/_models/mosaiccode";
 import { StorageService } from "src/app/_services/storage.service";
-import { DynamicApiService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 declare var window: any;
 
 @Component({
@@ -570,7 +570,7 @@ export class LandingComponent implements OnInit {
     }, 0);
   }
 
-  constructor(public store: Store, private storageService: StorageService, public dialog: MatDialog, private referenceService: DynamicApiService) {
+  constructor(public store: Store, private storageService: StorageService, public dialog: MatDialog, private referenceService: APIService) {
     this.token = this.store.selectSnapshot(AuthState.getToken);
     const parsedUrl = window.location.href;
     this.origin = parsedUrl.replace("/main", "");

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { DynamicApiService, iSystemAlerts } from "diu-component-library";
+import { ApiGService, iSystemAlerts } from "diu-component-library";
 import { map } from "rxjs/operators";
 
 export class AlertStateModel {
@@ -22,11 +22,11 @@ export class AlertState {
     return state;
   }
 
-  constructor(private taskService: DynamicApiService) {}
+  constructor(private apigService: ApiGService) {}
 
   @Action(UpdateAlerts)
   updateAlerts({ patchState }: StateContext<AlertStateModel>, {}: UpdateAlerts) {
-    return this.taskService.getActiveSystemAlerts().pipe(
+    return this.apigService.getActiveSystemAlerts().pipe(
       map((response: any) => {
         const tasks = response;
         if (tasks) {

@@ -5,10 +5,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { MatDialog } from "@angular/material/dialog";
 
-import { iFullUser, iOrganisation, UserGroupService } from "diu-component-library";
+import { iFullUser, iOrganisation, APIService } from "diu-component-library";
 import { NotificationService } from "src/app/_services/notification.service";
 import { ReferenceState } from "src/app/_states/reference.state";
-import { InstallationsBrokerService } from "src/app/_services/installations-broker.service";
 import { iDisplayList, iInstallation } from "diu-component-library";
 import { PasswordResetService } from "../../forms/password-reset/password-reset.service";
 
@@ -40,16 +39,7 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
   displayLists: { title: string; data: iDisplayList[] }[] = [];
   myInstallations: iInstallation[] = [];
 
-  constructor(
-    public dialog: MatDialog,
-    private userGroupService: UserGroupService,
-    private notificationService: NotificationService,
-    private passwordResetService: PasswordResetService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private store: Store,
-    private installbroker: InstallationsBrokerService
-  ) {}
+  constructor(public dialog: MatDialog, private apiService: APIService, private notificationService: NotificationService, private passwordResetService: PasswordResetService, private activatedRoute: ActivatedRoute, private router: Router, private store: Store) {}
 
   ngOnInit() {
     //Set inital values
@@ -121,39 +111,42 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
   }
 
   getInstallations() {
-    if (this.installbroker.getAllInstallations.length === 0) this.installbroker.buildUserData();
-    this.myInstallations = this.installbroker.getAllInstallations();
-    this.installbroker.createDisplayLists("user", (err: any, res: any) => {
-      this.displayLists = res;
-    });
+    // TODO: get installations
+    // if (this.installbroker.getAllInstallations.length === 0) this.installbroker.buildUserData();
+    // this.myInstallations = this.installbroker.getAllInstallations();
+    // this.installbroker.createDisplayLists("user", (err: any, res: any) => {
+    //   this.displayLists = res;
+    // });
   }
 
   install(event: any, type: string) {
-    this.installbroker.addInstallation(
-      event.name,
-      type.toLowerCase(),
-      (err: any, res: iInstallation[]) => {
-        if (err) this.notificationService.warning(err);
-        else {
-          this.notificationService.success("Installed");
-        }
-        this.getInstallations();
-      },
-      this.currentProfile.username
-    );
+    // TODO: install
+    // this.installbroker.addInstallation(
+    //   event.name,
+    //   type.toLowerCase(),
+    //   (err: any, res: iInstallation[]) => {
+    //     if (err) this.notificationService.warning(err);
+    //     else {
+    //       this.notificationService.success("Installed");
+    //     }
+    //     this.getInstallations();
+    //   },
+    //   this.currentProfile.username
+    // );
   }
 
   remove(event: any, type: string) {
     const install = this.myInstallations.find((x) => x.app_name === event.name);
     if (install) {
-      this.installbroker.removeInstallationFromAList(install, (err: any, res: iInstallation[]) => {
-        this.getInstallations();
-        if (err) this.notificationService.warning(err);
-        else {
-          this.notificationService.success("Request Updated");
-          this.getInstallations();
-        }
-      });
+      // TODO: remove
+      // this.installbroker.removeInstallationFromAList(install, (err: any, res: iInstallation[]) => {
+      //   this.getInstallations();
+      //   if (err) this.notificationService.warning(err);
+      //   else {
+      //     this.notificationService.success("Request Updated");
+      //     this.getInstallations();
+      //   }
+      // });
     }
   }
 
@@ -180,7 +173,7 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
         email: this.currentProfile.email,
         organisation: this.currentProfile.organisation,
       };
-      this.userGroupService.updateUserProfiles(updatedProfile).subscribe((res: any) => {
+      this.apiService.updateUserProfiles(updatedProfile).subscribe((res: any) => {
         if (res.success) {
           this.notificationService.success(res.msg);
           this.formUpdated.emit(true);
@@ -199,7 +192,7 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
         email: this.currentProfile.email,
         organisation: this.currentProfile.organisation,
       };
-      this.userGroupService.addUserProfile(newProfile).subscribe((res: any) => {
+      this.apiService.addUserProfile(newProfile).subscribe((res: any) => {
         if (res.success) {
           this.notificationService.success(res.msg);
           this.currentProfile._id = res._id;

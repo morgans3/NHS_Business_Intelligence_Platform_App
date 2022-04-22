@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Inject } from "@angular/core";
 import { FormGroup, FormControl, Validators, FormGroupDirective } from "@angular/forms";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Router } from "@angular/router";
-import { DynamicApiService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { iLocation, Incident, IncidentMethods } from "src/app/_models/SPI_Lookups";
 import { NotificationService } from "src/app/_services/notification.service";
 import { StorageService } from "src/app/_services/storage.service";
@@ -95,8 +95,8 @@ export class IncidentFormComponent implements OnInit {
   toolTipData: any;
   showToolTip: boolean;
 
-  constructor(private storageService: StorageService, private dynApiService: DynamicApiService, private notificationService: NotificationService, public dialog: MatDialog, private router: Router) {
-    this.dynApiService.getIncidentMethods().subscribe((res: IncidentMethods[]) => {
+  constructor(private storageService: StorageService, private apiService: APIService, private notificationService: NotificationService, public dialog: MatDialog, private router: Router) {
+    this.apiService.getIncidentMethods().subscribe((res: IncidentMethods[]) => {
       if (res.length > 0) {
         this.allsortedmethods = res.sort((a, b) => {
           if (parseInt(b.priority) - parseInt(a.priority) === 0) {
@@ -116,7 +116,7 @@ export class IncidentFormComponent implements OnInit {
         this.allsortedmethods = [];
       }
     });
-    this.dynApiService.getMosiacs().subscribe((res: any[]) => {
+    this.apiService.getMosiacs().subscribe((res: any[]) => {
       this.mosaicCodes = res;
       if (this.postcode_mosaic) {
         this.mosaicCodes.forEach((mosaicCode) => {

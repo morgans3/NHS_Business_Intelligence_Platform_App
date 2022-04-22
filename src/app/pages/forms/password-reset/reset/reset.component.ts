@@ -6,7 +6,7 @@ import { Store } from "@ngxs/store";
 import { ManualSetAuthTokens } from "../../../../_states/auth.state";
 import { PasswordResetService } from "../password-reset.service";
 import { environment } from "../../../../../environments/environment";
-import { MFAAuthService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 
 @Component({
   selector: "app-password-reset",
@@ -65,7 +65,7 @@ export class PasswordResetComponent implements OnInit {
     }
   );
 
-  constructor(private store: Store, private router: Router, private authService: MFAAuthService, private passwordResetService: PasswordResetService) {}
+  constructor(private store: Store, private router: Router, private apiService: APIService, private passwordResetService: PasswordResetService) {}
 
   ngOnInit() {
     //Get user details
@@ -108,7 +108,7 @@ export class PasswordResetComponent implements OnInit {
   submit() {
     //Make password reset
     if (this.form.valid) {
-      this.authService.updatePassword(this.user.username, this.user.organisation.authmethod, this.form.value.password, this.user.code || null).subscribe((res: any) => {
+      this.apiService.updatePassword(this.user.username, this.user.organisation.authmethod, this.form.value.password, this.user.code || null).subscribe((res: any) => {
         if (res.success) {
           if (res.token) {
             //Set token and redirect
