@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { ApiGService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { MatDialog } from "@angular/material/dialog";
 import { MatTable } from "@angular/material/table";
 import { NotificationService } from "../../../../_services/notification.service";
@@ -12,7 +12,7 @@ export class DashboardsTableComponent implements OnInit {
   dashboards = { all: [], filtered: [] };
   @ViewChild(MatTable) table: MatTable<any>;
 
-  constructor(private dialog: MatDialog, private notificationService: NotificationService, private apiService: ApiGService) {}
+  constructor(private dialog: MatDialog, private notificationService: NotificationService, private apiService: APIService) {}
 
   ngOnInit() {
     // TODO: where is this endpoint now?

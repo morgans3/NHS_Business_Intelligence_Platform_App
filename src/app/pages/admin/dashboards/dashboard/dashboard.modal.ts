@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { ApiGService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
 
 @Component({
@@ -21,7 +21,7 @@ export class DashboardModalComponent implements OnInit {
     images: new FormControl([]),
   });
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data, private apiService: ApiGService, private dialogRef: MatDialogRef<DashboardModalComponent>, private notificationService: NotificationService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data, private apiService: APIService, private dialogRef: MatDialogRef<DashboardModalComponent>, private notificationService: NotificationService) {}
 
   ngOnInit() {
     //Set values from opener
