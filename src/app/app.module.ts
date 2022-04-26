@@ -15,6 +15,7 @@ import { SpinnerComponent } from "./shared/spinner.component";
 import { DiuAngularNavigationModule, DiuHeaderModule, MaterialModule } from "diu-component-library";
 import { ToastrModule } from "ngx-toastr";
 import { AuthGuard } from "./_guards/auth.guard";
+import { CapabilityGuard } from "./_guards/capability.guard";
 import { RequestInterceptor } from "./_services/requestinterceptor.service";
 import { NgxsModule } from "@ngxs/store";
 import { NgxsResetPluginModule } from "ngxs-reset-plugin";
@@ -84,6 +85,7 @@ import { environment } from "src/environments/environment";
       useClass: PathLocationStrategy,
     },
     AuthGuard,
+    CapabilityGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptor,

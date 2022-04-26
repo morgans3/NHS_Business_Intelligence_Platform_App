@@ -1,0 +1,6 @@
+<p *ngIf="report && report.publisherNotes">
+  {{report.publisherNotes}}
+</p>
+<p *ngIf="!report || !report.publisherNotes">
+  No notes provided by this Publisher.
+</p>

@@ -1,0 +1,40 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <app-statcard [data]="leftstatcard"></app-statcard>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <app-statcard [data]="midleftstatcard">
+      {{ totalPositives }}
+    </app-statcard>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <app-statcard [data]="midrightstatcard"></app-statcard>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <app-statcard [data]="rightstatcard"></app-statcard>
+  </div>
+</div>
+
+<div fxLayout="row wrap">
+  <div fxFlex-gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title-group>
+          <mat-card-title style="padding-top: 2px;">
+          </mat-card-title>
+        </mat-card-title-group>
+        <div fxFlex></div>
+        <div fxLayoutAlign="center center">
+          <mat-slider min="50" max="5000" tickInterval="auto" [value]="mapCircleScalingFactor"
+            (change)="mapSliderChanged($event)"></mat-slider>
+        </div>
+      </mat-card-header>
+      <mat-card-content style="min-height: 90vh;">
+        <div fxLayoutAlign="center center" style="min-height: 60vh; margin-bottom: 30px;" id="mapContainer">
+          <div class="map"></div>
+        </div>
+        <div class="datesel"></div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

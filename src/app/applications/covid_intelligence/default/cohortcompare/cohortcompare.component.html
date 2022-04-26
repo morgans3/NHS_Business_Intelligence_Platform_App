@@ -1,0 +1,151 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <app-statcard [data]="baselinePop"></app-statcard>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <app-statcard [data]="baselineCohort"></app-statcard>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <app-statcard [data]="comparatorPop"></app-statcard>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <app-statcard [data]="comparatorCohort"></app-statcard>
+  </div>
+</div>
+
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content class="slimCard">
+        <mat-form-field class="demo-full-width margin-top" [formGroup]="group">
+          <mat-select placeholder="Baseline Cohort" formControlName="baseline" (selectionChange)="calculateComparitor()">
+            <mat-option *ngFor="let item of cohortList" [value]="item">{{ item.cohortName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content class="slimCard">
+        <mat-form-field class="demo-full-width margin-top" [formGroup]="group">
+          <mat-select placeholder="Comparator Cohort" formControlName="comparator" (selectionChange)="calculateComparitor()">
+            <mat-option *ngFor="let item of cohortList" [value]="item">{{ item.cohortName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div *ngIf="displayResults === false">
+  <mat-card>
+    <mat-card-content fxLayoutAlign="center center">
+      <mat-spinner></mat-spinner>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div id="Results" *ngIf="displayResults">
+  <div fxLayout="row wrap">
+    <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+      <mat-card (mouseout)="mouseLeave()">
+        <mat-card-content>
+          <mat-card-title>Age</mat-card-title>
+          <div style="min-height: 50vh">
+            <div id="age-chart-comp"></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex.gt-sm="34" fxFlex.gt-xs="100" fxFlex="100">
+      <mat-card>
+        <mat-card-content>
+          <mat-card-title>GP Practice</mat-card-title>
+          <div style="min-height: 50vh">
+            <div id="gp-map-leaflet-comp"></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+      <mat-card>
+        <mat-card-content>
+          <mat-card-title>Electoral Ward</mat-card-title>
+          <div style="min-height: 50vh">
+            <div id="ward-map-leaflet-comp"></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div fxLayout="row wrap">
+    <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+      <mat-card (mouseout)="mouseLeave()">
+        <mat-card-content>
+          <mat-card-title>Sex</mat-card-title>
+          <div id="sex-chart-comp"></div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card (mouseout)="mouseLeave()">
+        <mat-card-content>
+          <mat-card-title>Lists</mat-card-title>
+          <div id="flags-chart-comp"></div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card (mouseout)="mouseLeave()">
+        <mat-card-content>
+          <mat-card-title>Long-term Conditions</mat-card-title>
+          <div id="ltc-chart-comp"></div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card (mouseout)="mouseLeave()">
+        <mat-card-content>
+          <mat-card-title>Count of LTCs</mat-card-title>
+          <div id="ltc-count-chart-comp"></div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card (mouseout)="mouseLeave()">
+        <mat-card-content>
+          <mat-card-title>Risk Score</mat-card-title>
+          <div id="risk-chart-comp"></div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card (mouseout)="mouseLeave()">
+        <mat-card-content>
+          <mat-card-title>COVID Risk Matrix</mat-card-title>
+          <div id="matrix-chart-comp"></div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex.gt-sm="34" fxFlex.gt-xs="100" fxFlex="100">
+      <mat-card (mouseout)="mouseLeave()">
+        <mat-card-content>
+          <mat-card-title>Commissioner</mat-card-title>
+          <div id="ccg-select-comp"></div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card (mouseout)="mouseLeave()">
+        <mat-card-content>
+          <mat-card-title>Neighbourhood</mat-card-title>
+          <div id="neighbourhood-select-comp"></div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card (mouseout)="mouseLeave()">
+        <mat-card-content>
+          <mat-card-title>Deprivation Decile</mat-card-title>
+          <div id="imd-chart-comp"></div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+      <mat-card (mouseout)="mouseLeave()">
+        <mat-card-content>
+          <mat-card-title>Mosaic Type</mat-card-title>
+          <div id="mosaic-chart-comp"></div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

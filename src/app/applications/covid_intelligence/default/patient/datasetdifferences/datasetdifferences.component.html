@@ -1,0 +1,24 @@
+<p *ngIf="!differences">Loading...</p>
+
+<p *ngIf="differences && differences.length === 0">
+  No differences identified
+</p>
+
+<table style="width: 100%;" *ngIf="differences && differences.length > 0">
+  <thead style="text-align: left;">
+    <th>
+      Field
+    </th>
+    <th>
+      Dataset 1
+    </th>
+    <th>
+      Dataset 2
+    </th>
+  </thead>
+  <tr *ngFor="let diff of differences">
+    <td>{{diff.name}}</td>
+    <td><span style="color:indigo" [title]="diff.dataset1">{{diff.value1}}</span></td>
+    <td><span style="color:green" [title]="diff.dataset2">{{diff.value2}}</span></td>
+  </tr>
+</table>

@@ -1,0 +1,23 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <form class="m-t-20" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="example-full-width">
+        <input autocomplete="off" matInput placeholder="Note Type" type="text" formControlName="type">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <textarea autocomplete="off" matInput placeholder="Note" type="text" formControlName="note" cdkTextareaAutosize
+          cdkAutosizeMinRows="6"></textarea>
+      </mat-form-field>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" *ngIf="!newEditFormID"
+          [disabled]="!myForm.valid">Submit</button>
+        <button mat-raised-button color="primary" type="submit" *ngIf="newEditFormID"
+          [disabled]="!myForm.valid">Update</button>
+        <button mat-raised-button color="warn" (click)="exitEditMode()" *ngIf="newEditFormID">Exit
+          edit mode</button>
+        <button mat-raised-button color="warn" type="button" (click)="clearForm()">Clear</button>
+      </mat-card-actions>
+    </form>
+  </div>

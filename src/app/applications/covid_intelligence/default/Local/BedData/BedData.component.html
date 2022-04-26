@@ -1,0 +1,29 @@
+<div fxLayout="row wrap">
+  <div fxFlex-gt-xs="100" fxFlex="100">
+    <mat-card-title style="text-decoration: underline; margin-bottom: 10px;">Bed Capacity</mat-card-title>
+    <table mat-table [dataSource]="bedSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Trust </th>
+        <td mat-cell *matCellDef="let element"> {{element.name || '-'}} </td>
+      </ng-container>
+      <ng-container matColumnDef="overall">
+        <th mat-header-cell *matHeaderCellDef> Overall </th>
+        <td mat-cell *matCellDef="let element"> {{element.overall || '-'}} </td>
+      </ng-container>
+      <ng-container matColumnDef="occupied">
+        <th mat-header-cell *matHeaderCellDef> Occupied (# / %) </th>
+        <td mat-cell *matCellDef="let element"> {{element.occupied || '-'}} </td>
+      </ng-container>
+      <ng-container matColumnDef="critical">
+        <th mat-header-cell *matHeaderCellDef> Critical Care (# / %) </th>
+        <td mat-cell *matCellDef="let element"> {{element.critical || '-'}} </td>
+      </ng-container>
+      <ng-container matColumnDef="respiratory">
+        <th mat-header-cell *matHeaderCellDef> Respiratory (# / %) </th>
+        <td mat-cell *matCellDef="let element"> {{element.respiratory || '-'}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="bedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: bedColumns;"></tr>
+    </table>
+  </div>
+</div>

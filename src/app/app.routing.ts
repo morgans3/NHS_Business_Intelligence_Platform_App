@@ -1,5 +1,6 @@
 import { Routes } from "@angular/router";
 import { AuthGuard } from "./_guards/auth.guard";
+import { CapabilityGuard } from "./_guards/capability.guard";
 import { FullComponent } from "./layouts/full/full.component";
 import { FormLayoutComponent } from "./layouts/form/form.component";
 import { SupportLayoutComponent } from "./layouts/support/support.component";
@@ -54,6 +55,8 @@ export const AppRoutes: Routes = [
       {
         path: "admin",
         loadChildren: () => import("./pages/admin/admin.module").then((m) => m.AdminModule),
+        // data: { capabilities: ["admin"] },
+        // canActivate: [CapabilityGuard]
       },
       // {
       //   path: "",
