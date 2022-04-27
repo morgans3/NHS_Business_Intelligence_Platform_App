@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges } from "@angular/core";
-import { MortalityData } from "../../../_models/Regional";
+import { MortalityData } from "diu-component-library";
 
 @Component({
   selector: "app-MortalityData",

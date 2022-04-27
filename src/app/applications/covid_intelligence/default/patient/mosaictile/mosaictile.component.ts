@@ -1,7 +1,5 @@
 import { Component, OnInit, OnChanges, Input } from "@angular/core";
-import { PatientLinked } from "../../../_models/patient";
-import { MosaicCode } from "../../../_models/mosaiccode";
-import { DynApiService } from "../../../_services/dynapi.service";
+import { PatientLinked, MosaicCode, APIService } from "diu-component-library";
 
 @Component({
   selector: "app-mosaictile",
@@ -9,13 +7,15 @@ import { DynApiService } from "../../../_services/dynapi.service";
   styleUrls: ["./mosaictile.component.scss"],
 })
 export class MosaictileComponent implements OnInit, OnChanges {
+  
   @Input() setperson: PatientLinked;
   person: PatientLinked;
   mosaicCodes: MosaicCode[];
-  constructor(private referenceService: DynApiService) {}
+
+  constructor(private apiService: APIService) { }
 
   ngOnInit() {
-    this.referenceService.getMosiacs().subscribe((res: MosaicCode[]) => {
+    this.apiService.getMosiacs().subscribe((res: MosaicCode[]) => {
       this.mosaicCodes = res;
       if (this.person) {
         this.setMosaic();

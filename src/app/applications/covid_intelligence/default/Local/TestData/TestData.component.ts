@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges } from "@angular/core";
-import { TestData } from "../../../_models/Regional";
+import { TestData } from "diu-component-library";
 
 @Component({
   selector: "app-TestData",

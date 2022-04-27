@@ -2,8 +2,8 @@ import { Component, OnInit, Directive, Input, ElementRef, Renderer2 } from "@ang
 import { Router, NavigationEnd } from "@angular/router";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Store } from "@ngxs/store";
-import { AuthState } from "../../_states/auth.state";
-import { JwtHelper } from "angular2-jwt";
+import { AuthState } from "../../../../_states/auth.state";
+import { decodeToken } from "../../../../_pipes/functions";
 
 export interface ReportDetails {
   _id: string;
@@ -100,8 +100,7 @@ export class DisplayReportComponent implements OnInit {
   constructor(private router: Router, private sanitizer: DomSanitizer, private store: Store) {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
-      const jwtHelper = new JwtHelper();
-      const tokenDecoded = jwtHelper.decodeToken(token);
+      const tokenDecoded: any = decodeToken(token);
       this.username = tokenDecoded.username;
     }
     this.getReportID();

@@ -1,14 +1,12 @@
 import { Component, OnInit, Input, OnChanges, ViewChild } from "@angular/core";
-import { Notifications } from "../../../_models/notifications";
 import {
   FormGroupDirective,
   FormGroup,
   FormControl,
   Validators,
 } from "@angular/forms";
-import { UserGroupService } from "../../../_services/usergroup.service";
-import { UserDetails } from "../../../_models/ModelUser";
-import { NotificationService } from "../../../_services/notification.service";
+import { iNotifications, iUserDetails, APIService } from "diu-component-library";
+import { NotificationService } from "../../../../../_services/notification.service";
 
 export interface UserPhotoCollection {
   username: string;
@@ -21,23 +19,27 @@ export interface UserPhotoCollection {
   styleUrls: ["./ReportNotes.component.scss"],
 })
 export class ReportNotesComponent implements OnInit, OnChanges {
+  
+  @ViewChild(FormGroupDirective) formDirective: FormGroupDirective;
+  
   @Input() reportID: string;
   selectedreportID: string;
+
   @Input() username?: string;
   selectedUsername: string;
+
   @Input() teamcode?: string;
   selectedTeamcode: string;
+
   userPhotos: UserPhotoCollection[] = [];
-  messages: Notifications[] = [];
-  @ViewChild(FormGroupDirective)
-  formDirective: FormGroupDirective;
+  messages: iNotifications[] = [];
   myForm = new FormGroup({
     header: new FormControl(null, Validators.required),
     message: new FormControl(null, Validators.required),
   });
 
   constructor(
-    private userGroupService: UserGroupService,
+    private apiService: APIService,
     private notificationService: NotificationService
   ) {}
 
@@ -75,9 +77,8 @@ export class ReportNotesComponent implements OnInit, OnChanges {
           return "";
         }
       } else {
-        this.userGroupService
-          .getUserProfileByUsername(username)
-          .subscribe((user: UserDetails) => {
+        this.apiService.getUserProfileByUsername(username)
+          .subscribe((user: iUserDetails) => {
             this.userPhotos.push({
               username: user.username,
               photobase64: user.photobase64 || "",
@@ -91,7 +92,7 @@ export class ReportNotesComponent implements OnInit, OnChanges {
   }
 
   sendMessage(form: any) {
-    const newMessage: Notifications = {
+    const newMessage: iNotifications = {
       _id: null,
       method: "",
       sentdate: new Date(),
@@ -138,7 +139,7 @@ export class ReportNotesComponent implements OnInit, OnChanges {
     this.clearForm();
   }
 
-  removeMessage(message: Notifications) {
+  removeMessage(message: iNotifications) {
     const index = this.messages.findIndex((x) => x === message);
     if (index) {
       this.messages.splice(index, 1);

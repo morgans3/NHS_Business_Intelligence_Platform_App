@@ -1,13 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { JwtHelper } from "angular2-jwt";
-import { Store } from "@ngxs/store";
 import { Router, ActivatedRoute } from "@angular/router";
-import { AuthState } from "../../_states/auth.state";
-import { NotificationService } from "../../_services/notification.service";
+
+import { Store } from "@ngxs/store";
+import { decodeToken } from "../../../../_pipes/functions";
+import { AuthState } from "../../../../_states/auth.state";
+import { PatientLinked, APIService } from "diu-component-library";
+import { NotificationService } from "../../../../_services/notification.service";
 import { faNotesMedical, faProcedures } from "@fortawesome/free-solid-svg-icons";
-import { PatientService } from "../../_services/patient.service";
-import { PatientLinked } from "../../_models/patient";
-import { PatientNote } from "./patientnoteform/patientnoteform.component";
 
 @Component({
   selector: "app-patient",
@@ -15,6 +14,7 @@ import { PatientNote } from "./patientnoteform/patientnoteform.component";
   styleUrls: ["./patient.component.scss"],
 })
 export class PatientComponent implements OnInit {
+
   Procedures = faProcedures;
   NotesMedical = faNotesMedical;
   dataFetched = false;
@@ -24,11 +24,16 @@ export class PatientComponent implements OnInit {
   inputLat = "53.821978";
   person: PatientLinked;
 
-  constructor(private route: ActivatedRoute, public store: Store, private router: Router, private patientService: PatientService, private notificationService: NotificationService) {
+  constructor(
+    public store: Store, 
+    private router: Router,
+    private route: ActivatedRoute,
+    private apiService: APIService,
+    private notificationService: NotificationService
+  ) {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
-      const jwtHelper = new JwtHelper();
-      this.tokenDecoded = jwtHelper.decodeToken(token);
+      this.tokenDecoded = decodeToken(token);
     }
   }
 
@@ -40,7 +45,7 @@ export class PatientComponent implements OnInit {
   }
 
   getData() {
-    this.patientService.getPatientDetail(this.nhsnumber).subscribe(
+    this.apiService.getPatientDetail(this.nhsnumber).subscribe(
       (res: PatientLinked) => {
         this.dataFetched = true;
         this.person = res;

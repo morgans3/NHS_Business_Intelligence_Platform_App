@@ -2,12 +2,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Component, Inject } from "@angular/core";
 
 @Component({
-  selector: "dialog-confirm",
-  templateUrl: "dialogconfirm.html"
+  selector: "dialog-expand",
+  templateUrl: "dialogexpand.html",
 })
-export class ConfirmDialogComponent {
+export class ExpandTextDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    public dialogRef: MatDialogRef<ExpandTextDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 

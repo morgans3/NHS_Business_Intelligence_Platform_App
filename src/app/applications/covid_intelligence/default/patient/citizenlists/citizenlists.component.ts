@@ -1,5 +1,5 @@
-import { Component, OnInit, OnChanges, Input } from "@angular/core";
-import { PatientLinked } from "../../../_models/patient";
+import { Component, OnChanges, Input } from "@angular/core";
+import { PatientLinked } from "diu-component-library";
 import { ListTypes } from "../../patient-list/listtypes";
 
 @Component({

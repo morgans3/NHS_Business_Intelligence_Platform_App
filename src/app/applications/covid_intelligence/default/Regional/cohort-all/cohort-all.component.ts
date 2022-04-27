@@ -1,16 +1,14 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges } from "@angular/core";
-import { MatSelectionList, MatSelectionListChange, MatDialog } from "@angular/material";
+import { MatSelectionList, MatSelectionListChange } from "@angular/material/list";
+import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
-import { AuthState } from "../../../_states/auth.state";
-import { JwtHelper } from "angular2-jwt";
-import { NotificationService } from "../../../_services/notification.service";
+import { AuthState } from "../../../../../_states/auth.state";
+import { NotificationService } from "../../../../../_services/notification.service";
 import { Router } from "@angular/router";
-import { Team } from "../../../_models/ModelOrganisation";
-import { UserGroupService } from "../../../_services/usergroup.service";
-import { CVICohort } from "../../../_models/cohort";
+import { iTeam, CVICohort, APIService } from "diu-component-library";
 import { ConfirmText, ConfirmTextDialogComponent } from "../dialogtextconfirm";
 import { ConfirmDialogComponent } from "../dialogconfirm";
-import { DynApiService } from "../../../_services/dynapi.service";
+import { decodeToken } from "../../../../../_pipes/functions";
 
 @Component({
   selector: "app-cohort-all",
@@ -28,9 +26,15 @@ export class CohortAllComponent implements OnInit, OnChanges {
   AgeDimension: any;
   CCGDimension: any;
   teamcodes: any;
-  teamlist: Team[];
+  teamlist: iTeam[];
 
-  constructor(private store: Store, private cohortService: DynApiService, private notificationService: NotificationService, public dialog: MatDialog, private router: Router, private userGroupService: UserGroupService) {
+  constructor(
+    private store: Store, 
+    private apiService: APIService, 
+    private notificationService: NotificationService, 
+    public dialog: MatDialog, 
+    private router: Router, 
+  ) {
     let token = this.store.selectSnapshot(AuthState.getToken);
     if (!token) {
       const _token = localStorage.getItem("@@token");
@@ -39,10 +43,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
       }
     }
     if (token) {
-      const jwtHelper = new JwtHelper();
-      this.tokenDecoded = jwtHelper.decodeToken(token);
+      this.tokenDecoded = decodeToken(token);
       this.teamcodes = this.tokenDecoded["memberships"];
-      this.cohortService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
+      this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
         res.forEach((item) => {
           if (item.cohorturl.length < 3) {
             item.cohorturl = "{}";
@@ -76,7 +79,7 @@ export class CohortAllComponent implements OnInit, OnChanges {
         this.change.emit(this.selectedCohort);
       }
     });
-    this.userGroupService.getTeams().subscribe((res: Team[]) => {
+    this.apiService.getTeams().subscribe((res: iTeam[]) => {
       this.teamlist = res;
     });
   }
@@ -156,9 +159,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
       newCohort.teamcode = response.teamcode;
     }
     this.selectedCohort = newCohort;
-    this.cohortService.registerCohort(this.selectedCohort).subscribe((data: any) => {
+    this.apiService.registerCohort(this.selectedCohort).subscribe((data: any) => {
       if (data.success) {
-        this.cohortService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
+        this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
           this.allcohorts = res;
           this.notificationService.success("New cohort has been created");
         });
@@ -182,9 +185,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
 
   confirmUpdate() {
     this.selectedCohort.cohorturl = JSON.stringify(this.cohort);
-    this.cohortService.registerCohort(this.selectedCohort).subscribe((data: any) => {
+    this.apiService.registerCohort(this.selectedCohort).subscribe((data: any) => {
       if (data.success) {
-        this.cohortService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
+        this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
           this.allcohorts = res;
           this.notificationService.success("Cohort Database has been updated");
         });
@@ -201,9 +204,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.cohortService.removeCohort(this.selectedCohort).subscribe((data: any) => {
+        this.apiService.removeCohort(this.selectedCohort).subscribe((data: any) => {
           if (data.success) {
-            this.cohortService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
+            this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
               this.allcohorts = res;
               this.notificationService.success("Cohort has been removed from Database");
             });

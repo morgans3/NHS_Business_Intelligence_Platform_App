@@ -1,0 +1,22 @@
+<div>
+  <h3 style="margin-top: 0" *ngIf="data">{{data.forename + ' ' + data.surname}} - {{ data.nhs_number}}</h3>
+  <p>Can you please provide the reason for the non-referral?</p>
+
+  <form class="m-t-20" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="example-full-width">
+      <mat-select placeholder="Reason for non-referral..." formControlName="reason">
+        <mat-option value="Not Symptomatic">Not Symptomatic</mat-option>
+        <mat-option value="Patient Refused">Patient Refused</mat-option>
+        <mat-option value="Inappropriate - Palliative Care">Inappropriate - Palliative Care</mat-option>
+        <mat-option value="Inappropriate - Care Home">Inappropriate - Care Home</mat-option>
+        <mat-option value="Inappropriate - Other">Inappropriate - Other</mat-option>
+        <mat-option value="Not Reviewed">Not Reviewed</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button color="primary" style="width: 100%; padding-left: 5px; padding-right: 5px; margin-bottom: 15px" (click)="onSubmit()" [disabled]="!myForm.valid">Submit</button>
+  <button mat-button color="warn" style="width: 100%; padding-left: 5px; padding-right: 5px" (click)="onNoClick()">Close</button>
+</div>

@@ -1,0 +1,17 @@
+<div *ngIf="data">
+  <h3 style="margin-top: 0">{{data.forename + ' ' + data.surname}} - {{ data.nhs_number}}</h3>
+  <p>Do you wish to add addtional contact information for this person?</p>
+  <p><b>Original Contact: </b> {{data.phone_number}}</p>
+  <form class="m-t-20" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="example-full-width">
+      <input autocomplete="off" matInput placeholder="Preferred Contact Number..." type="text" formControlName="contact" />
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button color="primary" style="width: 100%; padding-left: 5px; padding-right: 5px; margin-bottom: 15px" (click)="onSubmit()" [disabled]="!myForm.valid">Update</button>
+  <button mat-button color="warn" style="width: 100%; padding-left: 5px; padding-right: 5px" (click)="onNoClick()">Close</button>
+
+  <button *ngIf="data && data.newcontact" mat-button color="warn" style="width: 100%; padding-left: 5px; padding-right: 5px; margin-top: 30px" (click)="onClearContact()">Reset to Original Contact</button>
+</div>

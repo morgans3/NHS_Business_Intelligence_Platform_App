@@ -74,6 +74,18 @@ export class LeafletChoroplethChart extends Chart {
   legend?: any;
 }
 
+export class HeatMap extends Chart {
+  keyAccessor?: any;
+  valueAccessor?: any;
+  calculateColorDomain?: boolean;
+  colorAccessor?: any;
+  colOrdering?: any;
+  rowOrdering?: any;
+  rowsLabel?: any;
+  colsLabel?: any;
+  titlefunction?: any;
+}
+
 export class LeafletMarkerChart extends LeafletChoroplethChart {
   circleScale?: any;
   locationAccessor?: any;

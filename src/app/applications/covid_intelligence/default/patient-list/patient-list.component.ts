@@ -1,17 +1,16 @@
 import { Angular2Csv } from "angular2-csv/Angular2-csv";
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatTableDataSource, MatSort, MatPaginator } from "@angular/material";
-import { JwtHelper } from "angular2-jwt";
 import { Store } from "@ngxs/store";
 import { Router } from "@angular/router";
-import { NotificationService } from "../../_services/notification.service";
-import { AuthState } from "../../_states/auth.state";
-import { PatientService } from "../../_services/patient.service";
-import { PatientLinked } from "../../_models/patient";
+import { NotificationService } from "../../../../_services/notification.service";
+import { AuthState } from "../../../../_states/auth.state";
+import { PatientLinked, Cohort, Caseload, CVICohort, APIService } from "diu-component-library";
 import { ListTypes } from "./listtypes";
-import { Cohort, Caseload, CVICohort } from "../../_models/cohort";
 import { FormGroup, FormControl } from "@angular/forms";
-import { DynApiService } from "../../_services/dynapi.service";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatSort } from "@angular/material/sort";
+import { MatPaginator } from "@angular/material/paginator";
+import { decodeToken } from "../../../../_pipes/functions";
 
 @Component({
   selector: "app-patient-list",
@@ -45,12 +44,17 @@ export class PatientListComponent implements OnInit {
   });
   cohorturl: string;
 
-  constructor(private patientService: PatientService, private router: Router, public store: Store, private notificationService: NotificationService, private cohortService: DynApiService) {
+  constructor(
+    private apiService: APIService, 
+    private router: Router, 
+    public store: Store, 
+    private notificationService: 
+    NotificationService
+  ) {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
-      const jwtHelper = new JwtHelper();
-      this.tokenDecoded = jwtHelper.decodeToken(token);
-      this.cohortService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+      this.tokenDecoded = decodeToken(token);
+      this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
         res.forEach((item) => {
           if (item.cohorturl.length < 3) {
             item.cohorturl = "{}";
@@ -65,7 +69,7 @@ export class PatientListComponent implements OnInit {
         });
         this.allcohorts = res.sort();
       });
-      this.cohortService.getByAllMyCaseloads(this.tokenDecoded.username).subscribe((res: Caseload[]) => {
+      this.apiService.getCviCaseloadsByUsername(this.tokenDecoded.username).subscribe((res: Caseload[]) => {
         this.mycaseloads = res.sort((a, b) => {
           if (a.caseloadName < b.caseloadName) {
             return -1;
@@ -104,7 +108,7 @@ export class PatientListComponent implements OnInit {
       if (!this.limit) {
         this.limit = "1000";
       }
-      this.patientService.getPatients(this.limit).subscribe(
+      this.apiService.getPatients(this.limit).subscribe(
         (list: PatientLinked[]) => {
           this.citizenlist = list;
           this.setData(this.citizenlist);
@@ -127,7 +131,7 @@ export class PatientListComponent implements OnInit {
     this.noAccess = false;
     this.noResults = false;
     this.dataFetched = false;
-    this.patientService.getPatientsByCohort(this.limit, cohorturl).subscribe(
+    this.apiService.getPatientsByCohort(this.limit, cohorturl).subscribe(
       (list: PatientLinked[]) => {
         this.citizenlist = list;
         this.setData(this.citizenlist);

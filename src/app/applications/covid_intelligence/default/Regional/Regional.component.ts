@@ -1,15 +1,15 @@
 import { Component, OnInit, ElementRef, ViewChild, HostListener } from "@angular/core";
-import { collapseAnimations } from "../../shared/animations";
+import { collapseAnimations } from "../../../../shared/animations";
 import * as dcFull from "dc";
 import * as d3 from "d3";
 import { Store } from "@ngxs/store";
-import { MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import { StatCardData } from "./stat-card.component";
-import { LeafletChoroplethChart, BarChart, RowChart } from "../../_models/chart";
-import { FeatureCollection } from "../../_models/features";
-import { AuthState } from "../../_states/auth.state";
+import { 
+  LeafletChoroplethChart, BarChart, RowChart, FeatureCollection, APIService
+} from "diu-component-library";
+import { AuthState } from "../../../../_states/auth.state";
 import { ExpandTextDialogComponent } from "../../_modals/dialogexpand";
-import { SQLApiService } from "../../_services/sqlapi.service";
 declare var leafletChoroplethChart: any;
 declare var leafletLegend: any;
 declare var window: any;
@@ -109,7 +109,7 @@ export class RegionalComponent implements OnInit {
     }, 0);
   }
 
-  constructor(public store: Store, public dialog: MatDialog, private sqlService: SQLApiService) {
+  constructor(public store: Store, public dialog: MatDialog, private sqlService: APIService) {
     this.token = this.store.selectSnapshot(AuthState.getToken);
     const parsedUrl = window.location.href;
     this.origin = parsedUrl.replace("/population-health", "");

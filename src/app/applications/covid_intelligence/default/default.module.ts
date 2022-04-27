@@ -3,10 +3,10 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { DefaultRoutes } from "./default.routing";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { MaterialModule } from "../material/material.module";
+import { DemoMaterialModule } from "../../../demo-material-module";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { MainPipe } from "../_pipes/main-pipe.module";
+import { MainPipe } from "../../../_pipes/main-pipe.module";
 import { AdminComponent } from "./Admin/Admin.component";
 import { LandingComponent } from "./Landing/Landing.component";
 import { DisplayReportComponent, CachedSrcDirective } from "./DisplayReport/DisplayReport.component";
@@ -33,7 +33,6 @@ import { StatCardComponent } from "./Regional/stat-card.component";
 import { CohortAllComponent } from "./Regional/cohort-all/cohort-all.component";
 import { ConfirmTextDialogComponent } from "./Regional/dialogtextconfirm";
 import { ConfirmDialogComponent } from "./Regional/dialogconfirm";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { VirusTestsComponent } from "./virus-tests/virus-tests.component";
 import { OutbreaksComponent } from "./outbreaks/outbreaks.component";
 import { LimitsettingComponent } from "./patient-list/limitsetting/limitsetting.component";
@@ -45,10 +44,7 @@ import { CitizenlistsComponent } from "./patient/citizenlists/citizenlists.compo
 import { LpresviewerComponent } from "./patient/lpresviewer/lpresviewer.component";
 import { EmishighlightsComponent } from "./patient/emishighlights/emishighlights.component";
 import { MosaictileComponent } from "./patient/mosaictile/mosaictile.component";
-import { PatientnoteformComponent } from "./patient/patientnoteform/patientnoteform.component";
-import { PatientrecordhistoryComponent } from "./patient/patientrecordhistory/patientrecordhistory.component";
 import { DatasetdifferencesComponent } from "./patient/datasetdifferences/datasetdifferences.component";
-import { PatientinformationComponent } from "./patient/patientinformation/patientinformation.component";
 import { PopslicerComponent } from "./populationselect/popslicer/popslicer.component";
 import { JoyrideModule } from "ngx-joyride";
 import { ExpandTextDialogComponent } from "../_modals/dialogexpand";
@@ -64,7 +60,7 @@ import { MapComponent } from "./patient/minimap/map.component";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 
 @NgModule({
-  imports: [DragDropModule, CommonModule, RouterModule.forChild(DefaultRoutes), ReactiveFormsModule, FormsModule, MaterialModule, FlexLayoutModule, MainPipe, FontAwesomeModule, JoyrideModule.forRoot(), LeafletMarkerClusterModule, LeafletModule],
+  imports: [DragDropModule, CommonModule, RouterModule.forChild(DefaultRoutes), ReactiveFormsModule, FormsModule, DemoMaterialModule, FlexLayoutModule, MainPipe, JoyrideModule.forRoot(), LeafletMarkerClusterModule, LeafletModule],
   declarations: [
     AdminComponent,
     LandingComponent,
@@ -105,10 +101,7 @@ import { LeafletModule } from "@asymmetrik/ngx-leaflet";
     LpresviewerComponent,
     EmishighlightsComponent,
     MosaictileComponent,
-    PatientnoteformComponent,
-    PatientrecordhistoryComponent,
     DatasetdifferencesComponent,
-    PatientinformationComponent,
     PopslicerComponent,
     InterventionAssistantComponent,
     CohortcompareComponent,

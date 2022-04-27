@@ -4,11 +4,6 @@ import { MappingComponent } from "./mapping/mapping.component";
 export const MappingRoutes: Routes = [
   {
     path: "",
-    children: [
-      {
-        path: "mapping",
-        component: MappingComponent,
-      },
-    ],
+    component: MappingComponent,
   },
 ];

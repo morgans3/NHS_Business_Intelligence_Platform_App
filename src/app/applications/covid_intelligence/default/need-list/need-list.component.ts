@@ -9,12 +9,10 @@ import { ToastrService } from "ngx-toastr";
 import { JoyrideService } from "ngx-joyride";
 import { Subject } from "rxjs";
 import { Router } from "@angular/router";
-import { subdomain } from "../../../environments/apilinks.local";
 import { Store } from "@ngxs/store";
-import { AuthState } from "../../_states/auth.state";
-import { JwtHelper } from "angular2-jwt";
-import { DynApiService } from "../../_services/dynapi.service";
-import { SQLApiService } from "../../_services/sqlapi.service";
+import { AuthState } from "../../../../_states/auth.state";
+import { APIService } from "diu-component-library";
+import { decodeToken } from "../../../../_pipes/functions";
 declare var window: any;
 
 @Component({
@@ -110,16 +108,19 @@ export class NeedListComponent {
   selected_training = this.training_groups["area"];
   minData = true;
   gpNameLookup: { code: string; name: string }[] = [];
-  origin: any;
 
-  constructor(public http: HttpClient, private toastr: ToastrService, private sqlService: SQLApiService, private router: Router, private readonly joyrideService: JoyrideService, private cohortService: DynApiService, private store: Store) {
-    const parsedUrl = window.location.href;
-    const origin = parsedUrl;
-    this.origin = origin.replace(subdomain + ".", "") + "/";
+  constructor(
+    public http: HttpClient, 
+    private toastr: ToastrService, 
+    private router: Router, 
+    private readonly joyrideService: JoyrideService, 
+    private apiService: APIService, 
+    private store: Store
+  ) {
     const tooltip_remove = d3.select("mat-sidenav-content").selectAll(".tooltip");
     tooltip_remove.selectAll("*").remove();
     this.response_variable.forEach((elem) => this.response_variableCopy.push(elem));
-    this.sqlService.getGPPractices().subscribe((data: any) => {
+    this.apiService.getGPPractices().subscribe((data: any) => {
       this.gpNameLookup = [];
       data[0].features.forEach((row) => {
         this.gpNameLookup.push({
@@ -743,9 +744,8 @@ export class NeedListComponent {
   ngOnInit() {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
-      const jwtHelper = new JwtHelper();
-      this.tokenDecoded = jwtHelper.decodeToken(token);
-      this.cohortService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: any[]) => {
+      this.tokenDecoded = decodeToken(token);
+      this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: any[]) => {
         this.cohort_array = res;
         this.cohort_array.forEach((d) => {
           this.cohort_names.push("Cohort " + d.cohortName);

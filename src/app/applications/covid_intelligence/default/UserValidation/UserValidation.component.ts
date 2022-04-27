@@ -1,12 +1,12 @@
 import { Component, Output, EventEmitter, OnInit } from "@angular/core";
 import { Store } from "@ngxs/store";
-import { JwtHelper } from "angular2-jwt";
-import { MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import { ValidateDialogComponent } from "./dialogvalidate";
 import { VerifiyDialogComponent } from "./dialogverifiy";
-import { AuthService } from "../../_services/auth.service";
-import { NotificationService } from "../../_services/notification.service";
-import { AuthState, ManualSetAuthTokens } from "../../_states/auth.state";
+import { APIService } from "diu-component-library";
+import { NotificationService } from "../../../../_services/notification.service";
+import { AuthState, ManualSetAuthTokens } from "../../../../_states/auth.state";
+import { decodeToken } from "../../../../_pipes/functions";
 
 @Component({
   selector: "app-UserValidation",
@@ -18,10 +18,15 @@ export class UserValidationComponent implements OnInit {
   token: any;
   tokenDecoded: any;
 
-  constructor(private store: Store, private authService: AuthService, private notificationService: NotificationService, public dialog: MatDialog) {
+  constructor(
+    private store: Store, 
+    private apiService: APIService, 
+    private notificationService: NotificationService, 
+    public dialog: MatDialog
+  ) {
     this.token = this.store.selectSnapshot(AuthState.getToken);
     if (this.token) {
-      this.tokenDecoded = new JwtHelper().decodeToken(this.token);
+      this.tokenDecoded = decodeToken(this.token);
       if (this.tokenDecoded.mfa) {
         this.confirmation.emit(this.tokenDecoded);
       }
@@ -38,7 +43,7 @@ export class UserValidationComponent implements OnInit {
     if (this.tokenDecoded.mfa) {
       this.confirmation.emit(this.tokenDecoded);
     } else {
-      this.authService.checkMFA().subscribe((res: any) => {
+      this.apiService.checkMFA().subscribe((res: any) => {
         if (res.error) {
           this.notificationService.warning("Unable to contact Authentication Service");
         } else {
@@ -49,12 +54,12 @@ export class UserValidationComponent implements OnInit {
             });
             dialogRef.afterClosed().subscribe((response) => {
               if (response && response.length > 0) {
-                this.tokenDecoded = new JwtHelper().decodeToken(response);
+                this.tokenDecoded = decodeToken(response);
                 this.confirmation.emit(this.tokenDecoded);
               }
             });
           } else {
-            this.authService.registerMFA().subscribe((reg: any) => {
+            this.apiService.registerMFA().subscribe((reg: any) => {
               if (reg.tempSecret) {
                 const dialogRef = this.dialog.open(VerifiyDialogComponent, {
                   width: "90%",
@@ -62,7 +67,7 @@ export class UserValidationComponent implements OnInit {
                 });
                 dialogRef.afterClosed().subscribe((response) => {
                   if (response && response.length > 0) {
-                    this.tokenDecoded = new JwtHelper().decodeToken(response);
+                    this.tokenDecoded = decodeToken(response);
                     this.confirmation.emit(this.tokenDecoded);
                   }
                 });

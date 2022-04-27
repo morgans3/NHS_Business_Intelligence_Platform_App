@@ -1,11 +1,10 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Component, Inject } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Store } from "@ngxs/store";
-import { AuthService } from "../../_services/auth.service";
-import { ManualSetAuthTokens } from "../../_states/auth.state";
-import { MessagingService } from "../../_services/messaging.service";
-import { NotificationService } from "../../_services/notification.service";
+import { APIService } from "diu-component-library";
+import { NotificationService } from "../../../../_services/notification.service";
+import { ManualSetAuthTokens } from "../../../../_states/auth.state";
 
 @Component({
   selector: "dialog-verifiy",
@@ -19,7 +18,7 @@ export class VerifiyDialogComponent {
     authcode: new FormControl(null, Validators.required),
   });
 
-  constructor(private notificationService: NotificationService, private messagingService: MessagingService, public dialogRef: MatDialogRef<VerifiyDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, private store: Store) {
+  constructor(private notificationService: NotificationService, public dialogRef: MatDialogRef<VerifiyDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private apiService: APIService, private store: Store) {
     this.tfa = this.data;
   }
 
@@ -30,7 +29,7 @@ export class VerifiyDialogComponent {
   enableTFA() {
     if (this.myForm.controls["authcode"].value) {
       if (this.alternative) {
-        this.authService.otpValidate(this.myForm.controls["authcode"].value.toString()).subscribe((data: any) => {
+        this.apiService.validateOTPCode(this.myForm.controls["authcode"].value.toString()).subscribe((data: any) => {
           if (data && data.status === 200) {
             this.store
               .dispatch(
@@ -47,7 +46,7 @@ export class VerifiyDialogComponent {
           }
         });
       } else {
-        this.authService.verifyMFA(this.myForm.controls["authcode"].value, this.tfa.tempSecret).subscribe((data: any) => {
+        this.apiService.verifyMFA(this.myForm.controls["authcode"].value, this.tfa.tempSecret).subscribe((data: any) => {
           if (data && data.status === 200) {
             this.store
               .dispatch(
@@ -69,7 +68,7 @@ export class VerifiyDialogComponent {
 
   alternativeFA() {
     this.alternative = true;
-    this.messagingService.generateOTPCode().subscribe((res: any) => {
+    this.apiService.generateOTPCode().subscribe((res: any) => {
       if (res && res.success) {
         this.notificationService.info(res.msg);
       } else {

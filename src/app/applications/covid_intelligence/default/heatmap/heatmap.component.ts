@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ResultsService } from "../../_services/results.service";
+import { APIService } from "diu-component-library";
 
 @Component({
   selector: "app-heatmap",
@@ -7,15 +7,19 @@ import { ResultsService } from "../../_services/results.service";
   styleUrls: ["./heatmap.component.scss"],
 })
 export class HeatmapComponent implements OnInit {
+  
   cfData: any;
 
-  constructor(private resultsService: ResultsService) {}
+  constructor(
+    private apiService: APIService,
+  ) {}
 
   ngOnInit() {
     this.getData();
   }
+
   getData() {
-    this.resultsService.getCFServer().subscribe((data: any) => {
+    this.apiService.getCFServer().subscribe((data: any) => {
       this.cfData = data;
       this.generateCharts();
     });

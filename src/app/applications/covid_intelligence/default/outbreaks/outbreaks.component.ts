@@ -3,18 +3,18 @@ import * as dcFull from "dc";
 import * as d3 from "d3";
 import * as L from "leaflet";
 import { StatCardData } from "../Regional/stat-card.component";
-import { AuthState } from "../../_states/auth.state";
+import { AuthState } from "../../../../_states/auth.state";
 import { Store } from "@ngxs/store";
-import { ResultsService } from "../../_services/results.service";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { BarChart, LeafletMarkerChart, RowChart, PieChart, HeatMap } from "../../_models/chart";
-import crossfilter from "crossfilter2";
-import { collapseAnimations } from "../../shared/animations";
-import { Subject } from "rxjs";
-import { NotificationService } from "../../_services/notification.service";
-import { Sort, MatSort, MatTable, MatTableDataSource } from "@angular/material";
+import { BarChart, LeafletMarkerChart, RowChart, PieChart, HeatMap } from "../../../../_models/chart";
+import * as crossfilter from "crossfilter2";
+import { collapseAnimations } from "../../../../shared/animations";
+import { NotificationService } from "../../../../_services/notification.service";
+import { Sort, MatSort } from "@angular/material/sort";
+import { MatTable, MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { Angular2Csv } from "angular2-csv/Angular2-csv";
+import { APIService, PopulationManagementService } from "diu-component-library";
 declare var leafletMarkerChartBubble: any;
 declare var leafletChoroplethChart: any;
 declare var window: any;
@@ -207,7 +207,13 @@ export class OutbreaksComponent implements OnInit {
     }, 0);
   }
 
-  constructor(public store: Store, private resultsService: ResultsService, public http: HttpClient, private notificationService: NotificationService) {
+  constructor(
+    public store: Store, 
+    public http: HttpClient, 
+    private apiService: APIService, 
+    private notificationService: NotificationService,
+    private populationManagementService: PopulationManagementService,
+  ) {
     this.token = this.store.selectSnapshot(AuthState.getToken);
     const parsedUrl = window.location.href;
     this.origin = parsedUrl.replace("/outbreaks", "");
@@ -226,14 +232,14 @@ export class OutbreaksComponent implements OnInit {
 
   populatePostCodeLookup() {
     this.postcodelookup = {};
-    this.resultsService.getPostcodeLookup().subscribe((data: any) => {
+    this.apiService.getPostcodeLookup().subscribe((data: any) => {
       this.postcodelookup = data;
     });
   }
 
   buildCF() {
     this.myDC = dcFull;
-    this.resultsService.getCFServer().subscribe((res: any) => {
+    this.populationManagementService.getCFServer().subscribe((res: any) => {
       this.dataLoaded = true;
       this.filteredData = res;
       this.totalsize = this.filteredData["all"].values;
@@ -1108,6 +1114,7 @@ export class OutbreaksComponent implements OnInit {
     };
     const filteredAgeBandDimGroup = this.removeZeroAndNullAgeCases(group);
     this.datesAndAgeBandHeatmapDetails = {
+      title: "Dates and age bands",
       type: "heat",
       dim: dimension,
       group: filteredAgeBandDimGroup,

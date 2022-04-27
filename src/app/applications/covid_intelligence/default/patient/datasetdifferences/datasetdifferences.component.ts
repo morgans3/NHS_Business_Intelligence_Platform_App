@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges } from "@angular/core";
-import { PatientLinked } from "../../../_models/patient";
+import { PatientLinked } from "diu-component-library";
 
 interface Difference {
   name: string;

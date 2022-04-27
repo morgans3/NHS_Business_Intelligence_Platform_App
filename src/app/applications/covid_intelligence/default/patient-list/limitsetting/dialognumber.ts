@@ -1,14 +1,14 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Component, Inject } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { NotificationService } from "../../../_services/notification.service";
-import { setValue } from "@ngxs/store";
+import { NotificationService } from "../../../../../_services/notification.service";
 
 @Component({
   selector: "dialog-number",
   templateUrl: "dialognumber.html",
 })
 export class NumberDialogComponent {
+  
   errorMessage: string;
   myForm = new FormGroup({
     limit: new FormControl(null, Validators.required),

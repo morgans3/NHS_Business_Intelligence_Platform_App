@@ -1,6 +1,5 @@
 import { Routes } from "@angular/router";
 import { AuthGuard } from "./_guards/auth.guard";
-import { CapabilityGuard } from "./_guards/capability.guard";
 import { FullComponent } from "./layouts/full/full.component";
 import { FormLayoutComponent } from "./layouts/form/form.component";
 import { SupportLayoutComponent } from "./layouts/support/support.component";
@@ -36,6 +35,29 @@ export const AppRoutes: Routes = [
     ],
   },
   {
+    path: "apps",
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: "mapping",
+        component: FullmapComponent,
+        loadChildren: () => import("./applications/place_based/mapping/mapping.module").then((m) => m.MappingModule)
+      },
+      {
+        path: "covid19",
+        component: FullComponent,
+        data: { layout_config: { id: "Covid19_Information" }},
+        loadChildren: () => import("./applications/covid_intelligence/default/default.module").then((m) => m.DefaultModule)
+      },
+      {
+        path: "**",
+        component: FullComponent,
+        loadChildren: () => import("./pages/dynamic/dynamic.module").then((m) => m.DynamicPageModule),
+        pathMatch: "full",
+      },
+    ]
+  },
+  {
     path: "",
     component: FullComponent,
     canActivate: [AuthGuard],
@@ -67,17 +89,6 @@ export const AppRoutes: Routes = [
         path: "**",
         loadChildren: () => import("./pages/dynamic/dynamic.module").then((m) => m.DynamicPageModule),
         pathMatch: "full",
-      },
-    ],
-  },
-  {
-    path: "",
-    component: FullmapComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: "",
-        loadChildren: () => import("./applications/place_based/mapping/mapping.module").then((m) => m.MappingModule),
       },
     ],
   },

@@ -13,12 +13,12 @@
       [disableClose]="mobileQuery.matches"
       [ngClass]="{ matsidenavsmall: minisidebar, matsidenavbig: !minisidebar }"
     >
-      <lib-diu-angular-navigation [isMinisidebar]="minisidebar" [menuItems]="shownMenuItems"></lib-diu-angular-navigation>
+      <lib-diu-angular-navigation [isMinisidebar]="minisidebar" [menuItems]="config.menuitems"></lib-diu-angular-navigation>
     </mat-sidenav>
 
     <mat-sidenav-content class="page-wrapper">
       <div class="page-content">
-        <lib-diu-angular-header [strAppName]="appName" [strHome]="'home'" [alerts]="myAlerts" [tokenDecoded]="tokenDecoded" (endSession)="logout()" (changeSidebar)="toggleSidebar($event)"></lib-diu-angular-header>
+        <lib-diu-angular-header [strAppName]="config.name" [strHome]="'home'" [alerts]="myAlerts" [tokenDecoded]="user" (endSession)="logout()" (changeSidebar)="toggleSidebar($event)"></lib-diu-angular-header>
 
         <div fxLayout="row wrap" *ngIf="isIE">
           <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
@@ -34,7 +34,7 @@
         </div>
 
         <router-outlet><app-spinner></app-spinner></router-outlet>
-        <lib-diu-angular-speed-dial [token]="jwtToken" (errorMessage)="showErrors($event)" (newMFAToken)="updateToken($event)"></lib-diu-angular-speed-dial>
+        <lib-diu-angular-speed-dial [token]="userToken" (errorMessage)="showErrors($event)" (newMFAToken)="updateToken($event)"></lib-diu-angular-speed-dial>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

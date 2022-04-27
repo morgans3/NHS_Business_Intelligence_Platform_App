@@ -1,0 +1,47 @@
+.mat-column-actions {
+  flex: 0 0 192px !important;
+  padding-right: 0px;
+  justify-content: center;
+}
+
+.mat-column-selector {
+  flex: 0 0 30px !important;
+  padding-right: 15px;
+  justify-content: center;
+}
+
+.green-button {
+  color: #00897b;
+}
+
+.green-button [disabled] {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.label-warning {
+  color: black;
+}
+
+.mat-column-extra {
+  flex: 0 0 115px !important;
+  padding-right: 15px;
+  justify-content: center;
+}
+
+.mat-column-risk_score {
+  flex: 0 0 90px !important;
+  padding-right: 15px;
+  justify-content: center;
+}
+.mat-column-rs_frailty_index {
+  flex: 0 0 90px !important;
+  padding-right: 15px;
+  justify-content: center;
+}
+
+.slim {
+  padding-right: 0px !important;
+  margin-right: 5px;
+  padding-left: 0px !important;
+  min-width: auto;
+}

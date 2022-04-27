@@ -1,14 +1,16 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatTable, MatTableDataSource, MatPaginator, MatSort } from "@angular/material";
+import { MatTable, MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+
 import { Store } from "@ngxs/store";
-import { JwtHelper } from "angular2-jwt";
-import { NotificationService } from "../../_services/notification.service";
-import { AuthState } from "../../_states/auth.state";
+import { decodeToken } from "../../../../_pipes/functions";
+import { NotificationService } from "../../../../_services/notification.service";
+import { AuthState } from "../../../../_states/auth.state";
 import { StatCardData } from "../Regional/stat-card.component";
 import { Angular2Csv } from "angular2-csv/Angular2-csv";
 import { ShieldingServices } from "./shielding.services";
-import { SQLApiService } from "../../_services/sqlapi.service";
-import { PatientService } from "../../_services/patient.service";
+import { APIService } from "diu-component-library";
 
 @Component({
   selector: "app-nsss",
@@ -65,12 +67,15 @@ export class NSSSComponent implements OnInit {
     color: "bg-primary",
   };
 
-  constructor(private patientService: PatientService, public store: Store, private notificationService: NotificationService) {
+  constructor(
+    public store: Store,
+    private apiService: APIService,
+    private notificationService: NotificationService
+  ) {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
-      const jwtHelper = new JwtHelper();
-      this.tokenDecoded = jwtHelper.decodeToken(token);
-      this.patientService.getCitizens("5000").subscribe((data: []) => {
+      this.tokenDecoded = decodeToken(token);
+      this.apiService.getCitizens(5000).subscribe((data: []) => {
         this.shieldingList = data;
         this.setData(this.shieldingList);
       });

@@ -1,15 +1,15 @@
 import { Component, ViewChild, ElementRef, OnInit } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
+import { FormControl, Validators } from "@angular/forms";
 import { Store } from "@ngxs/store";
-import { JwtHelper } from "angular2-jwt";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
-import { Cohort } from "../../_models/cohort";
-import { InterfaceService } from "../../_services/interface.service";
-import { AuthState } from "../../_states/auth.state";
-import { subdomain } from "../../../environments/apilinks.local";
-import { NiceResponse } from "../../_models/niceresponse";
-import { DynApiService } from "../../_services/dynapi.service";
+
+import { Cohort, APIService, NiceResponse } from "diu-component-library";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+
+import { AuthState } from "../../../../_states/auth.state";
+import { decodeToken } from "../../../../_pipes/functions";
 declare var window: any;
 
 @Component({
@@ -58,7 +58,6 @@ export class InterventionAssistantComponent implements OnInit {
     { description: "Not Applicable", name: "not_applicable" },
   ];
   response: any;
-  origin: any;
   selected_cohort: string;
   specific_intervention: string;
   selected_type: any;
@@ -75,18 +74,17 @@ export class InterventionAssistantComponent implements OnInit {
   nice_secondary_columns: string[] = ["Title", "Abstract", "EvidenceTypes", "SourceName"];
   nice_primary_columns: string[] = ["Title"];
   //this.selected_type && this.selected_type.name === 'primary'
-  constructor(public http: HttpClient, private cohortService: DynApiService, private store: Store, private interfaceService: InterfaceService) {
-    const parsedUrl = new URL(window.location.href);
-    const origin = parsedUrl.origin;
-    this.origin = origin.replace(subdomain + ".", "") + "/";
-  }
+  constructor(
+    public http: HttpClient, 
+    private store: Store, 
+    private apiService: APIService
+  ) { }
 
   ngOnInit() {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
-      const jwtHelper = new JwtHelper();
-      this.tokenDecoded = jwtHelper.decodeToken(token);
-      this.cohortService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+      this.tokenDecoded = decodeToken(token);
+      this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
         this.cohort_array = res;
       });
     }
@@ -162,7 +160,7 @@ export class InterventionAssistantComponent implements OnInit {
         };
         this.nice_div = false;
         this.loading = true;
-        this.interfaceService.getSearchTop1000(search).subscribe((res) => {
+        this.apiService.searchClinicalTrials(search.search, search.phases, search.min_date.toString()).subscribe((res) => {
           this.loading = false;
           this.get_data(res);
         });
@@ -181,7 +179,7 @@ export class InterventionAssistantComponent implements OnInit {
             });
 
             this.loading = true;
-            this.interfaceService.getNICE(nice_query, "250").subscribe((res: any) => {
+            this.apiService.searchNICEEvidence(nice_query, 250).subscribe((res: any) => {
               const nice_results: NiceResponse = JSON.parse(res.msg);
               const search_results = nice_results.SearchResult.Documents;
 
@@ -194,7 +192,7 @@ export class InterventionAssistantComponent implements OnInit {
         } else {
           nice_query += this.specific_intervention;
           this.loading = true;
-          this.interfaceService.getNICE(nice_query, "250").subscribe((res: any) => {
+          this.apiService.searchNICEEvidence(nice_query, 250).subscribe((res: any) => {
             const nice_results: NiceResponse = JSON.parse(res.msg);
             const search_results = nice_results.SearchResult.Documents;
 

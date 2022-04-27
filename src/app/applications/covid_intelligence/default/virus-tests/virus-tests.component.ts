@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 declare var require: any;
 import * as dcFull from "dc";
 import * as d3 from "d3";
-import crossfilter from "crossfilter2";
+import * as crossfilter from "crossfilter2";
 import { StatCardData } from "../Regional/stat-card.component";
 declare var leafletMarkerChartBubble: any;
 

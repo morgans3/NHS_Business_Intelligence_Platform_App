@@ -1,27 +1,25 @@
 import { Component, OnInit, ElementRef, ViewChild, HostListener } from "@angular/core";
-import { DeprivationColors } from "../../../_models/cohort";
-import { RowChart, BarChart, PieChart, LeafletChoroplethChart, LeafletMarkerChart, HeatMap } from "../../../_models/chart";
-import { MosaicColours, MosaicDomain, MosaicCode } from "../../../_models/mosaiccode";
-import { FeatureCollection } from "../../../_models/features";
-import { collapseAnimations } from "../../../shared/animations";
+import { 
+  DeprivationColors,
+  RowChart, BarChart, PieChart, HeatMap,
+  LeafletChoroplethChart, LeafletMarkerChart, FeatureCollection,
+  MosaicColours, MosaicDomain, MosaicCode, PopulationPerson, APIService
+} from "diu-component-library";
+import { collapseAnimations } from "../../../../../shared/animations";
 import * as dcFull from "dc";
 import * as d3 from "d3";
-import { PopulationPerson } from "../../../_models/population";
 import { Store } from "@ngxs/store";
-import { AuthState } from "../../../_states/auth.state";
-import { MatDialog } from "@angular/material";
+import { AuthState } from "../../../../../_states/auth.state";
+import { MatDialog } from "@angular/material/dialog";
 import { JoyrideService } from "ngx-joyride";
-import { NotificationService } from "../../../_services/notification.service";
+import { NotificationService } from "../../../../../_services/notification.service";
 import { ExpandTextDialogComponent } from "../../../_modals/dialogexpand";
-import { PopulationManagementService } from "../../../_services/populationmanagement";
 declare var leafletChoroplethChart: any;
 declare var leafletLegend: any;
 declare var leafletMarkerChartBubble: any;
 declare var dc: any;
 declare var window: any;
 import { RiskRows, RiskCols, CareModelExamples } from "./RiskRows";
-import { SQLApiService } from "../../../_services/sqlapi.service";
-import { DynApiService } from "../../../_services/dynapi.service";
 
 export class StatCardData {
   title: string;
@@ -209,7 +207,13 @@ export class PopslicerComponent implements OnInit {
     }, 0);
   }
 
-  constructor(public store: Store, private populationService: PopulationManagementService, private referenceService: DynApiService, public dialog: MatDialog, private sqlService: SQLApiService, private readonly joyrideService: JoyrideService, private notificationService: NotificationService) {
+  constructor(
+    public store: Store, 
+    public dialog: MatDialog, 
+    private apiService: APIService, 
+    private readonly joyrideService: JoyrideService, 
+    private notificationService: NotificationService
+  ) {
     this.token = this.store.selectSnapshot(AuthState.getToken);
     const parsedUrl = window.location.href;
     this.origin = parsedUrl.replace("/populationselect", "");
@@ -221,15 +225,15 @@ export class PopslicerComponent implements OnInit {
   ngOnInit() {
     const tooltip_remove = d3.select("mat-sidenav-content").selectAll(".tooltip");
     tooltip_remove.remove();
-    this.referenceService.getMosiacs().subscribe((res: MosaicCode[]) => {
+    this.apiService.getMosiacs().subscribe((res: MosaicCode[]) => {
       this.mosaicCodes = res;
     });
-    this.sqlService.getWards().subscribe((data: FeatureCollection[]) => {
+    this.apiService.getWards().subscribe((data: FeatureCollection[]) => {
       this.wards = data[0];
       this.createEWMap(this.WDimension, this.WDimGroup);
       this.ewChart.render();
     });
-    this.sqlService.getGPPractices().subscribe((data: any[]) => {
+    this.apiService.getGPPractices().subscribe((data: any[]) => {
       this.GPs = data[0];
       this.createGPMap(this.GPDimension, this.GPDimGroup);
       this.gpChart.render();
@@ -237,7 +241,7 @@ export class PopslicerComponent implements OnInit {
     this.keyToolTip = d3.select("mat-sidenav-content").append("div").attr("class", "tooltip").style("opacity", 0);
     this.matrixToolTip = d3.select("mat-sidenav-content").append("div").attr("class", "tooltip").style("opacity", 0);
     this.myDC = dcFull;
-    this.populationService.getCFServer().subscribe((res: any) => {
+    this.apiService.getCFServer().subscribe((res: any) => {
       this.loading = false;
       this.filteredData = res;
       this.totalsize = this.filteredData["all"].values;

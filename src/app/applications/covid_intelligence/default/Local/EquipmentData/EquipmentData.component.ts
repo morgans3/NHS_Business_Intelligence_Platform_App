@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges } from "@angular/core";
-import { EquipmentData } from "../../../_models/Regional";
+import { EquipmentData } from "diu-component-library";
 
 @Component({
   selector: "app-EquipmentData",

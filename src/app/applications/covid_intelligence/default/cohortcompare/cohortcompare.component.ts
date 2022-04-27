@@ -1,18 +1,16 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 import { Store } from "@ngxs/store";
-import { JwtHelper } from "angular2-jwt";
+
 import * as d3 from "d3";
 import * as L from "leaflet";
-import { Cohort } from "../../_models/cohort";
-import { FeatureCollection } from "../../_models/features";
-import { MosaicCode } from "../../_models/mosaiccode";
-import { DynApiService } from "../../_services/dynapi.service";
-import { NotificationService } from "../../_services/notification.service";
-import { PopulationManagementService } from "../../_services/populationmanagement";
-import { ReferenceService } from "../../_services/reference.service";
-import { SQLApiService } from "../../_services/sqlapi.service";
-import { AuthState } from "../../_states/auth.state";
+import { decodeToken } from "../../../../_pipes/functions";
+import { Cohort } from "diu-component-library";
+import { FeatureCollection } from "diu-component-library";
+import { MosaicCode } from "diu-component-library";
+import { APIService } from "diu-component-library";
+import { NotificationService } from "../../../../_services/notification.service";
+import { AuthState } from "../../../../_states/auth.state";
 import { StatCardData } from "../Regional/stat-card.component";
 
 export class CompTableItem {
@@ -86,12 +84,15 @@ export class CohortcompareComponent implements OnInit {
   compTip: any;
   /* #endregion */
 
-  constructor(private cohortService: DynApiService, private store: Store, private populationService: PopulationManagementService, private referenceService: ReferenceService, private notificationService: NotificationService, private sqlService: SQLApiService) {
+  constructor(
+    private store: Store, 
+    private notificationService: NotificationService, 
+    private apiService: APIService
+  ) {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
-      const jwtHelper = new JwtHelper();
-      this.tokenDecoded = jwtHelper.decodeToken(token);
-      this.cohortService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+      this.tokenDecoded = decodeToken(token);
+      this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
         res.forEach((item) => {
           if (item.cohorturl.length < 3) {
             item.cohorturl = "{}";
@@ -106,10 +107,10 @@ export class CohortcompareComponent implements OnInit {
         });
         this.cohortList = res;
       });
-      this.cohortService.getMosiacs().subscribe((res: MosaicCode[]) => {
+      this.apiService.getMosiacs().subscribe((res: MosaicCode[]) => {
         this.mosaicCodes = res;
       });
-      this.sqlService.getWards().subscribe((data: FeatureCollection[]) => {
+      this.apiService.getWards().subscribe((data: FeatureCollection[]) => {
         this.Wards = data[0];
         this.wardNameLookup = [];
         this.Wards.features.forEach((row) => {
@@ -119,7 +120,7 @@ export class CohortcompareComponent implements OnInit {
           });
         });
       });
-      this.sqlService.getGPPractices().subscribe((data: any[]) => {
+      this.apiService.getGPPractices().subscribe((data: any[]) => {
         this.GPPractices = data[0];
         this.gpNameLookup = [];
         this.GPPractices.features.forEach((row) => {
@@ -150,7 +151,7 @@ export class CohortcompareComponent implements OnInit {
   getComparisonData() {
     const baselineCohort = this.group.controls["baseline"].value;
     const comparatorCohort = this.group.controls["comparator"].value;
-    this.populationService.getComparison({ cohorta: baselineCohort, cohortb: comparatorCohort }).subscribe((res: CompResults) => {
+    this.apiService.getCohortComparison({ cohorta: baselineCohort, cohortb: comparatorCohort }).subscribe((res: CompResults) => {
       if (res.details === undefined) {
         this.notificationService.error("No Response from Database. Please refresh page and if the issue persists contact Support.");
         return;

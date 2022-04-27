@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges } from "@angular/core";
-import { BedData } from "../../../_models/Regional";
+import { BedData } from "diu-component-library";
 
 @Component({
   selector: "app-BedData",

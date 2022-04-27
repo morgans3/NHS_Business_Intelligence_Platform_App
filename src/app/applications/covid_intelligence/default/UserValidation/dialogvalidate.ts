@@ -1,10 +1,10 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Component, Inject } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Store } from "@ngxs/store";
-import { AuthService } from "../../_services/auth.service";
-import { NotificationService } from "../../_services/notification.service";
-import { ManualSetAuthTokens } from "../../_states/auth.state";
+import { APIService } from "diu-component-library";
+import { NotificationService } from "../../../../_services/notification.service";
+import { ManualSetAuthTokens } from "../../../../_states/auth.state";
 
 @Component({
   selector: "dialog-validate",
@@ -19,8 +19,8 @@ export class ValidateDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ValidateDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private authService: AuthService,
     private notificationService: NotificationService,
+    private apiService: APIService,
     private store: Store
   ) {}
 
@@ -30,7 +30,7 @@ export class ValidateDialogComponent {
 
   confirm() {
     this.errorMessage = null;
-    this.authService
+    this.apiService
       .validateMFA(this.myForm.controls["authcode"].value)
       .subscribe((data: any) => {
         if (data.status === 200) {
@@ -53,7 +53,7 @@ export class ValidateDialogComponent {
   }
 
   removeMFA() {
-    this.authService.unregisterMFA().subscribe((data: any) => {
+    this.apiService.unregisterMFA().subscribe((data: any) => {
       if (data && data.status && data.status !== 401) {
         this.dialogRef.close();
         this.notificationService.info("MFA method removed.");

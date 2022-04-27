@@ -1,13 +1,13 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Component, Inject } from "@angular/core";
-import { TeamMembers, Team } from "../../_models/ModelOrganisation";
+import { iTeamMembers, iTeam } from "diu-component-library";
 
 export class ConfirmText {
   title: string;
   text: string;
   response = {};
-  teams?: TeamMembers[];
-  teamlist?: Team[];
+  teams?: iTeamMembers[];
+  teamlist?: iTeam[];
 }
 
 @Component({

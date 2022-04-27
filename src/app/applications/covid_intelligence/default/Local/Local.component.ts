@@ -3,10 +3,10 @@ import {
   BedData,
   TestData,
   MortalityData,
-  EquipmentData
-} from "../../_models/Regional";
-import { InpatientsGpsummary } from "../../_models/GPInpatient";
-import { InterfaceService } from "../../_services/interface.service";
+  EquipmentData,
+  InpatientsGpsummary,
+  APIService
+} from "diu-component-library";
 
 const TRUSTS = [
   "Blackpool Teaching Hospitals",
@@ -38,7 +38,7 @@ export class LocalComponent {
   bthInpatients: InpatientsGpsummary[];
   bedsChecked = false;
 
-  constructor(private interfaceService: InterfaceService) {
+  constructor(private apiService: APIService) {
     TRUSTS.forEach(trust => {
       this.bedSource.push({
         name: trust,
@@ -71,12 +71,12 @@ export class LocalComponent {
   }
 
   getBTHData() {
-    this.interfaceService
+    this.apiService
       .authenticate()
       .subscribe((response: { success: boolean; msg: any }) => {
         if (response.success) {
           this.bthToken = response.msg.token;
-          this.interfaceService
+          this.apiService
             .inpatientGPSummary(this.bthToken)
             .subscribe((res: { success: boolean; msg: any }) => {
               if (res.success && res.msg.length > 0) {

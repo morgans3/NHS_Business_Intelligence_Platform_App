@@ -1,11 +1,10 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Store } from "@ngxs/store";
-import { InterfaceService } from "../../../_services/interface.service";
-import { NotificationService } from "../../../_services/notification.service";
-import { AuthState } from "../../../_states/auth.state";
-import { JwtHelper } from "angular2-jwt";
-import { environment } from "../../../../environments/environment";
+import { NotificationService } from "../../../../../_services/notification.service";
+import { AuthState } from "../../../../../_states/auth.state";
+import { decodeToken } from "src/app/_pipes/functions";
+import { APIService } from "diu-component-library";
 
 @Component({
   selector: "app-lpresviewer",
@@ -23,11 +22,15 @@ export class LpresviewerComponent implements OnInit {
   secondname: string = "";
   hideLPRES = true;
 
-  constructor(private sanitizer: DomSanitizer, private notificationService: NotificationService, private interfaceService: InterfaceService, public store: Store) {
+  constructor(
+    private sanitizer: DomSanitizer, 
+    private notificationService: NotificationService,
+    private apiService: APIService,
+    public store: Store
+  ) {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
-      const jwtHelper = new JwtHelper();
-      this.tokenDecoded = jwtHelper.decodeToken(token);
+      this.tokenDecoded = decodeToken(token);
       this.username = this.tokenDecoded.username;
       const namearray = this.tokenDecoded.name.split(" ");
       this.secondname = namearray[1] || "";
@@ -58,7 +61,7 @@ export class LpresviewerComponent implements OnInit {
   }
 
   getSSK() {
-    this.interfaceService.getLPRESValidationKey(this.nhsnumber).subscribe((res: any) => {
+    this.apiService.getLPRESViewerValidationKey(this.nhsnumber).subscribe((res: any) => {
       if (res.success) {
         this.endpointRes = res.token;
       }
@@ -66,7 +69,7 @@ export class LpresviewerComponent implements OnInit {
   }
 
   selectLPRESRole() {
-    if (environment.admins.includes(this.tokenDecoded.email)) return "Developer";
+    if (["stewart.morgan@nhs.net", "jonathan.peters1@nhs.net"].includes(this.tokenDecoded.email)) return "Developer";
     this.tokenDecoded.roles.forEach((roles) => {
       if (roles["lpres_role"]) return roles["lpres_role"];
       if (roles["populationjoined_ccg_code"]) return "Clinical";
