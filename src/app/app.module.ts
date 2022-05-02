@@ -1,5 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { ErrorHandler, NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { CommonModule, LocationStrategy, PathLocationStrategy } from "@angular/common";
@@ -31,13 +31,13 @@ import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { MAT_DATE_LOCALE } from "@angular/material/core";
 import { NgxTwitterTimelineModule } from "ngx-twitter-timeline";
 import { SharedModule } from "./shared/shared.module";
-
 import { NotificationService } from "./_services/notification.service";
 import { DIUServicesModule } from "diu-component-library";
 import { PostcodeService } from "./_services/postcodes.service";
 import { StorageService } from "./_services/storage.service";
 import { FullmapComponent } from "./layouts/fullmap/fullmap.component";
 import { environment } from "src/environments/environment";
+import { CwrErrorHandler } from "./cwr-error-handler";
 
 @NgModule({
   declarations: [AppComponent, FullComponent, FullmapComponent, SpinnerComponent, FormLayoutComponent, SupportLayoutComponent, SupportLayoutSidebarComponent],
@@ -95,6 +95,10 @@ import { environment } from "src/environments/environment";
     DIUServicesModule,
     { provide: "environment", useValue: environment },
     NotificationService,
+    {
+      provide: ErrorHandler,
+      useClass: CwrErrorHandler,
+    },
   ],
   bootstrap: [AppComponent],
 })
