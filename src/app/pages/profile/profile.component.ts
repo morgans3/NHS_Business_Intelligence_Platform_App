@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 
 //@ts-ignore
 import * as d3 from "d3";
@@ -8,6 +8,7 @@ import { iFullUser, iUserDetails, APIService } from "diu-component-library";
 import { AuthState } from "../../_states/auth.state";
 import { NotificationService } from "../../_services/notification.service";
 import { decodeToken, generateID } from "../../_pipes/functions";
+declare function cwr(operation: string, payload: any): void;
 
 @Component({
   selector: "app-profile",
@@ -20,7 +21,7 @@ export class ProfileComponent implements OnInit {
   userDecodedToken: any;
   selectedtab: any;
 
-  constructor(public store: Store, private usergroupService: APIService, private notificationService: NotificationService, private route: ActivatedRoute) {
+  constructor(public store: Store, private usergroupService: APIService, private notificationService: NotificationService, private route: ActivatedRoute, private router: Router) {
     //Get jwt token
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
@@ -29,6 +30,12 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        cwr("recordPageView", this.router.url);
+      }
+    });
+
     //Remove tooltip from the dashboar page
     const tooltip_remove = d3.select("mat-sidenav-content").selectAll(".tooltip");
     tooltip_remove.remove();

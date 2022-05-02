@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { APIService } from "diu-component-library";
+declare function cwr(operation: string, payload: any): void;
 
 @Component({
   selector: "app-user",
@@ -20,9 +21,15 @@ export class UserComponent implements OnInit {
   //Option lists
   teams = [];
 
-  constructor(private activatedRoute: ActivatedRoute, private apiService: APIService) {}
+  constructor(private activatedRoute: ActivatedRoute, private apiService: APIService, private router: Router) {}
 
   ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        cwr("recordPageView", this.router.url);
+      }
+    });
+
     this.activatedRoute.params.subscribe((params) => {
       //Get user's details
       this.apiService.getUserProfileByUsername(params.username).subscribe((user) => {

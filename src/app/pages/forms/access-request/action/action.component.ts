@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { NotificationService } from "../../../../_services/notification.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { APIService } from "diu-component-library";
+declare function cwr(operation: string, payload: any): void;
 
 @Component({
   selector: "app-access-request-action",
@@ -12,9 +13,14 @@ export class AccessRequestActionFormComponent implements OnInit {
   request: any = {};
   action = "approve";
 
-  constructor(private activatedRoute: ActivatedRoute, private notificationService: NotificationService, private apiService: APIService) {}
+  constructor(private activatedRoute: ActivatedRoute, private notificationService: NotificationService, private apiService: APIService, private router: Router) {}
 
   ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        cwr("recordPageView", this.router.url);
+      }
+    });
     //Listen for request id
     this.activatedRoute.queryParams.subscribe((params) => {
       //Set parent request id

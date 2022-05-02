@@ -2,6 +2,7 @@ import { Component, OnChanges, SimpleChanges } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { APIService } from "diu-component-library";
 import { iAppConfig, iPageConfig } from "../../layouts/full/full.component";
+declare function cwr(operation: string, payload: any): void;
 
 @Component({
   selector: "app-dynamic",
@@ -15,6 +16,7 @@ export class DynamicComponent implements OnChanges {
   constructor(private router: Router, private apiService: APIService) {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
+        cwr("recordPageView", this.router.url);
         this.location = this.getLocation();
 
         if (this.location === "") {
