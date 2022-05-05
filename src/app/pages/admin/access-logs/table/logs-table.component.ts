@@ -26,7 +26,7 @@ export class AccessLogsTableComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog, 
-    private authService: MFAAuthService,
+    private apiService: APIService,
     private activatedRoute: ActivatedRoute
   ) {}
 
@@ -49,19 +49,19 @@ export class AccessLogsTableComponent implements OnInit {
         if (startItem) { this.filters.pageKey = JSON.stringify({ date: startItem.date, uuid: startItem.uuid }); }
 
         //Get by date
-        dataObservable = this.authService.getAccessLogs({ date: this.filters.date.format('YYYY-MM-DD'), pageKey: this.filters.pageKey });
+        dataObservable = this.apiService.getAllAccessLogs(this.filters.date.format('YYYY-MM-DD'), this.filters.pageKey);
     } else if (this.filters.query_by == 'user') {
         //Set page key?
         if (startItem) { this.filters.pageKey = JSON.stringify({ date: startItem.date, uuid: startItem.uuid, "username#org": startItem['username#org'] }); }
 
         //Get by user
-        dataObservable = this.authService.getAccessLogsByUser(this.filters.user, { pageKey: this.filters.pageKey });
+        dataObservable = this.apiService.getAllAccessLogsByUser(this.filters.user, null, this.filters.pageKey);
     } else {
         //Set page key?
         if (startItem) { this.filters.pageKey = JSON.stringify({ date: startItem.date, uuid: startItem.uuid, type: startItem.type }); }
 
         //Get by type
-        dataObservable = this.authService.getAccessLogs({ type: this.filters.type, pageKey: this.filters.pageKey });
+        dataObservable = this.apiService.getAllAccessLogs(null, this.filters.type, this.filters.pageKey);
     }
 
     dataObservable.subscribe((data: any) => {

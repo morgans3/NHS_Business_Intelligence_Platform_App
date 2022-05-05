@@ -56,10 +56,10 @@ export class AccessLogsChartComponent implements OnInit {
     ];
 
     //Get stats
-    this.authService.getAccessLogStatistics({
-        date_from: this.date.from.format('YYYY-MM-DD'),
-        date_to: this.date.to.format('YYYY-MM-DD'),
-    }).subscribe((statistics: any) => {
+    this.apiService.getAllAccessLogsStatistics(
+      this.date.from.format('YYYY-MM-DD'),
+      this.date.to.format('YYYY-MM-DD'),
+    ).subscribe((statistics: any) => {
         //Update chart data
         this.chart.data.labels = statistics.periods;
         this.chart.data.datasets = statistics.data.map((type) => {
