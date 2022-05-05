@@ -50,6 +50,12 @@ export const AppRoutes: Routes = [
         loadChildren: () => import("./applications/covid_intelligence/default/default.module").then((m) => m.DefaultModule)
       },
       {
+        path: "population-health",
+        component: FullComponent,
+        data: { layout_config: { id: "Population_Health" }},
+        loadChildren: () => import("./applications/population_health/default.module").then((m) => m.DefaultModule)
+      },
+      {
         path: "**",
         component: FullComponent,
         loadChildren: () => import("./pages/dynamic/dynamic.module").then((m) => m.DynamicPageModule),

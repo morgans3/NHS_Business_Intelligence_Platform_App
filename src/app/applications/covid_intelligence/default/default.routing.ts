@@ -2,8 +2,6 @@ import { Routes } from "@angular/router";
 import { AdminComponent } from "./Admin/Admin.component";
 import { LandingComponent } from "./Landing/Landing.component";
 import { DisplayReportComponent } from "./DisplayReport/DisplayReport.component";
-import { GlobalComponent } from "./Global/Global.component";
-import { PHEComponent } from "./PHE/PHE.component";
 import { RegionalComponent } from "./Regional/Regional.component";
 import { LocalComponent } from "./Local/Local.component";
 import { ModellingComponent } from "./Modelling/Modelling.component";
@@ -41,14 +39,6 @@ export const DefaultRoutes: Routes = [
     component: ModellingComponent,
   },
   { path: "report/:id", component: DisplayReportComponent },
-  {
-    path: "global",
-    component: GlobalComponent,
-  },
-  {
-    path: "phe_dashboard",
-    component: PHEComponent,
-  },
   { path: "population-list", component: PatientListComponent },
   { path: "person", component: PatientComponent, canActivate: [PidGuard] },
   {

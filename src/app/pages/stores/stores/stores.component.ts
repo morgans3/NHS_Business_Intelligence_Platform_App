@@ -16,9 +16,9 @@ export class StoresComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.apiService.getPayloadById(this.switchFromPathToDBID(this.context)).subscribe((data: any) => {
-      if (data && data.length > 0) {
-        this.storeConfig = data[0].config;
+    this.apiService.getPayloadById(this.switchFromPathToDBID(this.context)).subscribe((payload: any) => {
+      if (payload) {
+        this.storeConfig = payload.config;
       }
     });
   }

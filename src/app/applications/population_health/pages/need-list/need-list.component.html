@@ -1,0 +1,322 @@
+<div joyrideStep="needs0" stepPosition="center" title="Modelled Needs Overview" text="Modelled Needs uses machine learning to predict patient outcomes.
+        You can choose to predict on four types of things: long-term condition (
+        e.g. Asthma, Depression, etc); patient hospital cost; patient
+        attendances (inpatient/outpatient/A&E); or a specific cohort (e.g.
+        females aged 60 - 100 with a risk score above 10%). Two types of machine
+        learning models are used, depending upon what you want to predict: a
+        logistic regression model (for binary outcomes such as diabetes/no diabetes),
+        or a gradient-boosted poisson regression model (for count outcomes such
+        as patient cost at hospital).">
+</div>
+
+<div joyrideStep="needs1" stepPosition="center" title="Modelled Needs Use" text="This tool can be used to assess different areas (e.g. GP Practice,
+  Electoral Ward, PCN) on long-term condition diagnosis numbers, hospital
+  attendances, and hospital costs. By comparing predicted values with observed
+  values by area, areas which could benefit from interventions or areas with
+  successful current programmes can easily be highlighted.">
+</div>
+
+
+<div fxLayout="row wrap">
+  <div fxFlex.gt-xs="45" fxFlex-xs="100" joyrideStep="needs2" stepPosition="bottom center" title="Model Variables" text="Here you can choose from three lists of variables to define your
+             model.
+             Response variables are the variables you want to predict,
+             Predictor variables are variables you think will affect that
+             prediction,
+             and Area Group is an area level you want to aggregate by, to
+             highlight which areas are performing well or could benefit from an
+             intervention.">
+    <mat-card>
+      <mat-card-content>
+        <h1>
+          Choose Model Variables
+          &nbsp;
+          <button mat-icon-button color="primary" (click)="showGuide()" title="Modelled Needs Guide" style="top: -12px">
+            <mat-icon>info</mat-icon>
+          </button>
+        </h1>
+
+        <!--- Variables to be passed to the logistic regression model --->
+        <div fxLayoutAlign="row wrap" joyrideStep="needs6" stepPosition="bottom center" title="Selected Variables" text="The variables you have selected for use in the model will appear
+              here. Variables can either be dragged into this box, or selected
+              by clicking the '+' icon.">
+          <!--- Long-term condition used (predicted variable) --->
+          <div fxFlex.gt-xs="33" fxFlex-xs="100" class="borderbottom bg-greenborder">
+            <h4 style="margin-bottom: 0px;">Response Variable(s)</h4>
+
+            <div cdkDropList #use_responseList="cdkDropList" [cdkDropListData]="use_response"
+              [cdkDropListConnectedTo]="[response_variableList]" class="drag-drop-list bg-greenhover"
+              cdkDropListSortingDisabled (cdkDropListDropped)="n_drop($event, 'Response Variable(s)', 2)">
+              <div class="box" *ngFor="let item of use_response; let i = index" cdkDrag>{{item}}
+                <div class="example-handle" (click)="use_response.splice(i, 1); response_variable.push(item);">
+                  <mat-icon>clear</mat-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--- Predictor variables used --->
+          <div fxFlex.gt-xs="34" fxFlex-xs="100" class="borderbottom bg-greenborder">
+            <h4 style="margin-bottom: 0px;">Predictor Variables</h4>
+
+            <div cdkDropList #use_predictList="cdkDropList" [cdkDropListData]="use_predict"
+              [cdkDropListConnectedTo]="[predictorsList, response_variableList]" class="drag-drop-list bg-purplehover"
+              (cdkDropListDropped)="drop($event)">
+              <div class="box" *ngFor="let item of use_predict; let i = index" cdkDrag>
+                {{item}}
+                <div class="example-handle" (click)="use_predict.splice(i, 1); predictors.push(item);">
+                  <mat-icon>clear</mat-icon>
+                </div>
+              </div>
+            </div>
+            <div class="borderbottom bg-purpleborder" style="margin-bottom:1px"></div>
+          </div>
+
+          <!--- Area level used (aggregate level) --->
+          <div fxFlex.gt-xs="33" fxFlex-xs="100" class="borderbottom bg-blueborder">
+            <h4 style="margin-bottom: 0px;">Area Grouping</h4>
+
+            <div cdkDropList #use_areaList="cdkDropList" [cdkDropListData]="use_area"
+              [cdkDropListConnectedTo]="[areaList]" class="drag-drop-list bg-bluehover"
+              (cdkDropListDropped)="n_drop($event, 'Area Grouping', 1)">
+              <div class="box" *ngFor="let item of use_area; let i = index" cdkDrag>{{item}}
+                <div class="example-handle" (click)="use_area.splice(i, 1); area.push(item);">
+                  <mat-icon>clear</mat-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--- Send API call to get run R model --->
+        </div>
+
+        <button mat-raised-button color="primary" style="width:100%; margin-top:5px" (click)="minDataset(); send_api();"
+          [disabled]="minData"> Run
+          Model</button>
+
+        <!--- All variables which can be used in the logistic regression model --->
+        <div>
+          <h4 style="margin-bottom: 5px;"> Select From Variables </h4>
+          <div fxLayoutAlign="row wrap">
+            <!--- List of response variables --->
+            <div fxFlex.gt-xs="33" fxFlex-xs="100" joyrideStep="needs3" stepPosition="bottom center"
+              title="Model Response Variable(s)" text="Response Variables are the variables we are trying to predict.
+                  For example, selecting 'Asthma' will mean that the model will
+                  calculate every patient's probability of having asthma.
+                  Selecting 'Asthma' and 'Total Medical Cost [£]' will mean
+                  that the model will find each patient with asthma and estimate
+                  their total secondary care cost.">
+              <mat-expansion-panel style="margin:4px">
+                <mat-expansion-panel-header class="bg-greenborder">
+                  <mat-panel-title>
+                    <h5> Response Variables </h5>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div cdkDropList #response_variableList="cdkDropList" [cdkDropListData]="response_variable"
+                  [cdkDropListConnectedTo]="[use_responseList, use_predictList]" class="drag-drop-list bg-greenhover"
+                  (cdkDropListDropped)="drop($event)">
+                  <div class="box" *ngFor="let item of response_variable; let i = index" cdkDrag>
+                    {{item}}
+                    <div class="example-handle"
+                      (click)="response_variable.splice(i, 1); use_response.push(item); allow_model();">
+                      <mat-icon>add</mat-icon>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </div>
+
+            <!--- List of predictor variables --->
+            <div fxFlex.gt-xs="33" fxFlex-xs="100" joyrideStep="needs4" stepPosition="bottom center"
+              title="Model Predictor Variable(s)" text="Predictor Variables are variables we think will affect our
+                  prediction (i.e. response variable). For example, if you are
+                  predicting 'Dementia', you could use predictor variables of
+                  'Age' and 'Sex', as higher proportions of patients with
+                  dementia are found in females than males, and similarly
+                  dementia rates increase with age.
+                  Dementia prevalence has also found to be higher in more
+                  deprived areas, so if you wanted to account for area patient
+                  deprivation, then you could include 'Deprivation Decile' as a
+                  predictor variable to account for this.">
+              <mat-expansion-panel style="margin:4px">
+                <mat-expansion-panel-header class="bg-purpleborder">
+                  <mat-panel-title>
+                    <h5>Predictor Variables</h5>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div cdkDropList #predictorsList="cdkDropList" [cdkDropListData]="predictors"
+                  [cdkDropListConnectedTo]="[use_predictList]" class="drag-drop-list bg-purplehover"
+                  (cdkDropListDropped)="drop($event)">
+                  <div class="box" *ngFor="let item of predictors; let i = index" cdkDrag>
+                    {{item}}
+                    <div class="example-handle"
+                      (click)="predictors.splice(i, 1); use_predict.push(item); allow_model();">
+                      <mat-icon>add</mat-icon>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </div>
+
+            <!--- List of area (aggregate) levels --->
+            <div fxFlex.gt-xs="33" fxFlex-xs="100" joyrideStep="needs5" stepPosition="left" title="Area Grouping" text="The machine learning model runs on patient-level data,
+              meaning that for each patient a prediction is produced. Here, you
+              can choose how to add up the predictions, to estimate the expected
+              rates by area.
+              For example, if you wanted to find an electoral ward which was
+              resulting in abnormally high levels of secondary care spend then
+              you would select 'Ward' here. The model will predict the amount of
+              spend per patient, and then add up the costs in each electoral
+              ward. This can then be compared to the actual cost, and areas
+              with significant overspending can be examined further.">
+              <mat-expansion-panel style="margin:4px">
+                <mat-expansion-panel-header class="bg-blueborder">
+                  <mat-panel-title>
+                    <h5>Area Group</h5>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div cdkDropList #areaList="cdkDropList" [cdkDropListData]="area"
+                  [cdkDropListConnectedTo]="[use_areaList]" class="drag-drop-list" (cdkDropListDropped)="drop($event)">
+                  <div class="box" *ngFor="let item of area; let i = index" cdkDrag>
+                    {{item}}
+                    <div class="example-handle" (click)="area.splice(i, 1); use_area.push(item); allow_model();">
+                      <mat-icon>add</mat-icon>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div joyrideStep="needs9" stepPosition="right" title="Filter Area" text="Here you can filter to a specific CCG. By default, all available CCGs are selected.">
+          <mat-form-field>
+            <mat-select placeholder="Filter Area" [(ngModel)]="selected_ccg" name="item" [disabled]="disable_training()"
+              multiple>
+              <mat-option *ngFor="let item of ccg_list" [value]="item">
+                {{ item }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div joyrideStep="needs10" stepPosition="right" title="Choose Training Area" text="The machine learning models used here learn to spot patterns based upon a 'training dataset'. By default, this is set to be the entire dataset, but here you can specify a smaller subset which you wish to use to train your machine learning models. For example, selecting 'Blackpool South' will train the model based upon patients within this area, and will then predict outcomes for the total population based upon what is has learned from Blackpool South patients.">
+          <mat-form-field>
+            <mat-select placeholder="Choose Training Area" [(ngModel)]="selected_training" name="item">
+              <mat-option> All Areas </mat-option>
+              <mat-optgroup *ngFor="let group of training_groups" [label]="group.name" [disabled]="group.disabled">
+                <mat-option *ngFor="let item of group.area" [value]="item">
+                  {{ item }}
+                </mat-option>
+              </mat-optgroup>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxFlex.gt-xs="50" fxFlex-xs="100" joyrideStep="needs7" stepPosition="left" title="Model Comparison Plot" text="Here a comparison plot for the aggregated model predictions vs observed
+      values is shown. For example, if you selected a response variable of
+      'AE Attendances' and area grouping of 'GP Practice', then the ratio of
+      observed and expected A&E attendances for each GP practice is shown here.
+      Signficantly different areas are highlighed in purple, and 95% confidence
+      intervals are shown via error bars.
+      You can order the chart by area name (alphabetical), observed-to-expected
+      ratio, and significance (with most significant at the top).">
+    <mat-card>
+      <mat-card-content>
+        <!--- Container to keep plots in --->
+        <div #div_template id="div_template">
+          <button mat-raised-button [color]="sortMethod === 'name' ? 'default' : 'primary'"
+            (click)="sort_by_method('name')">Sort by Area Name</button>
+          &nbsp;
+          <button mat-raised-button [color]="sortMethod === 'ratio' ? 'default' : 'primary'"
+            (click)="sort_by_method('ratio')">Sort by Ratio</button>
+          &nbsp;
+          <button mat-raised-button [color]="sortMethod === 'significance' ? 'default' : 'primary'"
+            (click)="sort_by_method('significance')">Sort by
+            Significance</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>
+
+<!--- Container to keep advanced diagnostics in --->
+<div joyrideStep="needs8" stepPosition="top center" title="Advanced Diagnostics Tab" text="If you want to assess the accuracy of your model post-run, then
+    some diagnostics are displayed here.
+    If your model was either a long-term condition or cohort, then ROC
+    curve/precision-recall curve and variable importance plots are shown here.
+    If your model was the number of IP/OP/A&E attendances or Total Cost, then
+    a observed/predicted frequency plot and observed/predicted scatter plot are
+    shown here.">
+  <mat-card>
+    <mat-card-content>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h4>Advanced Diagnostics</h4>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="ltcDiv">
+          <button mat-raised-button [color]="sortMethod === 'name' ? 'default' : 'primary'"
+            (click)="plot_logistic_diagnostics()">
+            Plot ROC Curve
+          </button>
+          &nbsp;
+          <button mat-raised-button [color]="sortMethod === 'name' ? 'default' : 'primary'"
+            (click)="plot_logistic_diagnostics('PR')">
+            Plot Precision-Recall Curve
+          </button>
+          <div class="plot-container">
+            <div #dummy_div id="dummy_div" style="width: 0%; float: left;">
+            </div>
+            <div #diagnostic_div id="diagnostic_div" style="width: 50%; float: left;">
+            </div>
+            <div #variable_importance_div id="variable_importance_div" style="margin: auto; margin-left: 50%;">
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!ltcDiv">
+          <button *ngIf="log_scale" mat-raised-button [color]="sortMethod === 'name' ? 'default' : 'primary'"
+            (click)="plot_count_diagnostics()">
+            Plot Linear-Scale Histogram
+          </button>
+          <button *ngIf="!log_scale" mat-raised-button [color]="sortMethod === 'name' ? 'default' : 'primary'"
+            (click)="plot_count_diagnostics('log')">
+            Plot Log-Scale Histogram
+          </button>
+          <div class="plot-container">
+            <div #dummy_div id="dummy_div" style="width: 0%; float: left;">
+            </div>
+            <div #count_diagnostic_div id="count_diagnostic_div" style="width: 50%; float: left;">
+            </div>
+            <div #scatterplot_div id="scatterplot_div" style="margin: auto; margin-left: 50%;">
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!--- Copied & Pasted loading spinner overlay during the API call--->
+<div *ngIf="loading | async" class="overlay">
+  <div class="overlay-text"> Running Model... </div>
+  <div id="loader">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="loading"></div>
+  </div>
+</div>

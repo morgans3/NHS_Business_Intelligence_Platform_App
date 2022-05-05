@@ -50,9 +50,9 @@ export class DynamicComponent implements OnChanges {
 
   getPage(currentpage: string) {
     this.pageConfig = undefined;
-    this.apiService.getPayloadById(currentpage).subscribe((data: any) => {
-      if (data && data.length > 0) {
-        const thisPage = data[0];
+    this.apiService.getPayloadById(currentpage).subscribe((payload: any) => {
+      if (payload) {
+        const thisPage = payload;
         this.constructPage(thisPage);
       }
     });
@@ -64,9 +64,9 @@ export class DynamicComponent implements OnChanges {
     if (configuration.children) {
       this.pageConfig.children = [];
       configuration.children.forEach((child: any) => {
-        this.apiService.getPayloadById(child.id).subscribe((data: any) => {
-          if (data && data.length > 0) {
-            const thisChild = data[0];
+        this.apiService.getPayloadById(child.id).subscribe((payload: any) => {
+          if (payload) {
+            const thisChild = payload;
             this.pageConfig!.children.push(thisChild);
             this.sortChildren();
           }

@@ -5,13 +5,14 @@ import { Store } from "@ngxs/store";
 import * as d3 from "d3";
 import * as L from "leaflet";
 import { decodeToken } from "../../../../_pipes/functions";
-import { Cohort } from "diu-component-library";
+import { Cohort, PopulationManagementService } from "diu-component-library";
 import { FeatureCollection } from "diu-component-library";
 import { MosaicCode } from "diu-component-library";
 import { APIService } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
 import { AuthState } from "../../../../_states/auth.state";
 import { StatCardData } from "../Regional/stat-card.component";
+import { CviCohortService } from "../../_services/cvicohort-service";
 
 export class CompTableItem {
   chart: string;
@@ -87,12 +88,14 @@ export class CohortcompareComponent implements OnInit {
   constructor(
     private store: Store, 
     private notificationService: NotificationService, 
+    private populationManagementService: PopulationManagementService,
+    private cviCohortsService: CviCohortService,
     private apiService: APIService
   ) {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
       this.tokenDecoded = decodeToken(token);
-      this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+      this.cviCohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
         res.forEach((item) => {
           if (item.cohorturl.length < 3) {
             item.cohorturl = "{}";
@@ -151,7 +154,7 @@ export class CohortcompareComponent implements OnInit {
   getComparisonData() {
     const baselineCohort = this.group.controls["baseline"].value;
     const comparatorCohort = this.group.controls["comparator"].value;
-    this.apiService.getCohortComparison({ cohorta: baselineCohort, cohortb: comparatorCohort }).subscribe((res: CompResults) => {
+    this.populationManagementService.getComparison({ cohorta: baselineCohort, cohortb: comparatorCohort }).subscribe((res: CompResults) => {
       if (res.details === undefined) {
         this.notificationService.error("No Response from Database. Please refresh page and if the issue persists contact Support.");
         return;

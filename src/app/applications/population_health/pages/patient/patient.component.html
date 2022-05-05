@@ -1,0 +1,132 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <button mat-fab type="button" color="primary" title="Back to Population List" (click)="returnToList()">
+      <mat-icon>reply</mat-icon>
+    </button>
+  </div>
+</div>
+
+<mat-card>
+  <mat-card-content>
+    <div fxLayout="row wrap">
+      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
+        <mat-card-title>Information about this Person</mat-card-title>
+      </div>
+    </div>
+
+    <hr />
+
+    <div fxLayout="row wrap" *ngIf="!dataFetched">
+      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
+        <mat-spinner [diameter]="60"></mat-spinner>
+      </div>
+    </div>
+
+    <div fxLayout="row wrap" *ngIf="dataFetched">
+      <div fxFlex.gt-sm="40" fxFlex.gt-xs="100" fxFlex="100">
+        <table style="width: 100%; padding-left: 5px; padding-right: 5px;">
+          <tr>
+            <td colspan="2" style="border-bottom: 1px solid darkslategrey;">Demographics</td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td>##########</td>
+          </tr>
+          <tr>
+            <td>NHS Number</td>
+            <td>#### ### ###</td>
+          </tr>
+          <tr>
+            <td>Gender</td>
+            <td>##########</td>
+          </tr>
+          <tr>
+            <td>Age</td>
+            <td>##</td>
+          </tr>
+          <tr>
+            <td>GP Surgery</td>
+            <td>##########</td>
+          </tr>
+          <tr>
+            <td>Electoral Ward</td>
+            <td>##########</td>
+          </tr>
+        </table>
+      </div>
+
+      <div fxFlex.gt-sm="30" fxFlex.gt-xs="100" fxFlex="100">
+        <table style="width: 100%; padding-left: 5px; padding-right: 5px;">
+          <tr>
+            <td colspan="2" style="border-bottom: 1px solid darkslategrey">LTCs</td>
+          </tr>
+          <tr>
+            <td>COPD</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Depression</td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+
+      <div fxFlex.gt-sm="30" fxFlex.gt-xs="100" fxFlex="100">
+        <table style="width: 100%; padding-left: 5px; padding-right: 5px;">
+          <tr>
+            <td colspan="2" style="border-bottom: 1px solid darkslategrey">Other Information</td>
+          </tr>
+          <tr>
+            <td>CPM Risk</td>
+            <td># % (x Percentile)</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<app-theograph></app-theograph>
+
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="30" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content fxLayoutAlign="center center">
+        <div id="mosaicTile">Loading...</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxFlex.gt-sm="70" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        Geo Segmentation Information (and link through to Pin-in-GSI)
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!-- <div fxFlex.gt-sm="70" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        Housing Information
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<mat-card>
+  <mat-card-content style="padding: 12px;">
+    <app-crime-information [lat]="inputLat" [lng]="inputLng"></app-crime-information>
+  </mat-card-content>
+</mat-card>
+
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        Local Asset Information
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div> -->

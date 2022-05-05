@@ -1,0 +1,190 @@
+<mat-card>
+  <mat-card-content>
+    <div>
+      <mat-form-field fxFlex.gt-xs="100" fxFlex-xs="100" fxFlexOffset="1">
+        <mat-select [formControl]="intervention_control" placeholder="Select Intervention Type"
+          [(ngModel)]="selected_type" name="item" required>
+          <mat-option *ngFor="let item of intervention_types" [value]="item">
+            {{ item.description }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field fxFlex.gt-xs="50" fxFlex-xs="100" fxFlexOffset="1">
+        <mat-select [formControl]="cohort_control" placeholder="Select Cohort to Search" [(ngModel)]="selected_cohort"
+          name="item" [required]="! this.specific_intervention || this.specific_intervention == ''" [disabled]="
+            (this.selected_type && this.selected_type.name === 'secondary') ?
+              false :
+              (
+                this.specific_intervention !== '' &&
+                this.specific_intervention
+              )">
+          <mat-option *ngFor="let item of cohort_array" [value]="item.cohortName">
+            {{ item.cohortName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field fxFlex.gt-xs="25" fxFlex-xs="100" fxFlexOffset="1">
+        <mat-select placeholder="Select Trial Phase" [formControl]="phase_control"
+          [disabled]="this.selected_type && this.selected_type.name !== 'secondary'" [(ngModel)]="selected_phase"
+          multiple>
+          <mat-option *ngFor="let item of phases" [value]="item.name">
+            {{ item.description }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field fxFlex.gt-xs="25" fxFlex-xs="100" fxFlexOffset="1">
+        <input matInput placeholder="Search The Past ... Years"
+          [disabled]="this.selected_type && this.selected_type.name !== 'secondary'" [(ngModel)]="selected_years"
+          type="number">
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="this.selected_type && this.selected_type.name !== 'secondary'">
+      <mat-form-field fxFlex.gt-xs="100" fxFlex-xs="100" fxFlexOffset="1">
+        <mat-label>Search Intervention</mat-label>
+        <input matInput placeholder="Search For Specific Interventions or Conditions"
+          [(ngModel)]="specific_intervention" [formControl]="cohort_search_control" [required]="!this.selected_cohort">
+      </mat-form-field>
+    </div>
+
+    <button mat-raised-button type="button" color="primary" style="width:100%; margin-top:5px" (click)="send_api();"
+      [disabled]="intervention_control.hasError('required') ||
+        ( cohort_control.hasError('required') &&
+          cohort_search_control.hasError('required')
+        )">
+      Search Interventions
+    </button>
+
+    <button mat-raised-button type="button" color="accent" style="width:100%; margin-top:5px"
+      (click)="this.reset_intervention_list();">
+      Reset Fields
+    </button>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-content>
+    <mat-spinner mode="indeterminate" *ngIf="loading" diameter="30"></mat-spinner>
+    <div class="bg-light p-10 p-r-20 p-l-20">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)"
+          placeholder="Filter (Start Typing To Filter Results)">
+      </mat-form-field>
+    </div>
+    <div class="responsive-table" *ngIf="!this.phase_disabler()">
+      <mat-table #Table [dataSource]="response" matSort>
+        <ng-container matColumnDef="official_title">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+          <mat-cell *matCellDef="let item">
+            <a href="{{ item.url }}" target="_blank"> {{ item.official_title }} </a>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="enrollment">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Sample Size </mat-header-cell>
+          <mat-cell *matCellDef="let item"> {{ item.enrollment }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="min_age_number">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Age Range </mat-header-cell>
+          <mat-cell *matCellDef="let item"> {{ item.min_age_number + " - " + item.max_age_number }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="completion_date">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Trial Date </mat-header-cell>
+          <mat-cell *matCellDef="let item">
+            <span *ngIf="item.completion_date">{{ item.completion_date | date: 'dd/MM/yyyy' }}</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="gender">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Gender </mat-header-cell>
+          <mat-cell *matCellDef="let item"> {{ item.gender }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="study_phase">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Study Phase </mat-header-cell>
+          <mat-cell *matCellDef="let item"> {{ item.study_phase }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="secondary_columns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: secondary_columns;"></mat-row>
+      </mat-table>
+      <mat-paginator #paginator [pageSize]="25" [pageSizeOptions]="[25, 50, 100, 250]">
+      </mat-paginator>
+    </div>
+
+    <div class="responsive-table" *ngIf="this.phase_disabler()">
+      <mat-table #Table [dataSource]="response" matSort>
+        <ng-container matColumnDef="Title">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+          <mat-cell *matCellDef="let item">
+            <a href="{{ item.SourceUrl }}" target="_blank" [innerHTML]="item.Title"></a>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Abstract">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+          <mat-cell *matCellDef="let item" [title]="item.Abstract">
+            <a target="_blank" [innerHTML]="this.shorten_text( item.Abstract )"></a>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="EvidenceTypes">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Evidence Type </mat-header-cell>
+          <mat-cell *matCellDef="let item">
+            <ul>
+              <li *ngFor="let type of item.EvidenceTypes"> {{ type }} </li>
+            </ul>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="SourceName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Source </mat-header-cell>
+          <mat-cell *matCellDef="let item"> {{ item.SourceName }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="nice_secondary_columns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: nice_secondary_columns;"></mat-row>
+      </mat-table>
+      <mat-paginator #paginator [pageSize]="25" [pageSizeOptions]="[25, 50, 100, 250]">
+      </mat-paginator>
+    </div>
+
+    <br />
+
+    <div fxLayout="row wrap">
+      <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="50" display="inline">
+        <a href="https://www.nice.org.uk/">
+          <img width="300px"
+            src="https://www.nice.org.uk/Media/Default/About/Branding-guidelines/Logos/master-logo1.png">
+        </a>
+        <br />
+        <small>
+          <b> © National Institute for Health and Care Excellence 2020 </b>
+          <br />
+          <sub>
+            This content is made available by NICE (National Institute for Health and
+            Care Excellence) but distributed by a third-party distributor. NICE takes no
+            responsibility for the format in which this content is delivered. The distributor is
+            responsible for incorporating updates from NICE and cannot alter NICE
+            content in any way. Any content delivered alongside content provided by
+            NICE will not necessarily reflect the views of either NICE or those
+            organisations commissioned to develop NICE guidance.
+          </sub>
+        </small>
+      </div>
+      <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="50" align-content="center" justify-content="center"
+        display="inline">
+        <a href="https://clinicaltrials.gov/" top="1px">
+          <img width="230px" src="https://clinicaltrials.gov/ct2/html/images/ct.gov-nlm-nih-logo.png">
+        </a>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

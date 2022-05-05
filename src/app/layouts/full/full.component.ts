@@ -91,10 +91,10 @@ export class FullComponent implements OnDestroy, OnInit {
     localStorage.removeItem("@AppConfig");
 
     // Call in App Settings and MenuItems
-    this.apiService.getPayloadById(id).subscribe((data: any) => {
-      if (data && data.length > 0) {
+    this.apiService.getPayloadById(id).subscribe((payload: any) => {
+      if (payload) {
         //Get new config
-        const appConfig = JSON.parse(data[0]?.config);
+        const appConfig = JSON.parse(payload?.config);
 
         //Clear current config
         localStorage.setItem("@AppConfig", JSON.stringify(appConfig));

@@ -9,6 +9,7 @@ import { iTeam, CVICohort, APIService } from "diu-component-library";
 import { ConfirmText, ConfirmTextDialogComponent } from "../dialogtextconfirm";
 import { ConfirmDialogComponent } from "../dialogconfirm";
 import { decodeToken } from "../../../../../_pipes/functions";
+import { CviCohortService } from "../../../_services/cvicohort-service";
 
 @Component({
   selector: "app-cohort-all",
@@ -31,6 +32,7 @@ export class CohortAllComponent implements OnInit, OnChanges {
   constructor(
     private store: Store, 
     private apiService: APIService, 
+    private cviCohortsService: CviCohortService,
     private notificationService: NotificationService, 
     public dialog: MatDialog, 
     private router: Router, 
@@ -45,7 +47,7 @@ export class CohortAllComponent implements OnInit, OnChanges {
     if (token) {
       this.tokenDecoded = decodeToken(token);
       this.teamcodes = this.tokenDecoded["memberships"];
-      this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
+      this.cviCohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
         res.forEach((item) => {
           if (item.cohorturl.length < 3) {
             item.cohorturl = "{}";
@@ -159,9 +161,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
       newCohort.teamcode = response.teamcode;
     }
     this.selectedCohort = newCohort;
-    this.apiService.registerCohort(this.selectedCohort).subscribe((data: any) => {
+    this.cviCohortsService.create(this.selectedCohort).subscribe((data: any) => {
       if (data.success) {
-        this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
+        this.cviCohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
           this.allcohorts = res;
           this.notificationService.success("New cohort has been created");
         });
@@ -185,9 +187,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
 
   confirmUpdate() {
     this.selectedCohort.cohorturl = JSON.stringify(this.cohort);
-    this.apiService.registerCohort(this.selectedCohort).subscribe((data: any) => {
+    this.cviCohortsService.create(this.selectedCohort).subscribe((data: any) => {
       if (data.success) {
-        this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
+        this.cviCohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
           this.allcohorts = res;
           this.notificationService.success("Cohort Database has been updated");
         });
@@ -204,9 +206,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.apiService.removeCohort(this.selectedCohort).subscribe((data: any) => {
+        this.cviCohortsService.delete(this.selectedCohort).subscribe((data: any) => {
           if (data.success) {
-            this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
+            this.cviCohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {
               this.allcohorts = res;
               this.notificationService.success("Cohort has been removed from Database");
             });

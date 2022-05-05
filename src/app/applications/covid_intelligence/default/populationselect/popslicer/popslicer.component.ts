@@ -3,7 +3,7 @@ import {
   DeprivationColors,
   RowChart, BarChart, PieChart, HeatMap,
   LeafletChoroplethChart, LeafletMarkerChart, FeatureCollection,
-  MosaicColours, MosaicDomain, MosaicCode, PopulationPerson, APIService
+  MosaicColours, MosaicDomain, MosaicCode, PopulationPerson, APIService, PopulationManagementService
 } from "diu-component-library";
 import { collapseAnimations } from "../../../../../shared/animations";
 import * as dcFull from "dc";
@@ -211,6 +211,7 @@ export class PopslicerComponent implements OnInit {
     public store: Store, 
     public dialog: MatDialog, 
     private apiService: APIService, 
+    private populationManagementService: PopulationManagementService,
     private readonly joyrideService: JoyrideService, 
     private notificationService: NotificationService
   ) {
@@ -241,7 +242,7 @@ export class PopslicerComponent implements OnInit {
     this.keyToolTip = d3.select("mat-sidenav-content").append("div").attr("class", "tooltip").style("opacity", 0);
     this.matrixToolTip = d3.select("mat-sidenav-content").append("div").attr("class", "tooltip").style("opacity", 0);
     this.myDC = dcFull;
-    this.apiService.getCFServer().subscribe((res: any) => {
+    this.populationManagementService.getCFServer().subscribe((res: any) => {
       this.loading = false;
       this.filteredData = res;
       this.totalsize = this.filteredData["all"].values;

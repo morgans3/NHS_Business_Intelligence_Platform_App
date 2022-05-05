@@ -13,6 +13,7 @@ import { Store } from "@ngxs/store";
 import { AuthState } from "../../../../_states/auth.state";
 import { APIService } from "diu-component-library";
 import { decodeToken } from "../../../../_pipes/functions";
+import { CviCohortService } from "../../_services/cvicohort-service";
 declare var window: any;
 
 @Component({
@@ -113,6 +114,7 @@ export class NeedListComponent {
     public http: HttpClient, 
     private toastr: ToastrService, 
     private router: Router, 
+    private cviCohortsService: CviCohortService,
     private readonly joyrideService: JoyrideService, 
     private apiService: APIService, 
     private store: Store
@@ -745,7 +747,7 @@ export class NeedListComponent {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
       this.tokenDecoded = decodeToken(token);
-      this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: any[]) => {
+      this.cviCohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: any[]) => {
         this.cohort_array = res;
         this.cohort_array.forEach((d) => {
           this.cohort_names.push("Cohort " + d.cohortName);

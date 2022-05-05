@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { APIService } from "diu-component-library";
+import { PopulationManagementService } from "diu-component-library";
 
 @Component({
   selector: "app-heatmap",
@@ -11,7 +11,7 @@ export class HeatmapComponent implements OnInit {
   cfData: any;
 
   constructor(
-    private apiService: APIService,
+    private populationManagementService: PopulationManagementService,
   ) {}
 
   ngOnInit() {
@@ -19,7 +19,7 @@ export class HeatmapComponent implements OnInit {
   }
 
   getData() {
-    this.apiService.getCFServer().subscribe((data: any) => {
+    this.populationManagementService.getCFServer().subscribe((data: any) => {
       this.cfData = data;
       this.generateCharts();
     });

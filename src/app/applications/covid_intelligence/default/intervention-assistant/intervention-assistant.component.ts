@@ -10,6 +10,7 @@ import { MatTableDataSource } from "@angular/material/table";
 
 import { AuthState } from "../../../../_states/auth.state";
 import { decodeToken } from "../../../../_pipes/functions";
+import { CviCohortService } from "../../_services/cvicohort-service";
 declare var window: any;
 
 @Component({
@@ -77,14 +78,15 @@ export class InterventionAssistantComponent implements OnInit {
   constructor(
     public http: HttpClient, 
     private store: Store, 
-    private apiService: APIService
+    private apiService: APIService,
+    private cviCohortsService: CviCohortService
   ) { }
 
   ngOnInit() {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
       this.tokenDecoded = decodeToken(token);
-      this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+      this.cviCohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
         this.cohort_array = res;
       });
     }
