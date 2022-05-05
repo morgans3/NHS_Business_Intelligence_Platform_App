@@ -79,5 +79,9 @@ export const DefaultRoutes: Routes = [
     component: NSSSComponent,
     //canActivate: [CapabilityGuard],
     data: { capabilities: ["cvi_shielding"] },
+  },
+  {
+    path: "virtualwards_decisions",
+    loadChildren: () => import("./caseloads/vwdecisions/vwdecisions.module").then((m) => m.VWDecisionsModule)
   }
 ];

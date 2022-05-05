@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from "@angular/core";
 import { PatientLinked, Postcodes, APIService } from "diu-component-library";
 import * as L from "leaflet";
+import { PostcodeService } from "../../../../../_services/postcodes.service";
 
 @Component({
   selector: "app-minimap",
@@ -16,6 +17,7 @@ export class MinimapComponent implements OnChanges {
 
   constructor(
     private apiService: APIService, 
+    private postcodeService: PostcodeService
   ) {}
 
   ngOnChanges() {
@@ -51,7 +53,7 @@ export class MinimapComponent implements OnChanges {
   }
 
   setHomeMarker() {
-    this.apiService.getPostcodeData(this.person.postcode).subscribe((data: Postcodes) => {
+    this.postcodeService.getByPostcode(this.person.postcode).subscribe((data: Postcodes) => {
       if (data.status === 200) {
         const homegroup = L.marker(
           {

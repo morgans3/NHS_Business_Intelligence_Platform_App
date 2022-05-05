@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "../../shared/shared.module";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { NeedListComponent } from "./need-list.component";
+import { JoyrideModule } from "ngx-joyride";
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import { NeedListComponent } from "./need-list.component";
         DragDropModule,
         ReactiveFormsModule, 
         DemoMaterialModule, 
-        FlexLayoutModule, 
+        FlexLayoutModule,
+        JoyrideModule.forRoot(), 
         RouterModule.forChild([{
             path: "", component: NeedListComponent
         }]), 

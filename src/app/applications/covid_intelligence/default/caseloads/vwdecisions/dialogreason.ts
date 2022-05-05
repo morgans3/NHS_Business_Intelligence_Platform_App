@@ -1,4 +1,4 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Component, Inject, ViewChild } from "@angular/core";
 import { FormGroup, FormControl, Validators, FormGroupDirective } from "@angular/forms";
 

@@ -1,23 +1,34 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { VirtualWardPatient } from "../../_models/patient";
-import { NotificationService } from "../../_services/notification.service";
-import { PatientService } from "../../_services/patient.service";
-import { StatCardData } from "../../default/Regional/stat-card.component";
-import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
+import { APIService, VirtualWardPatient } from "diu-component-library";
+import { NotificationService } from "../../../../../_services/notification.service";
+import { StatCardData } from "../../Regional/stat-card.component";
+import { MatDialog } from "@angular/material/dialog";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
 import { ConditionTypes } from "./conditiontypes";
-import { CCGs } from "../../_models/ccglist";
 import { Store } from "@ngxs/store";
-import { AuthState } from "../../_states/auth.state";
-import { JwtHelper } from "angular2-jwt";
+import { AuthState } from "../../../../../_states/auth.state";
 import { FormGroup, FormControl } from "@angular/forms";
-import { ConfirmDialogComponent } from "../../default/Regional/dialogconfirm";
+import { ConfirmDialogComponent } from "../../Regional/dialogconfirm";
 import { ContactDialogComponent } from "./dialogcontact";
 import { NotesDialogComponent } from "./dialognotes";
 import { ReasonDialogComponent } from "./dialogreason";
-import { SQLApiService } from "../../_services/sqlapi.service";
 import { UserDialogComponent } from "./dialogprofile";
+import { decodeToken } from "../../../../../_pipes/functions";
 
 export const recommendations = ["RS Lower Risk", "RS Greater Risk", "National SOP", "Local SOP"];
+
+export const CCGs = [
+  { code: "02M", name: "Fylde & Wyre CCG" },
+  { code: "00R", name: "Blackpool CCG" },
+  { code: "02G", name: "W.Lancs CCG" },
+  { code: "00Q", name: "Blackburn with Darwen CCG" },
+  { code: "00X", name: "Chorley and South Ribble CCG" },
+  { code: "01A", name: "East Lancs CCG" },
+  { code: "01E", name: "Greater Preston CCG" },
+  { code: "01K", name: "Lancashire North CCG" },
+];
 
 @Component({
   selector: "app-vwdecisions",
@@ -77,11 +88,15 @@ export class VwdecisionsComponent implements OnInit {
   gpLoading = true;
   agehide = false;
 
-  constructor(public dialog: MatDialog, private patientService: PatientService, private notificationService: NotificationService, public store: Store, private sqlService: SQLApiService) {
+  constructor(
+    public dialog: MatDialog, 
+    private apiService: APIService, 
+    private notificationService: NotificationService, 
+    public store: Store, 
+  ) {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
-      const jwtHelper = new JwtHelper();
-      this.tokenDecoded = jwtHelper.decodeToken(token);
+      this.tokenDecoded = decodeToken(token);
     }
   }
 
@@ -95,7 +110,7 @@ export class VwdecisionsComponent implements OnInit {
 
   getGPs() {
     this.GPs = [];
-    this.sqlService.getGPPractices().subscribe((data: any[]) => {
+    this.apiService.getGPPractices().subscribe((data: any[]) => {
       if (data && data.length > 0) {
         data[0].features.forEach((row) => {
           this.GPs.push({
@@ -149,7 +164,7 @@ export class VwdecisionsComponent implements OnInit {
 
   getPatients() {
     this.dataFetched = false;
-    this.patientService.getVWDecisionPatientsByStatus("Pending", this.limit).subscribe(
+    this.apiService.getVWDecisionPatientsByStatus("Pending", this.limit).subscribe(
       (data: VirtualWardPatient[]) => {
         this.allpatients = data;
         this.dataFetched = true;
@@ -317,7 +332,7 @@ export class VwdecisionsComponent implements OnInit {
   submitReferral(value, item: VirtualWardPatient) {
     if (value === "Refer - Virtual Ward") {
       if (item.phone_number || item.newcontact) {
-        this.patientService.updateVWStatus(item.id, value).subscribe((data: any) => {
+        this.apiService.updateVWStatus(item.id, value).subscribe((data: any) => {
           if (data && data.success) {
             this.notificationService.success("Referral Update has been made for: " + item.nhs_number);
             this.allpatients.splice(this.allpatients.indexOf(item), 1);
@@ -333,7 +348,7 @@ export class VwdecisionsComponent implements OnInit {
       if (item.nonreferral_reason) {
         reason = item.nonreferral_reason;
       }
-      this.patientService.updateVWStatus(item.id, value, reason).subscribe((data: any) => {
+      this.apiService.updateVWStatus(item.id, value, reason).subscribe((data: any) => {
         if (data && data.success) {
           this.notificationService.success("Referral Update has been made for: " + item.nhs_number);
           this.allpatients.splice(this.allpatients.indexOf(item), 1);
@@ -407,7 +422,7 @@ export class VwdecisionsComponent implements OnInit {
   }
 
   moreInfo(row) {
-    this.patientService.getPatientDemographics(row.nhs_number).subscribe((res: any) => {
+    this.apiService.getPatientDemographics(row.nhs_number).subscribe((res: any) => {
       if (res) {
         const dialogRef = this.dialog.open(UserDialogComponent, {
           width: "350px",
@@ -428,7 +443,7 @@ export class VwdecisionsComponent implements OnInit {
       .afterClosed()
       .subscribe((res) => {
         if (res) {
-          this.patientService.updateVWContact(row.id, res).subscribe((response: any) => {
+          this.apiService.updateVWContact(row.id, res).subscribe((response: any) => {
             if (response && response.success && response.success === true) {
               this.notificationService.success("Contact information has been updated");
               row.newcontact = res;
@@ -438,7 +453,7 @@ export class VwdecisionsComponent implements OnInit {
             }
           });
         } else if (res === null) {
-          this.patientService.clearVWContact(row.id).subscribe((response: any) => {
+          this.apiService.clearVWContact(row.id).subscribe((response: any) => {
             if (response && response.success && response.success === true) {
               this.notificationService.success("Contact information has been updated");
               row.newcontact = null;
@@ -460,7 +475,7 @@ export class VwdecisionsComponent implements OnInit {
       .afterClosed()
       .subscribe((res) => {
         if (res) {
-          this.patientService.updateVWNotes(row.id, res).subscribe((response: any) => {
+          this.apiService.updateVWNotes(row.id, res).subscribe((response: any) => {
             if (response && response.success && response.success === true) {
               this.notificationService.success("Notes have been updated");
               row.notes = res;
@@ -470,7 +485,7 @@ export class VwdecisionsComponent implements OnInit {
             }
           });
         } else if (res === null) {
-          this.patientService.clearVWNotes(row.id).subscribe((response: any) => {
+          this.apiService.clearVWNotes(row.id).subscribe((response: any) => {
             if (response && response.success && response.success === true) {
               this.notificationService.success("Notes have been updated");
               row.notes = null;

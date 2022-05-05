@@ -21,13 +21,9 @@ import { TestDataComponent } from "./Local/TestData/TestData.component";
 import { EquipmentDataComponent } from "./Local/EquipmentData/EquipmentData.component";
 import { MortalityDataComponent } from "./Local/MortalityData/MortalityData.component";
 import { ModellingComponent } from "./Modelling/Modelling.component";
-import { UserValidationComponent } from "./UserValidation/UserValidation.component";
-import { VerifiyDialogComponent } from "./UserValidation/dialogverifiy";
-import { ValidateDialogComponent } from "./UserValidation/dialogvalidate";
 import { PatientListComponent } from "./patient-list/patient-list.component";
 import { PatientComponent } from "./patient/patient.component";
 import { TheographComponent } from "./patient/theograph/theograph.component";
-import { StatCardComponent } from "./Regional/stat-card.component";
 import { CohortAllComponent } from "./Regional/cohort-all/cohort-all.component";
 import { ConfirmTextDialogComponent } from "./Regional/dialogtextconfirm";
 import { ConfirmDialogComponent } from "./Regional/dialogconfirm";
@@ -57,9 +53,10 @@ import { MinimapComponent } from "./patient/minimap/minimap.component";
 import { MapComponent } from "./patient/minimap/map.component";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { CviCohortService } from "../_services/cvicohort-service";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
-  imports: [DragDropModule, CommonModule, RouterModule.forChild(DefaultRoutes), ReactiveFormsModule, FormsModule, DemoMaterialModule, FlexLayoutModule, MainPipe, JoyrideModule.forRoot(), LeafletMarkerClusterModule, LeafletModule],
+  imports: [DragDropModule, CommonModule, RouterModule.forChild(DefaultRoutes), ReactiveFormsModule, FormsModule, DemoMaterialModule, FlexLayoutModule, MainPipe, JoyrideModule.forRoot(), SharedModule, LeafletMarkerClusterModule, LeafletModule],
   declarations: [
     AdminComponent,
     LandingComponent,
@@ -76,13 +73,9 @@ import { CviCohortService } from "../_services/cvicohort-service";
     EquipmentDataComponent,
     MortalityDataComponent,
     ModellingComponent,
-    UserValidationComponent,
-    VerifiyDialogComponent,
-    ValidateDialogComponent,
     PatientListComponent,
     PatientComponent,
     TheographComponent,
-    StatCardComponent,
     ExpandTextDialogComponent,
     CohortAllComponent,
     ConfirmDialogComponent,
@@ -108,8 +101,8 @@ import { CviCohortService } from "../_services/cvicohort-service";
     MinimapComponent,
     MapComponent,
   ],
-  entryComponents: [VerifiyDialogComponent, ValidateDialogComponent, StatCardComponent, ExpandTextDialogComponent, ConfirmDialogComponent, ConfirmTextDialogComponent, NumberDialogComponent, MapComponent],
-  exports: [StatCardComponent, ValidateDialogComponent, UserValidationComponent, VerifiyDialogComponent, MapComponent],
+  entryComponents: [ExpandTextDialogComponent, ConfirmDialogComponent, ConfirmTextDialogComponent, NumberDialogComponent, MapComponent],
+  exports: [MapComponent],
   providers: [CviCohortService]
 })
 export class DefaultModule {}

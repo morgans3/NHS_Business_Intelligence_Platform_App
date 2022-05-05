@@ -6,6 +6,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { SharedModule } from "../../shared/shared.module";
+import { JoyrideModule } from "ngx-joyride";
 import { CohortAllComponent } from "./cohort-all/cohort-all.component";
 import { VerifiyDialogComponent } from "./UserValidation/dialogverifiy";
 import { ValidateDialogComponent } from "./UserValidation/dialogvalidate";
@@ -20,6 +21,7 @@ import { PopslicerComponent } from "./popslicer.component";
         ReactiveFormsModule, 
         DemoMaterialModule, 
         FlexLayoutModule, 
+        JoyrideModule.forRoot(),
         RouterModule.forChild([{
             path: "", component: PopslicerComponent
         }]), 

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges } from "@angular/core";
-import { ConditionTypes } from "../../../caseloads/vwdecisions/conditiontypes";
+import { ConditionTypes } from "../../caseloads/vwdecisions/conditiontypes";
 import { PatientLinked } from "diu-component-library";
 
 @Component({
