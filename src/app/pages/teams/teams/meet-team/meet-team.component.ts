@@ -5,7 +5,7 @@ import { AuthState } from "src/app/_states/auth.state";
 import { UpdateTeams } from "src/app/_states/reference.state";
 import { NotificationService } from "src/app/_services/notification.service";
 import { generateID, decodeToken } from "src/app/_pipes/functions";
-import { DynamicApiService, UserGroupService, UserSearchDialogComponent } from "diu-component-library";
+import { APIService, UserSearchDialogComponent } from "diu-component-library";
 import { iFullUser, iTeam, iTeamRequest, iTeamMembers, iTasks } from "diu-component-library";
 
 @Component({
@@ -30,7 +30,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
   invitesProfile: any;
   requestsProfile: any;
 
-  constructor(public store: Store, private userGroupService: UserGroupService, private notificationService: NotificationService, public dialog: MatDialog, private dynapiService: DynamicApiService) {
+  constructor(public store: Store, private apiService: APIService, private notificationService: NotificationService, public dialog: MatDialog) {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
       this.tokenDecoded = decodeToken(token);
@@ -86,7 +86,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
     this.admins = [];
     this.selectedTeam.responsiblepeople.forEach((x: any) => {
       // @ts-ignore
-      this.userGroupService.getUserProfileByUsername(x).subscribe((res: iFullUser) => {
+      this.apiService.getUserProfileByUsername(x).subscribe((res: iFullUser) => {
         if (res) {
           if (!this.admins.includes(res)) {
             this.admins.push(res);
@@ -103,11 +103,11 @@ export class MeetTeamComponent implements OnInit, OnChanges {
     this.members = [];
     this.TeamMember = false;
     // @ts-ignore
-    this.userGroupService.getTeamMembersByCode(this.selectedTeam.code).subscribe((response: iTeamMembers[]) => {
+    this.apiService.getTeamMembersByCode(this.selectedTeam.code).subscribe((response: iTeamMembers[]) => {
       this.teammembers = response;
       this.teammembers.forEach((x) => {
         // @ts-ignore
-        this.userGroupService.getUserProfileByUsername(x.username).subscribe((res: iFullUser) => {
+        this.apiService.getUserProfileByUsername(x.username).subscribe((res: iFullUser) => {
           if (res) {
             if (!this.members.includes(res)) {
               this.members.push(res);
@@ -124,11 +124,11 @@ export class MeetTeamComponent implements OnInit, OnChanges {
     this.outstanding = [];
     this.teamrequests = [];
     // @ts-ignore
-    this.userGroupService.getTeamRequestsByTeamCode(this.selectedTeam.code).subscribe((response: iTeamRequest[]) => {
+    this.apiService.getTeamRequestsByTeamCode(this.selectedTeam.code).subscribe((response: iTeamRequest[]) => {
       this.teamrequests = response.filter((x) => !x.approveddate && !x.refusedate);
       this.teamrequests.forEach((x) => {
         // @ts-ignore
-        this.userGroupService.getUserProfileByUsername(x.username).subscribe((res: iFullUser) => {
+        this.apiService.getUserProfileByUsername(x.username).subscribe((res: iFullUser) => {
           if (res) {
             if (x.requestor) {
               if (!this.outstanding.includes(res)) {
@@ -154,7 +154,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
     if (this.members.includes(person)) {
       const member = this.teammembers.filter((x) => x.username === person.username);
       if (member) {
-        this.userGroupService.removeTeamMember(member[0]).subscribe((res: any) => {
+        this.apiService.removeTeamMember(member[0]).subscribe((res: any) => {
           if (res.success) {
             this.members.splice(this.members.indexOf(person), 1);
             this.notificationService.success("Removed from Members");
@@ -169,7 +169,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
         let payload = request[0]._id;
         // request[0].isArchived = true;
         // @ts-ignore
-        this.userGroupService.archiveTeamRequest(payload).subscribe((res: any) => {
+        this.apiService.archiveTeamRequest(payload).subscribe((res: any) => {
           if (res.success) {
             this.invitees.splice(this.invitees.indexOf(person), 1);
             this.notificationService.success("Removed Invitation");
@@ -180,7 +180,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
     }
     if (this.admins.includes(person)) {
       this.selectedTeam.responsiblepeople.splice(this.selectedTeam.responsiblepeople.indexOf(person.username), 1);
-      this.userGroupService.updateTeam(this.selectedTeam).subscribe((res: any) => {
+      this.apiService.updateTeam(this.selectedTeam).subscribe((res: any) => {
         if (res.success) {
           this.notificationService.success("Removed Admin");
           this.teamsChanged(true);
@@ -192,7 +192,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
   removeAdmin(person: iFullUser) {
     if (this.admins.includes(person)) {
       this.selectedTeam.responsiblepeople.splice(this.selectedTeam.responsiblepeople.indexOf(person.username), 1);
-      this.userGroupService.updateTeam(this.selectedTeam).subscribe((res: any) => {
+      this.apiService.updateTeam(this.selectedTeam).subscribe((res: any) => {
         if (res.success) {
           this.notificationService.success("Removed Admin");
           this.teamsChanged(true);
@@ -204,7 +204,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
   makeAdmin(person: iFullUser) {
     if (this.admins.filter((x) => x.username === person.username).length === 0) {
       this.selectedTeam.responsiblepeople.push(person.username);
-      this.userGroupService.updateTeam(this.selectedTeam).subscribe((res: any) => {
+      this.apiService.updateTeam(this.selectedTeam).subscribe((res: any) => {
         this.admins.push(person);
         this.notificationService.success("Promoted to Admin");
         this.teamsChanged(true);
@@ -228,7 +228,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
           // isArchived: false,
           requestdate: new Date(),
         };
-        this.userGroupService.addTeamRequest(request).subscribe((res: any) => {
+        this.apiService.addTeamRequest(request).subscribe((res: any) => {
           if (res.success) {
             const Task: iTasks = {
               _id: generateID(),
@@ -243,13 +243,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
               invite: "Team",
               teamcode: this.selectedTeam.code,
             };
-            this.dynapiService.addTask(Task).subscribe((response: any) => {
-              if (response.success) {
-                this.notificationService.success("Invitation Sent.");
-              } else {
-                this.notificationService.warning("Unable to send invite to user.");
-              }
-            });
+            this.notificationService.success("Request Sent.");
             this.teamrequests.push(request);
             this.invitees.push(result);
             this.teamsChanged(true);
@@ -269,7 +263,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
       requestdate: new Date(),
       requestor: this.tokenDecoded.username,
     };
-    this.userGroupService.addTeamRequest(newRequest).subscribe((res: any) => {
+    this.apiService.addTeamRequest(newRequest).subscribe((res: any) => {
       if (res.success) {
         this.notificationService.success("A request has been sent to the Team Administrator to grant you access.");
         const thisPerson: iFullUser = {

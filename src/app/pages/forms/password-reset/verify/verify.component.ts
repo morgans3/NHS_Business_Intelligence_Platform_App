@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { PasswordResetService } from "../password-reset.service";
-import { MessagingService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
 
 @Component({
@@ -15,7 +15,7 @@ export class PasswordResetVerifyComponent implements OnInit {
     code: new FormControl("", Validators.required),
   });
 
-  constructor(private messagingService: MessagingService, private passwordResetService: PasswordResetService, private notificationService: NotificationService) {}
+  constructor(private apiService: APIService, private passwordResetService: PasswordResetService, private notificationService: NotificationService) {}
 
   ngOnInit() {
     //Listen for user details
@@ -26,7 +26,7 @@ export class PasswordResetVerifyComponent implements OnInit {
 
   verify() {
     //Check code is valid
-    this.messagingService.verifyResetPasswordCode(this.user.username, this.user.organisation.authmethod, this.form.value.code).subscribe(
+    this.apiService.verifyResetPasswordCode(this.user.username, this.user.organisation.authmethod, this.form.value.code).subscribe(
       (res: any) => {
         if (res && res.success == false) {
           //Show error

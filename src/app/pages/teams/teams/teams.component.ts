@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { collapseAnimations } from "../../../shared/animations";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { AuthState } from "../../../_states/auth.state";
 import { FormControl } from "@angular/forms";
@@ -8,7 +8,8 @@ import { Observable } from "rxjs";
 import { startWith, map } from "rxjs/operators";
 import { ReferenceState } from "../../../_states/reference.state";
 import { decodeToken } from "src/app/_pipes/functions";
-import { iTeam, iTeamMembers, UserGroupService } from "diu-component-library";
+import { iTeam, iTeamMembers, APIService } from "diu-component-library";
+declare function cwr(operation: string, payload: any): void;
 
 @Component({
   selector: "app-team",
@@ -32,7 +33,7 @@ export class TeamsComponent implements OnInit {
   isAdmin = false;
   isMember = false;
 
-  constructor(public store: Store, private userGroupService: UserGroupService, private router: Router, private route: ActivatedRoute) {
+  constructor(public store: Store, private apiService: APIService, private router: Router, private route: ActivatedRoute) {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
       this.tokenDecoded = decodeToken(token);
@@ -40,6 +41,11 @@ export class TeamsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        cwr("recordPageView", this.router.url);
+      }
+    });
     this.route.paramMap.subscribe((params) => {
       this.selectedteamcode = params.get("teamcode") || "";
       if (this.allTeams.length > 0) {
@@ -64,7 +70,7 @@ export class TeamsComponent implements OnInit {
       }
     });
     if (this.tokenDecoded && this.tokenDecoded.username) {
-      this.userGroupService.getTeamMembershipsByUsername(this.tokenDecoded.username).subscribe((res: any) => {
+      this.apiService.getTeamMembershipsByUsername(this.tokenDecoded.username).subscribe((res: any) => {
         if (res.length > 0) {
           res.forEach((memberships: any) => {
             this.addtoMyTeams(memberships.teamcode);
@@ -114,7 +120,7 @@ export class TeamsComponent implements OnInit {
     this.currentTeam = team;
     this.currentTeamMembers = [];
     this.checkAdmin(this.currentTeam.responsiblepeople, this.tokenDecoded.username);
-    this.userGroupService.getTeamMembersByCode(this.currentTeam.code).subscribe((res: any) => {
+    this.apiService.getTeamMembersByCode(this.currentTeam.code).subscribe((res: any) => {
       this.currentTeamMembers = res;
       this.checkMembership(this.currentTeamMembers, this.tokenDecoded.username);
     });
@@ -125,7 +131,7 @@ export class TeamsComponent implements OnInit {
     this.currentTeam = this.allTeams.filter((x) => x.name === teamname)[0];
     this.currentTeamMembers = [];
     this.checkAdmin(this.currentTeam.responsiblepeople, this.tokenDecoded.username);
-    this.userGroupService.getTeamMembersByCode(this.currentTeam.code).subscribe((res: any) => {
+    this.apiService.getTeamMembersByCode(this.currentTeam.code).subscribe((res: any) => {
       this.currentTeamMembers = res;
       this.checkMembership(this.currentTeamMembers, this.tokenDecoded.username);
     });
@@ -136,7 +142,7 @@ export class TeamsComponent implements OnInit {
     this.currentTeam = this.allTeams.filter((x) => x.code === teamcode)[0];
     this.currentTeamMembers = [];
     this.checkAdmin(this.currentTeam.responsiblepeople, this.tokenDecoded.username);
-    this.userGroupService.getTeamMembersByCode(this.currentTeam.code).subscribe((res: any) => {
+    this.apiService.getTeamMembersByCode(this.currentTeam.code).subscribe((res: any) => {
       this.currentTeamMembers = res;
       this.checkMembership(this.currentTeamMembers, this.tokenDecoded.username);
     });

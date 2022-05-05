@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { iCredentials, iModelUser, MFAAuthService } from "diu-component-library";
+import { iCredentials, iModelUser, APIService } from "diu-component-library";
 import { map } from "rxjs/operators";
 
 export class AuthStateModel {
@@ -43,7 +43,7 @@ export class AuthState {
     return email;
   }
 
-  constructor(private authService: MFAAuthService) {}
+  constructor(private apiService: APIService) {}
 
   @Action(ManualSetAuthTokens)
   manualSetAuthTokens({ getState, patchState }: StateContext<iModelUser>, { payload }: ManualSetAuthTokens) {
@@ -55,7 +55,7 @@ export class AuthState {
 
   @Action(DemoVersion)
   demoVersion({ getState, patchState }: StateContext<iModelUser>, { payload }: DemoVersion) {
-    return this.authService.login(payload).pipe(
+    return this.apiService.login(payload).pipe(
       map((response: iModelUser) => {
         const user = response;
         const state = getState();
@@ -68,7 +68,7 @@ export class AuthState {
 
   @Action(Login)
   login({ getState, patchState }: StateContext<iModelUser>, { payload }: Login) {
-    return this.authService.login(payload).pipe(
+    return this.apiService.login(payload).pipe(
       map((response: iModelUser) => {
         const user = response;
         const state = getState();

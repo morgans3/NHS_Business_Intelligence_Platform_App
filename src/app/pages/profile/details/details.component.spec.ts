@@ -6,9 +6,9 @@ import { DebugElement } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { DemoMaterialModule } from "src/app/demo-material-module";
-import { DiuComponentLibraryModule, UserGroupService } from "diu-component-library";
+import { DiuComponentLibraryModule, APIService } from "diu-component-library";
 import { ProfileDetailsComponent } from "./details.component";
-import { NotificationService } from "src/app/_services/notification.service";
+import { APIService } from "src/app/_services/notification.service";
 import { DynAPIService } from "src/app/_services/dynapi.service";
 import { PasswordResetService } from "src/app/layouts/password-reset/password-reset.service";
 import { ActivatedRoute } from "@angular/router";
@@ -26,7 +26,7 @@ describe("ProfileDetailsComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, DemoMaterialModule, FlexLayoutModule, DiuComponentLibraryModule, RouterTestingModule, BrowserAnimationsModule, NgxsModule.forRoot([ReferenceState]), HttpClientModule, ToastrModule.forRoot()],
-      providers: [UserGroupService, NotificationService, DynAPIService, PasswordResetService, ToastrService],
+      providers: [APIService, APIService, DynAPIService, PasswordResetService, ToastrService],
       declarations: [ProfileDetailsComponent],
     }).compileComponents();
   }));

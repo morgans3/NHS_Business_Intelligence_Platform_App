@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { FormGroup, FormControl, Validators, ValidationErrors, ValidatorFn } from "@angular/forms";
 import { NotificationService } from "../../../_services/notification.service";
-import { DynamicApiService, MessagingService, MFAAuthService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 
 function isValidPartnerEmail(email) {
   return email.match(/@nhs.net|@nhs.uk|@gov.uk|@ac.uk/);
@@ -74,11 +74,11 @@ export class AccessRequestFormComponent implements OnInit {
     }
   );
 
-  constructor(private notificationService: NotificationService, private dynApiService: DynamicApiService, public messagingService: MessagingService, private authService: MFAAuthService) {}
+  constructor(private notificationService: NotificationService, public apiService: APIService) {}
 
   ngOnInit() {
     //Get list of apps
-    this.dynApiService.getApps().subscribe((apps: Array<any>) => {
+    this.apiService.getApps().subscribe((apps: Array<any>) => {
       this.apps = apps;
     });
   }
@@ -88,7 +88,7 @@ export class AccessRequestFormComponent implements OnInit {
     if ($event.selectedIndex == 3) {
       let emailField = this.form.get("email");
       if (emailField.value !== "" && emailField.valid && !this.form.get("email_verification_code").valid) {
-        this.messagingService.sendVerificationCode(emailField.value).toPromise();
+        this.apiService.sendVerificationCode(emailField.value).toPromise();
       }
     }
   }
@@ -98,7 +98,7 @@ export class AccessRequestFormComponent implements OnInit {
     let emailVerificationCodeField = this.form.get("email_verification_code");
 
     //Check code
-    this.messagingService.checkVerificationCode(emailField.value, emailVerificationCodeField.value).subscribe(
+    this.apiService.checkVerificationCode(emailField.value, emailVerificationCodeField.value).subscribe(
       (res: any) => {
         if (res && res.success == false) {
           //Show error
@@ -118,7 +118,7 @@ export class AccessRequestFormComponent implements OnInit {
   submit() {
     if (this.form.valid) {
       //Submit form
-      this.authService.sendAccessRequest(this.form.value).subscribe((data) => {
+      this.apiService.sendAccessRequest(this.form.value).subscribe((data) => {
         this.formComplete = true;
       });
     } else {

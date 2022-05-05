@@ -16,22 +16,7 @@ import { AccessRequestFormComponent } from "../forms/access-request/access-reque
 import { AccessRequestActionFormComponent } from "../forms/access-request/action/action.component";
 
 @NgModule({
-    imports: [
-        CommonModule, 
-        AccordionLinkModule,
-        RouterModule.forChild(SupportRoutes), 
-        ReactiveFormsModule, 
-        FormsModule, 
-        FlexLayoutModule,
-        DemoMaterialModule
-    ],
-    declarations: [
-        GuideComponent,
-        StatusComponent,
-
-        GPSelectComponent,
-        AccessRequestFormComponent,
-        AccessRequestActionFormComponent
-    ]
+  imports: [CommonModule, AccordionLinkModule, RouterModule.forChild(SupportRoutes), ReactiveFormsModule, FormsModule, FlexLayoutModule, DemoMaterialModule],
+  declarations: [GuideComponent, StatusComponent, GPSelectComponent, AccessRequestFormComponent, AccessRequestActionFormComponent],
 })
-export class SupportModule { }
+export class SupportModule {}

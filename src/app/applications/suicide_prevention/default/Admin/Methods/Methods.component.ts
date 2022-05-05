@@ -3,7 +3,7 @@ import { FormGroup, Validators, FormControl, FormGroupDirective } from "@angular
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
-import { DynamicApiService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { NotificationService } from "src/app/_services/notification.service";
 import { IncidentMethods } from "src/app/_models/SPI_Lookups";
 
@@ -33,7 +33,7 @@ export class MethodsComponent implements OnInit, OnChanges {
   methods: IncidentMethods[] = [];
   @Output() updatedmethods = new EventEmitter<IncidentMethods[]>();
 
-  constructor(private referenceService: DynamicApiService, private notificationService: NotificationService) {}
+  constructor(private referenceService: APIService, private notificationService: NotificationService) {}
 
   ngOnInit() {
     this.methods = this.inputmethods;

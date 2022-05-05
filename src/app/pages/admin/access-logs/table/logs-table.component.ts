@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { MFAAuthService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { MatTable } from "@angular/material/table";
 import { MatDialog } from "@angular/material/dialog";
 import * as moment from "moment";

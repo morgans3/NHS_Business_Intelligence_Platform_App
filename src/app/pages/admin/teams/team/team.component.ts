@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { MFAAuthService, UserGroupService } from "diu-component-library";
+import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
+import { APIService } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
 import { MatTable } from "@angular/material/table";
 import { forkJoin } from "rxjs";
+declare function cwr(operation: string, payload: any): void;
 
 @Component({
   selector: "admin-team",
@@ -25,19 +26,19 @@ export class TeamComponent implements OnInit {
     responsiblepeople: new FormControl([]),
   });
 
-  constructor(
-    private router: Router, 
-    private authService: MFAAuthService, 
-    private activatedRoute: ActivatedRoute, 
-    private userGroupService: UserGroupService, 
-    private notificationService: NotificationService
-  ) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private apiService: APIService, private notificationService: NotificationService) {}
 
   ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        cwr("recordPageView", this.router.url);
+      }
+    });
+
     //Listen for id param
     this.activatedRoute.params.subscribe((params) => {
       if (params.id && params.id !== "new") {
-        this.userGroupService.getTeams().subscribe((teams: any) => {
+        this.apiService.getTeams().subscribe((teams: any) => {
           //Get team and set value
           let team = teams.find((team) => {
             return team._id == params.id;
@@ -45,13 +46,13 @@ export class TeamComponent implements OnInit {
           this.team.patchValue(team);
 
           //Get team capabilities
-          this.authService.getCapabilitiesByTypeId("team", team.code).subscribe((data: any) => {
+          this.apiService.getCapabilitiesByTypeId("team", team.code).subscribe((data: any) => {
             this.capabilities.selected = data instanceof Array ? data : [];
             this.capabilitiesTable.renderRows();
           });
 
           //Get team roles
-          this.authService.getRolesByTypeId("team", team.code).subscribe((data: any) => {
+          this.apiService.getRolesByTypeId("team", team.code).subscribe((data: any) => {
             this.roles.selected = data instanceof Array ? data : [];
             this.rolesTable.renderRows();
           });
@@ -63,12 +64,12 @@ export class TeamComponent implements OnInit {
   save() {
     //Roles and capabilities
     let rolesCapabiltiesUpdate = forkJoin({
-      capabilities: this.authService.syncCapabilityLinks(
+      capabilities: this.apiService.syncCapabilityLinks(
         this.capabilities.selected.map((item) => item.id),
         "team",
         this.team.value.code
       ),
-      roles: this.authService.syncRoleLinks(
+      roles: this.apiService.syncRoleLinks(
         this.roles.selected.map((item) => item.id),
         "team",
         this.team.value.code
@@ -77,7 +78,7 @@ export class TeamComponent implements OnInit {
 
     //Create/Update team?
     if (this.team.value._id) {
-      this.userGroupService.updateTeam(this.team.value).subscribe((data: any) => {
+      this.apiService.updateTeam(this.team.value).subscribe((data: any) => {
         if (data.success) {
           rolesCapabiltiesUpdate.subscribe((data: any) => {
             if (data.capabilities.success && data.roles.success) {
@@ -92,7 +93,7 @@ export class TeamComponent implements OnInit {
         }
       });
     } else {
-      this.userGroupService.addTeam(this.team.value).subscribe((data: any) => {
+      this.apiService.addTeam(this.team.value).subscribe((data: any) => {
         if (data.success) {
           rolesCapabiltiesUpdate.subscribe((data: any) => {
             if (data.capabilities.success && data.roles.success) {
@@ -119,7 +120,7 @@ export class TeamComponent implements OnInit {
     search: async (name = "") => {
       //Get roles list?
       if (this.roles.list.all.length == 0) {
-        this.roles.list.all = (await this.authService.getRoles().toPromise()) as any;
+        this.roles.list.all = (await this.apiService.getRoles().toPromise()) as any;
       }
 
       //Filter roles
@@ -151,8 +152,8 @@ export class TeamComponent implements OnInit {
     search: async (name = "") => {
       //Get roles list?
       if (this.capabilities.list.all.length == 0) {
-        this.capabilities.list.all = (await this.authService.getCapabilities().toPromise()) as any;
-      } 
+        this.capabilities.list.all = (await this.apiService.getCapabilities().toPromise()) as any;
+      }
 
       //Filter roles
       let selectedIds = this.capabilities.selected.map((item) => item.id);

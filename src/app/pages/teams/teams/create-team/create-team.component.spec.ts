@@ -1,12 +1,10 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { DebugElement } from "@angular/core";
 
 import { DemoMaterialModule } from "src/app/demo-material-module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { CommonModule } from "@angular/common";
-import { UserGroupService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { CreateTeamComponent } from "./create-team.component";
 import { NotificationService } from "src/app/_services/notification.service";
 import { NgxsModule } from "@ngxs/store";
@@ -22,7 +20,7 @@ describe("CreateTeamComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [DemoMaterialModule, FlexLayoutModule, CommonModule, HttpClientModule, NgxsModule.forRoot([ReferenceState]), ToastrModule.forRoot(), BrowserAnimationsModule],
-      providers: [UserGroupService, NotificationService, ToastrService],
+      providers: [APIService, NotificationService, ToastrService],
       declarations: [CreateTeamComponent],
     }).compileComponents();
   }));

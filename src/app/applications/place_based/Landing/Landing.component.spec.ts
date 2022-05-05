@@ -12,7 +12,7 @@ import "hammerjs";
 import { AuthState } from "src/app/_states/auth.state";
 import { DemoMaterialModule } from "src/app/demo-material-module";
 import { StorageService } from "src/app/_services/storage.service";
-import { DynamicApiService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { StatCardComponent } from "../_components/stat-card.component";
 import { MapComponent } from "../_components/map.component";
 
@@ -22,7 +22,7 @@ describe("LandingComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [BrowserAnimationsModule, DemoMaterialModule, FormsModule, NgxsModule.forRoot([AuthState]), HttpClientModule, LeafletModule, LeafletDrawModule],
-      providers: [StorageService, DynamicApiService],
+      providers: [StorageService, APIService],
       declarations: [MapComponent, LandingComponent, IncidentLegendComponent, StatCardComponent],
     }).compileComponents();
   }));

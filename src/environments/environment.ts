@@ -12,5 +12,5 @@ export const environment = {
   appName: "Nexus Intelligence",
   isDemo: true,
   admins: ["stewart.morgan@nhs.net"],
-  websiteURL: "nexusintelligencenw.nhs.uk",
+  websiteURL: "nhs-bi-platform.co.uk",
 };

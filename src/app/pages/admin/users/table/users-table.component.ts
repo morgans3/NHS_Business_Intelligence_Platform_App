@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { UserGroupService, DynamicApiService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
 import { MatTable } from "@angular/material/table";
 
@@ -21,13 +21,12 @@ export class UsersTableComponent implements OnInit {
 
   constructor(
     private notificationService: NotificationService,
-    private userGroupService: UserGroupService,
-    private dynamicApiService: DynamicApiService,
+    private apiService: APIService,
   ) {}
 
   ngOnInit() {
     //Get organisations
-    this.dynamicApiService.getOrganisations().subscribe((orgs: any) => {
+    this.apiService.getOrganisations().subscribe((orgs: any) => {
       this.organisations = orgs;
     });
 
@@ -40,7 +39,7 @@ export class UsersTableComponent implements OnInit {
     if (startItem) { this.filters.pageKey = JSON.stringify(startItem); }
 
     //Get users
-    this.userGroupService.getUsers(this.filters).subscribe((data: any) => {
+    this.apiService.getUsers(this.filters).subscribe((data: any) => {
       //Set log data
       this.users.all = this.users.all.concat(data.Items.length > 0 ? data.Items : []);
 
@@ -67,7 +66,7 @@ export class UsersTableComponent implements OnInit {
   delete(item) {
     this.notificationService.question("Are you sure you want to delete this user?").then((confirmed) => {
       if (confirmed == true) {
-        this.userGroupService.deleteUser(item.username, item.organisation).subscribe((data) => {
+        this.apiService.deleteUser(item.username, item.organisation).subscribe((data) => {
           //Notify success
           this.notificationService.success("User has been removed successfully!");
 

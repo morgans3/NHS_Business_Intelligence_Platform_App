@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from "@angular/core";
-import { iRole, iCapability, UserGroupService, iRoleLink, iCapabilityLink } from "diu-component-library";
+import { iRole, iCapability, APIService, iRoleLink, iCapabilityLink } from "diu-component-library";
 
 // TODO: Add search functionality
 // TODO: roles and capability lists can be split into a single component, re-used for both lists
@@ -18,7 +18,7 @@ export class RoleCapabilityListComponent implements OnInit, OnChanges {
   assignedRoles: iRoleLink[] = [];
   assignedCapabilties: iCapabilityLink[] = [];
 
-  constructor(private userGroupService: UserGroupService) {
+  constructor(private apiService: APIService) {
     this.getLists();
   }
 
@@ -65,4 +65,4 @@ import { DiuComponentLibraryModule } from "diu-component-library";
   declarations: [RoleCapabilityListComponent],
   exports: [RoleCapabilityListComponent],
 })
-export class RoleCapabilityListModule { }
+export class RoleCapabilityListModule {}

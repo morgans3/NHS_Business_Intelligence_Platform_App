@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
-import { UserGroupService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { NotificationService } from "src/app/_services/notification.service";
 import { AuthState } from "src/app/_states/auth.state";
 import { iFullUser, iTeamRequest, iTeamMembers } from "diu-component-library";
@@ -28,7 +28,7 @@ export class TeamMembersComponent implements OnInit, OnChanges {
   @Input() config: any;
   @Input() oldConfig: any;
 
-  constructor(public store: Store, private notificationService: NotificationService, private userGroupService: UserGroupService, public dialog: MatDialog) {
+  constructor(public store: Store, private notificationService: NotificationService, private apiService: APIService, public dialog: MatDialog) {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
       this.tokenDecoded = decodeToken(token);
@@ -76,7 +76,7 @@ export class TeamMembersComponent implements OnInit, OnChanges {
       const index = this.outstanding.indexOf(user[0]);
       if (user) {
         let payload = user[0]._id;
-        this.userGroupService.archiveTeamRequest(payload).subscribe((res: any) => {
+        this.apiService.archiveTeamRequest(payload).subscribe((res: any) => {
           if (res.success) {
             this.outstanding.splice(index, 1);
             this.notificationService.warning("Removed Request");
@@ -99,7 +99,7 @@ export class TeamMembersComponent implements OnInit, OnChanges {
       const index = this.outstanding.indexOf(request[0]);
       request[0].approveddate = new Date();
       request[0].requestapprover = this.tokenDecoded.username;
-      this.userGroupService.updateTeamRequest(request[0]).subscribe((res: any) => {
+      this.apiService.updateTeamRequest(request[0]).subscribe((res: any) => {
         if (res.success) {
           const newTeamMember: iTeamMembers = {
             username: person.username,
@@ -107,7 +107,7 @@ export class TeamMembersComponent implements OnInit, OnChanges {
             joindate: new Date(),
             _id: generateID(),
           };
-          this.userGroupService.addTeamMember(newTeamMember).subscribe((response: any) => {
+          this.apiService.addTeamMember(newTeamMember).subscribe((response: any) => {
             this.notificationService.success("Added to Team");
             this.outstanding.splice(index, 1);
             this.changedTeams.emit(true);

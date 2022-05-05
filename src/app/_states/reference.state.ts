@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { DynamicApiService, iOrganisation, iTeam, UserGroupService } from "diu-component-library";
+import { APIService, iOrganisation, iTeam } from "diu-component-library";
 import { map } from "rxjs/operators";
 
 export class ReferenceStateModel {
@@ -38,11 +38,11 @@ export class ReferenceState {
     return state.teams.filter((x) => x.code === teamcode);
   }
 
-  constructor(private referenceService: DynamicApiService, private userGroupService: UserGroupService) {}
+  constructor(private apiService: APIService) {}
 
   @Action(UpdateTeams)
   updateTeams({ patchState, getState }: StateContext<ReferenceStateModel>, {}: UpdateTeams) {
-    return this.userGroupService.getTeams().pipe(
+    return this.apiService.getTeams().pipe(
       map((response: any) => {
         const tasks = response;
         if (tasks) {
@@ -66,7 +66,7 @@ export class ReferenceState {
 
   @Action(UpdateOrganisations)
   updateOrganisations({ patchState, getState }: StateContext<ReferenceStateModel>, {}: UpdateOrganisations) {
-    return this.referenceService.getOrganisations().pipe(
+    return this.apiService.getOrganisations().pipe(
       map((response: any) => {
         const tasks = response;
         if (tasks) {

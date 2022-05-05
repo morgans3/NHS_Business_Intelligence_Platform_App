@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { MFAAuthService, UserGroupService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { MatTable } from "@angular/material/table";
 import { NotificationService } from "src/app/_services/notification.service";
 
 @Component({
-    selector: "app-user",
-    templateUrl: "./user.component.html",
-    styleUrls: ["./user.component.scss"]
+  selector: "app-user",
+  templateUrl: "./user.component.html",
+  styleUrls: ["./user.component.scss"],
 })
 export class UserComponent implements OnInit {
 
@@ -19,26 +19,25 @@ export class UserComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private authService: MFAAuthService,
+        private apiService: APIService,
         private activatedRoute: ActivatedRoute,
-        private userGroupService: UserGroupService,
         private notificationService: NotificationService,
     ) { }
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((params) => {
             //Get user's details
-            this.userGroupService.getUser(params.id).subscribe((user) => {
+            this.apiService.getUser(params.id).subscribe((user) => {
                 //Set user object
                 this.user = Object.assign(user, { id: params.id });
 
                 //Init access logs
-                this.authService.getAccessLogsByUser(this.user.id).subscribe((data: any) => {
+                this.apiService.getAllAccessLogsByUser(this.user.id).subscribe((data: any) => {
                     this.accessLogs = data.Items.slice(0, 5);
                 })
 
                 //Get team capabilities
-                this.authService.getCapabilitiesByTypeId("user", this.user.id).subscribe((data: any) => {
+                this.apiService.getCapabilitiesByTypeId("user", this.user.id).subscribe((data: any) => {
                     this.capabilities.selected = data instanceof Array ? data : [];
                     this.capabilitiesTable.renderRows();
                 });
@@ -50,7 +49,7 @@ export class UserComponent implements OnInit {
         list: { all: [], filtered: [] }, selected: [],
         get: () => {
             //Get team roles
-            this.authService.getRolesByTypeId("user", this.user.id).subscribe((data: any) => {
+            this.apiService.getRolesByTypeId("user", this.user.id).subscribe((data: any) => {
                 this.roles.selected = data instanceof Array ? data : [];
                 this.rolesTable.renderRows();
             });
@@ -58,7 +57,7 @@ export class UserComponent implements OnInit {
         search: async (name = "") => {
             //Get roles list?
             if (this.roles.list.all.length == 0) {
-                this.roles.list.all = (await this.authService.getRoles().toPromise()) as any;
+                this.roles.list.all = (await this.apiService.getRoles().toPromise()) as any;
             }
 
             //Filter roles
@@ -82,7 +81,7 @@ export class UserComponent implements OnInit {
             this.rolesTable.renderRows();
         },
         save: () => {
-            this.authService.syncRoleLinks(
+            this.apiService.syncRoleLinks(
                 this.roles.selected.map((item) => item.id),
                 "user", this.user.id
             ).subscribe((data: any) => {
@@ -99,7 +98,7 @@ export class UserComponent implements OnInit {
         list: { all: [], filtered: [] }, selected: [],
         get: () => {
             //Get team roles
-            this.authService.getCapabilitiesByTypeId("user", this.user.id).subscribe((data: any) => {
+            this.apiService.getCapabilitiesByTypeId("user", this.user.id).subscribe((data: any) => {
                 this.capabilities.selected = data instanceof Array ? data : [];
                 this.capabilitiesTable.renderRows();
             });
@@ -107,7 +106,7 @@ export class UserComponent implements OnInit {
         search: async (name = "") => {
             //Get roles list?
             if (this.capabilities.list.all.length == 0) {
-                this.capabilities.list.all = (await this.authService.getCapabilities().toPromise()) as any;
+                this.capabilities.list.all = (await this.apiService.getCapabilities().toPromise()) as any;
             } 
 
             //Filter roles
@@ -131,7 +130,7 @@ export class UserComponent implements OnInit {
           this.capabilitiesTable.renderRows();
         },
         save: () => {
-            this.authService.syncCapabilityLinks(
+            this.apiService.syncCapabilityLinks(
                 this.capabilities.selected.map((item) => item.id),
                 "user", this.user.id
             ).subscribe((data: any) => {
@@ -149,11 +148,11 @@ export class UserComponent implements OnInit {
         get: async () => {
             //Get teams list?
             if (this.teams.list.all.length == 0) {
-                this.teams.list.all = (await this.userGroupService.getTeams().toPromise()) as any;
+                this.teams.list.all = (await this.apiService.getTeams().toPromise()) as any;
             } 
         
             //Get user's teams
-            this.userGroupService.getTeamMembershipsByUsername(this.user.username).subscribe((teamMembers: any) => {
+            this.apiService.getTeamMembershipsByUsername(this.user.username).subscribe((teamMembers: any) => {
                 let usersTeamLinks =  teamMembers.reduce((obj, link) => ({...obj, [link.teamcode]: link._id}), {})
                 this.teams.selected = this.teams.list.all.filter(
                     (team) => Object.keys(usersTeamLinks).includes(team.code)

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { MFAAuthService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { environment } from "src/environments/environment";
 import { NotificationService } from "../../../_services/notification.service";
 import { MonitoredServices } from "./services";
@@ -14,7 +14,7 @@ export class StatusComponent implements OnInit {
   monitoring: boolean = false;
   lastCloseResult: string = "";
 
-  constructor(private notificationService: NotificationService, private authService: MFAAuthService, private http: HttpClient) {}
+  constructor(private notificationService: NotificationService, private apiService: APIService, private http: HttpClient) {}
 
   ngOnInit() {
     this.MonitoredServices.sort((a, b) => {
@@ -35,7 +35,7 @@ export class StatusComponent implements OnInit {
     let selectedservice = null;
     switch (service.statename) {
       case "auth":
-        selectedservice = this.authService;
+        selectedservice = this.apiService;
         break;
       default:
         this.otherService(service.statename, service);
@@ -78,7 +78,7 @@ export class StatusComponent implements OnInit {
     const origin = window.location.href;
     const domain = origin.split("//")[1].split("/")[0].replace("www", "");
     if (domain.includes("localhost")) {
-      return "https://" + subdomain + ".dev." + environment.websiteURL + "/";
+      return "https://" + subdomain + "." + environment.websiteURL + "/";
     } else if (domain.includes("dev") || domain.includes("demo")) {
       return "https://" + subdomain + "." + domain + "/";
     }

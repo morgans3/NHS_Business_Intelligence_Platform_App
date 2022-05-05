@@ -18,7 +18,7 @@
 
     <mat-sidenav-content class="page-wrapper">
       <div class="page-content">
-        <lib-diu-angular-header [strAppName]="appName" [strHome]="'home'" [alerts]="myAlerts" [tokenDecoded]="tokenDecoded" (endSession)="logout($event)" (changeSidebar)="toggleSidebar($event)"></lib-diu-angular-header>
+        <lib-diu-angular-header [strAppName]="appName" [strHome]="'home'" [alerts]="myAlerts" [tokenDecoded]="tokenDecoded" (endSession)="logout()" (changeSidebar)="toggleSidebar($event)"></lib-diu-angular-header>
 
         <div fxLayout="row wrap" *ngIf="isIE">
           <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">

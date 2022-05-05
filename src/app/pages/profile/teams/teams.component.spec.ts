@@ -6,8 +6,8 @@ import { DebugElement } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { DemoMaterialModule } from "src/app/demo-material-module";
-import { DiuComponentLibraryModule, UserGroupService } from "diu-component-library";
-import { NotificationService } from "src/app/_services/notification.service";
+import { DiuComponentLibraryModule, APIService } from "diu-component-library";
+import { APIService } from "src/app/_services/notification.service";
 import { ProfileTeamsComponent } from "./teams.component";
 import { ToastrModule, ToastrService } from "ngx-toastr";
 import { HttpClientModule } from "@angular/common/http";
@@ -23,7 +23,7 @@ describe("ProfileTeamsComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, DemoMaterialModule, FlexLayoutModule, DiuComponentLibraryModule, HttpClientModule, BrowserAnimationsModule, NgxsModule.forRoot([AuthState, ReferenceState]), ToastrModule.forRoot()],
-      providers: [UserGroupService, NotificationService, ToastrService],
+      providers: [APIService, APIService, ToastrService],
       declarations: [ProfileTeamsComponent],
     }).compileComponents();
   }));

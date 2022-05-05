@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { DynamicApiService } from "diu-component-library";
+import { APIService } from "diu-component-library";
 
 @Component({
   selector: "app-stores",
@@ -11,12 +11,12 @@ export class StoresComponent implements OnInit {
   context: string = "apps";
   storeConfig: any;
 
-  constructor(private router: Router, private dynapiService: DynamicApiService) {
+  constructor(private router: Router, private apiService: APIService) {
     this.context = this.router.url.replace("/", "");
   }
 
   ngOnInit() {
-    this.dynapiService.getPayloadById(this.switchFromPathToDBID(this.context)).subscribe((data: any) => {
+    this.apiService.getPayloadById(this.switchFromPathToDBID(this.context)).subscribe((data: any) => {
       if (data && data.length > 0) {
         this.storeConfig = data[0].config;
       }

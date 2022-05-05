@@ -6,7 +6,7 @@ import { DebugElement } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { DemoMaterialModule } from "src/app/demo-material-module";
-import { DiuComponentLibraryModule, UserGroupService } from "diu-component-library";
+import { DiuComponentLibraryModule, APIService } from "diu-component-library";
 import { NotificationService } from "src/app/_services/notification.service";
 import { ProfileComponent } from "./profile.component";
 import { ToastrModule, ToastrService } from "ngx-toastr";
@@ -24,7 +24,7 @@ describe("ProfileComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, DemoMaterialModule, FlexLayoutModule, DiuComponentLibraryModule, HttpClientModule, BrowserAnimationsModule, NgxsModule.forRoot([AuthState, ReferenceState]), ToastrModule.forRoot(), RouterTestingModule],
-      providers: [UserGroupService, NotificationService, ToastrService],
+      providers: [APIService, APIService, ToastrService],
       declarations: [ProfileComponent],
     }).compileComponents();
   }));

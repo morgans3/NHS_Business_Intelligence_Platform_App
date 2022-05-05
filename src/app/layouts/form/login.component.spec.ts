@@ -5,7 +5,7 @@ import { DebugElement } from "@angular/core";
 import { DemoMaterialModule } from "src/app/demo-material-module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { CommonModule } from "@angular/common";
-import { NotificationService } from "src/app/_services/notification.service";
+import { APIService } from "src/app/_services/notification.service";
 import { ToastrModule, ToastrService } from "ngx-toastr";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgxsModule } from "@ngxs/store";
@@ -23,7 +23,7 @@ describe("LoginComponent", () => {
     TestBed.configureTestingModule({
       // private store: Store
       imports: [DemoMaterialModule, FlexLayoutModule, CommonModule, ToastrModule.forRoot(), RouterTestingModule, HttpClientModule, NgxsModule.forRoot([AuthState, ReferenceState]), BrowserAnimationsModule],
-      providers: [NotificationService, ToastrService],
+      providers: [APIService, ToastrService],
       declarations: [LoginComponent],
     }).compileComponents();
   }));
