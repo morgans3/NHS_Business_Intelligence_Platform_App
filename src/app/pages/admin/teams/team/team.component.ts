@@ -10,8 +10,10 @@ declare function cwr(operation: string, payload: any): void;
 @Component({
   selector: "admin-team",
   templateUrl: "./team.component.html",
+  styleUrls: ["./team.component.scss"]
 })
 export class TeamComponent implements OnInit {
+
   @ViewChild("rolesTable") rolesTable: MatTable<any>;
   @ViewChild("capabilitiesTable") capabilitiesTable: MatTable<any>;
 

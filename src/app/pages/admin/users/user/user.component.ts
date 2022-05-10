@@ -1,7 +1,8 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import { APIService } from "diu-component-library";
-declare function cwr(operation: string, payload: any): void;
+import { MatTable } from "@angular/material/table";
+import { NotificationService } from "src/app/_services/notification.service";
 
 @Component({
   selector: "app-user",
@@ -9,73 +10,202 @@ declare function cwr(operation: string, payload: any): void;
   styleUrls: ["./user.component.scss"],
 })
 export class UserComponent implements OnInit {
-  //User details
-  user = {
-    profile: {},
-    roles: [{ name: "COVID-19 App", capabilities: ["outbreak_map", "shielding_service"], description: "Access COVID-19 app" }],
-    capabilities: [{ name: "outbreak_map", description: "Access COVID-19 outbreak map", approved_by: "Stewart Morgan" }],
-    teams: [],
-    logs: [],
-  };
 
-  //Option lists
-  teams = [];
+    @ViewChild("rolesTable") rolesTable: MatTable<any>;
+    @ViewChild("capabilitiesTable") capabilitiesTable: MatTable<any>;
+    @ViewChild("teamsTable") teamsTable: MatTable<any>;
 
-  constructor(private activatedRoute: ActivatedRoute, private apiService: APIService, private router: Router) {}
+    user; accessLogs = [];
 
-  ngOnInit() {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        cwr("recordPageView", this.router.url);
-      }
-    });
+    constructor(
+        private router: Router,
+        private apiService: APIService,
+        private activatedRoute: ActivatedRoute,
+        private notificationService: NotificationService,
+    ) { }
 
-    this.activatedRoute.params.subscribe((params) => {
-      //Get user's details
-      this.apiService.getUserProfileByUsername(params.username).subscribe((user) => {
-        this.user.profile = user;
-      });
+    ngOnInit() {
+        this.activatedRoute.params.subscribe((params) => {
+            //Get user's details
+            this.apiService.getUser(params.id).subscribe((user) => {
+                //Set user object
+                this.user = Object.assign(user, { id: params.id });
 
-      //Get user's teams
-      this.apiService.getTeamMembershipsByUsername(params.username).subscribe((teams: any) => {
-        this.user.teams = teams;
-      });
-    });
-  }
+                //Init access logs
+                this.apiService.getAllAccessLogsByUser(this.user.id).subscribe((data: any) => {
+                    this.accessLogs = data.Items.slice(0, 5);
+                })
 
-  role = {
-    assign: (role) => {
-      //Send request to assign role to user
-      //Update clientside list of roles
-      //Reset autocomplete box
-    },
-    remove: () => {},
-  };
+                //Get team capabilities
+                this.apiService.getCapabilitiesByTypeId("user", this.user.id).subscribe((data: any) => {
+                    this.capabilities.selected = data instanceof Array ? data : [];
+                    this.capabilitiesTable.renderRows();
+                });
+            });
+        });
+    }
 
-  capability = {
-    assign: (role) => {
-      //Send request to assign capability to user
-      //Update clientside list of roles
-      //Reset autocomplete box
-    },
-    remove: () => {},
-  };
+    roles = {
+        list: { all: [], filtered: [] }, selected: [],
+        get: () => {
+            //Get team roles
+            this.apiService.getRolesByTypeId("user", this.user.id).subscribe((data: any) => {
+                this.roles.selected = data instanceof Array ? data : [];
+                this.rolesTable.renderRows();
+            });
+        },
+        search: async (name = "") => {
+            //Get roles list?
+            if (this.roles.list.all.length == 0) {
+                this.roles.list.all = (await this.apiService.getRoles().toPromise()) as any;
+            }
 
-  team = {
-    search: (name) => {
-      this.apiService.searchTeamsByName(name).subscribe((teams: any) => {
-        this.teams = teams;
-        console.log(teams);
-      });
-    },
-    assign: ($event) => {
-      console.log($event);
-      //Send request to assign role to user
+            //Filter roles
+            let selectedIds = this.roles.selected.map((item) => item.id);
+            this.roles.list.filtered = this.roles.list.all.filter((item) => {
+                return (item.name.toLowerCase() + item.description.toLowerCase()).includes(name.toLowerCase()) && !selectedIds.includes(item.id);
+            });
+        },
+        assign: ($event, rolesSearchInput) => {
+            //Add role
+            this.roles.selected.push($event.option.value);
+            this.rolesTable.renderRows();
 
-      //Update clientside list of roles
+            //Clear input
+            rolesSearchInput.value = "";
+            rolesSearchInput.blur();
+        },
+        revoke: (index) => {
+            //Remove by index
+            this.roles.selected.splice(index, 1);
+            this.rolesTable.renderRows();
+        },
+        save: () => {
+            this.apiService.syncRoleLinks(
+                this.roles.selected.map((item) => item.id),
+                "user", this.user.id
+            ).subscribe((data: any) => {
+                if (data.success) {
+                    this.notificationService.success("User's roles updated successfully!");
+                  } else {
+                    this.notificationService.error("An error occurred updating this user's roles");
+                  }
+            })
+        }
+    };
 
-      //Reset autocomplete box
-    },
-    remove: () => {},
-  };
+    capabilities = {
+        list: { all: [], filtered: [] }, selected: [],
+        get: () => {
+            //Get team roles
+            this.apiService.getCapabilitiesByTypeId("user", this.user.id).subscribe((data: any) => {
+                this.capabilities.selected = data instanceof Array ? data : [];
+                this.capabilitiesTable.renderRows();
+            });
+        },
+        search: async (name = "") => {
+            //Get roles list?
+            if (this.capabilities.list.all.length == 0) {
+                this.capabilities.list.all = (await this.apiService.getCapabilities().toPromise()) as any;
+            } 
+
+            //Filter roles
+            let selectedIds = this.capabilities.selected.map((item) => item.id);
+            this.capabilities.list.filtered = this.capabilities.list.all.filter((item) => {
+                return (item.name.toLowerCase() + item.description.toLowerCase()).includes(name.toLowerCase()) && !selectedIds.includes(item.id);
+            });
+        },
+        assign: ($event, capabilitiesSearchInput) => {
+          //Add role
+          this.capabilities.selected.push($event.option.value);
+          this.capabilitiesTable.renderRows();
+    
+          //Clear input
+          capabilitiesSearchInput.value = "";
+          capabilitiesSearchInput.blur();
+        },
+        revoke: (index) => {
+          //Remove by index
+          this.capabilities.selected.splice(index, 1);
+          this.capabilitiesTable.renderRows();
+        },
+        save: () => {
+            this.apiService.syncCapabilityLinks(
+                this.capabilities.selected.map((item) => item.id),
+                "user", this.user.id
+            ).subscribe((data: any) => {
+                if (data.success) {
+                    this.notificationService.success("User's capabilities updated successfully!");
+                  } else {
+                    this.notificationService.error("An error occurred updating this user's capabilities");
+                  }
+            })
+        }
+    };
+
+    teams = {
+        list: { all: [], filtered: [] }, selected: [],
+        get: async () => {
+            //Get teams list?
+            if (this.teams.list.all.length == 0) {
+                this.teams.list.all = (await this.apiService.getTeams().toPromise()) as any;
+            } 
+        
+            //Get user's teams
+            this.apiService.getTeamMembershipsByUsername(this.user.username).subscribe((teamMembers: any) => {
+                let usersTeamLinks =  teamMembers.reduce((obj, link) => ({...obj, [link.teamcode]: link._id}), {})
+                this.teams.selected = this.teams.list.all.filter(
+                    (team) => Object.keys(usersTeamLinks).includes(team.code)
+                ).map((team) => {
+                    team.link_id = usersTeamLinks[team.code];
+                    return team;
+                });
+            });
+        },
+        search: (name = "") => {
+            //Filter roles
+            let selectedIds = this.teams.selected.map((item) => item._id);
+            this.teams.list.filtered = this.teams.list.all.filter((item) => {
+                return (item.name.toLowerCase() + item.description.toLowerCase()).includes(name.toLowerCase()) && !selectedIds.includes(item._id);
+            });
+        },
+        assign: ($event, teamsSearchInput) => {
+            //Send request
+            //@ts-ignore
+            this.userGroupService.addTeamMember({
+                teamcode: $event.option.value.code,
+                username: this.user.username,
+                joindate: new Date()
+            }).subscribe((data: any) => {
+                if (data.success) {
+                    //Add team
+                    this.teams.selected.push(Object.assign($event.option.value, { _id: data.data._id  }));
+                    this.teamsTable.renderRows();
+                    this.notificationService.success("User added to team!");
+                } else {
+                    this.notificationService.error("An error occurred adding this user to the team");
+                }
+            });
+    
+          //Clear input
+          teamsSearchInput.value = "";
+          teamsSearchInput.blur();
+        },
+        revoke: (index) => {
+          //Send request 
+          //@ts-ignore
+          this.userGroupService.removeTeamMember({
+            _id: this.teams.selected[index].link_id
+          }).subscribe((data: any) => {
+            if (data.success) {
+                //Remove by index
+                this.teams.selected.splice(index, 1);
+                this.teamsTable.renderRows();
+                this.notificationService.success("User has been removed from the team");
+            } else {
+                this.notificationService.error("An error occurred removing this user from the team");
+            }
+          })
+        }
+    };
 }
