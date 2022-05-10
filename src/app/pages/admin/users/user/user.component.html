@@ -1,135 +1,215 @@
-<div fxLayout="row wrap" fxLayoutGap="15px" class="pill">
-  <div fxFlex.gt-md="135px" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
-    <img mat-card-avatar [src]="user?.profile.photobase64 || '../../../../../assets/images/login.png'" />
-  </div>
-  <div fxFlex.gt-md="calc(100% - 155px)" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="start center">
-    <div>
-      <p><b>Name:</b> {{ user?.profile.name }} <b class="m-l-30">Username: </b> {{ user?.profile.username }}</p>
-      <p>
-        <b>Organisation: </b> {{ user?.profile.organisation }}
-        <span *ngIf="user?.profile.linemanager" class="m-l-30"><b>Line manager: </b> {{ user?.profile.linemanager }}</span>
-      </p>
+<!-- User details -->
+<div class="pill m-b-30">
+  <mat-card-title>User Details</mat-card-title>
+  <div fxLayout="row wrap" fxLayoutGap="15px">
+    <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="start center">
+      <div>
+        <p><b>Name:</b> {{ user?.name }}</p>
+        <p><b>Username: </b> {{ user?.username }}</p>  
+      </div>
+    </div>
+    <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="start center">
+      <div>
+        <p><b>Organisation: </b> {{ user?.organisation }}</p>
+        <p *ngIf="user?.linemanager"><b>Line manager: </b> {{ user?.linemanager }}</p>  
+      </div>
     </div>
   </div>
 </div>
 
-<mat-divider style="position: relative; margin: 30px 0px"></mat-divider>
-<mat-card-title>Assigned Roles</mat-card-title>
-<mat-form-field>
-  <mat-label>Assign a new role</mat-label>
-  <input type="text" placeholder="Search by name" aria-label="Number" matInput [matAutocomplete]="roleAutoComplete" />
-  <mat-autocomplete (optionSelected)="role.assign(null)" #roleAutoComplete="matAutocomplete">
-    <!-- <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{option}}
-        </mat-option> -->
-    <mat-option value="covid_19">COVID-19 Data</mat-option>
-  </mat-autocomplete>
-</mat-form-field>
-<table mat-table [dataSource]="user.roles" class="w-100">
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Role Name</th>
-    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-  </ng-container>
+<!-- Access logs -->
+<div class="m-b-30">
+  <mat-card-title class="m-b-15">Latest access logs</mat-card-title>
+  <table mat-table [dataSource]="accessLogs" class="w-100 mat-elevation-z2">
+    <!-- Code Column -->
+    <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+    </ng-container>
 
-  <!-- Capabilties Column -->
-  <ng-container matColumnDef="capabilities">
-    <th mat-header-cell *matHeaderCellDef>Capabilities</th>
-    <td mat-cell *matCellDef="let element">{{ element.capabilities.join(", ") }}</td>
-  </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef> Username </th>
+        <td mat-cell *matCellDef="let element"> {{element['username#org'].split('#')[0]}} </td>
+    </ng-container>
 
-  <!-- Description Column -->
-  <ng-container matColumnDef="description">
-    <th mat-header-cell *matHeaderCellDef>Description</th>
-    <td mat-cell *matCellDef="let element">{{ element.description }}</td>
-  </ng-container>
+    <!-- Description Column -->
+    <ng-container matColumnDef="organisation">
+        <th mat-header-cell *matHeaderCellDef> Organisation </th>
+        <td mat-cell *matCellDef="let element"> {{element['username#org'].split('#')[1]}} </td>
+    </ng-container>
 
-  <!-- Actions Column -->
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef>Actions</th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-raised-button color="primary">Revoke</button>
-    </td>
-  </ng-container>
+    <!-- Tags Column -->
+    <ng-container matColumnDef="timestamp">
+      <th mat-header-cell *matHeaderCellDef> Timestamp </th>
+      <td mat-cell *matCellDef="let element"> {{(element.date + " " + element.time) | date : 'd/M/Y h:mm a'}} </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="['name', 'capabilities', 'description', 'actions']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['name', 'capabilities', 'description', 'actions']"></tr>
-</table>
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <button (click)="view(element)" mat-raised-button color="primary" class="m-r-15">View</button>
+      </td>
+    </ng-container>
 
-<mat-card-title class="m-t-30">Assigned Capabilities</mat-card-title>
-<mat-form-field>
-  <mat-label>Assign a new capability</mat-label>
-  <input type="text" placeholder="Search by name" aria-label="Number" matInput [matAutocomplete]="roleAutoComplete" />
-  <mat-autocomplete (optionSelected)="capability.assign(null)" #roleAutoComplete="matAutocomplete">
-    <!-- <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{option}}
-        </mat-option> -->
-    <mat-option value="covid_19">COVID-19 Data</mat-option>
-  </mat-autocomplete>
-</mat-form-field>
-<table mat-table [dataSource]="user.capabilities" class="w-100">
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
-    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-  </ng-container>
+    <tr mat-header-row *matHeaderRowDef="['type', 'username', 'organisation', 'timestamp']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['type', 'username', 'organisation', 'timestamp'];"></tr>
+    <tr class="mat-row" *matNoDataRow><td class="mat-cell" colspan="3">No results</td></tr>
+  </table>
+  
+  <div class="w-100 text-right">
+    <a routerLink="/admin/access-logs" [queryParams]="{ query_by: 'user', user: user?.id }" style="display: block; margin-top: 5px;">View all</a>
+  </div>
+</div>
 
-  <!-- Description Column -->
-  <ng-container matColumnDef="description">
-    <th mat-header-cell *matHeaderCellDef>Description</th>
-    <td mat-cell *matCellDef="let element">{{ element.description }}</td>
-  </ng-container>
+<div class="m-b-10">
+  <mat-card-title class="m-b-15">Assignments</mat-card-title>
+  <mat-accordion>
+    <!-- Roles -->
+    <mat-expansion-panel (afterExpand)="roles.get()" (afterCollapse)="roles.save()">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Roles</mat-panel-title>
+        <mat-panel-description>View and edit roles assigned to this user</mat-panel-description>
+      </mat-expansion-panel-header>
+      
+      <!-- Roles table -->
+      <mat-form-field style="margin-bottom: -1.34375em;">
+        <mat-label>Add new role</mat-label>
+        <input (keyup)="roles.search($event.target.value)" (focus)="roles.search()" type="text" placeholder="Search by name" matInput [matAutocomplete]="roleSearchAutocomplete" #rolesSearchInput>
+        <mat-autocomplete (optionSelected)="roles.assign($event, rolesSearchInput)" #roleSearchAutocomplete="matAutocomplete">
+          <mat-option *ngFor="let role of roles.list.filtered" [value]="role">
+              {{ role.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    
+      <table mat-table [dataSource]="roles.selected" class="w-100" #rolesTable>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="w-25"> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef class="w-75"> Description </th>
+          <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+    
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            <button (click)="roles.revoke(i)" mat-raised-button color="warn">Revoke</button>
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="['name', 'description', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'description', 'actions'];"></tr>
+        
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="3">No roles assigned to this user</td>
+        </tr>
+      </table>
+    </mat-expansion-panel>
 
-  <!-- Description Column -->
-  <ng-container matColumnDef="approved_by">
-    <th mat-header-cell *matHeaderCellDef>Approved by</th>
-    <td mat-cell *matCellDef="let element">{{ element.approved_by }}</td>
-  </ng-container>
+    <!-- Capabilities -->
+    <mat-expansion-panel (afterExpand)="capabilities.get()" (afterCollapse)="capabilities.save()">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Capabilities</mat-panel-title>
+        <mat-panel-description>View and edit capabilities assigned to this user</mat-panel-description>
+      </mat-expansion-panel-header>
+      
+      <!-- Capabilities table -->
+      <mat-form-field style="margin-bottom: -1.34375em;">
+        <mat-label>Add new capability</mat-label>
+        <input (keyup)="capabilities.search($event.target.value)" (focus)="capabilities.search()" type="text" placeholder="Search by name" matInput [matAutocomplete]="capabilitySearchAutocomplete" #capabilitiesSearchInput>
+        <mat-autocomplete (optionSelected)="capabilities.assign($event, capabilitiesSearchInput)" #capabilitySearchAutocomplete="matAutocomplete">
+          <mat-option *ngFor="let role of capabilities.list.filtered" [value]="role">
+            {{ role.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    
+      <table mat-table [dataSource]="capabilities.selected" class="w-100" #capabilitiesTable>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element" class="w-25"> {{element.name}} </td>
+        </ng-container>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element" class="w-75"> {{element.description}} </td>
+        </ng-container>
+    
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            <button (click)="capabilities.revoke(i)" mat-raised-button color="warn">Revoke</button>
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="['name', 'description', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'description', 'actions'];"></tr>
+        
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="3">No capabilities assigned to this user</td>
+        </tr>
+      </table>
+    </mat-expansion-panel>
 
-  <!-- Actions Column -->
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef>Actions</th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-raised-button color="primary">Revoke</button>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="['name', 'description', 'approved_by', 'actions']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['name', 'description', 'approved_by', 'actions']"></tr>
-</table>
-
-<mat-card-title class="m-t-30">Teams</mat-card-title>
-<mat-form-field>
-  <mat-label>Add user to new team</mat-label>
-  <input type="text" placeholder="Search by name" matInput (keyup)="team.search($event.target.value)" [matAutocomplete]="roleAutoComplete" #teamSearchInput />
-  <mat-autocomplete (optionSelected)="team.assign($event)" #roleAutoComplete="matAutocomplete">
-    <!-- <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{option}}
-        </mat-option> -->
-    <mat-option value="covid_19">COVID-19 Data</mat-option>
-  </mat-autocomplete>
-</mat-form-field>
-<table mat-table [dataSource]="user.teams" class="w-100">
-  <!-- Name Column -->
-  <ng-container matColumnDef="teamcode">
-    <th mat-header-cell *matHeaderCellDef>Team Code</th>
-    <td mat-cell *matCellDef="let element">{{ element.teamcode }}</td>
-  </ng-container>
-
-  <!-- Join date Column -->
-  <ng-container matColumnDef="joindate">
-    <th mat-header-cell *matHeaderCellDef>Join date</th>
-    <td mat-cell *matCellDef="let element">{{ element.joindate }}</td>
-  </ng-container>
-
-  <!-- Actions Column -->
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef>Actions</th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-raised-button color="primary">Remove</button>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="['teamcode', 'joindate', 'actions']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['teamcode', 'joindate', 'actions']"></tr>
-</table>
+    <mat-expansion-panel (afterExpand)="teams.get()">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Teams</mat-panel-title>
+        <mat-panel-description>View the user's teams</mat-panel-description>
+      </mat-expansion-panel-header>
+      
+      <!-- Teams table -->
+      <mat-form-field style="margin-bottom: -1.34375em;">
+        <mat-label>Add new team</mat-label>
+        <input (keyup)="teams.search($event.target.value)" (focus)="teams.search()" type="text" placeholder="Search by name" matInput [matAutocomplete]="teamSearchAutocomplete" #teamSearchInput>
+        <mat-autocomplete (optionSelected)="teams.assign($event, teamSearchInput)" #teamSearchAutocomplete="matAutocomplete">
+          <mat-option *ngFor="let role of teams.list.filtered" [value]="role">
+            {{ role.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    
+      <table mat-table [dataSource]="teams.selected" class="w-100" #teamsTable>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element" class="w-25"> {{element.name}} </td>
+        </ng-container>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element" class="w-75"> {{element.description}} </td>
+        </ng-container>
+    
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            <button (click)="teams.revoke(i)" mat-raised-button color="warn">Revoke</button>
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="['name', 'description', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'description', 'actions'];"></tr>
+        
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="3">No teams assigned to this user</td>
+        </tr>
+      </table>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

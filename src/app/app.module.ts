@@ -1,5 +1,4 @@
-
-import { NgModule } from "@angular/core";
+import { ErrorHandler, NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { BrowserModule } from "@angular/platform-browser";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
@@ -49,6 +48,7 @@ import { PostcodeService } from "./_services/postcodes.service";
 import { StorageService } from "./_services/storage.service";
 import { RequestInterceptor } from "./_services/requestinterceptor.service";
 import { environment } from "src/environments/environment";
+import { CwrErrorHandler } from "./cwr-error-handler";
 
 @NgModule({
   declarations: [AppComponent, FullComponent, FullmapComponent, SpinnerComponent, FormLayoutComponent, SupportLayoutComponent, SupportLayoutSidebarComponent],
@@ -108,6 +108,10 @@ import { environment } from "src/environments/environment";
     DIUServicesModule,
     { provide: "environment", useValue: environment },
     NotificationService,
+    {
+      provide: ErrorHandler,
+      useClass: CwrErrorHandler,
+    },
   ],
   bootstrap: [AppComponent],
 })

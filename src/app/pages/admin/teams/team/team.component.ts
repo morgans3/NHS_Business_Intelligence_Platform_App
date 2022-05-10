@@ -1,16 +1,19 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { APIService } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
 import { MatTable } from "@angular/material/table";
 import { forkJoin } from "rxjs";
+declare function cwr(operation: string, payload: any): void;
 
 @Component({
   selector: "admin-team",
   templateUrl: "./team.component.html",
+  styleUrls: ["./team.component.scss"]
 })
 export class TeamComponent implements OnInit {
+
   @ViewChild("rolesTable") rolesTable: MatTable<any>;
   @ViewChild("capabilitiesTable") capabilitiesTable: MatTable<any>;
 
@@ -26,6 +29,12 @@ export class TeamComponent implements OnInit {
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private apiService: APIService, private notificationService: NotificationService) {}
 
   ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        cwr("recordPageView", this.router.url);
+      }
+    });
+
     //Listen for id param
     this.activatedRoute.params.subscribe((params) => {
       if (params.id && params.id !== "new") {

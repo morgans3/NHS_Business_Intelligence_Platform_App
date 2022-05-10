@@ -1,0 +1,5 @@
+:host ::ng-deep {
+    th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+        padding-left: 0px !important;
+    }
+}
