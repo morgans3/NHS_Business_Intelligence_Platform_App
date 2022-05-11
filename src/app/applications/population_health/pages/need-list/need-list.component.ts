@@ -1264,7 +1264,9 @@ export class NeedListComponent {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
       this.tokenDecoded = decodeToken(token);
-      this.cohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: any[]) => {
+      this.cohortsService.get({
+        username: this.tokenDecoded.username
+      }).subscribe((res: any[]) => {
         this.cohort_array = res;
         this.cohort_array.forEach((d) => {
           this.cohort_names.push("Cohort " + d.cohortName);

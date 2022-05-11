@@ -49,19 +49,19 @@ export class AccessLogsTableComponent implements OnInit {
         if (startItem) { this.filters.pageKey = JSON.stringify({ date: startItem.date, uuid: startItem.uuid }); }
 
         //Get by date
-        dataObservable = this.apiService.getAllAccessLogs(this.filters.date.format('YYYY-MM-DD'), this.filters.pageKey);
+        dataObservable = this.apiService.getAllAccessLogs({ date: this.filters.date.format('YYYY-MM-DD'), pageKey: this.filters.pageKey });
     } else if (this.filters.query_by == 'user') {
         //Set page key?
         if (startItem) { this.filters.pageKey = JSON.stringify({ date: startItem.date, uuid: startItem.uuid, "username#org": startItem['username#org'] }); }
 
         //Get by user
-        dataObservable = this.apiService.getAllAccessLogsByUser(this.filters.user, null, this.filters.pageKey);
+        dataObservable = this.apiService.getAllAccessLogsByUser({ user: this.filters.user, pageKey: this.filters.pageKey });
     } else {
         //Set page key?
         if (startItem) { this.filters.pageKey = JSON.stringify({ date: startItem.date, uuid: startItem.uuid, type: startItem.type }); }
 
         //Get by type
-        dataObservable = this.apiService.getAllAccessLogs(null, this.filters.type, this.filters.pageKey);
+        dataObservable = this.apiService.getAllAccessLogs({ type: this.filters.type, pageKey: this.filters.pageKey });
     }
 
     dataObservable.subscribe((data: any) => {

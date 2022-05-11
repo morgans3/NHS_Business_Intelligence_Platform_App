@@ -17,12 +17,12 @@ export class CohortService extends BaseService {
         this.baseUrl = this.combineURL(origin, "api");
     }
 
-    public get() {
-        return this.http.get(this.baseUrl + "cohorts");
-    }
-
-    public getByUsername(email: string) {
-        return this.http.get(this.baseUrl + "cohorts/getByuser?user=" + email);
+    public get(
+        filters: { username?: string }
+    ) {
+        return this.http.get(this.baseUrl + "cohorts", {
+            params: filters
+        });
     }
 
     public create(payload: Cohort) {

@@ -83,5 +83,9 @@ export const DefaultRoutes: Routes = [
   {
     path: "virtualwards_decisions",
     loadChildren: () => import("./caseloads/vwdecisions/vwdecisions.module").then((m) => m.VWDecisionsModule)
+  },
+  {
+    path: "recent_referrals",
+    loadChildren: () => import("./caseloads/recentreferrals/recentreferrals.module").then((m) => m.RecentReferralsModule)
   }
 ];

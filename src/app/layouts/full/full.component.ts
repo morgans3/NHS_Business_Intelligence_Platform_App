@@ -93,11 +93,12 @@ export class FullComponent implements OnDestroy, OnInit {
     // Call in App Settings and MenuItems
     this.apiService.getPayloadById(id).subscribe((payload: any) => {
       if (payload) {
-        //Get new config
+        //Get & set new config
         const appConfig = JSON.parse(payload?.config);
-
-        //Clear current config
         localStorage.setItem("@AppConfig", JSON.stringify(appConfig));
+
+        //Get user capability array
+        let userCapabilities = this.user.capabilities.map((item) => Object.keys(item)[0]);
 
         //Set new config
         this.config = {
@@ -108,8 +109,8 @@ export class FullComponent implements OnDestroy, OnInit {
               //Check for role
               let userHasRole = 
                 this.user && 
-                this.user.capabilities && 
-                this.user.capabilities.filter((x: any) => x[menu.role] && x[menu.role] !== "deny").length > 0;
+                userCapabilities && 
+                userCapabilities.includes(menu.role);
 
               //Return
               return userHasRole ? true : false;

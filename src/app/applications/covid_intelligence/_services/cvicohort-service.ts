@@ -17,12 +17,12 @@ export class CviCohortService extends BaseService {
         this.baseUrl = this.combineURL(origin, "api");
     }
 
-    // public get() {
-    //     return this.http.get(this.baseUrl + "cohorts");
-    // }
-
-    public getByUsername(username: string) {
-        return this.http.get(this.baseUrl + "cvicohorts/getByusername?username=" + username);
+    public get(
+        filters: { username?: string }
+    ) {
+        return this.http.get(this.baseUrl + "cvicohorts", {
+            params: filters
+        });
     }
 
     public create(payload: CVICohort) {

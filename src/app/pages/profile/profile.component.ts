@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
 
   getData() {
     if (this.userDecodedToken && this.userDecodedToken.username) {
-      this.usergroupService.getUserProfileByUsername(this.userDecodedToken.username).subscribe((res: any) => {
+      this.usergroupService.getUserProfileByUsername(`${this.userDecodedToken.username}#${this.userDecodedToken.organisation}`).subscribe((res: any) => {
         if (res.success === false) {
           this.notificationService.warning("Unable to locate your profile, we will create a profile for you shortly.");
           const newProfile: iUserDetails = {

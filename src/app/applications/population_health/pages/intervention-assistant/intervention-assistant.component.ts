@@ -103,7 +103,9 @@ export class InterventionAssistantComponent implements OnInit {
     if (token) {
       this.tokenDecoded = decodeToken(token);
       this.cohortsService
-        .getByUsername(this.tokenDecoded.username)
+        .get({ 
+          username: this.tokenDecoded.username
+        })
         .subscribe((res: Cohort[]) => {
           this.cohort_array = res;
         });

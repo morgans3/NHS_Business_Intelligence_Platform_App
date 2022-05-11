@@ -86,7 +86,7 @@ export class InterventionAssistantComponent implements OnInit {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
       this.tokenDecoded = decodeToken(token);
-      this.cviCohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+      this.cviCohortsService.get({ username: this.tokenDecoded.username }).subscribe((res: Cohort[]) => {
         this.cohort_array = res;
       });
     }

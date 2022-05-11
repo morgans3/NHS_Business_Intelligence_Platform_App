@@ -47,7 +47,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
     if (token) {
       this.tokenDecoded = decodeToken(token);
       this.teamcodes = this.tokenDecoded["memberships"];
-      this.cohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+      this.cohortsService.get({
+        username: this.tokenDecoded.username
+      }).subscribe((res: Cohort[]) => {
         res.forEach((item) => {
           if (item.cohorturl.length < 3) {
             item.cohorturl = "{}";
@@ -160,7 +162,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
     }
     this.selectedCohort = newCohort;
     this.cohortsService.create(this.selectedCohort).subscribe((data) => {
-      this.cohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+      this.cohortsService.get({
+        username: this.tokenDecoded.username
+      }).subscribe((res: Cohort[]) => {
         this.allcohorts = res;
         this.notificationService.success("New cohort has been created");
       });
@@ -189,7 +193,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
   confirmUpdate() {
     this.selectedCohort.cohorturl = JSON.stringify(this.cohort);
     this.cohortsService.update(this.selectedCohort).subscribe((data) => {
-      this.cohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+      this.cohortsService.get({
+        username: this.tokenDecoded.username
+      }).subscribe((res: Cohort[]) => {
         this.allcohorts = res;
         this.notificationService.success("Cohort Database has been updated");
       });
@@ -211,7 +217,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
     ]).then((confirmed) => {
       if (confirmed == true) {
         this.cohortsService.delete(this.selectedCohort).subscribe((data) => {
-          this.cohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+          this.cohortsService.get({
+            username: this.tokenDecoded.username
+          }).subscribe((res: Cohort[]) => {
             this.allcohorts = res;
             this.notificationService.success("Cohort has been removed from Database");
           });

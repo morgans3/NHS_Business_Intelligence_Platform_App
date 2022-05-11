@@ -96,7 +96,7 @@ export class CohortcompareComponent implements OnInit {
     const token = this.store.selectSnapshot(AuthState.getToken);
     if (token) {
       this.tokenDecoded = decodeToken(token);
-      this.cohortsService.getByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+      this.cohortsService.get({ username: this.tokenDecoded.username }).subscribe((res: Cohort[]) => {
         res.forEach((item) => {
           if (item.cohorturl.length < 3) {
             item.cohorturl = "{}";
