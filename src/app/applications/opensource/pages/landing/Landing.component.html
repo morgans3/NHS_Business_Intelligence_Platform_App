@@ -1,0 +1,60 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>
+          Open Source Pages
+        </mat-card-title>
+        <div style="padding: 0 10px">
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Select a Page..." (selectionChange)="changePage($event.value)">
+              <mat-option value="Test">Test</mat-option>
+              <mat-option value="health_inequalities_tool">Health Inequalities Tool</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="searchResults">
+          <p>Page Views:</p>
+          <div class="bg-light p-10 p-r-20 p-l-20">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+          </div>
+          <mat-spinner diameter="30" *ngIf="!dataFetched"></mat-spinner>
+          <div class="responsive-table" *ngIf="dataFetched">
+            <mat-table #Table [dataSource]="dataSource" matSort>
+
+              <ng-container matColumnDef="page">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Page </mat-header-cell>
+                <mat-cell *matCellDef="let task"> {{task.page}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="parent">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Displayed At </mat-header-cell>
+                <mat-cell *matCellDef="let task"> {{task.parent}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="ipaddress">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> IP Address </mat-header-cell>
+                <mat-cell *matCellDef="let task"> {{task.ipaddress}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="datetime">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Date Viewed </mat-header-cell>
+                <mat-cell *matCellDef="let task"> {{task.datetime}} </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+            </mat-table>
+
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50]">
+            </mat-paginator>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

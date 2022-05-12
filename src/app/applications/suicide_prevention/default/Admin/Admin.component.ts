@@ -146,7 +146,7 @@ export class AdminComponent implements OnInit {
 
   updatelists(event?) {
     if (event === undefined) {
-      this.referenceService.getIncidentMethods().subscribe((data: IncidentMethods[]) => {
+      this.referenceService.getSpiIncidents().subscribe((data: IncidentMethods[]) => {
         this.allmethods = data;
         if (this.allmethods.length > 0) {
           this.dividemethods();

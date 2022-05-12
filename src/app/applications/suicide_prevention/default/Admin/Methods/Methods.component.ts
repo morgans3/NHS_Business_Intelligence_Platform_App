@@ -33,7 +33,10 @@ export class MethodsComponent implements OnInit, OnChanges {
   methods: IncidentMethods[] = [];
   @Output() updatedmethods = new EventEmitter<IncidentMethods[]>();
 
-  constructor(private referenceService: APIService, private notificationService: NotificationService) {}
+  constructor(
+    private apiService: APIService, 
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit() {
     this.methods = this.inputmethods;
@@ -61,7 +64,7 @@ export class MethodsComponent implements OnInit, OnChanges {
       if (updateItem.length > 0) {
         updateItem[0].priority = this.myForm.value["priority"];
         updateItem[0].list = this.list;
-        this.referenceService.updateIncidentMethod(updateItem[0]).subscribe((data: any) => {
+        this.apiService.updateSpiIncident(updateItem[0]).subscribe((data: any) => {
           this.methods.splice(this.methods.indexOf(this.methods.filter((x) => x.method === this.myForm.value["method"])[0]), 1, this.myForm.value);
           this.buildTable();
           this.notificationService.success("Updated record");
@@ -78,7 +81,7 @@ export class MethodsComponent implements OnInit, OnChanges {
       const item = this.myForm.value;
       item.list = this.list;
       item.dateCreated = new Date().toISOString();
-      this.referenceService.addIncidentMethod(item).subscribe((data: any) => {
+      this.apiService.createSpiIncident(item).subscribe((data: any) => {
         this.methods.push(item);
         this.buildTable();
         this.formDirective.resetForm();
@@ -106,7 +109,7 @@ export class MethodsComponent implements OnInit, OnChanges {
   }
 
   removeRecord(row: IncidentMethods) {
-    this.referenceService.removeIncidentMethod(row).subscribe((res: any) => {
+    this.apiService.deleteSpiIncident(row).subscribe((res: any) => {
       if (res.error) {
         this.notificationService.warning("Unable to remove method, reason: " + res.message);
       } else {

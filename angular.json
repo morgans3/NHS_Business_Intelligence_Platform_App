@@ -28,7 +28,7 @@
               "node_modules/@fortawesome/fontawesome-free/scss/regular.scss",
               "node_modules/@fortawesome/fontawesome-free/scss/brands.scss",
               "node_modules/animate.css/animate.css",
-              "src/assets/fonts/material-icons/iconfont/material-icons.css"
+              "src/assets/fonts/material-icons/iconfont/material-icons.css",
             ],
             "scripts": [],
             "vendorChunk": true,

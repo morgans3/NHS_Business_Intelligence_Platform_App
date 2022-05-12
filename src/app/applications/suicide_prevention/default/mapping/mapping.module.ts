@@ -7,7 +7,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
-import { DefaultModule } from "../default/default.module";
+import { DefaultModule } from "../default.module";
 import { MappingComponent } from "./mapping/mapping.component";
 import { WorksheetComponent } from "./mapping/worksheet/worksheet.component";
 import { MaterialModule } from "diu-component-library";

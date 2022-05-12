@@ -96,7 +96,7 @@ export class IncidentFormComponent implements OnInit {
   showToolTip: boolean;
 
   constructor(private storageService: StorageService, private apiService: APIService, private notificationService: NotificationService, public dialog: MatDialog, private router: Router) {
-    this.apiService.getIncidentMethods().subscribe((res: IncidentMethods[]) => {
+    this.apiService.getSpiIncidents().subscribe((res: IncidentMethods[]) => {
       if (res.length > 0) {
         this.allsortedmethods = res.sort((a, b) => {
           if (parseInt(b.priority) - parseInt(a.priority) === 0) {

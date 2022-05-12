@@ -56,6 +56,18 @@ export const AppRoutes: Routes = [
         loadChildren: () => import("./applications/population_health/default.module").then((m) => m.DefaultModule)
       },
       {
+        path: "suicide-prevention",
+        component: FullComponent,
+        data: { layout_config: { id: "Suicide_Prevention" }},
+        loadChildren: () => import("./applications/suicide_prevention/default/default.module").then((m) => m.DefaultModule)
+      },
+      {
+        path: "opensource",
+        component: FullComponent,
+        data: { layout_config: { id: "Opensource" }},
+        loadChildren: () => import("./applications/opensource/default.module").then((m) => m.DefaultModule)
+      },
+      {
         path: "**",
         component: FullComponent,
         loadChildren: () => import("./pages/dynamic/dynamic.module").then((m) => m.DynamicPageModule),
