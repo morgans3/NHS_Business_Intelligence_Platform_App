@@ -6,6 +6,7 @@ export const Routes: RouteInterface = [
     {
         path: "",
         component: RolesTableComponent,
+        data: { awsTrackable: true }
     },
     {
         path: ":id",

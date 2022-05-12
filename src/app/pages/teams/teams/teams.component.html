@@ -19,9 +19,9 @@
       <mat-card-content style="text-align: center" [@expandCollapse]="openCloseAnim">
         <div *ngIf="visible">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Search for a Team by Name..." type="text" [matAutocomplete]="auto" [formControl]="myControl" />
+            <input matInput placeholder="Search for a Team by Name..." type="text" [matAutocomplete]="auto" [formControl]="myControl" cyName="team-search" />
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="changeTeamWithName($event.option.value)">
-              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option" cyName="team-name">
                 <mat-icon *ngIf="inTeam(option)">account_circle</mat-icon>
                 {{ option }}
               </mat-option>

@@ -74,14 +74,14 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (success) => {
           //Get teams
-          this.store.dispatch(new UpdateTeams());
-
-          //Check if password expired?
-          if (success.stateauth.password_expired && success.stateauth.password_expired == true) {
-            this.router.navigateByUrl("/Profile?action=change-password");
-          } else {
-            this.router.navigateByUrl("/" + environment.homepage);
-          }
+          this.store.dispatch(new UpdateTeams()).subscribe(() => {
+            //Check if password expired?
+            if (success.stateauth.password_expired && success.stateauth.password_expired == true) {
+              this.router.navigateByUrl("/Profile?action=change-password");
+            } else {
+              this.router.navigateByUrl("/" + environment.homepage);
+            }  
+          });
         },
         (error) => {
           this.notificationService.error("Login failed! Please check your username, password and organisation are correct.");

@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-const NumberHelper = require("../../../helpers/number");
+const NumberHelper = require("../../helpers/number");
 
 describe("Admin: Test profile page", () => {
     beforeEach(() => {
@@ -21,5 +21,4 @@ describe("Admin: Test profile page", () => {
         cy.reload();
         cy.get("input[formcontrolname=contactnumber]").should("have.value", newPhoneNumber);
     });
-
 });

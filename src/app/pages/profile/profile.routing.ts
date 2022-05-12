@@ -5,9 +5,11 @@ export const ProfileRoutes: Routes = [
   {
     path: "",
     component: ProfileComponent,
+    data: { awsTrackable: true }
   },
   {
     path: ":tab",
     component: ProfileComponent,
+    data: { awsTrackable: true }
   },
 ];

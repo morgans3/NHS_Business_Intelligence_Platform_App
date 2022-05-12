@@ -26,7 +26,7 @@ describe("Admin: Test dashboards page", () => {
         //Get first table row and click
         cy.get(".mat-table tbody tr:first-of-type > td button").first().then((editButton) => {
             //Open modal
-            editButton.click();
+            editButton.trigger('click');
 
             //Input has value
             cy.get("admin-dashboard-modal input[formcontrolname='name']").invoke('val').should('not.be.empty')

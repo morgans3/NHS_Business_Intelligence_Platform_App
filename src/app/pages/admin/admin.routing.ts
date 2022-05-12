@@ -17,7 +17,8 @@ export const AdminRoutes: Routes = [
             },
             {
                 path: "requests",
-                component: RequestsTableComponent
+                component: RequestsTableComponent,
+                data: { awsTrackable: true }
             },
             {
                 path: "requests/:id",

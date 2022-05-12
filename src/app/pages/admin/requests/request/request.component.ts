@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { APIService } from "diu-component-library/";
-declare function cwr(operation: string, payload: any): void;
 
 @Component({
   selector: "app-requests-request",
@@ -44,11 +43,6 @@ export class RequestComponent implements OnInit {
   constructor(private apiService: APIService, private activatedRoute: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        cwr("recordPageView", this.router.url);
-      }
-    });
     this.activatedRoute.params.subscribe((params) => {
       if (params.id) {
         // TODO: Allow ability to get all request types

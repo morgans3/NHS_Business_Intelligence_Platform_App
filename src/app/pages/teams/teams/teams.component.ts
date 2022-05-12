@@ -9,7 +9,6 @@ import { startWith, map } from "rxjs/operators";
 import { ReferenceState } from "../../../_states/reference.state";
 import { decodeToken } from "src/app/_pipes/functions";
 import { iTeam, iTeamMembers, APIService } from "diu-component-library";
-declare function cwr(operation: string, payload: any): void;
 
 @Component({
   selector: "app-team",
@@ -41,11 +40,6 @@ export class TeamsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        cwr("recordPageView", this.router.url);
-      }
-    });
     this.route.paramMap.subscribe((params) => {
       this.selectedteamcode = params.get("teamcode") || "";
       if (this.allTeams.length > 0) {

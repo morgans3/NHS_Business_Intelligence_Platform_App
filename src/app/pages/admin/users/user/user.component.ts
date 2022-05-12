@@ -32,7 +32,7 @@ export class UserComponent implements OnInit {
                 this.user = Object.assign(user, { id: params.id });
 
                 //Init access logs
-                this.apiService.getAllAccessLogsByUser(this.user.id).subscribe((data: any) => {
+                this.apiService.getAllAccessLogsByUser({ user: params.id }).subscribe((data: any) => {
                     this.accessLogs = data.Items.slice(0, 5);
                 })
 
@@ -172,7 +172,7 @@ export class UserComponent implements OnInit {
         assign: ($event, teamsSearchInput) => {
             //Send request
             //@ts-ignore
-            this.userGroupService.addTeamMember({
+            this.apiService.addTeamMember({
                 teamcode: $event.option.value.code,
                 username: this.user.username,
                 joindate: new Date()
@@ -194,7 +194,7 @@ export class UserComponent implements OnInit {
         revoke: (index) => {
           //Send request 
           //@ts-ignore
-          this.userGroupService.removeTeamMember({
+          this.apiService.removeTeamMember({
             _id: this.teams.selected[index].link_id
           }).subscribe((data: any) => {
             if (data.success) {

@@ -75,6 +75,7 @@ export const AppRoutes: Routes = [
       {
         path: "teams",
         loadChildren: () => import("./pages/teams/teams.module").then((m) => m.TeamsModule),
+        data: { awsTrackable: true }
       },
       {
         path: "profile",

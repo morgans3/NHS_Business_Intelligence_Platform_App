@@ -14,6 +14,7 @@ export class DynamicComponent implements OnChanges {
   location: string = "";
 
   constructor(private router: Router, private apiService: APIService) {
+    //Track pages with AWS RUM
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         cwr("recordPageView", this.router.url);

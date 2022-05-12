@@ -9,5 +9,9 @@ export const SupportRoutes: Routes = [
     { path: "guides", component: GuideComponent },
     { path: "status", component: StatusComponent },
     { path: "access-request", component: AccessRequestFormComponent },
-    { path: "access-request/:action", component: AccessRequestActionFormComponent }
+    { 
+        path: "access-request/:action", 
+        component: AccessRequestActionFormComponent,
+        data: { awsTrackable: true }
+    }
 ];

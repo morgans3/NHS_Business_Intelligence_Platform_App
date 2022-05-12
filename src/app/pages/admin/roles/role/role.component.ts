@@ -3,7 +3,6 @@ import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { APIService } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
-declare function cwr(operation: string, payload: any): void;
 
 @Component({
   selector: "admin-role-edit",
@@ -23,12 +22,6 @@ export class RoleComponent implements OnInit {
   constructor(private router: Router, private apiService: APIService, private activatedRoute: ActivatedRoute, private notificationService: NotificationService) {}
 
   ngOnInit() {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        cwr("recordPageView", this.router.url);
-      }
-    });
-
     //Listen for id param
     this.activatedRoute.params.subscribe((params) => {
       if (params.id && params.id !== "new") {

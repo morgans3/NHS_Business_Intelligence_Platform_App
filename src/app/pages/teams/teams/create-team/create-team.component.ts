@@ -63,7 +63,7 @@ export class CreateTeamComponent implements OnInit {
       organisationcode: this.myForm.controls["organisationcode"].value,
       responsiblepeople: this.responsiblepeople,
     };
-    this.usergroupService.addTeam(team).subscribe((data: any) => {
+    this.usergroupService.createTeam(team).subscribe((data: any) => {
       this.formDirective.resetForm();
       this.responsiblepeople = [];
       this.notificationService.success("Team has been created! Go to My Team page to begin adding members.");
