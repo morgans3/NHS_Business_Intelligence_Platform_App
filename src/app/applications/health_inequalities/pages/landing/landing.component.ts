@@ -53,9 +53,11 @@ let m_dsr = require("../../_data/mortality_dsr.JSON");
   styleUrls: ["./Landing.component.scss"]
 })
 export class HiLandingComponent implements OnInit {
+
   @ViewChild("graphMain", { static: false }) graphMain: ElementRef;
   @ViewChild("cardMain", { static: false }) cardMain: ElementRef;
   @ViewChild("toolbarMain", { static: false }) toolbarMain: ElementRef;
+  
   margin = { top: 20, right: 20, bottom: 50, left: 20 };
   height: number;
   width: number;
@@ -94,7 +96,7 @@ export class HiLandingComponent implements OnInit {
   dsr_plotwidth: number;
   dsr_plotheight: number;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     setTimeout(() => {
@@ -274,6 +276,7 @@ export class HiLandingComponent implements OnInit {
         // this.tooltip = null;
       });
   }
+
   one_down(d: any, i: any) {
     switch (this.level) {
       case 1:
@@ -303,6 +306,7 @@ export class HiLandingComponent implements OnInit {
     this.draw_mii = this.sub_item(this.draw_mii, d.name, "");
     this.plot_bars();
   }
+
   one_up() {
     switch (this.level) {
       case 0:
@@ -420,6 +424,7 @@ export class HiLandingComponent implements OnInit {
     }
     this.plot_bars();
   }
+
   add_rank(data: any[]) {
     const sort_rii = data.slice().sort(function(a, b) {
       return b.rii - a.rii;
@@ -432,6 +437,7 @@ export class HiLandingComponent implements OnInit {
       d.rank = rii_rank[i] / d3_test.max(rii_rank);
     });
   }
+  
   sub_item(data, name: string, type: string) {
     if (name.length === 4 && this.level > 2) {
       this.level = this.level;

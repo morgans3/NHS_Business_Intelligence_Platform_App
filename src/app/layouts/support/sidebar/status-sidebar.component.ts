@@ -25,10 +25,10 @@ export class SupportLayoutSidebarComponent implements OnDestroy, OnInit, OnChang
       icon: "fas fa-headset",
     },
     {
-      state: "support/status",
-      name: "System Status",
+      state: "support/access-request",
+      name: "Account Request",
       type: "link",
-      icon: "fas fa-signal",
+      icon: "fas fa-user-plus",
     },
     {
       state: "login",
@@ -40,7 +40,10 @@ export class SupportLayoutSidebarComponent implements OnDestroy, OnInit, OnChang
 
   private _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+  constructor(
+    media: MediaMatcher,
+    changeDetectorRef: ChangeDetectorRef
+  ) {
     this.mobileQuery = media.matchMedia("(min-width: 768px)");
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);

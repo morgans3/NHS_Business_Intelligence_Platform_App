@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { latLng, tileLayer } from "leaflet";
 import * as L from "leaflet";
 import { legendColors } from "./colorlist";
@@ -9,9 +9,11 @@ import { getTileLayer } from "./tilelayeroptions";
 @Component({
   selector: "app-mapping",
   templateUrl: "./mapping.component.html",
-  styleUrls: ["./mapping.component.css"],
+  styleUrls: ["./mapping.component.scss"],
+  encapsulation: ViewEncapsulation.None
 })
 export class MappingComponent implements OnInit {
+  
   mapHeight = { height: "100vh" };
   mapStyle = { display: "block" };
   mapRender = false;
