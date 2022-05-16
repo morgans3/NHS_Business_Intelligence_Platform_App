@@ -68,6 +68,18 @@ export const AppRoutes: Routes = [
         loadChildren: () => import("./applications/opensource/default.module").then((m) => m.DefaultModule)
       },
       {
+        path: "geosegmentation",
+        component: FullComponent,
+        data: { layout_config: { id: "Geosegmentation" }},
+        loadChildren: () => import("./applications/geosegmentation/default.module").then((m) => m.DefaultModule)
+      },
+      {
+        path: "health_inequalities",
+        component: FullComponent,
+        data: { layout_config: { id: "Health_Inequalities" }},
+        loadChildren: () => import("./applications/health_inequalities/default.module").then((m) => m.DefaultModule)
+      },
+      {
         path: "**",
         component: FullComponent,
         loadChildren: () => import("./pages/dynamic/dynamic.module").then((m) => m.DynamicPageModule),

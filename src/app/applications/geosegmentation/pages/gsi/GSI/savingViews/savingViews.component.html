@@ -1,0 +1,25 @@
+<div *ngIf="!isTeam" style="padding:5px">
+  <p>Save Options</p>
+  <button type="button" color="primary" mat-raised-button>
+    Save current View
+  </button>
+  <p>Previously Saved Views</p>
+  <mat-selection-list #points>
+    <mat-list-option *ngFor="let view of myViews">
+      {{ view }}
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+
+<div *ngIf="isTeam" style="padding:5px">
+  <p>Sharing Options</p>
+  <button type="button" color="primary" mat-raised-button>
+    Share View with Team
+  </button>
+  <p>Team Views</p>
+  <mat-selection-list #points>
+    <mat-list-option *ngFor="let view of teamViews">
+      {{ view }}
+    </mat-list-option>
+  </mat-selection-list>
+</div>

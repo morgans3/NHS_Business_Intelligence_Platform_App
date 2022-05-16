@@ -7,8 +7,8 @@ import * as d3Axis from "d3-axis";
 import * as d3_test from "d3";
 
 declare var require: any;
-const icdlookup = require("../_data/ICDLookup.json");
-let aii = require("../_data/admissions_inequality.json");
+const icdlookup = require("../../../_data/ICDLookup.json");
+let aii = require("../../../_data/admissions_inequality.json");
 aii = JSON.parse(
   JSON.stringify(aii)
     .split('"id":')
@@ -27,7 +27,7 @@ aii = JSON.parse(
     .join('"drilldown":')
 );
 //document.write(JSON.stringify(aii));
-let mii = require("../_data/mortality_inequality.json");
+let mii = require("../../../_data/mortality_inequality.json");
 mii = JSON.parse(
   JSON.stringify(mii)
     .split('"id":')
@@ -46,8 +46,8 @@ mii = JSON.parse(
     .join('"drilldown":')
 );
 //document.write(JSON.stringify(mii));
-let a_dsr = require("../_data/admissions_dsr.JSON");
-let m_dsr = require("../_data/mortality_dsr.JSON");
+let a_dsr = require("../../../_data/admissions_dsr.JSON");
+let m_dsr = require("../../../_data/mortality_dsr.JSON");
 
 @Component({
   selector: "app-health-inequalities-tool",

@@ -1,0 +1,214 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <button type="button" mat-raised-button [color]="pickMode('vertical')" (click)="changeMap('vertical')"
+      title="Vertical Split">
+      <mat-icon style="transform: rotate(90deg)">broken_image</mat-icon>
+    </button>
+    <button type="button" mat-raised-button [color]="pickMode('horizontal')" (click)="changeMap('horizontal')"
+      title="Horizontal Split">
+      <mat-icon>broken_image</mat-icon>
+    </button>
+    <button type="button" mat-raised-button [color]="pickMode('default')" (click)="changeMap('default')"
+      title="Single Map">
+      <mat-icon>panorama</mat-icon>
+    </button>
+    &nbsp;&nbsp;&nbsp;
+    <div style="display:inline-block" *ngIf="MosaicMapTwo && mapTwoStyle.display === 'block'">
+      <button type="button" mat-raised-button [color]="pickMode('sync')" title="Sync Map Movements"
+        (click)="toggleSync()">
+        <mat-icon>sync</mat-icon>
+      </button>
+      &nbsp;
+      <button type="button" mat-raised-button color="accent" title="Copy Centre from Primary to Secondary"
+        (click)="setCenter('primary')">
+        <mat-icon>gps_fixed</mat-icon>
+      </button>
+      <button type="button" mat-raised-button color="accent" title="Copy Filters from Primary to Secondary"
+        (click)="copyLayers('primary')">
+        <mat-icon>skip_next</mat-icon>
+      </button>
+      &nbsp;
+      <button type="button" mat-raised-button color="accent" title="Copy Filters from Secondary to Primary"
+        (click)="copyLayers('secondary')">
+        <mat-icon>skip_previous</mat-icon>
+      </button>
+      <button type="button" mat-raised-button color="accent" title="Copy Centre from Secondary to Primary"
+        (click)="setCenter('secondary')">
+        <mat-icon style="transform: rotate(45deg)">gps_fixed</mat-icon>
+      </button>
+      &nbsp;
+      <button type="button" mat-raised-button color="default" title="Match Height (lowest)" (click)="setToLowest()">
+        <mat-icon>low_priority</mat-icon>
+      </button>
+      <button type="button" mat-raised-button color="default" title="Match Height (highest)" (click)="setToHighest()">
+        <mat-icon style="transform: rotate(180deg)">low_priority</mat-icon>
+      </button>
+    </div>
+    <div fxFlex></div>
+    <button mat-raised-button color="primary" (click)="showGuide()" title="GSI Guide">
+      <mat-icon>info</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div fxLayout="row wrap" joyrideStep="gsi1" title="Geographical View" stepPosition="center"
+  text="From this view you can see how the selected data is spread across the Map.">
+  <div [fxFlex.gt-sm]="mapOneWidth" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card style="margin: 1px;">
+      <mat-card-content style="padding: 0px;">
+        <div #mapGraph [ngStyle]="mapHeight">
+          <app-map *ngIf="MosaicMap" [MapData]="MosaicMap" (ZoomChange)="zoomChange($event, 'primary')"
+            (CenterChange)="centerChange($event, 'primary')" MapName="MapOne" [MapZoom]="MapOneZoom"
+            [MapCenter]="MapOneCenter"></app-map>
+        </div>
+
+        <div fxLayout="row wrap">
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" joyrideStep="gsi2" title="Display Type"
+            text="Each display type will show a different map output and accompanying detail below. Mosaic Type will show all Mosaic Types and their prevalence across the map. Thematic Map will show the density of a particular Grand Index Variable. Single Mosaic Type will show the regions where that Mosaic Type is most common and detailed information about that Type.">
+            <div fxLayoutAlign="center center">
+              <strong>Display Type:</strong>&nbsp;
+              <div class="margin-top paditout" [formGroup]="group">
+                <mat-radio-group formControlName="display">
+                  <mat-radio-button (change)="changeType($event.value, 'secondary')"
+                    *ngFor="let item of displayTypesPrimary" [value]="item.value" [disabled]="item.disabled">
+                    {{ item.displayName }}</mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div class="margin-top paditout" [formGroup]="group" style="display: none;">
+                <mat-checkbox formControlName="tooltip">Turn Off Tooltip</mat-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <app-crimeLegend *ngIf="loadedCrimes && getPoints('Crimes', 'primary')" [Crimes]="loadedCrimes"
+      [CrimeCategories]="CrimeCategories"></app-crimeLegend>
+  </div>
+
+  <div [fxFlex.gt-sm]="mapTwoWidth" fxFlex.gt-xs="100" fxFlex="100" [ngStyle]="mapTwoStyle">
+    <mat-card style="margin: 1px;">
+      <mat-card-content style="padding: 0px;">
+        <div #mapGraph [ngStyle]="mapHeight">
+          <app-map [hidden]="!MosaicMapTwo && mapTwoStyle.display !== 'block'" [MapData]="MosaicMapTwo"
+            (ZoomChange)="zoomChange($event, 'secondary')" (CenterChange)="centerChange($event, 'secondary')"
+            MapName="MapTwo" [MapZoom]="MapTwoZoom" [MapCenter]="MapTwoCenter" [rerender]="mapTwoRender"></app-map>
+        </div>
+
+        <div fxLayout="row wrap">
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <div fxLayoutAlign="center center">
+              <strong>Display Type:</strong>&nbsp;
+              <div class="margin-top paditout" [formGroup]="group">
+                <mat-radio-group formControlName="display">
+                  <mat-radio-button (change)="changeType($event.value, 'secondary')"
+                    *ngFor="let item of displayTypesSecondary" [value]="item.value" [disabled]="item.disabled">
+                    {{ item.displayName }}</mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div class="margin-top paditout" [formGroup]="group" style="display: none;">
+                <mat-checkbox formControlName="tooltip">Turn Off Tooltip</mat-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <app-crimeLegend *ngIf="loadedCrimes && getPoints('Crimes', 'secondary')" [Crimes]="loadedCrimes"
+      [CrimeCategories]="CrimeCategories"></app-crimeLegend>
+  </div>
+</div>
+
+<div class="navToolbar" joyrideStep="gsi3" title="Options"
+  text="Here you can filter the view to see themes across the map, save your settings for viewing later and share with your team(s).">
+  <div>
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon" title="Polygons">language</mat-icon>
+        </ng-template>
+        <app-polygonList [inputArray]="typesOfPolygons" [inputTitle]="'Polygon'"
+          [secondary]="MosaicMapTwo && mapTwoStyle.display === 'block'" (changeMade)="applyPolygon($event)">
+        </app-polygonList>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon" title="Points">pin_drop</mat-icon>
+        </ng-template>
+        <app-polygonList [inputArray]="typesOfPoints" [inputTitle]="'Point'"
+          [secondary]="MosaicMapTwo && mapTwoStyle.display === 'block'" (changeMade)="applyPoints($event)">
+        </app-polygonList>
+      </mat-tab>
+
+      <mat-tab *ngIf="checkTab('Crimes')">
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon" title="Crime">security</mat-icon>
+        </ng-template>
+        <app-crimeFunctions *ngIf="loadedCrimes" [Crimes]="loadedCrimes" (filteredLayer)="updateCrimeLayer($event)">
+        </app-crimeFunctions>
+      </mat-tab>
+
+      <mat-tab *ngIf="checkTab('Mosaic')">
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon" title="Mosaic">fingerprint</mat-icon>
+        </ng-template>
+
+        <div style="padding:5px">
+          <p>Thematic Options</p>
+          <mat-form-field class="demo-full-width margin-top" [formGroup]="group">
+            <mat-select placeholder="Category..." formControlName="category"
+              (selectionChange)="changeCat($event.value)">
+              <mat-option *ngFor="let item of categories" [value]="item">{{
+                item
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="demo-full-width margin-top" [formGroup]="group">
+            <mat-select placeholder="Topic..." formControlName="topic" (selectionChange)="changeTopic($event.value)">
+              <mat-option *ngFor="let item of topics" [value]="item">{{
+                item
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="demo-full-width margin-top" [formGroup]="group">
+            <mat-select placeholder="Variable..." formControlName="variable"
+              (selectionChange)="changeVariable($event.value)">
+              <mat-option *ngFor="let item of variables" [value]="item">{{
+                item
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon" title="My Settings">person</mat-icon>
+        </ng-template>
+        <app-savingViews [isTeam]="false"></app-savingViews>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon" title="Teams">group</mat-icon>
+        </ng-template>
+        <app-savingViews [isTeam]="true"></app-savingViews>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+
+<div fxLayout="row wrap" *ngIf="displayKey">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <app-mosaic-key [gsiData]="gsiData" [settings]="giGraphKeySettings"></app-mosaic-key>
+  </div>
+</div>
+
+<div fxLayout="row wrap" *ngIf="showgiGraph">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <app-GIGraph [gsiData]="gsiData" [settings]="giGraphSettings"></app-GIGraph>
+  </div>
+</div>
+
+<app-MosaicProfile *ngIf="showgiTable" [giTable]="giTable" [thisCohort]="mosTypeTitle"></app-MosaicProfile>

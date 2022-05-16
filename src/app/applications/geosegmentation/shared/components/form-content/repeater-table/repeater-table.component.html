@@ -1,0 +1,32 @@
+<div class="responsive-table">
+
+  <table class="datatable" *ngIf="fields">
+    <thead>
+      <th *ngFor="let field of fields">{{decamelize(field.name, ' ')}}</th>
+      <th *ngIf="!readOnly">Actions</th>
+    </thead>
+    <tr *ngFor="let entry of entity; index as i">
+      <td *ngFor="let field of fields">{{entry[field.name]}}</td>
+      <td *ngIf="!readOnly"><button type="button" mat-raised-button (click)="removeItem(i)">Remove</button></td>
+    </tr>
+    <tr *ngIf="entity.length === 0">
+      <td *ngIf="!readOnly" [attr.colspan]="fields.length + 1">No information has been added.</td>
+      <td *ngIf="readOnly" [attr.colspan]="fields.length">No information has been added.</td>
+    </tr>
+  </table>
+
+  <form [formGroup]="repeaterForm" *ngIf="!readOnly">
+    <table class="datatable-footer">
+      <tr>
+        <td *ngFor="let field of fields">
+          <ng-container dynamicField [field]="field" [group]="repeaterForm">
+          </ng-container>
+        </td>
+        <td>
+          <button type="button" mat-raised-button (click)="addElement(repeaterForm)">Add</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+
+</div>

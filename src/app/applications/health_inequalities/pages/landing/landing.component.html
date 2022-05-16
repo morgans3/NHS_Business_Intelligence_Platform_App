@@ -1,0 +1,84 @@
+<div fxLayout="row wrap">
+  <div fxFlex-gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-header fxLayoutAlign="center center">
+        <mat-card-title>Health Inequalities</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p> The Slope Index of Inequality (SII) is a weighted measure of inequality, which compares the least and
+          most-deprived sections of a population, and measures the absolute difference in healthcare outcomes.
+          The Relative Index of Inequality (RII) is a similar measure, which modifies the SII to account for the base
+          health outcome in the least-deprived section of a population, to find a relative difference between the least
+          and most deprived sections.
+          The plot below displays the computed SII (bar length) and RII (bar colour) for Lancashire and South Cumbria,
+          broken down by cause-of-death (left) and reasons for hospital admissions (right).
+          Here, the SII and RII are calculated using the following procedure:</p>
+        <ul>
+          <li>First, the population is broken down into deprivation quantiles, using the English Indices of Multiple
+            Deprivation (IMD).</li>
+          <li>The number of deaths and hospital admissions for a particular ICD 10 code or group is calculated, and
+            crude rates per IMD quantile are calculated.</li>
+          <li>The population is then standardised based upon European Standard Population, in order to account for areas
+            with significantly different numbers of people in specific age-bands. This is then used to calculate
+            standardised mortality and admission rates.</li>
+          <li>Linear regression is then used to determine the absolute difference between the least and most deprived
+            quantiles of the population, and the SII and RII are derived from this.</li>
+        </ul>
+        <p>The plot is displayed using the ICD 10 coding hierarchy, where the contributions of specific inequalities in
+          specific ICD 10 codes are aggregated, to calculate inequality across the population for a group of codes.
+          If you wish to see these contributions, then you can click on one of the bars to be taken down a level in the
+          ICD 10 hierarchy. To return up a level, click the "Up One Level" in the top right corner.
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="75" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-header fxLayoutAlign="end center">
+        <button mat-raised-button (click)="one_up()" [disabled]="level === 0">Up One Level</button>
+      </mat-card-header>
+      <mat-card-content #cardMain>
+        <div class="row wrap">
+          <div #graphMain id="graphMain" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="text-align: center;">
+            <div #admissions_container id="admissions_container" style="width: 100%;"></div>
+          </div>
+        </div>
+        <div class="row wrap">
+          <div id="scaleMain" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <p style="width: 100%; text-align: center;">&#8594; Increasing Relative Inequality</p>
+            <!--<div id="scaleChart"
+              style="display: inline-flex; height: 30px; width: 49%; background: linear-gradient(to right, #40004b 0%, #ffffff 100%);">
+            </div>
+            <div id="scaleChart2"
+              style="display: inline-flex; height: 30px; width: 49%; background: linear-gradient(to right, #ffffff 0%, #00441b 100%);">
+            </div>-->
+            <img src = "https://raw.githubusercontent.com/d3/d3-scale-chromatic/master/img/PRGn.png" height = "40" width = "100%">
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content #toolbarMain>
+        <div *ngIf="tooltip">
+          <div>
+            <h4> Type: {{tooltip.type}} </h4>
+            <p> ICD Code: {{tooltip.icdcode}}</p>
+            <p> ICD Category: {{tooltip.icdcategory}}</p>
+            <p> SII: {{tooltip.sii}} [# per {{tooltip.multiplier}}]</p>
+            <p> RII: {{tooltip.rii}} [# per {{tooltip.multiplier}}]</p>
+          </div>
+
+          <div id="dsr_container"></div>
+          <p style="width: 100%; text-align: center;">&#8594; Decreasing Deprivation</p>
+        </div>
+        <p *ngIf="!tooltip">Hover over an element for more information...</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

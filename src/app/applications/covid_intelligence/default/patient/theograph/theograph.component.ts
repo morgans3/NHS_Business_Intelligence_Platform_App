@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { Component, OnInit, HostListener, Input, AfterViewInit } from "@angular/core";
-import * as d3 from "d3";
 import { dummydata } from "./DummyPatient";
+import * as d3 from "d3";
 
 export const actCodes = ["UCC", "AE", "IP_NEL", "IP_EL", "OP", "RADIO"];
 export const actColours = ["#D73A89", "#ed5565", "#f8ac59", "#1ab394", "#23c6c8", "#389AD6"];
