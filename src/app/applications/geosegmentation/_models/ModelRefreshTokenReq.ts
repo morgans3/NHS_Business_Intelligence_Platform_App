@@ -1,3 +1,3 @@
 export class ModelRefreshTokenReq {
-  refreshToken: string;
+    refreshToken: string;
 }

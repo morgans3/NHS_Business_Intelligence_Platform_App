@@ -6,48 +6,46 @@ import { FormGroupDirective } from "@angular/forms";
 import { APIService } from "diu-component-library";
 
 export interface OpenSourceViews {
-  ipaddress: string;
-  datetime: string;
-  parent: string;
-  page: string;
+    ipaddress: string;
+    datetime: string;
+    parent: string;
+    page: string;
 }
 
 @Component({
-  selector: "app-Landing",
-  templateUrl: "./Landing.component.html",
-  styleUrls: ["./Landing.component.scss"]
+    selector: "app-Landing",
+    templateUrl: "./Landing.component.html",
+    styleUrls: ["./Landing.component.scss"],
 })
 export class LandingComponent implements OnInit {
-  searchResults = false;
-  dataFetched: boolean;
-  displayedColumns: string[] = ["page", "parent", "ipaddress", "datetime"];
-  dataSource: MatTableDataSource<OpenSourceViews>;
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+    searchResults = false;
+    dataFetched: boolean;
+    displayedColumns: string[] = ["page", "parent", "ipaddress", "datetime"];
+    dataSource: MatTableDataSource<OpenSourceViews>;
+    @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+    @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(private interfaceService: APIService) {}
+    constructor(private interfaceService: APIService) {}
 
-  ngOnInit() {}
+    ngOnInit() {}
 
-  changePage(pagename: string) {
-    this.searchResults = true;
-    this.dataSource = new MatTableDataSource();
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-    this.interfaceService
-      .getOpenSourceByPage(pagename, "100")
-      .subscribe((data: OpenSourceViews[]) => {
+    changePage(pagename: string) {
+        this.searchResults = true;
         this.dataSource = new MatTableDataSource();
-        this.dataSource.data = data;
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        this.dataFetched = true;
-      });
-  }
+        this.interfaceService.getOpenSourceByPage(pagename, "100").subscribe((data: OpenSourceViews[]) => {
+            this.dataSource = new MatTableDataSource();
+            this.dataSource.data = data;
+            this.dataSource.sort = this.sort;
+            this.dataSource.paginator = this.paginator;
+            this.dataFetched = true;
+        });
+    }
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase();
-    this.dataSource.filter = filterValue;
-  }
+    applyFilter(filterValue: string) {
+        filterValue = filterValue.trim();
+        filterValue = filterValue.toLowerCase();
+        this.dataSource.filter = filterValue;
+    }
 }

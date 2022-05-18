@@ -18,74 +18,74 @@ import { HeatmapComponent } from "./heatmap/heatmap.component";
 import { NSSSComponent } from "./nsss/nsss.component";
 
 export const DefaultRoutes: Routes = [
-  {
-    path: "landing",
-    component: LandingComponent,
-  },
-  {
-    path: "Admin",
-    component: AdminComponent,
-  },
-  {
-    path: "Regional",
-    component: RegionalComponent,
-  },
-  {
-    path: "Local",
-    component: LocalComponent,
-  },
-  {
-    path: "Modelling",
-    component: ModellingComponent,
-  },
-  { path: "report/:id", component: DisplayReportComponent },
-  { path: "population-list", component: PatientListComponent },
-  { path: "person", component: PatientComponent, canActivate: [PidGuard] },
-  {
-    path: "person/:nhsnumber",
-    component: PatientComponent,
-    canActivate: [PidGuard],
-  },
-  {
-    path: "outbreaks",
-    component: OutbreaksComponent,
-    //canActivate: [CapabilityGuard],
-    data: { capabilities: ["cvi_outbreakmap"] },
-  },
-  {
-    path: "heatmap",
-    component: HeatmapComponent,
-    //canActivate: [CapabilityGuard],
-    data: { capabilities: ["cvi_outbreakmap"] },
-  },
-  {
-    path: "populationselect",
-    component: PopulationselectComponent,
-  },
-  {
-    path: "cohort-comparator",
-    component: CohortcompareComponent,
-  },
-  {
-    path: "intervention-assistant",
-    component: InterventionAssistantComponent,
-  },
-  {
-    path: "need-list",
-    component: NeedListComponent,
-  },
-  {
-    path: "nsss",
-    component: NSSSComponent,
-    //canActivate: [CapabilityGuard],
-    data: { capabilities: ["cvi_shielding"] },
-  },
-  {
-    path: "virtualwards_decisions",
-    loadChildren: () => import("./caseloads/vwdecisions/vwdecisions.module").then((m) => m.VWDecisionsModule)
-  },
-  {
-    path: "recent_referrals",
-    loadChildren: () => import("./caseloads/recentreferrals/recentreferrals.module").then((m) => m.RecentReferralsModule)
-  }
+    {
+        path: "landing",
+        component: LandingComponent,
+    },
+    {
+        path: "Admin",
+        component: AdminComponent,
+    },
+    {
+        path: "Regional",
+        component: RegionalComponent,
+    },
+    {
+        path: "Local",
+        component: LocalComponent,
+    },
+    {
+        path: "Modelling",
+        component: ModellingComponent,
+    },
+    { path: "report/:id", component: DisplayReportComponent },
+    { path: "population-list", component: PatientListComponent },
+    { path: "person", component: PatientComponent, canActivate: [PidGuard] },
+    {
+        path: "person/:nhsnumber",
+        component: PatientComponent,
+        canActivate: [PidGuard],
+    },
+    {
+        path: "outbreaks",
+        component: OutbreaksComponent,
+        //canActivate: [CapabilityGuard],
+        data: { capabilities: ["cvi_outbreakmap"] },
+    },
+    {
+        path: "heatmap",
+        component: HeatmapComponent,
+        //canActivate: [CapabilityGuard],
+        data: { capabilities: ["cvi_outbreakmap"] },
+    },
+    {
+        path: "populationselect",
+        component: PopulationselectComponent,
+    },
+    {
+        path: "cohort-comparator",
+        component: CohortcompareComponent,
+    },
+    {
+        path: "intervention-assistant",
+        component: InterventionAssistantComponent,
+    },
+    {
+        path: "need-list",
+        component: NeedListComponent,
+    },
+    {
+        path: "nsss",
+        component: NSSSComponent,
+        //canActivate: [CapabilityGuard],
+        data: { capabilities: ["cvi_shielding"] },
+    },
+    {
+        path: "virtualwards_decisions",
+        loadChildren: () => import("./caseloads/vwdecisions/vwdecisions.module").then((m) => m.VWDecisionsModule),
+    },
+    {
+        path: "recent_referrals",
+        loadChildren: () => import("./caseloads/recentreferrals/recentreferrals.module").then((m) => m.RecentReferralsModule),
+    },
 ];

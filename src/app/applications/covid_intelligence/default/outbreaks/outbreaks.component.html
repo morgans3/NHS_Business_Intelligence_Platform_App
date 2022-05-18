@@ -1,338 +1,465 @@
 <div fxLayout="row wrap">
-  <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
-    <app-statcard [data]="leftstatcard"></app-statcard>
-  </div>
-  <div fxFlex.gt-sm="34" fxFlex.gt-xs="100" fxFlex="100">
-    <app-statcard [data]="midleftstatcard"></app-statcard>
-  </div>
-  <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
-    <app-statcard [data]="rightstatcard"></app-statcard>
-  </div>
+    <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+        <app-statcard [data]="leftstatcard"></app-statcard>
+    </div>
+    <div fxFlex.gt-sm="34" fxFlex.gt-xs="100" fxFlex="100">
+        <app-statcard [data]="midleftstatcard"></app-statcard>
+    </div>
+    <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+        <app-statcard [data]="rightstatcard"></app-statcard>
+    </div>
 </div>
 
 <div fxLayout="row wrap">
-  <div fxFlex-gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-chip-list>
-          <mat-chip color="primary" selected [disabled]="pointsMap" (click)="showBubbleMap()">Show Postcode Map </mat-chip>
-          <mat-chip color="primary" selected [disabled]="polyIsochrones" (click)="getOutbreakJson()">Get Risk Isochrones </mat-chip>
-          <mat-chip color="primary" selected [disabled]="polyRateWard || polyRateLA || polyRateLSOA || polyRateMSOA || polyRateUTLA" (click)="runScanStats(false, 'rate', selectedArea)"> Crude Rate Map </mat-chip>
-          <mat-chip color="primary" selected [disabled]="polyCloakUpdateButton" (click)="runScanStats(false, 'cloak', selectedArea)"> Run Outbreak Detection Model </mat-chip>
-        </mat-chip-list>
+    <div fxFlex-gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-chip-list>
+                    <mat-chip color="primary" selected [disabled]="pointsMap" (click)="showBubbleMap()">Show Postcode Map </mat-chip>
+                    <mat-chip color="primary" selected [disabled]="polyIsochrones" (click)="getOutbreakJson()"
+                        >Get Risk Isochrones
+                    </mat-chip>
+                    <mat-chip
+                        color="primary"
+                        selected
+                        [disabled]="polyRateWard || polyRateLA || polyRateLSOA || polyRateMSOA || polyRateUTLA"
+                        (click)="runScanStats(false, 'rate', selectedArea)"
+                    >
+                        Crude Rate Map
+                    </mat-chip>
+                    <mat-chip
+                        color="primary"
+                        selected
+                        [disabled]="polyCloakUpdateButton"
+                        (click)="runScanStats(false, 'cloak', selectedArea)"
+                    >
+                        Run Outbreak Detection Model
+                    </mat-chip>
+                </mat-chip-list>
 
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-slider *ngIf="pointsMap" [disabled]="!pointsMap" min="10" max="100" tickInterval="auto" [value]="mapCircleScalingFactor" (change)="mapSliderChanged($event)"></mat-slider>
-          <mat-label *ngIf="pointsMap">&nbsp;Change Point Size&nbsp;</mat-label>
-          <mat-slider *ngIf="!pointsMap" [disabled]="pointsMap || showRateChange" min="0" max="1000" tickInterval="auto" [value]="polyMinOpacity" (change)="polySliderChanged($event)" title="Scale Area Shading"></mat-slider>
-          <mat-label *ngIf="!pointsMap">&nbsp;Scale Area Opacity&nbsp;</mat-label>
-          <mat-slider *ngIf="!pointsMap" [disabled]="pointsMap" min="0" max="1000" tickInterval="auto" [value]="polyMapOpacity" (change)="polyMapSliderChanged($event)" title="Scale Map Opacity"></mat-slider>
-          <mat-label *ngIf="!pointsMap">&nbsp;Fade Map&nbsp;</mat-label>
-          <mat-checkbox *ngIf="polyRateLA || polyRateLSOA || polyRateMSOA || polyRateWard || polyRateUTLA" [value]="showRateChange" (change)="toggleRateChange($event)"></mat-checkbox>
-          <mat-label *ngIf="polyRateLA || polyRateLSOA || polyRateMSOA || polyRateWard || polyRateUTLA">&nbsp;Show Rate Change&nbsp;</mat-label>
-          <mat-chip-list>
-            <mat-chip color="accent" selected [disabled]="resetBtnPushed" (click)="resetToWholePop()">Reset All </mat-chip>
-          </mat-chip-list>
-        </div>
-      </mat-card-header>
-      <div *ngIf="polyRateLA || polyRateLSOA || polyRateMSOA || polyRateWard || polyRateUTLA || polyCloakUpdateButton" style="margin-left: 28px">
-        Crude-Rate/Scan Statistics Area Level:&nbsp;&nbsp;
-        <mat-chip-list>
-          <mat-chip color="accent" selected [disabled]="selectedArea === 'lsoa'" (click)="setArea('lsoa')">LSOA </mat-chip>
-          <mat-chip color="accent" selected [disabled]="selectedArea === 'msoa'" (click)="setArea('msoa')">MSOA </mat-chip>
-          <mat-chip color="accent" selected [disabled]="selectedArea === 'ward'" (click)="setArea('ward')">Electoral Ward </mat-chip>
-          <mat-chip color="accent" selected [disabled]="selectedArea === 'la'" (click)="setArea('la')">Lower-Tier Local Authority</mat-chip>
-          <mat-chip color="accent" selected [disabled]="selectedArea === 'utla'" (click)="setArea('utla')">Upper-Tier Local Authority</mat-chip>
-        </mat-chip-list>
-      </div>
-      <mat-card-content #gpChartParent style="min-height: 75vh">
-        <div fxLayoutAlign="center center" style="min-height: 60vh; margin-bottom: 30px" id="mapContainer">
-          <div class="map"></div>
-        </div>
-        <div *ngIf="polyRateLSOA || polyRateMSOA || polyRateWard || polyRateLA || polyRateUTLA" fxLayoutAlign="center center" style="min-height: 60vh; margin-bottom: 30px" id="polyRateContainer">
-          <div class="mapRatePoly"></div>
-        </div>
-        <div *ngIf="polyCloak" fxLayoutAlign="center center" style="min-height: 60vh; margin-bottom: 30px" id="polyCloakContainer">
-          <div class="mapCloakPoly"></div>
-        </div>
-        <div *ngIf="polyIsochrones" fxLayoutAlign="center center" style="min-height: 60vh; margin-bottom: 30px" id="isochroneContainer">
-          <div class="mapIsochrone"></div>
-        </div>
-        <div *ngIf="!pointsMap" id="colourBarDiv" style="height: 20px"></div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px">
-            Timeline
-            <span *ngIf="date_start">
-              {{ "(" + formatDate(date_start) + " to " + formatDate(date_end) + ")" }}
-            </span>
-          </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['DateDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <button *ngIf="queryFilter && queryFilter['date']" mat-icon-button color="warn" (click)="redrawCharts(dateChart, 'DateDimension')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" title="Download" (click)="downloadTimeline()">
-            <mat-icon>save_alt</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('dateChart')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content [@expandCollapse]="dateChartOpenCloseAnim">
-        <div class="datesel" id="dateChart"></div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Number of cases VS age bands heatmap </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['AgeBandDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <mat-chip-list *ngIf="queryFilter['age_band']">
-            <mat-chip color="primary" selected>{{ queryFilter["age_band"].toString().replace(",", " - ") }} </mat-chip>
-          </mat-chip-list>
-          <button *ngIf="queryFilter && queryFilter['age_band']" mat-icon-button color="warn" (click)="redrawCharts(datesAndAgeBandHeatmap, 'AgeBandDimension')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('datesAndAgeBandHeatmap')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #datesAndAgeBandHeatmapParent class="largerChartspace" [@expandCollapse]="datesAndAgeBandHeatmapOpenCloseAnim">
-        <div id="datesAndAgeBandHeatmap"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-slider
+                        *ngIf="pointsMap"
+                        [disabled]="!pointsMap"
+                        min="10"
+                        max="100"
+                        tickInterval="auto"
+                        [value]="mapCircleScalingFactor"
+                        (change)="mapSliderChanged($event)"
+                    ></mat-slider>
+                    <mat-label *ngIf="pointsMap">&nbsp;Change Point Size&nbsp;</mat-label>
+                    <mat-slider
+                        *ngIf="!pointsMap"
+                        [disabled]="pointsMap || showRateChange"
+                        min="0"
+                        max="1000"
+                        tickInterval="auto"
+                        [value]="polyMinOpacity"
+                        (change)="polySliderChanged($event)"
+                        title="Scale Area Shading"
+                    ></mat-slider>
+                    <mat-label *ngIf="!pointsMap">&nbsp;Scale Area Opacity&nbsp;</mat-label>
+                    <mat-slider
+                        *ngIf="!pointsMap"
+                        [disabled]="pointsMap"
+                        min="0"
+                        max="1000"
+                        tickInterval="auto"
+                        [value]="polyMapOpacity"
+                        (change)="polyMapSliderChanged($event)"
+                        title="Scale Map Opacity"
+                    ></mat-slider>
+                    <mat-label *ngIf="!pointsMap">&nbsp;Fade Map&nbsp;</mat-label>
+                    <mat-checkbox
+                        *ngIf="polyRateLA || polyRateLSOA || polyRateMSOA || polyRateWard || polyRateUTLA"
+                        [value]="showRateChange"
+                        (change)="toggleRateChange($event)"
+                    ></mat-checkbox>
+                    <mat-label *ngIf="polyRateLA || polyRateLSOA || polyRateMSOA || polyRateWard || polyRateUTLA"
+                        >&nbsp;Show Rate Change&nbsp;</mat-label
+                    >
+                    <mat-chip-list>
+                        <mat-chip color="accent" selected [disabled]="resetBtnPushed" (click)="resetToWholePop()">Reset All </mat-chip>
+                    </mat-chip-list>
+                </div>
+            </mat-card-header>
+            <div
+                *ngIf="polyRateLA || polyRateLSOA || polyRateMSOA || polyRateWard || polyRateUTLA || polyCloakUpdateButton"
+                style="margin-left: 28px"
+            >
+                Crude-Rate/Scan Statistics Area Level:&nbsp;&nbsp;
+                <mat-chip-list>
+                    <mat-chip color="accent" selected [disabled]="selectedArea === 'lsoa'" (click)="setArea('lsoa')">LSOA </mat-chip>
+                    <mat-chip color="accent" selected [disabled]="selectedArea === 'msoa'" (click)="setArea('msoa')">MSOA </mat-chip>
+                    <mat-chip color="accent" selected [disabled]="selectedArea === 'ward'" (click)="setArea('ward')"
+                        >Electoral Ward
+                    </mat-chip>
+                    <mat-chip color="accent" selected [disabled]="selectedArea === 'la'" (click)="setArea('la')"
+                        >Lower-Tier Local Authority</mat-chip
+                    >
+                    <mat-chip color="accent" selected [disabled]="selectedArea === 'utla'" (click)="setArea('utla')"
+                        >Upper-Tier Local Authority</mat-chip
+                    >
+                </mat-chip-list>
+            </div>
+            <mat-card-content #gpChartParent style="min-height: 75vh">
+                <div fxLayoutAlign="center center" style="min-height: 60vh; margin-bottom: 30px" id="mapContainer">
+                    <div class="map"></div>
+                </div>
+                <div
+                    *ngIf="polyRateLSOA || polyRateMSOA || polyRateWard || polyRateLA || polyRateUTLA"
+                    fxLayoutAlign="center center"
+                    style="min-height: 60vh; margin-bottom: 30px"
+                    id="polyRateContainer"
+                >
+                    <div class="mapRatePoly"></div>
+                </div>
+                <div *ngIf="polyCloak" fxLayoutAlign="center center" style="min-height: 60vh; margin-bottom: 30px" id="polyCloakContainer">
+                    <div class="mapCloakPoly"></div>
+                </div>
+                <div
+                    *ngIf="polyIsochrones"
+                    fxLayoutAlign="center center"
+                    style="min-height: 60vh; margin-bottom: 30px"
+                    id="isochroneContainer"
+                >
+                    <div class="mapIsochrone"></div>
+                </div>
+                <div *ngIf="!pointsMap" id="colourBarDiv" style="height: 20px"></div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px">
+                        Timeline
+                        <span *ngIf="date_start">
+                            {{ "(" + formatDate(date_start) + " to " + formatDate(date_end) + ")" }}
+                        </span>
+                    </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['DateDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                    >&nbsp;
+                    <button
+                        *ngIf="queryFilter && queryFilter['date']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts(dateChart, 'DateDimension')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" title="Download" (click)="downloadTimeline()">
+                        <mat-icon>save_alt</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('dateChart')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content [@expandCollapse]="dateChartOpenCloseAnim">
+                <div class="datesel" id="dateChart"></div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Number of cases VS age bands heatmap </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['AgeBandDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                    >&nbsp;
+                    <mat-chip-list *ngIf="queryFilter['age_band']">
+                        <mat-chip color="primary" selected>{{ queryFilter["age_band"].toString().replace(",", " - ") }} </mat-chip>
+                    </mat-chip-list>
+                    <button
+                        *ngIf="queryFilter && queryFilter['age_band']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts(datesAndAgeBandHeatmap, 'AgeBandDimension')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('datesAndAgeBandHeatmap')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content
+                #datesAndAgeBandHeatmapParent
+                class="largerChartspace"
+                [@expandCollapse]="datesAndAgeBandHeatmapOpenCloseAnim"
+            >
+                <div id="datesAndAgeBandHeatmap"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>
 
 <div fxLayout="row wrap">
-  <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Age Chart </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['AgeDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <mat-chip-list *ngIf="queryFilter['age']">
-            <mat-chip color="primary" selected>{{ queryFilter["age"].toString().replace(",", " - ") }} </mat-chip>
-          </mat-chip-list>
-          <button *ngIf="queryFilter && queryFilter['age']" mat-icon-button color="warn" (click)="redrawCharts(ageChart, 'AgeDimension')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('ageChart')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #ageChartParent class="largerChartspace" [@expandCollapse]="ageChartOpenCloseAnim">
-        <div id="ageChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px">
-            Ethnicity Chart
-            <!-- (exc. Unknowns<span *ngIf="unknownNumber" id="unknownNumber">{{' [' + unknownNumber + ']'}}</span>) -->
-          </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['EthnicityDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <button *ngIf="queryFilter && queryFilter['ethnicity']" mat-icon-button color="warn" (click)="redrawCharts(ethnicityChart, 'EthnicityDimension')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('ethnicityChart')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #ethnicityChartParent class="largerChartspace" [@expandCollapse]="ethnicityChartOpenCloseAnim">
-        <div id="ethnicityChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Lower Tier Local Authority </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['UTLADimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <button *ngIf="queryFilter && queryFilter['utla']" mat-icon-button color="warn" (click)="redrawCharts(utlaChart, 'UTLADimension')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('utlaChart')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #utlaChartParent class="largerChartspace noimage" [@expandCollapse]="utlaChartOpenCloseAnim">
-        <div id="utlaChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Age Chart </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['AgeDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                    >&nbsp;
+                    <mat-chip-list *ngIf="queryFilter['age']">
+                        <mat-chip color="primary" selected>{{ queryFilter["age"].toString().replace(",", " - ") }} </mat-chip>
+                    </mat-chip-list>
+                    <button
+                        *ngIf="queryFilter && queryFilter['age']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts(ageChart, 'AgeDimension')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('ageChart')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #ageChartParent class="largerChartspace" [@expandCollapse]="ageChartOpenCloseAnim">
+                <div id="ageChart"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px">
+                        Ethnicity Chart
+                        <!-- (exc. Unknowns<span *ngIf="unknownNumber" id="unknownNumber">{{' [' + unknownNumber + ']'}}</span>) -->
+                    </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['EthnicityDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                    >&nbsp;
+                    <button
+                        *ngIf="queryFilter && queryFilter['ethnicity']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts(ethnicityChart, 'EthnicityDimension')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('ethnicityChart')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #ethnicityChartParent class="largerChartspace" [@expandCollapse]="ethnicityChartOpenCloseAnim">
+                <div id="ethnicityChart"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Lower Tier Local Authority </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['UTLADimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                    >&nbsp;
+                    <button
+                        *ngIf="queryFilter && queryFilter['utla']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts(utlaChart, 'UTLADimension')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('utlaChart')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #utlaChartParent class="largerChartspace noimage" [@expandCollapse]="utlaChartOpenCloseAnim">
+                <div id="utlaChart"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>
 
 <div fxLayout="row wrap">
-  <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Testing Pillar </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['PillarDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <button *ngIf="queryFilter && queryFilter['pillar']" mat-icon-button color="warn" (click)="redrawCharts(pillarChart, 'PillarDimension')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('pillarChart')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #pillarChartParent class="largerChartspace noimage" [@expandCollapse]="pillarChartOpenCloseAnim">
-        <div id="pillarChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex.gt-sm="34" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Gender </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['SexDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <button *ngIf="queryFilter && queryFilter['patient_sex']" mat-icon-button color="warn" (click)="redrawCharts(sexChart, 'SexDimension')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('sexChart')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #sexChartParent class="largerChartspace noimage" [@expandCollapse]="sexChartOpenCloseAnim">
-        <div id="sexChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Care Home </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['CareHomeDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <button *ngIf="queryFilter && queryFilter['care_home']" mat-icon-button color="warn" (click)="redrawCharts(careHomeChart, 'CareHomeDimension')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('careHomeChart')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #careHomeChartParent class="largerChartspace noimage" [@expandCollapse]="careHomeChartOpenCloseAnim">
-        <div id="careHomeChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+    <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Testing Pillar </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['PillarDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                    >&nbsp;
+                    <button
+                        *ngIf="queryFilter && queryFilter['pillar']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts(pillarChart, 'PillarDimension')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('pillarChart')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #pillarChartParent class="largerChartspace noimage" [@expandCollapse]="pillarChartOpenCloseAnim">
+                <div id="pillarChart"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-sm="34" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Gender </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['SexDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                    >&nbsp;
+                    <button
+                        *ngIf="queryFilter && queryFilter['patient_sex']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts(sexChart, 'SexDimension')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('sexChart')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #sexChartParent class="largerChartspace noimage" [@expandCollapse]="sexChartOpenCloseAnim">
+                <div id="sexChart"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Care Home </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['CareHomeDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                    >&nbsp;
+                    <button
+                        *ngIf="queryFilter && queryFilter['care_home']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts(careHomeChart, 'CareHomeDimension')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('careHomeChart')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #careHomeChartParent class="largerChartspace noimage" [@expandCollapse]="careHomeChartOpenCloseAnim">
+                <div id="careHomeChart"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>
 
 <div fxLayout="row wrap">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px">
-            Geography Crude-Rates
-            <span *ngIf="crudeRateDateStart">
-              {{ "(" + formatDate(crudeRateDateStart) + " to " + formatDate(crudeRateDateEnd) + ")" }}
-            </span>
-          </mat-card-title>
-        </mat-card-title-group>
-      </mat-card-header>
-      <mat-card-content>
-        <div>
-          <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z5" id="crudeRateTable">
-            <ng-container matColumnDef="properties.area">
-              <th mat-header-cell *matHeaderCellDef>Area</th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.properties.area }}
-              </td>
-            </ng-container>
-            <ng-container *ngIf="polyRateLSOA || polyRateMSOA || polyRateWard" matColumnDef="properties.la">
-              <th mat-header-cell *matHeaderCellDef>Local Authority</th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.properties.la }}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="properties.crude_rate_per_thousand">
-              <th mat-header-cell *matHeaderCellDef>Crude-Rate Per 100,000 (7-Day Averaged)</th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.properties.crude_rate_per_thousand }}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="properties.crude_rate">
-              <th mat-header-cell *matHeaderCellDef>Crude-Rate Per 100,000</th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.properties.crude_rate }}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="properties.positives">
-              <th mat-header-cell *matHeaderCellDef>Total Positives</th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.properties.positives }}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="properties.care_home_ratio">
-              <th mat-header-cell *matHeaderCellDef>Proportion Within Care Home [%]</th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.properties.care_home_ratio }}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="properties.rate_diff">
-              <th mat-header-cell *matHeaderCellDef>Crude Rate Per 100,000 (7-Day Averaged) Change</th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.properties.rate_diff }}
-              </td>
-            </ng-container>
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px">
+                        Geography Crude-Rates
+                        <span *ngIf="crudeRateDateStart">
+                            {{ "(" + formatDate(crudeRateDateStart) + " to " + formatDate(crudeRateDateEnd) + ")" }}
+                        </span>
+                    </mat-card-title>
+                </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content>
+                <div>
+                    <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z5" id="crudeRateTable">
+                        <ng-container matColumnDef="properties.area">
+                            <th mat-header-cell *matHeaderCellDef>Area</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.properties.area }}
+                            </td>
+                        </ng-container>
+                        <ng-container *ngIf="polyRateLSOA || polyRateMSOA || polyRateWard" matColumnDef="properties.la">
+                            <th mat-header-cell *matHeaderCellDef>Local Authority</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.properties.la }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="properties.crude_rate_per_thousand">
+                            <th mat-header-cell *matHeaderCellDef>Crude-Rate Per 100,000 (7-Day Averaged)</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.properties.crude_rate_per_thousand }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="properties.crude_rate">
+                            <th mat-header-cell *matHeaderCellDef>Crude-Rate Per 100,000</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.properties.crude_rate }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="properties.positives">
+                            <th mat-header-cell *matHeaderCellDef>Total Positives</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.properties.positives }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="properties.care_home_ratio">
+                            <th mat-header-cell *matHeaderCellDef>Proportion Within Care Home [%]</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.properties.care_home_ratio }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="properties.rate_diff">
+                            <th mat-header-cell *matHeaderCellDef>Crude Rate Per 100,000 (7-Day Averaged) Change</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.properties.rate_diff }}
+                            </td>
+                        </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          </table>
-          <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
-        </div>
-        <div padding-left="5em">
-          <button mat-raised-button (click)="downloadData()">Download</button>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+                </div>
+                <div padding-left="5em">
+                    <button mat-raised-button (click)="downloadData()">Download</button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>
 
 <div *ngIf="loading" class="loader">
-  <div class="text">Running Model...</div>
-  <div class="spinner"></div>
+    <div class="text">Running Model...</div>
+    <div class="spinner"></div>
 </div>

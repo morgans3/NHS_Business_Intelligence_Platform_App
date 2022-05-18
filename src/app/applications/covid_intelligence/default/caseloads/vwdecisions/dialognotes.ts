@@ -4,34 +4,34 @@ import { FormGroup, FormControl, Validators, FormGroupDirective } from "@angular
 import { CdkTextareaAutosize } from "@angular/cdk/text-field";
 
 @Component({
-  selector: "dialog-notes",
-  templateUrl: "dialognotes.html",
+    selector: "dialog-notes",
+    templateUrl: "dialognotes.html",
 })
 export class NotesDialogComponent implements OnInit {
-  @ViewChild(FormGroupDirective)
-  formDirective: FormGroupDirective;
-  myForm = new FormGroup({
-    notes: new FormControl(null, Validators.required),
-  });
-  @ViewChild("autosize") autosize: CdkTextareaAutosize;
+    @ViewChild(FormGroupDirective)
+    formDirective: FormGroupDirective;
+    myForm = new FormGroup({
+        notes: new FormControl(null, Validators.required),
+    });
+    @ViewChild("autosize") autosize: CdkTextareaAutosize;
 
-  constructor(public dialogRef: MatDialogRef<NotesDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+    constructor(public dialogRef: MatDialogRef<NotesDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
-  ngOnInit() {
-    if (this.data && this.data.notes) {
-      this.myForm.patchValue({ notes: this.data.notes });
+    ngOnInit() {
+        if (this.data && this.data.notes) {
+            this.myForm.patchValue({ notes: this.data.notes });
+        }
     }
-  }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
 
-  onSubmit() {
-    this.dialogRef.close(this.myForm.controls["notes"].value);
-  }
+    onSubmit() {
+        this.dialogRef.close(this.myForm.controls["notes"].value);
+    }
 
-  onClearNotes() {
-    this.dialogRef.close(null);
-  }
+    onClearNotes() {
+        this.dialogRef.close(null);
+    }
 }

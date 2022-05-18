@@ -17,23 +17,31 @@ import { StatCardComponent } from "../_components/stat-card.component";
 import { MapComponent } from "../_components/map.component";
 
 describe("LandingComponent", () => {
-  let component: LandingComponent;
-  let fixture: ComponentFixture<LandingComponent>;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, DemoMaterialModule, FormsModule, NgxsModule.forRoot([AuthState]), HttpClientModule, LeafletModule, LeafletDrawModule],
-      providers: [StorageService, APIService],
-      declarations: [MapComponent, LandingComponent, IncidentLegendComponent, StatCardComponent],
-    }).compileComponents();
-  }));
+    let component: LandingComponent;
+    let fixture: ComponentFixture<LandingComponent>;
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                BrowserAnimationsModule,
+                DemoMaterialModule,
+                FormsModule,
+                NgxsModule.forRoot([AuthState]),
+                HttpClientModule,
+                LeafletModule,
+                LeafletDrawModule,
+            ],
+            providers: [StorageService, APIService],
+            declarations: [MapComponent, LandingComponent, IncidentLegendComponent, StatCardComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LandingComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(LandingComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

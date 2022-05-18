@@ -1,29 +1,29 @@
 <table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Icon</th>
-      <th scope="col">Key Info</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let marker of tableData">
-      <th>
-        <mat-checkbox class="example-margin" [(ngModel)]="marker.selected" (change)="markerSelected(marker)"></mat-checkbox>
-      </th>
-      <th>
-        <img [src]="marker.icon" [alt]="marker.icon" width="20" height="30" [style.opacity]="marker.visible ? 1 : 0.3" />
-      </th>
-      <td>{{ selectInfo(marker.data) }}</td>
-      <td>btns</td>
-    </tr>
-  </tbody>
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Icon</th>
+            <th scope="col">Key Info</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let marker of tableData">
+            <th>
+                <mat-checkbox class="example-margin" [(ngModel)]="marker.selected" (change)="markerSelected(marker)"></mat-checkbox>
+            </th>
+            <th>
+                <img [src]="marker.icon" [alt]="marker.icon" width="20" height="30" [style.opacity]="marker.visible ? 1 : 0.3" />
+            </th>
+            <td>{{ selectInfo(marker.data) }}</td>
+            <td>btns</td>
+        </tr>
+    </tbody>
 </table>
 
 <div *ngIf="showIsoChrone">
-  <h6 class="margin-block-none">Isochrone</h6>
-  Add Travel Time (walking, in minutes):
-  <mat-slider [min]="0" [max]="60" [step]="5" [(ngModel)]="travelTime"></mat-slider>
-  <button mat-raised-button color="primary" (click)="getIsochrone()">Calculate Isochrone</button>
+    <h6 class="margin-block-none">Isochrone</h6>
+    Add Travel Time (walking, in minutes):
+    <mat-slider [min]="0" [max]="60" [step]="5" [(ngModel)]="travelTime"></mat-slider>
+    <button mat-raised-button color="primary" (click)="getIsochrone()">Calculate Isochrone</button>
 </div>

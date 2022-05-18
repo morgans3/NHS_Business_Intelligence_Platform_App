@@ -4,37 +4,34 @@ import { CategoryBreakdown } from "../../../_models/categorybreakdown";
 import { JoyrideService } from "ngx-joyride";
 
 @Component({
-  selector: "app-MosaicProfile",
-  templateUrl: "./MosaicProfile.component.html",
-  styleUrls: ["./MosaicProfile.component.scss"],
-  animations: [simpleFadeAnimation]
+    selector: "app-MosaicProfile",
+    templateUrl: "./MosaicProfile.component.html",
+    styleUrls: ["./MosaicProfile.component.scss"],
+    animations: [simpleFadeAnimation],
 })
 export class MosaicProfileComponent implements OnInit {
+    @Input() giTable: CategoryBreakdown[];
+    @Input() thisCohort: string;
+    filtered: CategoryBreakdown[];
+    displayedTable: CategoryBreakdown[];
 
-  @Input() giTable: CategoryBreakdown[];
-  @Input() thisCohort: string;
-  filtered: CategoryBreakdown[];
-  displayedTable: CategoryBreakdown[];
+    constructor(private readonly joyrideService: JoyrideService) {}
 
-  constructor(
-    private readonly joyrideService: JoyrideService
-  ) { }
+    ngOnInit() {
+        this.resetCat();
+    }
 
-  ngOnInit() {
-    this.resetCat();
-  }
+    showGuide() {
+        this.joyrideService.startTour({
+            steps: ["gsiprofile1", "gsiprofile2", "gsiprofile3"],
+        });
+    }
 
-  showGuide() {
-    this.joyrideService.startTour({
-      steps: ["gsiprofile1", "gsiprofile2", "gsiprofile3"]
-    });
-  }
+    filterCat(category: CategoryBreakdown) {
+        this.displayedTable = [category];
+    }
 
-  filterCat(category: CategoryBreakdown) {
-    this.displayedTable = [category];
-  }
-
-  resetCat() {
-    this.displayedTable = [this.giTable[0]];
-  }
+    resetCat() {
+        this.displayedTable = [this.giTable[0]];
+    }
 }

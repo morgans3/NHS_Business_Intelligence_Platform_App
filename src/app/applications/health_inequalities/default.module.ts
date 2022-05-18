@@ -11,15 +11,15 @@ import { HiLandingComponent } from "./pages/landing/landing.component";
 import { HiDataComponent } from "./pages/data/data.component";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(DefaultRoutes),
-    ReactiveFormsModule,
-    FormsModule,
-    DemoMaterialModule,
-    FlexLayoutModule,
-    MainPipe
-  ],
-  declarations: [HiLandingComponent, HiDataComponent]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(DefaultRoutes),
+        ReactiveFormsModule,
+        FormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        MainPipe,
+    ],
+    declarations: [HiLandingComponent, HiDataComponent],
 })
 export class DefaultModule {}

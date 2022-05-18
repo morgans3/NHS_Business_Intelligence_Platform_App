@@ -21,28 +21,28 @@ import { CrimeFunctionsComponent } from "./GSI/crimeFunctions/crimeFunctions.com
 import { CrimeLegendComponent } from "./GSI/crimeLegend/crimeLegend.component";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(GSIRoutes),
-    ReactiveFormsModule,
-    FormsModule,
-    DemoMaterialModule,
-    FlexLayoutModule,
-    MainPipe,
-    ChartistModule,
-    JoyrideModule.forRoot(),
-    ComponentsModule
-  ],
-  declarations: [
-    GSIComponent,
-    MosaicTableComponent,
-    MosaicProfileComponent,
-    GIGraphComponent,
-    MosaicKeyComponent,
-    PolygonListComponent,
-    SavingViewsComponent,
-    CrimeFunctionsComponent,
-    CrimeLegendComponent
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(GSIRoutes),
+        ReactiveFormsModule,
+        FormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        MainPipe,
+        ChartistModule,
+        JoyrideModule.forRoot(),
+        ComponentsModule,
+    ],
+    declarations: [
+        GSIComponent,
+        MosaicTableComponent,
+        MosaicProfileComponent,
+        GIGraphComponent,
+        MosaicKeyComponent,
+        PolygonListComponent,
+        SavingViewsComponent,
+        CrimeFunctionsComponent,
+        CrimeLegendComponent,
+    ],
 })
-export class GSIModule { }
+export class GSIModule {}

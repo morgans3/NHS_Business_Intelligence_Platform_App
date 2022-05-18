@@ -6,67 +6,51 @@ import { BaseService } from "diu-component-library";
 declare var window: any;
 
 @Injectable({
-  providedIn: "root"
+    providedIn: "root",
 })
 export class FormsService extends BaseService {
+    baseUrl = "";
+    controller = "Forms";
 
-  baseUrl = "";
-  controller = "Forms";
+    constructor(protected http: HttpClient, @Inject("environment") environment) {
+        super(http, environment);
+        const origin = window.location.href;
+        this.baseUrl = this.combineURL(origin, "api");
+    }
 
-  constructor(protected http: HttpClient, @Inject("environment") environment) {
-    super(http, environment);
-    const origin = window.location.href;
-    this.baseUrl = this.combineURL(origin, "api");
-  }
+    public get() {
+        return this.http.get<EntityForms[]>(this.baseUrl + this.controller + "/");
+    }
 
-  public get() {
-    return this.http.get<EntityForms[]>(this.baseUrl + this.controller + "/");
-  }
+    public getAllTypes() {
+        return this.http.get<EntityFormTypes[]>(this.baseUrl + this.controller + "/getAllTypes/");
+    }
 
-  public getAllTypes() {
-    return this.http.get<EntityFormTypes[]>(
-      this.baseUrl + this.controller + "/getAllTypes/"
-    );
-  }
+    public getBasic() {
+        return this.http.get<EntityForms[]>(this.baseUrl + this.controller + "/getAll/");
+    }
 
-  public getBasic() {
-    return this.http.get<EntityForms[]>(
-      this.baseUrl + this.controller + "/getAll/"
-    );
-  }
+    public getForm(id: number) {
+        return this.http.get<EntityForms>(this.baseUrl + this.controller + "/" + id);
+    }
 
-  public getForm(id: number) {
-    return this.http.get<EntityForms>(
-      this.baseUrl + this.controller + "/" + id
-    );
-  }
+    public add(payload: EntityForms) {
+        return this.http.post(this.baseUrl + this.controller + "/", payload);
+    }
 
-  public add(payload: EntityForms) {
-    return this.http.post(this.baseUrl + this.controller + "/", payload);
-  }
+    public remove(payload: EntityForms) {
+        return this.http.delete(this.baseUrl + this.controller + "/" + payload.id);
+    }
 
-  public remove(payload: EntityForms) {
-    return this.http.delete(this.baseUrl + this.controller + "/" + payload.id);
-  }
+    public update(payload: EntityForms) {
+        return this.http.put(this.baseUrl + this.controller + "/" + payload.id, payload);
+    }
 
-  public update(payload: EntityForms) {
-    return this.http.put(
-      this.baseUrl + this.controller + "/" + payload.id,
-      payload
-    );
-  }
+    public addGlobalList(payload: DTOGlobalList) {
+        return this.http.post(this.baseUrl + this.controller + "/AddGlobalList/", payload);
+    }
 
-  public addGlobalList(payload: DTOGlobalList) {
-    return this.http.post(
-      this.baseUrl + this.controller + "/AddGlobalList/",
-      payload
-    );
-  }
-
-  public updateGlobalList(payload: DTOGlobalList) {
-    return this.http.put(
-      this.baseUrl + this.controller + "/UpdateGlobalList/" + payload.id,
-      payload
-    );
-  }
+    public updateGlobalList(payload: DTOGlobalList) {
+        return this.http.put(this.baseUrl + this.controller + "/UpdateGlobalList/" + payload.id, payload);
+    }
 }

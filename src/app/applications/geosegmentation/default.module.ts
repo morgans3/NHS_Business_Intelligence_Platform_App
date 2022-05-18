@@ -14,17 +14,17 @@ import { HomeComponent } from "./pages/home/home.component";
 import { AdminComponent } from "./pages/admin/admin.component";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(DefaultRoutes),
-    ReactiveFormsModule,
-    FormsModule,
-    DemoMaterialModule,
-    FlexLayoutModule,
-    MainPipe,
-    ExcelModule,
-    ComponentsModule
-  ],
-  declarations: [HomeComponent, AdminComponent]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(DefaultRoutes),
+        ReactiveFormsModule,
+        FormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        MainPipe,
+        ExcelModule,
+        ComponentsModule,
+    ],
+    declarations: [HomeComponent, AdminComponent],
 })
 export class DefaultModule {}

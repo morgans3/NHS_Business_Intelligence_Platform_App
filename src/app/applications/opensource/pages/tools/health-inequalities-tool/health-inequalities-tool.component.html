@@ -1,43 +1,42 @@
-<div fxLayout="row wrap" style="height: 100vh;">
-  <div fxFlex.gt-sm="75" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-header fxLayoutAlign="end center">
-        <button mat-raised-button (click)="one_up()" [disabled]="level === 0">Up One Level</button>
-      </mat-card-header>
-      <mat-card-content #cardMain>
-        <div class="row wrap">
-          <div #graphMain id="graphMain" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="text-align: center;">
-            <div #admissions_container id="admissions_container" style="width: 100%;"></div>
-          </div>
-        </div>
-        <div class="row wrap">
-          <div id="scaleMain" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-            <p style="width: 100%; text-align: center;">&#8594; Increasing Relative Inequality</p>
-            <img src="https://raw.githubusercontent.com/d3/d3-scale-chromatic/master/img/PRGn.png" height="40"
-              width="100%">
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+<div fxLayout="row wrap" style="height: 100vh">
+    <div fxFlex.gt-sm="75" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-header fxLayoutAlign="end center">
+                <button mat-raised-button (click)="one_up()" [disabled]="level === 0">Up One Level</button>
+            </mat-card-header>
+            <mat-card-content #cardMain>
+                <div class="row wrap">
+                    <div #graphMain id="graphMain" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="text-align: center">
+                        <div #admissions_container id="admissions_container" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="row wrap">
+                    <div id="scaleMain" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                        <p style="width: 100%; text-align: center">&#8594; Increasing Relative Inequality</p>
+                        <img src="https://raw.githubusercontent.com/d3/d3-scale-chromatic/master/img/PRGn.png" height="40" width="100%" />
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
 
-  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-content #toolbarMain>
-        <div *ngIf="tooltip">
-          <div>
-            <h4> Type: {{tooltip.type}} </h4>
-            <p> ICD Code: {{tooltip.icdcode}}</p>
-            <p> ICD Category: {{tooltip.icdcategory}}</p>
-            <p> SII: {{tooltip.sii}} [# per {{tooltip.multiplier}}]</p>
-            <p> RII: {{tooltip.rii}} [# per {{tooltip.multiplier}}]</p>
-          </div>
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-content #toolbarMain>
+                <div *ngIf="tooltip">
+                    <div>
+                        <h4>Type: {{ tooltip.type }}</h4>
+                        <p>ICD Code: {{ tooltip.icdcode }}</p>
+                        <p>ICD Category: {{ tooltip.icdcategory }}</p>
+                        <p>SII: {{ tooltip.sii }} [# per {{ tooltip.multiplier }}]</p>
+                        <p>RII: {{ tooltip.rii }} [# per {{ tooltip.multiplier }}]</p>
+                    </div>
 
-          <div id="dsr_container"></div>
-          <p style="width: 100%; text-align: center;">&#8594; Decreasing Deprivation</p>
-        </div>
-        <p *ngIf="!tooltip">Hover over an element for more information...</p>
-      </mat-card-content>
-    </mat-card>
-  </div>
+                    <div id="dsr_container"></div>
+                    <p style="width: 100%; text-align: center">&#8594; Decreasing Deprivation</p>
+                </div>
+                <p *ngIf="!tooltip">Hover over an element for more information...</p>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>

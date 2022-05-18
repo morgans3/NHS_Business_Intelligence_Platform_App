@@ -1,60 +1,74 @@
 <div *ngIf="giTable">
-  <div fxLayout="row wrap">
-    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" joyrideStep="gsiprofile1" title="Profile"
-      text="Each Mosaic Profile has a wealth of information behind it compiled into a Grand Index table, this is broken down into Categories and Topics of data.">
-      <mat-card>
-        <mat-card-content>
-          <div fxLayout="row">
-            <div fxFlex="80" fxFlexOffset="10" fxLayoutAlign="center center">
-              <mat-card-title>
-                {{thisCohort}} Profile
-              </mat-card-title>
-            </div>
-            <div fxFlex fxLayoutAlign="center center">
-              <button mat-icon-button color="primary" (click)="showGuide()" title="GSI Guide">
-                <mat-icon>info</mat-icon>
-              </button>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
-
-  <div fxLayout="row wrap">
-    <div fxFlex.gt-sm="20" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-card>
-        <mat-card-content fxLayoutAlign="center center">
-          <mat-chip-list class="mat-chip-list-stacked" joyrideStep="gsiprofile2" title="Categories"
-            text="Each Grand Index Category has a range of associated tables for that subject matter. Selecting a category will show all linked tables and information.">
-            <mat-chip *ngFor="let category of giTable" color="primary" selected (click)="filterCat(category)">
-              {{category.cat}}</mat-chip>
-          </mat-chip-list>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div fxFlex.gt-sm="80" fxFlex.gt-xs="100" fxFlex="100" joyrideStep="gsiprofile3" title="Topics"
-      text="Each topic is a table of data compiled for the selected Mosaic Profile. From here you can see both the total for this profile and the comparison to the General Population.">
-      <div *ngFor="let category of displayedTable" fxLayout="row wrap" [@simpleFadeAnimation]="'in'">
-        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-          <mat-card>
-            <mat-card-content fxLayoutAlign="center center">
-              <mat-card-title>{{category.cat}}</mat-card-title>
-            </mat-card-content>
-          </mat-card>
-          <mat-card>
-            <mat-card-content>
-              <mat-tab-group>
-                <mat-tab *ngFor="let table of category.tables" [label]="table.title">
-                  <app-MosaicTable [dataSource]="table.data"></app-MosaicTable>
-                </mat-tab>
-              </mat-tab-group>
-            </mat-card-content>
-          </mat-card>
+    <div fxLayout="row wrap">
+        <div
+            fxFlex.gt-sm="100"
+            fxFlex.gt-xs="100"
+            fxFlex="100"
+            joyrideStep="gsiprofile1"
+            title="Profile"
+            text="Each Mosaic Profile has a wealth of information behind it compiled into a Grand Index table, this is broken down into Categories and Topics of data."
+        >
+            <mat-card>
+                <mat-card-content>
+                    <div fxLayout="row">
+                        <div fxFlex="80" fxFlexOffset="10" fxLayoutAlign="center center">
+                            <mat-card-title> {{ thisCohort }} Profile </mat-card-title>
+                        </div>
+                        <div fxFlex fxLayoutAlign="center center">
+                            <button mat-icon-button color="primary" (click)="showGuide()" title="GSI Guide">
+                                <mat-icon>info</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
         </div>
-      </div>
     </div>
 
-  </div>
+    <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="20" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card>
+                <mat-card-content fxLayoutAlign="center center">
+                    <mat-chip-list
+                        class="mat-chip-list-stacked"
+                        joyrideStep="gsiprofile2"
+                        title="Categories"
+                        text="Each Grand Index Category has a range of associated tables for that subject matter. Selecting a category will show all linked tables and information."
+                    >
+                        <mat-chip *ngFor="let category of giTable" color="primary" selected (click)="filterCat(category)">
+                            {{ category.cat }}</mat-chip
+                        >
+                    </mat-chip-list>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div
+            fxFlex.gt-sm="80"
+            fxFlex.gt-xs="100"
+            fxFlex="100"
+            joyrideStep="gsiprofile3"
+            title="Topics"
+            text="Each topic is a table of data compiled for the selected Mosaic Profile. From here you can see both the total for this profile and the comparison to the General Population."
+        >
+            <div *ngFor="let category of displayedTable" fxLayout="row wrap" [@simpleFadeAnimation]="'in'">
+                <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <mat-card>
+                        <mat-card-content fxLayoutAlign="center center">
+                            <mat-card-title>{{ category.cat }}</mat-card-title>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card>
+                        <mat-card-content>
+                            <mat-tab-group>
+                                <mat-tab *ngFor="let table of category.tables" [label]="table.title">
+                                    <app-MosaicTable [dataSource]="table.data"></app-MosaicTable>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -10,18 +10,19 @@ import { SharedModule } from "../../../shared/shared.module";
 
 @NgModule({
     imports: [
-        CommonModule, 
-        FormsModule, 
-        ReactiveFormsModule, 
-        DemoMaterialModule, 
-        FlexLayoutModule, 
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
         SharedModule,
-        RouterModule.forChild([{
-            path: "", component: RecentreferralsComponent
-        }]), 
+        RouterModule.forChild([
+            {
+                path: "",
+                component: RecentreferralsComponent,
+            },
+        ]),
     ],
-    declarations: [
-        RecentreferralsComponent
-    ],
+    declarations: [RecentreferralsComponent],
 })
-export class RecentReferralsModule { }
+export class RecentReferralsModule {}

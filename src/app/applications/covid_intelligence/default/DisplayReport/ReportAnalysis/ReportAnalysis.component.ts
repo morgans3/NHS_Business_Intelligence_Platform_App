@@ -1,15 +1,15 @@
 import { Component, OnInit, Input } from "@angular/core";
 
 @Component({
-  selector: "app-ReportAnalysis",
-  templateUrl: "./ReportAnalysis.component.html",
-  styleUrls: ["./ReportAnalysis.component.scss"]
+    selector: "app-ReportAnalysis",
+    templateUrl: "./ReportAnalysis.component.html",
+    styleUrls: ["./ReportAnalysis.component.scss"],
 })
 export class ReportAnalysisComponent implements OnInit {
-  @Input() reportID: string;
-  @Input() report: any;
+    @Input() reportID: string;
+    @Input() report: any;
 
-  constructor() {}
+    constructor() {}
 
-  ngOnInit() {}
+    ngOnInit() {}
 }

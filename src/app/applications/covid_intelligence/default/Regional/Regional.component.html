@@ -9,171 +9,164 @@
 </div> -->
 
 <div *ngIf="dataLoaded === false" fxLayout="row wrap">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-spinner></mat-spinner>
-    </mat-card>
-  </div>
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-spinner></mat-spinner>
+        </mat-card>
+    </div>
 </div>
 
 <div>
-  <div fxLayout="row wrap">
-    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
-      <app-statcard [data]="icpPopulation"></app-statcard>
-    </div>
-    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
-      <app-statcard [data]="customPopulation"></app-statcard>
-    </div>
-    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
-      <app-statcard [data]="selectedPop"></app-statcard>
-    </div>
-    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
-      <app-statcard [data]="selected"></app-statcard>
-    </div>
-  </div>
-
-  <div fxLayout="row wrap">
-    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-card>
-        <mat-card-content class="slimCard">
-          <div fxLayoutAlign="center center" style="height:66px">
-            <button type="button" mat-raised-button style="width:100%" [class.bg-danger]="customBaseline">
-              <span *ngIf="!customBaseline" (click)="
-                  customBaseline = selectedPopulation;
-                  myDC.redrawAll();
-                  ewChart.redraw()
-                ">Set Custom Baseline</span>
-              <span *ngIf="customBaseline" (click)="
-                  customBaseline = null; myDC.redrawAll(); ewChart.redraw()
-                ">Clear Custom Baseline</span>
-            </button>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
-      <div fxLayout="row wrap">
-        <div fxFlex.gt-sm="70" fxFlex.gt-xs="100" fxFlex="100">
-          <mat-card>
-            <mat-card-content class="slimCard">
-              <div class="forceColumn" fxLayoutAlign="center center" style="height:66px;">
-                <button type="button" mat-raised-button style="min-width:100%" color="warn" (click)="resetToWholePop()">
-                  Reset All
-                </button>
-                <mat-progress-bar *ngIf="resetBtnPushed" mode="indeterminate" style="margin-top: 10px">
-                </mat-progress-bar>
-              </div>
-            </mat-card-content>
-          </mat-card>
+    <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+            <app-statcard [data]="icpPopulation"></app-statcard>
         </div>
-
-        <div fxFlex.gt-sm="30" fxFlex.gt-xs="100" fxFlex="100">
-          <mat-card>
-            <mat-card-content class="slimCard">
-              <div fxLayoutAlign="center center" style="height:66px">
-                <button mat-icon-button color="primary" title="Guide" disabled="disabled">
-                  <mat-icon>info</mat-icon>
-                </button>
-              </div>
-            </mat-card-content>
-          </mat-card>
+        <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+            <app-statcard [data]="customPopulation"></app-statcard>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div fxLayout="row wrap">
-    <div fxFlex.gt-xs="66" fxFlex="100">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title style="padding-top: 2px;">
-              Electoral Ward
-            </mat-card-title>
-          </mat-card-title-group>
-          <div fxFlex></div>
-          <div fxLayoutAlign="center center">
-            <mat-progress-bar *ngIf="loadFilters['nhs_lad_code']" mode="indeterminate" style="width:50px">
-            </mat-progress-bar>&nbsp;
-            <button *ngIf="queryFilter && queryFilter['nhs_lad_code']" mat-icon-button color="warn"
-              (click)="redrawCharts(ewChart, 'nhs_lad_code')" title="Reset">
-              <mat-icon>indeterminate_check_box</mat-icon>
-            </button>
-            <button mat-icon-button color="accent" (click)="onChartCollapse('ewChart')" title="Collapse">
-              <mat-icon>swap_vertical_circle</mat-icon>
-            </button>
-          </div>
-        </mat-card-header>
-        <mat-card-content #ewChartParent class="chartspace halfheight chartexpand"
-          [@expandCollapse]="ewChartOpenCloseAnim">
-          <div id="ewChart"></div>
-        </mat-card-content>
-      </mat-card>
+        <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+            <app-statcard [data]="selectedPop"></app-statcard>
+        </div>
+        <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+            <app-statcard [data]="selected"></app-statcard>
+        </div>
     </div>
 
-    <div fxFlex.gt-xs="34" fxFlex="100">
-      <div fxLayout="row wrap">
-        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title-group>
-                <mat-card-title style="padding-top: 2px;">
-                  Medical Conditions
-                </mat-card-title>
-              </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
-              <div id="mc-select" class="nexusselect"></div>
-              <button mat-icon-button color="warn" (click)="redrawCharts(mcSelect, 'medical_conditions')" title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-            </mat-card-content>
-          </mat-card>
+    <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card>
+                <mat-card-content class="slimCard">
+                    <div fxLayoutAlign="center center" style="height: 66px">
+                        <button type="button" mat-raised-button style="width: 100%" [class.bg-danger]="customBaseline">
+                            <span *ngIf="!customBaseline" (click)="customBaseline = selectedPopulation; myDC.redrawAll(); ewChart.redraw()"
+                                >Set Custom Baseline</span
+                            >
+                            <span *ngIf="customBaseline" (click)="customBaseline = null; myDC.redrawAll(); ewChart.redraw()"
+                                >Clear Custom Baseline</span
+                            >
+                        </button>
+                    </div>
+                </mat-card-content>
+            </mat-card>
         </div>
-        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title-group>
-                <mat-card-title style="padding-top: 2px;">
-                  Received Letter
-                </mat-card-title>
-              </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
-              <div id="rl-select" class="nexusselect"></div>
-              <button mat-icon-button color="warn" (click)="redrawCharts(rlSelect, 'received_letter')" title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-            </mat-card-content>
-          </mat-card>
-        </div>
-        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title-group>
-                <mat-card-title style="padding-top: 2px;">
-                  Help with Supplies
-                </mat-card-title>
-              </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
-              <div id="supplies-select" class="nexusselect"></div>
-              <button mat-icon-button color="warn" (click)="
-                  redrawCharts(
-                    suppliesSelect,
-                    'can_you_get_essential_supplies_delivered'
-                  )
-                " title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </div>
-    </div>
-  </div>
+        <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+            <div fxLayout="row wrap">
+                <div fxFlex.gt-sm="70" fxFlex.gt-xs="100" fxFlex="100">
+                    <mat-card>
+                        <mat-card-content class="slimCard">
+                            <div class="forceColumn" fxLayoutAlign="center center" style="height: 66px">
+                                <button type="button" mat-raised-button style="min-width: 100%" color="warn" (click)="resetToWholePop()">
+                                    Reset All
+                                </button>
+                                <mat-progress-bar *ngIf="resetBtnPushed" mode="indeterminate" style="margin-top: 10px"> </mat-progress-bar>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
 
-  <!-- <div fxLayout="row wrap">
+                <div fxFlex.gt-sm="30" fxFlex.gt-xs="100" fxFlex="100">
+                    <mat-card>
+                        <mat-card-content class="slimCard">
+                            <div fxLayoutAlign="center center" style="height: 66px">
+                                <button mat-icon-button color="primary" title="Guide" disabled="disabled">
+                                    <mat-icon>info</mat-icon>
+                                </button>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div fxLayout="row wrap">
+        <div fxFlex.gt-xs="66" fxFlex="100">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title-group>
+                        <mat-card-title style="padding-top: 2px"> Electoral Ward </mat-card-title>
+                    </mat-card-title-group>
+                    <div fxFlex></div>
+                    <div fxLayoutAlign="center center">
+                        <mat-progress-bar *ngIf="loadFilters['nhs_lad_code']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                        >&nbsp;
+                        <button
+                            *ngIf="queryFilter && queryFilter['nhs_lad_code']"
+                            mat-icon-button
+                            color="warn"
+                            (click)="redrawCharts(ewChart, 'nhs_lad_code')"
+                            title="Reset"
+                        >
+                            <mat-icon>indeterminate_check_box</mat-icon>
+                        </button>
+                        <button mat-icon-button color="accent" (click)="onChartCollapse('ewChart')" title="Collapse">
+                            <mat-icon>swap_vertical_circle</mat-icon>
+                        </button>
+                    </div>
+                </mat-card-header>
+                <mat-card-content #ewChartParent class="chartspace halfheight chartexpand" [@expandCollapse]="ewChartOpenCloseAnim">
+                    <div id="ewChart"></div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div fxFlex.gt-xs="34" fxFlex="100">
+            <div fxLayout="row wrap">
+                <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title-group>
+                                <mat-card-title style="padding-top: 2px"> Medical Conditions </mat-card-title>
+                            </mat-card-title-group>
+                        </mat-card-header>
+                        <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
+                            <div id="mc-select" class="nexusselect"></div>
+                            <button mat-icon-button color="warn" (click)="redrawCharts(mcSelect, 'medical_conditions')" title="Reset">
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title-group>
+                                <mat-card-title style="padding-top: 2px"> Received Letter </mat-card-title>
+                            </mat-card-title-group>
+                        </mat-card-header>
+                        <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
+                            <div id="rl-select" class="nexusselect"></div>
+                            <button mat-icon-button color="warn" (click)="redrawCharts(rlSelect, 'received_letter')" title="Reset">
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title-group>
+                                <mat-card-title style="padding-top: 2px"> Help with Supplies </mat-card-title>
+                            </mat-card-title-group>
+                        </mat-card-header>
+                        <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
+                            <div id="supplies-select" class="nexusselect"></div>
+                            <button
+                                mat-icon-button
+                                color="warn"
+                                (click)="redrawCharts(suppliesSelect, 'can_you_get_essential_supplies_delivered')"
+                                title="Reset"
+                            >
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div fxLayout="row wrap">
     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
       <mat-card (mouseleave)="exitMosaic()">
         <mat-card-header>
@@ -208,72 +201,75 @@
     </div>
   </div>
  -->
-  <div fxLayout="row wrap">
-    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title style="padding-top: 2px;">
-              Age Chart
-            </mat-card-title>
-          </mat-card-title-group>
-          <div fxFlex></div>
-          <div fxLayoutAlign="center center">
-            <mat-progress-bar *ngIf="loadFilters['AgeDimension']" mode="indeterminate" style="width:50px">
-            </mat-progress-bar>&nbsp;
-            <mat-chip-list *ngIf="queryFilter['AgeDimension']">
-              <mat-chip color="primary" selected>{{
-                  queryFilter["AgeDimension"].toString().replace(",", " - ")
-                }}
-              </mat-chip>
-            </mat-chip-list>
-            <button *ngIf="queryFilter && queryFilter['AgeDimension']" mat-icon-button color="warn"
-              (click)="redrawCharts(ageChart, 'AgeDimension')" title="Reset">
-              <mat-icon>indeterminate_check_box</mat-icon>
-            </button>
-            <button mat-icon-button color="accent" (click)="onChartCollapse('ageChart')" title="Collapse">
-              <mat-icon>swap_vertical_circle</mat-icon>
-            </button>
-          </div>
-        </mat-card-header>
-        <mat-card-content #ageChartParent class="chartspace" [@expandCollapse]="ageChartOpenCloseAnim">
-          <div id="ageChart"></div>
-        </mat-card-content>
-      </mat-card>
+    <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title-group>
+                        <mat-card-title style="padding-top: 2px"> Age Chart </mat-card-title>
+                    </mat-card-title-group>
+                    <div fxFlex></div>
+                    <div fxLayoutAlign="center center">
+                        <mat-progress-bar *ngIf="loadFilters['AgeDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                        >&nbsp;
+                        <mat-chip-list *ngIf="queryFilter['AgeDimension']">
+                            <mat-chip color="primary" selected>{{ queryFilter["AgeDimension"].toString().replace(",", " - ") }} </mat-chip>
+                        </mat-chip-list>
+                        <button
+                            *ngIf="queryFilter && queryFilter['AgeDimension']"
+                            mat-icon-button
+                            color="warn"
+                            (click)="redrawCharts(ageChart, 'AgeDimension')"
+                            title="Reset"
+                        >
+                            <mat-icon>indeterminate_check_box</mat-icon>
+                        </button>
+                        <button mat-icon-button color="accent" (click)="onChartCollapse('ageChart')" title="Collapse">
+                            <mat-icon>swap_vertical_circle</mat-icon>
+                        </button>
+                    </div>
+                </mat-card-header>
+                <mat-card-content #ageChartParent class="chartspace" [@expandCollapse]="ageChartOpenCloseAnim">
+                    <div id="ageChart"></div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title-group>
+                        <mat-card-title style="padding-top: 2px"> Allocated Support </mat-card-title>
+                    </mat-card-title-group>
+                    <div fxFlex></div>
+                    <div fxLayoutAlign="center center">
+                        <mat-progress-bar *ngIf="loadFilters['SupportDimension']" mode="indeterminate" style="width: 50px">
+                        </mat-progress-bar
+                        >&nbsp;
+                        <mat-chip-list *ngIf="queryFilter['SupportDimension']">
+                            <mat-chip color="primary" selected
+                                >{{ queryFilter["SupportDimension"].toString().replace(",", " - ") }}
+                            </mat-chip>
+                        </mat-chip-list>
+                        <button
+                            *ngIf="queryFilter && queryFilter['SupportDimension']"
+                            mat-icon-button
+                            color="warn"
+                            (click)="redrawCharts(riskChart, 'SupportDimension')"
+                            title="Reset"
+                        >
+                            <mat-icon>indeterminate_check_box</mat-icon>
+                        </button>
+                        <button mat-icon-button color="accent" (click)="onChartCollapse('supportChart')" title="Collapse">
+                            <mat-icon>swap_vertical_circle</mat-icon>
+                        </button>
+                    </div>
+                </mat-card-header>
+                <mat-card-content #supportChartParent class="chartspace" [@expandCollapse]="supportChartOpenCloseAnim">
+                    <div id="supportChart"></div>
+                </mat-card-content>
+            </mat-card>
+        </div>
     </div>
-    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title style="padding-top: 2px;">
-              Allocated Support
-            </mat-card-title>
-          </mat-card-title-group>
-          <div fxFlex></div>
-          <div fxLayoutAlign="center center">
-            <mat-progress-bar *ngIf="loadFilters['SupportDimension']" mode="indeterminate" style="width:50px">
-            </mat-progress-bar>&nbsp;
-            <mat-chip-list *ngIf="queryFilter['SupportDimension']">
-              <mat-chip color="primary" selected>{{
-                  queryFilter["SupportDimension"].toString().replace(",", " - ")
-                }}
-              </mat-chip>
-            </mat-chip-list>
-            <button *ngIf="queryFilter && queryFilter['SupportDimension']" mat-icon-button color="warn"
-              (click)="redrawCharts(riskChart, 'SupportDimension')" title="Reset">
-              <mat-icon>indeterminate_check_box</mat-icon>
-            </button>
-            <button mat-icon-button color="accent" (click)="onChartCollapse('supportChart')" title="Collapse">
-              <mat-icon>swap_vertical_circle</mat-icon>
-            </button>
-          </div>
-        </mat-card-header>
-        <mat-card-content #supportChartParent class="chartspace" [@expandCollapse]="supportChartOpenCloseAnim">
-          <div id="supportChart"></div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
 
-  <app-cohort-all [cohort]="queryFilter" (change)="cohortChanged($event)"></app-cohort-all>
+    <app-cohort-all [cohort]="queryFilter" (change)="cohortChanged($event)"></app-cohort-all>
 </div>

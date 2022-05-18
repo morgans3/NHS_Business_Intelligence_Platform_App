@@ -6,15 +6,17 @@ import { DemoMaterialModule } from "../../../../demo-material-module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild([{
-      path: "",
-      component: HealthInequalitiesToolComponent
-    }]),
-    DemoMaterialModule,
-    FlexLayoutModule
-  ],
-  declarations: [HealthInequalitiesToolComponent]
+    imports: [
+        CommonModule,
+        RouterModule.forChild([
+            {
+                path: "",
+                component: HealthInequalitiesToolComponent,
+            },
+        ]),
+        DemoMaterialModule,
+        FlexLayoutModule,
+    ],
+    declarations: [HealthInequalitiesToolComponent],
 })
 export class ToolsModule {}

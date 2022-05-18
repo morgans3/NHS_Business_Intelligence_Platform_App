@@ -1,27 +1,27 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title-group>
-      <mat-card-title style="padding-top: 2px"> Trigger COVID Result</mat-card-title>
-    </mat-card-title-group>
-  </mat-card-header>
-  <mat-card-content>
-    <form class="m-t-20" [formGroup]="myForm" (ngSubmit)="onSubmit()">
-      <mat-form-field class="example-full-width">
-        <input autocomplete="off" matInput placeholder="Pathlab" type="text" formControlName="pathlab" />
-      </mat-form-field>
-      <mat-form-field class="example-full-width">
-        <input autocomplete="off" matInput placeholder="NHS Number" type="text" formControlName="nhsnumber" />
-      </mat-form-field>
-      <mat-form-field class="example-full-width">
-        <input autocomplete="off" matInput placeholder="Email" type="email" formControlName="email" />
-      </mat-form-field>
-      <mat-form-field class="example-full-width">
-        <input autocomplete="off" matInput placeholder="Mobile number" type="text" formControlName="mobilenumber" />
-      </mat-form-field>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!myForm.valid">Submit</button>
-        <button mat-raised-button color="warn" type="button" (click)="clearForm()">Clear</button>
-      </mat-card-actions>
-    </form>
-  </mat-card-content>
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title style="padding-top: 2px"> Trigger COVID Result</mat-card-title>
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+        <form class="m-t-20" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <mat-form-field class="example-full-width">
+                <input autocomplete="off" matInput placeholder="Pathlab" type="text" formControlName="pathlab" />
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input autocomplete="off" matInput placeholder="NHS Number" type="text" formControlName="nhsnumber" />
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input autocomplete="off" matInput placeholder="Email" type="email" formControlName="email" />
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input autocomplete="off" matInput placeholder="Mobile number" type="text" formControlName="mobilenumber" />
+            </mat-form-field>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" type="submit" [disabled]="!myForm.valid">Submit</button>
+                <button mat-raised-button color="warn" type="button" (click)="clearForm()">Clear</button>
+            </mat-card-actions>
+        </form>
+    </mat-card-content>
 </mat-card>

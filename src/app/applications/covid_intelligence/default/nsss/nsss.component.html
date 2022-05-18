@@ -1,160 +1,174 @@
 <div fxLayout="row wrap">
-  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
-    <app-statcard [data]="totalStats"></app-statcard>
-  </div>
-  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
-    <app-statcard [data]="activeStats"></app-statcard>
-  </div>
-  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
-    <app-statcard [data]="selectedStats"></app-statcard>
-  </div>
-  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
-    <app-statcard [data]="dataRefreshedStats"></app-statcard>
-  </div>
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+        <app-statcard [data]="totalStats"></app-statcard>
+    </div>
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+        <app-statcard [data]="activeStats"></app-statcard>
+    </div>
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+        <app-statcard [data]="selectedStats"></app-statcard>
+    </div>
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+        <app-statcard [data]="dataRefreshedStats"></app-statcard>
+    </div>
 </div>
 
 <div fxLayout="row wrap" *ngIf="noAccess">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
-    <mat-card class="slim-top bg-warning" style="padding-bottom: 10px; width: 100%;">
-      <mat-card-content class="text-white" style="padding-top: 0px; padding-bottom: 0px">
-        <div fxLayoutAlign="center center">
-          <mat-icon>warning</mat-icon>
-          <p style="margin-left: 5px; text-align: center;">No Access to this Information. You need to be added to a
-            Security Group to view Patient Information</p>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
+        <mat-card class="slim-top bg-warning" style="padding-bottom: 10px; width: 100%">
+            <mat-card-content class="text-white" style="padding-top: 0px; padding-bottom: 0px">
+                <div fxLayoutAlign="center center">
+                    <mat-icon>warning</mat-icon>
+                    <p style="margin-left: 5px; text-align: center">
+                        No Access to this Information. You need to be added to a Security Group to view Patient Information
+                    </p>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>
 
 <div fxLayout="row wrap" *ngIf="noResults">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
-    <mat-card class="slim-top bg-info" style="padding-bottom: 10px; width: 100%;">
-      <mat-card-content class="text-white" style="padding-top: 0px; padding-bottom: 0px">
-        <div fxLayoutAlign="center center">
-          <mat-icon>warning</mat-icon>
-          <p style="margin-left: 5px; text-align: center;">No Citizens match the criteria selected, that you have
-            access to view.</p>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
+        <mat-card class="slim-top bg-info" style="padding-bottom: 10px; width: 100%">
+            <mat-card-content class="text-white" style="padding-top: 0px; padding-bottom: 0px">
+                <div fxLayoutAlign="center center">
+                    <mat-icon>warning</mat-icon>
+                    <p style="margin-left: 5px; text-align: center">
+                        No Citizens match the criteria selected, that you have access to view.
+                    </p>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>
 
 <div fxLayout="row wrap">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px">
-            National Shielding Service System Users
-          </mat-card-title>
-        </mat-card-title-group>
-      </mat-card-header>
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> National Shielding Service System Users </mat-card-title>
+                </mat-card-title-group>
+            </mat-card-header>
 
-      <mat-card-content>
-        <section fxLayout="row" class="example-section" style="margin-bottom: 10px; overflow-x: auto">
-          Filter<br>Services:&nbsp;&nbsp;&nbsp;
-          <button *ngFor="let cat of shieldingServices" mat-icon-button [matTooltipClass]="'mytooltip'" [matTooltip]="cat.title" (click)="filterServices(cat.value)" [color]="selectedShieldingServices.indexOf(cat.value) > -1 ? (cat.color ? cat.color : 'primary') : 'default'">
-            <mat-icon *ngIf="!cat.icon.includes('fa-')">{{ cat.icon }}</mat-icon>
-            <i *ngIf="cat.icon.includes('fa-')" style="font-size: x-large" [class]="cat.icon"></i>
-          </button>
-        </section>
-        <app-UserValidation (confirmation)="updatePID($event)"></app-UserValidation>
-        <div>
-          <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z5" id="shieldingTable" width = "100%">
-            <ng-container matColumnDef="nhs_number">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>NHS Number</th>
-              <td mat-cell *matCellDef="let element">
-                <span *ngIf="sensitiveData"> {{ element.nhs_number }} </span>
-                <span *ngIf="!sensitiveData"> ######## </span>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="first_name">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Forename</th>
-              <td mat-cell *matCellDef="let element">
-                <span *ngIf="sensitiveData"> {{ element.first_name }} </span>
-                <span *ngIf="!sensitiveData"> ######## </span>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="last_name">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Surname</th>
-              <td mat-cell *matCellDef="let element">
-                <span *ngIf="sensitiveData"> {{ element.last_name }} </span>
-                <span *ngIf="!sensitiveData"> ######## </span>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="address_line1">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Address Line 1</th>
-              <td mat-cell *matCellDef="let element">
-                <span *ngIf="sensitiveData"> {{ element.address_line1 }} </span>
-                <span *ngIf="!sensitiveData"> ######## </span>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="address_line2">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Address Line 2</th>
-              <td mat-cell *matCellDef="let element">
-                <span *ngIf="sensitiveData"> {{ element.address_line2 }} </span>
-                <span *ngIf="!sensitiveData"> ######## </span>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="address_town_city">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Town/City</th>
-              <td mat-cell *matCellDef="let element">
-                <span *ngIf="sensitiveData"> {{ element.address_town_city }} </span>
-                <span *ngIf="!sensitiveData"> ######## </span>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="contact_number_calls">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone (Calls)</th>
-              <td mat-cell *matCellDef="let element">
-                <span *ngIf="sensitiveData"> {{ element.contact_number_calls }} </span>
-                <span *ngIf="!sensitiveData"> ######## </span>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="contact_number_texts">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone (Texts)</th>
-              <td mat-cell *matCellDef="let element">
-                <span *ngIf="sensitiveData"> {{ element.contact_number_texts }} </span>
-                <span *ngIf="!sensitiveData"> ######## </span>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="contact_email">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
-              <td mat-cell *matCellDef="let element">
-                <span *ngIf="sensitiveData"> {{ element.contact_email }} </span>
-                <span *ngIf="!sensitiveData"> ######## </span>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="address_postcode">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Postcode</th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.address_postcode }}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="flags">
-              <th mat-header-cell *matHeaderCellDef class="text-center-header-cell"> Shielding Service Questions </th>
-              <td mat-cell *matCellDef="let task; let i = index" class="text-center-header-cell">
+            <mat-card-content>
                 <section fxLayout="row" class="example-section" style="margin-bottom: 10px; overflow-x: auto">
-                  <span *ngFor="let cat of shieldingServices">
-                    <button *ngIf="task[cat.value] === cat.default ? true : false" mat-icon-button [color]="cat.color ? cat.color : 'primary'" [matTooltip]="cat.title" (click)="filterServices(cat.value)" [disabled]="task[cat.value] === cat.default ? false : true">
-                      <mat-icon *ngIf="!cat.icon.includes('fa-')">{{ cat.icon }}</mat-icon>
-                      <i *ngIf="cat.icon.includes('fa-')" style="font-size: x-large" [class]="cat.icon"></i>
+                    Filter<br />Services:&nbsp;&nbsp;&nbsp;
+                    <button
+                        *ngFor="let cat of shieldingServices"
+                        mat-icon-button
+                        [matTooltipClass]="'mytooltip'"
+                        [matTooltip]="cat.title"
+                        (click)="filterServices(cat.value)"
+                        [color]="selectedShieldingServices.indexOf(cat.value) > -1 ? (cat.color ? cat.color : 'primary') : 'default'"
+                    >
+                        <mat-icon *ngIf="!cat.icon.includes('fa-')">{{ cat.icon }}</mat-icon>
+                        <i *ngIf="cat.icon.includes('fa-')" style="font-size: x-large" [class]="cat.icon"></i>
                     </button>
-                  </span>
                 </section>
-              </td>
-            </ng-container>
+                <app-UserValidation (confirmation)="updatePID($event)"></app-UserValidation>
+                <div>
+                    <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z5" id="shieldingTable" width="100%">
+                        <ng-container matColumnDef="nhs_number">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>NHS Number</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span *ngIf="sensitiveData"> {{ element.nhs_number }} </span>
+                                <span *ngIf="!sensitiveData"> ######## </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="first_name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Forename</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span *ngIf="sensitiveData"> {{ element.first_name }} </span>
+                                <span *ngIf="!sensitiveData"> ######## </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="last_name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Surname</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span *ngIf="sensitiveData"> {{ element.last_name }} </span>
+                                <span *ngIf="!sensitiveData"> ######## </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="address_line1">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Address Line 1</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span *ngIf="sensitiveData"> {{ element.address_line1 }} </span>
+                                <span *ngIf="!sensitiveData"> ######## </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="address_line2">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Address Line 2</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span *ngIf="sensitiveData"> {{ element.address_line2 }} </span>
+                                <span *ngIf="!sensitiveData"> ######## </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="address_town_city">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Town/City</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span *ngIf="sensitiveData"> {{ element.address_town_city }} </span>
+                                <span *ngIf="!sensitiveData"> ######## </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="contact_number_calls">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone (Calls)</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span *ngIf="sensitiveData"> {{ element.contact_number_calls }} </span>
+                                <span *ngIf="!sensitiveData"> ######## </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="contact_number_texts">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone (Texts)</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span *ngIf="sensitiveData"> {{ element.contact_number_texts }} </span>
+                                <span *ngIf="!sensitiveData"> ######## </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="contact_email">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span *ngIf="sensitiveData"> {{ element.contact_email }} </span>
+                                <span *ngIf="!sensitiveData"> ######## </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="address_postcode">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Postcode</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.address_postcode }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="flags">
+                            <th mat-header-cell *matHeaderCellDef class="text-center-header-cell">Shielding Service Questions</th>
+                            <td mat-cell *matCellDef="let task; let i = index" class="text-center-header-cell">
+                                <section fxLayout="row" class="example-section" style="margin-bottom: 10px; overflow-x: auto">
+                                    <span *ngFor="let cat of shieldingServices">
+                                        <button
+                                            *ngIf="task[cat.value] === cat.default ? true : false"
+                                            mat-icon-button
+                                            [color]="cat.color ? cat.color : 'primary'"
+                                            [matTooltip]="cat.title"
+                                            (click)="filterServices(cat.value)"
+                                            [disabled]="task[cat.value] === cat.default ? false : true"
+                                        >
+                                            <mat-icon *ngIf="!cat.icon.includes('fa-')">{{ cat.icon }}</mat-icon>
+                                            <i *ngIf="cat.icon.includes('fa-')" style="font-size: x-large" [class]="cat.icon"></i>
+                                        </button>
+                                    </span>
+                                </section>
+                            </td>
+                        </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          </table>
-          <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
-        </div>
-        <div padding-left="5em">
-          <button mat-raised-button (click)="exportShieldingList(sensitiveData)">Download</button>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+                </div>
+                <div padding-left="5em">
+                    <button mat-raised-button (click)="exportShieldingList(sensitiveData)">Download</button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>

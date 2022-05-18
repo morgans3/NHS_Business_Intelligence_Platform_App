@@ -1,3 +1,3 @@
 export class ModelOTPToken {
-  public otp: string;
+    public otp: string;
 }

@@ -3,28 +3,28 @@ import { BehaviorSubject } from "rxjs";
 import { EntityGroupedResponse } from "../_models/DTOFormAnswer";
 
 @Injectable({
-  providedIn: "root"
+    providedIn: "root",
 })
 export class ContextService {
-  public PatientMode = new BehaviorSubject(null);
-  public Patient = new BehaviorSubject(null);
-  public PatientVisit = new BehaviorSubject(null);
-  public Form = new BehaviorSubject(null);
-  public SavedForm = new BehaviorSubject(null);
+    public PatientMode = new BehaviorSubject(null);
+    public Patient = new BehaviorSubject(null);
+    public PatientVisit = new BehaviorSubject(null);
+    public Form = new BehaviorSubject(null);
+    public SavedForm = new BehaviorSubject(null);
 
-  updateMode(newmode: string) {
-    this.PatientMode.next(newmode);
-  }
+    updateMode(newmode: string) {
+        this.PatientMode.next(newmode);
+    }
 
-  updateForm(formID: number) {
-    this.Form.next(formID);
-  }
+    updateForm(formID: number) {
+        this.Form.next(formID);
+    }
 
-  updateSavedForm(GroupedResponse: EntityGroupedResponse) {
-    this.SavedForm.next(GroupedResponse);
-  }
+    updateSavedForm(GroupedResponse: EntityGroupedResponse) {
+        this.SavedForm.next(GroupedResponse);
+    }
 
-  clearSavedForm() {
-    this.SavedForm = new BehaviorSubject(null);
-  }
+    clearSavedForm() {
+        this.SavedForm = new BehaviorSubject(null);
+    }
 }

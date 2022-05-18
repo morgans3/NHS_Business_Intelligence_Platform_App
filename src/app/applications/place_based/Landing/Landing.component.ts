@@ -9,13 +9,13 @@ import { collapseAnimations } from "src/app/shared/animations";
 import { colorbrewer, DeprivationColors } from "src/app/_models/chart_colour_ranges";
 import { MatDialog } from "@angular/material/dialog";
 import { AuthState } from "src/app/_states/auth.state";
-import { MapData } from "../Incidents/IncidentForm/findlocation/findlocation.component";
 import { BarChart } from "src/app/_models/chart";
-import { ExpandTextDialogComponent } from "../modals/dialogexpand";
 import { StatCardData } from "src/app/_models/SPI_Lookups";
 import { MosaicColours, MosaicDomain } from "src/app/_models/mosaiccode";
 import { StorageService } from "src/app/_services/storage.service";
 import { APIService } from "diu-component-library";
+import { MapData } from "../_components/map.component";
+import { ExpandTextDialogComponent } from "../../covid_intelligence/_modals/dialogexpand";
 declare var window: any;
 
 @Component({

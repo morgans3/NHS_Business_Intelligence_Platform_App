@@ -1,9 +1,15 @@
 <div style="margin: 10px 0px">
-  <p style="border-bottom: 1px solid darkslategrey; margin: 15px 6px 0">Lists</p>
+    <p style="border-bottom: 1px solid darkslategrey; margin: 15px 6px 0">Lists</p>
 
-  <section fxLayout="row" fxLayoutAlign="center center" class="example-section" style="margin-bottom: 10px; overflow-x: auto">
-    <button *ngFor="let cat of filtered_list_types" mat-icon-button color="primary" [matTooltip]="cat.title" [disabled]="person[cat.value] === cat.default ? false : true">
-      <mat-icon>{{ cat.icon }}</mat-icon>
-    </button>
-  </section>
+    <section fxLayout="row" fxLayoutAlign="center center" class="example-section" style="margin-bottom: 10px; overflow-x: auto">
+        <button
+            *ngFor="let cat of filtered_list_types"
+            mat-icon-button
+            color="primary"
+            [matTooltip]="cat.title"
+            [disabled]="person[cat.value] === cat.default ? false : true"
+        >
+            <mat-icon>{{ cat.icon }}</mat-icon>
+        </button>
+    </section>
 </div>

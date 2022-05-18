@@ -1,29 +1,29 @@
 <div class="card-container manual-flip my-card">
-  <div class="card">
-    <div style="width: 100%">
-      <div class="cover">
-        <img src="assets/images/scenery.jpg" />
-      </div>
-      <div class="user">
-        <img class="img-circle" src="assets/images/login.png" />
-      </div>
-      <div class="content">
-        <div class="main" *ngIf="data">
-          <h3 class="name">{{data.forename + ' ' + data.surname}}</h3>
-          <p class="text-center">
-            <b>First Name:</b> {{data.forename}} <br />
-            <b>Family Name:</b> {{data.surname}} <br />
-            <b>NHS Number:</b> {{data.nhsnumber}} <br />
-            <b>Gender:</b> {{data.gender}} <br />
-            <b>Date of Birth:</b> {{data.dob | date: 'dd/MM/yyyy'}} <br />
-            <span *ngIf="data.postcode"> <b>Address:</b> {{ displayaddress(data) }} <br /> </span>
-          </p>
+    <div class="card">
+        <div style="width: 100%">
+            <div class="cover">
+                <img src="assets/images/scenery.jpg" />
+            </div>
+            <div class="user">
+                <img class="img-circle" src="assets/images/login.png" />
+            </div>
+            <div class="content">
+                <div class="main" *ngIf="data">
+                    <h3 class="name">{{data.forename + ' ' + data.surname}}</h3>
+                    <p class="text-center">
+                        <b>First Name:</b> {{data.forename}} <br />
+                        <b>Family Name:</b> {{data.surname}} <br />
+                        <b>NHS Number:</b> {{data.nhsnumber}} <br />
+                        <b>Gender:</b> {{data.gender}} <br />
+                        <b>Date of Birth:</b> {{data.dob | date: 'dd/MM/yyyy'}} <br />
+                        <span *ngIf="data.postcode"> <b>Address:</b> {{ displayaddress(data) }} <br /> </span>
+                    </p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <div mat-dialog-actions>
-  <button mat-button color="primary" style="width: 100%; padding-left: 5px; padding-right: 5px" (click)="onNoClick()">Close</button>
+    <button mat-button color="primary" style="width: 100%; padding-left: 5px; padding-right: 5px" (click)="onNoClick()">Close</button>
 </div>

@@ -1,4 +1,3 @@
-
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -11,22 +10,8 @@ import { ExportExcelComponent } from "./export/exportexcel.component";
 import { WorksheetComponent } from "./worksheet/worksheet.component";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    DemoMaterialModule,
-    FlexLayoutModule,
-    MainPipe
-  ],
-  declarations: [
-    WorksheetComponent, 
-    WorkbookComponent, 
-    ExportExcelComponent
-  ],
-  exports: [
-    WorkbookComponent, 
-    ExportExcelComponent
-  ]
+    imports: [CommonModule, ReactiveFormsModule, FormsModule, DemoMaterialModule, FlexLayoutModule, MainPipe],
+    declarations: [WorksheetComponent, WorkbookComponent, ExportExcelComponent],
+    exports: [WorkbookComponent, ExportExcelComponent],
 })
 export class ExcelModule {}

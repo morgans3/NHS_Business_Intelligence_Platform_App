@@ -1,38 +1,48 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title-group>
-      <mat-card-title>
-        <span *ngIf="person">
-          {{ person.forename + " " + person.surname }}
-        </span>
-      </mat-card-title>
-    </mat-card-title-group>
-    <div fxFlex></div>
-    <div fxLayoutAlign="center center">
-      Datasets Last Updated:&nbsp;
-      <mat-chip-list *ngIf="person">
-        <mat-chip [color]="person.etl_run_date ? 'primary' : 'default'" [title]="person.etl_run_date | date: 'dd/MM/yyyy' || 'unavailable'" selected>CSU</mat-chip>
-        <mat-chip [color]="person.d_etl_run_date ? 'primary' : 'default'" [title]="showDate(person.d_etl_run_date) || 'unavailable'" selected>District</mat-chip>
-      </mat-chip-list>
-    </div>
-  </mat-card-header>
-  <mat-card-content>
-    <hr />
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>
+                <span *ngIf="person">
+                    {{ person.forename + " " + person.surname }}
+                </span>
+            </mat-card-title>
+        </mat-card-title-group>
+        <div fxFlex></div>
+        <div fxLayoutAlign="center center">
+            Datasets Last Updated:&nbsp;
+            <mat-chip-list *ngIf="person">
+                <mat-chip
+                    [color]="person.etl_run_date ? 'primary' : 'default'"
+                    [title]="person.etl_run_date | date: 'dd/MM/yyyy' || 'unavailable'"
+                    selected
+                    >CSU</mat-chip
+                >
+                <mat-chip
+                    [color]="person.d_etl_run_date ? 'primary' : 'default'"
+                    [title]="showDate(person.d_etl_run_date) || 'unavailable'"
+                    selected
+                    >District</mat-chip
+                >
+            </mat-chip-list>
+        </div>
+    </mat-card-header>
+    <mat-card-content>
+        <hr />
 
-    <div fxLayout="row wrap" *ngIf="!dataFetched">
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
-        <mat-spinner [diameter]="60"></mat-spinner>
-      </div>
-    </div>
+        <div fxLayout="row wrap" *ngIf="!dataFetched">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
+                <mat-spinner [diameter]="60"></mat-spinner>
+            </div>
+        </div>
 
-    <div fxLayout="row wrap" *ngIf="dataFetched && person">
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-        <app-theograph [person]="person"></app-theograph>
-      </div>
+        <div fxLayout="row wrap" *ngIf="dataFetched && person">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <app-theograph [person]="person"></app-theograph>
+            </div>
 
-      <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
-        <app-conditions [setperson]="person"></app-conditions>
-        <!-- <p style="border-bottom: 1px solid darkslategrey; margin: 15px 6px 10px">Covid-19 Information</p>
+            <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+                <app-conditions [setperson]="person"></app-conditions>
+                <!-- <p style="border-bottom: 1px solid darkslategrey; margin: 15px 6px 10px">Covid-19 Information</p>
         <div fxLayoutAlign="center center">
           <button mat-fab type="button" color="warn" matTooltip="COVID-19 Positive Result recorded 05/08/2020" style="margin: 10px">
             <i class="fas fa-lungs-virus" style="font-size: x-large"></i>
@@ -42,40 +52,40 @@
             <i class="fas fa-syringe" style="font-size: x-large"></i>
           </button>
         </div> -->
-        <app-citizenlists [setperson]="person"></app-citizenlists>
-      </div>
+                <app-citizenlists [setperson]="person"></app-citizenlists>
+            </div>
 
-      <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
-        <div style="margin: 10px 0px">
-          <p style="border-bottom: 1px solid darkslategrey; margin: 15px 6px 0">Location</p>
-          <app-minimap [setperson]="person"></app-minimap>
+            <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+                <div style="margin: 10px 0px">
+                    <p style="border-bottom: 1px solid darkslategrey; margin: 15px 6px 0">Location</p>
+                    <app-minimap [setperson]="person"></app-minimap>
+                </div>
+            </div>
+            <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+                <p style="border-bottom: 1px solid darkslategrey; margin: 15px 6px 10px">Mosaic Profile</p>
+                <app-mosaictile [setperson]="person"></app-mosaictile>
+            </div>
         </div>
-      </div>
-      <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
-        <p style="border-bottom: 1px solid darkslategrey; margin: 15px 6px 10px">Mosaic Profile</p>
-        <app-mosaictile [setperson]="person"></app-mosaictile>
-      </div>
-    </div>
 
-    <div fxLayout="row wrap" *ngIf="dataFetched && person === null">
-      <mat-card class="slim-top bg-warning" style="padding-bottom: 10px; width: 100%">
-        <mat-card-content class="text-white" style="padding-top: 0px; padding-bottom: 0px">
-          <div fxLayoutAlign="center center">
-            <mat-icon>info</mat-icon>
-            <p style="margin-left: 5px; text-align: center">Unable to obtain details about this Citizen.</p>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </mat-card-content>
+        <div fxLayout="row wrap" *ngIf="dataFetched && person === null">
+            <mat-card class="slim-top bg-warning" style="padding-bottom: 10px; width: 100%">
+                <mat-card-content class="text-white" style="padding-top: 0px; padding-bottom: 0px">
+                    <div fxLayoutAlign="center center">
+                        <mat-icon>info</mat-icon>
+                        <p style="margin-left: 5px; text-align: center">Unable to obtain details about this Citizen.</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-card-content>
 </mat-card>
 
 <mat-card *ngIf="dataFetched && person">
-  <mat-card-content>
-    <div fxLayout="row wrap">
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-        <app-lpresviewer [nhsnumber]="nhsnumber"></app-lpresviewer>
-      </div>
-    </div>
-  </mat-card-content>
+    <mat-card-content>
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <app-lpresviewer [nhsnumber]="nhsnumber"></app-lpresviewer>
+            </div>
+        </div>
+    </mat-card-content>
 </mat-card>

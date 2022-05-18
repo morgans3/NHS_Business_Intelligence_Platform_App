@@ -14,22 +14,19 @@ import { SharedModule } from "../../../shared/shared.module";
 
 @NgModule({
     imports: [
-        CommonModule, 
-        FormsModule, 
-        ReactiveFormsModule, 
-        DemoMaterialModule, 
-        FlexLayoutModule, 
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
         SharedModule,
-        RouterModule.forChild([{
-            path: "", component: VwdecisionsComponent
-        }]), 
+        RouterModule.forChild([
+            {
+                path: "",
+                component: VwdecisionsComponent,
+            },
+        ]),
     ],
-    declarations: [
-        ContactDialogComponent, 
-        NotesDialogComponent,
-        UserDialogComponent,
-        ReasonDialogComponent,
-        VwdecisionsComponent
-    ],
+    declarations: [ContactDialogComponent, NotesDialogComponent, UserDialogComponent, ReasonDialogComponent, VwdecisionsComponent],
 })
-export class VWDecisionsModule { }
+export class VWDecisionsModule {}

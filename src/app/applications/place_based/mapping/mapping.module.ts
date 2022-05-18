@@ -21,9 +21,30 @@ import { SavedviewsComponent } from "./mapping/panels/savedviews/savedviews.comp
 import { MarkeroptionsComponent } from "./mapping/panels/mapfilters/markeroptions/markeroptions.component";
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(MappingRoutes), ReactiveFormsModule, FormsModule, MaterialModule, FlexLayoutModule, MainPipe, LeafletModule, LeafletDrawModule],
-  declarations: [MappingComponent, WorksheetComponent, MapComponent, IncidentLegendComponent, HomepanelComponent, MapdatasetsComponent, MapsettingsComponent, MapfiltersComponent, SavedviewsComponent, MarkeroptionsComponent],
-  entryComponents: [],
-  exports: [],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(MappingRoutes),
+        ReactiveFormsModule,
+        FormsModule,
+        MaterialModule,
+        FlexLayoutModule,
+        MainPipe,
+        LeafletModule,
+        LeafletDrawModule,
+    ],
+    declarations: [
+        MappingComponent,
+        WorksheetComponent,
+        MapComponent,
+        IncidentLegendComponent,
+        HomepanelComponent,
+        MapdatasetsComponent,
+        MapsettingsComponent,
+        MapfiltersComponent,
+        SavedviewsComponent,
+        MarkeroptionsComponent,
+    ],
+    entryComponents: [],
+    exports: [],
 })
 export class MappingModule {}

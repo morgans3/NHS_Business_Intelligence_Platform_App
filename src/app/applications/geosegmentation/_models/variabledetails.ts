@@ -1,5 +1,5 @@
 export interface VariableDetails {
-  Type: string;
-  Value: number;
-  Ratio: number;
+    Type: string;
+    Value: number;
+    Ratio: number;
 }
