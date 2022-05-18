@@ -15,24 +15,33 @@ import { AuthState } from "src/app/_states/auth.state";
 import { APIService } from "diu-component-library";
 
 describe("TeamAdminComponent", () => {
-  let component: TeamAdminComponent;
-  let fixture: ComponentFixture<TeamAdminComponent>;
+    let component: TeamAdminComponent;
+    let fixture: ComponentFixture<TeamAdminComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [CommonModule, DemoMaterialModule, FlexLayoutModule, DiuComponentLibraryModule, HttpClientModule, NgxsModule.forRoot([AuthState]), ToastrModule.forRoot(), BrowserAnimationsModule],
-      providers: [APIService, NotificationService, ToastrService],
-      declarations: [TeamAdminComponent],
-    }).compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                CommonModule,
+                DemoMaterialModule,
+                FlexLayoutModule,
+                DiuComponentLibraryModule,
+                HttpClientModule,
+                NgxsModule.forRoot([AuthState]),
+                ToastrModule.forRoot(),
+                BrowserAnimationsModule,
+            ],
+            providers: [APIService, NotificationService, ToastrService],
+            declarations: [TeamAdminComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TeamAdminComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(TeamAdminComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

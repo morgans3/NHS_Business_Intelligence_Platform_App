@@ -16,14 +16,22 @@ import { OrganisationsTableComponent } from "./organisations/table/org-table.com
 import { DashboardsTableComponent } from "./dashboards/table/dashboards-table.component";
 
 @NgModule({
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, DemoMaterialModule, FlexLayoutModule, RouterModule.forChild(AdminRoutes), DiuComponentLibraryModule],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        RouterModule.forChild(AdminRoutes),
+        DiuComponentLibraryModule,
+    ],
     declarations: [
-        AdminComponent, 
+        AdminComponent,
         RequestsTableComponent,
         RequestComponent,
         AppsTableComponent,
         OrganisationsTableComponent,
-        DashboardsTableComponent
+        DashboardsTableComponent,
     ],
 })
-export class AdminModule { }
+export class AdminModule {}

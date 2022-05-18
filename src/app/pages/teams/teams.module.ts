@@ -15,7 +15,16 @@ import { DiuComponentLibraryModule } from "diu-component-library";
 import { RoleCapabilityListModule } from "../profile/details/rolecapabilitylist/rolecapabilitylist.component";
 
 @NgModule({
-  imports: [CommonModule, DemoMaterialModule, FlexLayoutModule, RouterModule.forChild(TeamsRoutes), RoleCapabilityListModule, DiuComponentLibraryModule, FormsModule, ReactiveFormsModule],
-  declarations: [TeamsComponent, TeamAdminComponent, TeamAdminComponent, TeamMembersComponent, MeetTeamComponent, CreateTeamComponent],
+    imports: [
+        CommonModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        RouterModule.forChild(TeamsRoutes),
+        RoleCapabilityListModule,
+        DiuComponentLibraryModule,
+        FormsModule,
+        ReactiveFormsModule,
+    ],
+    declarations: [TeamsComponent, TeamAdminComponent, TeamAdminComponent, TeamMembersComponent, MeetTeamComponent, CreateTeamComponent],
 })
 export class TeamsModule {}

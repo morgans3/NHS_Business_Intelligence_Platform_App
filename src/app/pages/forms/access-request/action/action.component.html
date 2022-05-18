@@ -5,59 +5,120 @@
                 <mat-card-title>COVID 19 Data Hub Access Authorisation</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <ng-container *ngIf="request?.id && request?.data.approved == null">
+                <ng-container *ngIf="request?.id && request?.data.approved === null">
                     <table class="mat-table overview">
                         <tr class="mat-row">
-                            <td class="mat-cell" colspan="2" style="padding-bottom: 10px;"><b>User details</b></td>
+                            <td class="mat-cell" colspan="2" style="padding-bottom: 10px"><b>User details</b></td>
                         </tr>
                         <tr class="mat-row">
-                            <td class="mat-cell">First name: {{request?.data?.firstname}}</td>
-                            <td class="mat-cell">Email: {{request?.data?.email}}</td>
+                            <td class="mat-cell">First name: {{ request?.data?.firstname }}</td>
+                            <td class="mat-cell">Email: {{ request?.data?.email }}</td>
                         </tr>
                         <tr class="mat-row">
-                            <td class="mat-cell">Surname: {{request?.data?.surname}}</td>
-                            <td class="mat-cell">Organisation: {{request?.data?.organisation}}</td>
+                            <td class="mat-cell">Surname: {{ request?.data?.surname }}</td>
+                            <td class="mat-cell">Organisation: {{ request?.data?.organisation }}</td>
                         </tr>
                         <tr class="mat-row">
-                            <td class="mat-cell">Professional role: {{request?.data?.professional_role}}</td>
-                            <td class="mat-cell">Professional number: {{request?.data?.professional_number}}</td>
+                            <td class="mat-cell">Professional role: {{ request?.data?.professional_role }}</td>
+                            <td class="mat-cell">Professional number: {{ request?.data?.professional_number }}</td>
                         </tr>
-                    
+
                         <tr class="mat-row">
-                            <td class="mat-cell" colspan="2" style="padding: 10px 0px;"><b>Patient identifiable access</b></td>
-                        </tr>
-                        <tr class="mat-row">
-                            <td class="mat-cell">Patient's registered GP practice: {{request?.data?.pid_access.patient_gps == "" ? "n/a" : request?.data?.pid_access.patient_gps}}</td>
-                            <td class="mat-cell">Patient's community health service: {{request?.data?.pid_access.patient_chs == "" ? "n/a" : request?.data?.pid_access.patient_chs}}</td>
+                            <td class="mat-cell" colspan="2" style="padding: 10px 0px"><b>Patient identifiable access</b></td>
                         </tr>
                         <tr class="mat-row">
-                            <td class="mat-cell">Related community hub: {{request?.data?.pid_access.related_ch == "" ? "n/a" : request?.data?.pid_access.related_ch}}</td>
-                            <td class="mat-cell">Related multi-discplinary team: {{request?.data?.pid_access.related_mdt.length ? request?.data?.pid_access.related_mdt.join(', ') : "n/a"}}</td>
+                            <td class="mat-cell">
+                                Patient's registered GP practice:
+                                {{ request?.data?.pid_access.patient_gps === "" ? "n/a" : request?.data?.pid_access.patient_gps }}
+                            </td>
+                            <td class="mat-cell">
+                                Patient's community health service:
+                                {{ request?.data?.pid_access.patient_chs === "" ? "n/a" : request?.data?.pid_access.patient_chs }}
+                            </td>
                         </tr>
                         <tr class="mat-row">
-                            <td class="mat-cell" colspan="2">Citizen local authority/district council: {{request?.data?.pid_access.citizen_council == "" ? "n/a" : request?.data?.pid_access.citizen_council}}</td>
+                            <td class="mat-cell">
+                                Related community hub:
+                                {{ request?.data?.pid_access.related_ch === "" ? "n/a" : request?.data?.pid_access.related_ch }}
+                            </td>
+                            <td class="mat-cell">
+                                Related multi-discplinary team:
+                                {{
+                                    request?.data?.pid_access.related_mdt.length ? request?.data?.pid_access.related_mdt.join(", ") : "n/a"
+                                }}
+                            </td>
                         </tr>
-                    
                         <tr class="mat-row">
-                            <td style="padding: 10px 0px;" class="mat-cell"><b>Apps requested: </b>{{request?.data?.app_access.join(', ')}}</td>
-                            <td class="mat-cell"><b>Status: </b>{{request?.data?.approved == null ? 'Awaiting action' : (request?.data?.approved ? 'Approved': 'Unapproved')}}</td>
+                            <td class="mat-cell" colspan="2">
+                                Citizen local authority/district council:
+                                {{ request?.data?.pid_access.citizen_council === "" ? "n/a" : request?.data?.pid_access.citizen_council }}
+                            </td>
+                        </tr>
+
+                        <tr class="mat-row">
+                            <td style="padding: 10px 0px" class="mat-cell">
+                                <b>Apps requested: </b>{{ request?.data?.app_access.join(", ") }}
+                            </td>
+                            <td class="mat-cell">
+                                <b>Status: </b
+                                >{{
+                                    request?.data?.approved === null
+                                        ? "Awaiting action"
+                                        : request?.data?.approved
+                                        ? "Approved"
+                                        : "Unapproved"
+                                }}
+                            </td>
                         </tr>
                     </table>
 
-                    <mat-tab-group (selectedIndexChange)="action = ($event == 0 ? 'approve' : 'deny')" [selectedIndex]="action == 'approve' ? 0 : 1">
+                    <mat-tab-group
+                        (selectedIndexChange)="action = $event === 0 ? 'approve' : 'deny'"
+                        [selectedIndex]="action === 'approve' ? 0 : 1"
+                    >
                         <mat-tab label="Approve">
                             <form class="p-20" (submit)="submit(approvalForm)" #approvalForm="ngForm">
                                 <mat-form-field class="m-b-10">
-                                    <input matInput placeholder="Authorising officer" type="text" autocomplete="false" name="officer" ngModel required />
+                                    <input
+                                        matInput
+                                        placeholder="Authorising officer"
+                                        type="text"
+                                        autocomplete="false"
+                                        name="officer"
+                                        ngModel
+                                        required
+                                    />
                                 </mat-form-field>
                                 <mat-form-field class="m-b-10">
-                                    <input matInput placeholder="Authorising officer job title" type="text" autocomplete="false" name="officer_job" ngModel required />
+                                    <input
+                                        matInput
+                                        placeholder="Authorising officer job title"
+                                        type="text"
+                                        autocomplete="false"
+                                        name="officer_job"
+                                        ngModel
+                                        required
+                                    />
                                 </mat-form-field>
                                 <mat-form-field class="m-b-10">
-                                    <input matInput placeholder="On behalf of" type="text" autocomplete="false" name="organisation" ngModel required />
+                                    <input
+                                        matInput
+                                        placeholder="On behalf of"
+                                        type="text"
+                                        autocomplete="false"
+                                        name="organisation"
+                                        ngModel
+                                        required
+                                    />
                                 </mat-form-field>
-                                <mat-checkbox class="m-r-10" name="terms_agreed" ngModel required></mat-checkbox><b>I confirm, as the responsible lead within this organisation, that the above-named individual has a legitimate reason to access Pseudonymised and/or PID for the group membership as specified above.</b>
-                                <button style="display: block" mat-raised-button color="primary" type="submit" class="m-t-20">Submit</button>
+                                <mat-checkbox class="m-r-10" name="terms_agreed" ngModel required></mat-checkbox
+                                ><b
+                                    >I confirm, as the responsible lead within this organisation, that the above-named individual has a
+                                    legitimate reason to access Pseudonymised and/or PID for the group membership as specified above.</b
+                                >
+                                <button style="display: block" mat-raised-button color="primary" type="submit" class="m-t-20">
+                                    Submit
+                                </button>
                             </form>
                         </mat-tab>
                         <mat-tab label="Deny">
@@ -72,13 +133,11 @@
                     </mat-tab-group>
                 </ng-container>
 
-                <h4 *ngIf="request?.id && request?.data.approved !== null" style="text-align: center; padding: 50px 0px;">
+                <h4 *ngIf="request?.id && request?.data.approved !== null" style="text-align: center; padding: 50px 0px">
                     Thank you! Your response to this request has been recorded.
                 </h4>
 
-                <h4 *ngIf="!request?.id" style="text-align: center; padding: 50px 0px;">
-                    Oops! This request doesn't seem to exist.
-                </h4>
+                <h4 *ngIf="!request?.id" style="text-align: center; padding: 50px 0px">Oops! This request doesn't seem to exist.</h4>
             </mat-card-content>
         </mat-card>
     </div>

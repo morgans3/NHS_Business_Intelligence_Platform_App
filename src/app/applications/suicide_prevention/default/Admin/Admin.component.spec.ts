@@ -11,23 +11,30 @@ import { AdminComponent } from "./Admin.component";
 import { MethodsComponent } from "./Methods/Methods.component";
 
 describe("AdminComponent", () => {
-  let component: AdminComponent;
-  let fixture: ComponentFixture<AdminComponent>;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, DemoMaterialModule, ToastrModule.forRoot(), HttpClientModule, ReactiveFormsModule, FormsModule],
-      providers: [APIService, ToastrService, NotificationService],
-      declarations: [AdminComponent, MethodsComponent],
-    }).compileComponents();
-  }));
+    let component: AdminComponent;
+    let fixture: ComponentFixture<AdminComponent>;
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                BrowserAnimationsModule,
+                DemoMaterialModule,
+                ToastrModule.forRoot(),
+                HttpClientModule,
+                ReactiveFormsModule,
+                FormsModule,
+            ],
+            providers: [APIService, ToastrService, NotificationService],
+            declarations: [AdminComponent, MethodsComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AdminComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(AdminComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

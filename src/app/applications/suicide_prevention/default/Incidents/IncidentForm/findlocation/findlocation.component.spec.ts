@@ -14,23 +14,32 @@ import { MapComponent } from "../../../../_components/map.component";
 import { FindlocationComponent } from "./findlocation.component";
 
 describe("FindlocationComponent", () => {
-  let component: FindlocationComponent;
-  let fixture: ComponentFixture<FindlocationComponent>;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, DemoMaterialModule, ToastrModule.forRoot(), HttpClientModule, ReactiveFormsModule, FormsModule, LeafletModule.forRoot(), LeafletDrawModule.forRoot()],
-      providers: [APIService, PostcodeService, ToastrService, NotificationService],
-      declarations: [FindlocationComponent, MapComponent],
-    }).compileComponents();
-  }));
+    let component: FindlocationComponent;
+    let fixture: ComponentFixture<FindlocationComponent>;
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                BrowserAnimationsModule,
+                DemoMaterialModule,
+                ToastrModule.forRoot(),
+                HttpClientModule,
+                ReactiveFormsModule,
+                FormsModule,
+                LeafletModule.forRoot(),
+                LeafletDrawModule.forRoot(),
+            ],
+            providers: [APIService, PostcodeService, ToastrService, NotificationService],
+            declarations: [FindlocationComponent, MapComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FindlocationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(FindlocationComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

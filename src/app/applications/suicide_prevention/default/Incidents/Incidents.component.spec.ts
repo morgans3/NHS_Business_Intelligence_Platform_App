@@ -12,23 +12,31 @@ import { APIService } from "diu-component-library";
 import { AuthState } from "src/app/_states/auth.state";
 
 describe("IncidentsComponent", () => {
-  let component: IncidentsComponent;
-  let fixture: ComponentFixture<IncidentsComponent>;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, DemoMaterialModule, ToastrModule.forRoot(), HttpClientModule, FormsModule, RouterTestingModule, NgxsModule.forRoot([AuthState])],
-      providers: [APIService, ToastrService],
-      declarations: [IncidentsComponent],
-    }).compileComponents();
-  }));
+    let component: IncidentsComponent;
+    let fixture: ComponentFixture<IncidentsComponent>;
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                BrowserAnimationsModule,
+                DemoMaterialModule,
+                ToastrModule.forRoot(),
+                HttpClientModule,
+                FormsModule,
+                RouterTestingModule,
+                NgxsModule.forRoot([AuthState]),
+            ],
+            providers: [APIService, ToastrService],
+            declarations: [IncidentsComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(IncidentsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(IncidentsComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

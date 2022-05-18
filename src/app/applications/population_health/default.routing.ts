@@ -24,10 +24,11 @@ export const DefaultRoutes: Routes = [
     },
     {
         path: "intervention-assistant",
-        loadChildren: () => import("./pages/intervention-assistant/intervention-assistant.module").then((m) => m.InterventionAssistantModule),
+        loadChildren: () =>
+            import("./pages/intervention-assistant/intervention-assistant.module").then((m) => m.InterventionAssistantModule),
     },
     {
         path: "settings",
-        component: SettingsComponent
-    }
+        component: SettingsComponent,
+    },
 ];

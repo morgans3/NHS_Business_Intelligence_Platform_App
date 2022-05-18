@@ -10,18 +10,19 @@ import { CohortcompareComponent } from "./cohortcompare.component";
 
 @NgModule({
     imports: [
-        CommonModule, 
+        CommonModule,
         FormsModule,
         SharedModule,
-        ReactiveFormsModule, 
-        DemoMaterialModule, 
-        FlexLayoutModule, 
-        RouterModule.forChild([{
-            path: "", component: CohortcompareComponent
-        }]), 
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        RouterModule.forChild([
+            {
+                path: "",
+                component: CohortcompareComponent,
+            },
+        ]),
     ],
-    declarations: [
-        CohortcompareComponent, 
-    ],
+    declarations: [CohortcompareComponent],
 })
 export class CohortCompareModule {}

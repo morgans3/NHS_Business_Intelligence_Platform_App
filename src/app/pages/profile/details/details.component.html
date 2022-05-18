@@ -1,61 +1,72 @@
-<p class="m-t-20 m-b-20">Please note: Only you have access to your profile. This is aimed to aide you with your validation, appraisals or simply to remember what you have done. It is not intended to be used as a performance management tool.</p>
+<p class="m-t-20 m-b-20">
+    Please note: Only you have access to your profile. This is aimed to aide you with your validation, appraisals or simply to remember what
+    you have done. It is not intended to be used as a performance management tool.
+</p>
 
 <!-- Profile Details -->
 <mat-card-title>Profile Details</mat-card-title>
 <form class="m-t-20" [formGroup]="form" (ngSubmit)="onSubmit()" style="width: 100%">
-  <div fxLayout="row wrap" fxLayoutGap="15px" *ngIf="currentProfile">
-    <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-form-field>
-        <mat-label>Account name</mat-label>
-        <input matInput disabled [value]="currentProfile.username" />
-      </mat-form-field>
+    <div fxLayout="row wrap" fxLayoutGap="15px" *ngIf="currentProfile">
+        <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-form-field>
+                <mat-label>Account name</mat-label>
+                <input matInput disabled [value]="currentProfile.username" />
+            </mat-form-field>
 
-      <mat-form-field (click)="changePassword()" style="cursor: pointer">
-        <mat-label>Password</mat-label>
-        <input matInput disabled value="Click to change" />
-      </mat-form-field>
-      <ng-template #changePasswordModal>
-        <h1 mat-dialog-title>Change your password</h1>
-        <p *ngIf="passwordExpired" class="m-b-0 m-t-0">Your password has expired, to keep your account secure please set a new one...</p>
-        <mat-dialog-content>
-          <app-password-reset></app-password-reset>
-        </mat-dialog-content>
-      </ng-template>
+            <mat-form-field (click)="changePassword()" style="cursor: pointer">
+                <mat-label>Password</mat-label>
+                <input matInput disabled value="Click to change" />
+            </mat-form-field>
+            <ng-template #changePasswordModal>
+                <h1 mat-dialog-title>Change your password</h1>
+                <p *ngIf="passwordExpired" class="m-b-0 m-t-0">
+                    Your password has expired, to keep your account secure please set a new one...
+                </p>
+                <mat-dialog-content>
+                    <app-password-reset></app-password-reset>
+                </mat-dialog-content>
+            </ng-template>
 
-      <mat-form-field>
-        <mat-label>Preferred contact method(s)</mat-label>
-        <mat-select formControlName="preferredcontactmethod" multiple>
-          <mat-option *ngFor="let method of contactmethods" [value]="method">{{ method }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+            <mat-form-field>
+                <mat-label>Preferred contact method(s)</mat-label>
+                <mat-select formControlName="preferredcontactmethod" multiple>
+                    <mat-option *ngFor="let method of contactmethods" [value]="method">{{ method }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput disabled [value]="currentProfile.email" />
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Contact number</mat-label>
+                <input matInput formControlName="contactnumber" autocomplete="off" />
+            </mat-form-field>
+        </div>
     </div>
-
-    <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input matInput disabled [value]="currentProfile.email" />
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Contact number</mat-label>
-        <input matInput formControlName="contactnumber" autocomplete="off" />
-      </mat-form-field>
-    </div>
-  </div>
-  <button mat-raised-button color="primary" type="submit">Save Changes</button>
+    <button mat-raised-button color="primary" type="submit">Save Changes</button>
 </form>
 
 <!-- Profile Image -->
 <mat-divider></mat-divider>
 <mat-card-title>Profile Picture</mat-card-title>
 <div class="m-t-20">
-  <app-profile-picture-upload (imageChanged)="imageUpdated($event)"></app-profile-picture-upload>
+    <app-profile-picture-upload (imageChanged)="imageUpdated($event)"></app-profile-picture-upload>
 </div>
 
 <!-- Installations -->
 <mat-divider></mat-divider>
 <mat-card-title>My Installations</mat-card-title>
 
-<display-applications *ngFor="let list of displayLists" [applicationData]="list.data" [applicationTitle]="list.title" (removeAppData)="remove($event, list.title)" (requestAppData)="install($event, list.title)"></display-applications>
+<display-applications
+    *ngFor="let list of displayLists"
+    [applicationData]="list.data"
+    [applicationTitle]="list.title"
+    (removeAppData)="remove($event, list.title)"
+    (requestAppData)="install($event, list.title)"
+></display-applications>
 
 <app-rolecapabilitylist [username]="currentProfile.username"></app-rolecapabilitylist>

@@ -2,13 +2,12 @@ import { Component, Input } from "@angular/core";
 
 @Component({
     selector: "app-image-modal",
-    templateUrl: './image.modal.html',
+    templateUrl: "./image.modal.html",
 })
 export class ImageModalComponent {
-
     @Input() imageUrl;
 
-    constructor() { }
+    constructor() {}
 }
 
 import { NgModule } from "@angular/core";
@@ -17,13 +16,7 @@ import { AccordionLinkModule } from "../../../../shared/accordion/accordionLinkM
 import { DemoMaterialModule } from "../../../../demo-material-module";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        AccordionLinkModule,
-        DemoMaterialModule
-    ],
-    declarations: [
-        ImageModalComponent,
-    ]
+    imports: [CommonModule, AccordionLinkModule, DemoMaterialModule],
+    declarations: [ImageModalComponent],
 })
-export class ImageModalComponentModule { }
+export class ImageModalComponentModule {}

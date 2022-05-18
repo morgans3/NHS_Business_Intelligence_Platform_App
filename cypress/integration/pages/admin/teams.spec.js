@@ -3,44 +3,35 @@
 const TeamFactory = require("../../../factories/team");
 describe("Admin: Test teams page", () => {
     beforeEach(() => {
-        cy.login('#1'); 
+        cy.login("#1");
         cy.visit("http://localhost:4200/admin/teams");
     });
 
     it("can add a new team", () => {
-        //Click add button
-        cy.get('button').contains('Add new').click();
+        // Click add button
+        cy.get("button").contains("Add new").click();
 
-        //Fill details
+        // Fill details
         const team = TeamFactory.create();
         cy.get("input[formControlName=name]").first().type(team.name);
         cy.get("input[formControlName=code]").first().type(team.code);
         team.responsible_people.forEach((person) => {
-            //Type in name
-            cy.get(
-                "input-chiplist[formControlName=responsiblepeople] .mat-chip-input"
-            ).first().type(person.username);
+            // Type in name
+            cy.get("input-chiplist[formControlName=responsiblepeople] .mat-chip-input").first().type(person.username);
 
-            //Click enter
-            cy.get(
-                "input-chiplist[formControlName=responsiblepeople] .mat-chip-input"
-            ).first().type('{enter}');
+            // Click enter
+            cy.get("input-chiplist[formControlName=responsiblepeople] .mat-chip-input").first().type("{enter}");
         });
         cy.get("input[formControlName=organisationcode]").first().type(team.organisationcode);
         cy.get("textarea[formControlName=description]").first().type(team.description);
 
-        //Listen for success
-        cy.intercept({ method: 'GET', url: '**/teams/create*' }).as('createTeam');
+        // Listen for success
+        cy.intercept({ method: "GET", url: "**/teams/create*" }).as("createTeam");
 
-        //Click save button
-        cy.get('button').contains('Save team').click();
-        cy.wait('@createTeam').its('response.statusCode').should('eq', 200);
+        // Click save button
+        cy.get("button").contains("Save team").click();
+        cy.wait("@createTeam").its("response.statusCode").should("eq", 200);
     });
-
-
-
-
-
 
     // it("searching list of users works", () => {
     //     //Get first table row and search
@@ -64,7 +55,7 @@ describe("Admin: Test teams page", () => {
     //             //Check name appears
     //             cy.get("p[cyName='name']").first().should(($p) => {
     //                 expect($p).to.contain(firstRowName.text().trim())
-    //             });                
+    //             });
     //         });
     //     });
     // });

@@ -14,24 +14,32 @@ import { ToastrModule, ToastrService } from "ngx-toastr";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 describe("CreateTeamComponent", () => {
-  let component: CreateTeamComponent;
-  let fixture: ComponentFixture<CreateTeamComponent>;
+    let component: CreateTeamComponent;
+    let fixture: ComponentFixture<CreateTeamComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [DemoMaterialModule, FlexLayoutModule, CommonModule, HttpClientModule, NgxsModule.forRoot([ReferenceState]), ToastrModule.forRoot(), BrowserAnimationsModule],
-      providers: [APIService, NotificationService, ToastrService],
-      declarations: [CreateTeamComponent],
-    }).compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                DemoMaterialModule,
+                FlexLayoutModule,
+                CommonModule,
+                HttpClientModule,
+                NgxsModule.forRoot([ReferenceState]),
+                ToastrModule.forRoot(),
+                BrowserAnimationsModule,
+            ],
+            providers: [APIService, NotificationService, ToastrService],
+            declarations: [CreateTeamComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CreateTeamComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(CreateTeamComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

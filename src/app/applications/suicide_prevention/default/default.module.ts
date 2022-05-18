@@ -23,9 +23,33 @@ import { MaterialComponentsModule } from "src/app/material-component/material.mo
 import { MaterialModule } from "diu-component-library";
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(DefaultRoutes), ReactiveFormsModule, MaterialModule, FormsModule, MaterialComponentsModule, FlexLayoutModule, MainPipe, LeafletModule, LeafletDrawModule],
-  declarations: [LandingComponent, AdminComponent, IncidentsComponent, IncidentFormComponent, MethodsComponent, AddMedicationDialogComponent, FindlocationComponent, IncidentLegendComponent, ExpandTextDialogComponent, FindMosaicComponent, MapComponent, StatCardComponent],
-  entryComponents: [AddMedicationDialogComponent, ExpandTextDialogComponent],
-  exports: [IncidentLegendComponent, MapComponent],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(DefaultRoutes),
+        ReactiveFormsModule,
+        MaterialModule,
+        FormsModule,
+        MaterialComponentsModule,
+        FlexLayoutModule,
+        MainPipe,
+        LeafletModule,
+        LeafletDrawModule,
+    ],
+    declarations: [
+        LandingComponent,
+        AdminComponent,
+        IncidentsComponent,
+        IncidentFormComponent,
+        MethodsComponent,
+        AddMedicationDialogComponent,
+        FindlocationComponent,
+        IncidentLegendComponent,
+        ExpandTextDialogComponent,
+        FindMosaicComponent,
+        MapComponent,
+        StatCardComponent,
+    ],
+    entryComponents: [AddMedicationDialogComponent, ExpandTextDialogComponent],
+    exports: [IncidentLegendComponent, MapComponent],
 })
 export class DefaultModule {}

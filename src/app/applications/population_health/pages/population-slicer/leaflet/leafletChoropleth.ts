@@ -165,7 +165,7 @@
 //   };
 
 //   _chart.toLocArray = function(value) {
-//     if (typeof value == "string") {
+//     if (typeof value === "string") {
 //       // expects '11.111,1.111'
 //       value = value.split(",");
 //     }

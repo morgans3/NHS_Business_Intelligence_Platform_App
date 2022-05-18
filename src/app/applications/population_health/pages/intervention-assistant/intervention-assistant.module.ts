@@ -10,18 +10,19 @@ import { InterventionAssistantComponent } from "./intervention-assistant.compone
 
 @NgModule({
     imports: [
-        CommonModule, 
-        FormsModule, 
+        CommonModule,
+        FormsModule,
         SharedModule,
-        ReactiveFormsModule, 
-        DemoMaterialModule, 
-        FlexLayoutModule, 
-        RouterModule.forChild([{
-            path: "", component: InterventionAssistantComponent
-        }]), 
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        RouterModule.forChild([
+            {
+                path: "",
+                component: InterventionAssistantComponent,
+            },
+        ]),
     ],
-    declarations: [
-        InterventionAssistantComponent, 
-    ],
+    declarations: [InterventionAssistantComponent],
 })
 export class InterventionAssistantModule {}

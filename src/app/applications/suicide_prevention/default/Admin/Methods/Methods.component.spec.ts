@@ -9,23 +9,23 @@ import { DemoMaterialModule } from "src/app/demo-material-module";
 import { MethodsComponent } from "./Methods.component";
 
 describe("MethodsComponent", () => {
-  let component: MethodsComponent;
-  let fixture: ComponentFixture<MethodsComponent>;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, DemoMaterialModule, ToastrModule.forRoot(), HttpClientModule, FormsModule],
-      providers: [APIService, ToastrService],
-      declarations: [MethodsComponent],
-    }).compileComponents();
-  }));
+    let component: MethodsComponent;
+    let fixture: ComponentFixture<MethodsComponent>;
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [BrowserAnimationsModule, DemoMaterialModule, ToastrModule.forRoot(), HttpClientModule, FormsModule],
+            providers: [APIService, ToastrService],
+            declarations: [MethodsComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(MethodsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(MethodsComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

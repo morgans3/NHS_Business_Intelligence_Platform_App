@@ -1,62 +1,95 @@
 <div style="width: 100%; overflow: none; padding: 20px 10px 10px">
-  <div class="row wrap">
-    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-card-title
-        >Admins
-        <span *ngIf="admins.length > 0"> ({{ admins.length }})</span>
-      </mat-card-title>
-      <mat-card-content class="screen">
-        <app-team-members *ngIf="admins.length > 0" [config]="adminProfile" (removeTeamAdmin)="removeAdmin($event)"></app-team-members>
-        <p *ngIf="admins.length === 0">No Admin staff have been assigned.</p>
-      </mat-card-content>
+    <div class="row wrap">
+        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card-title
+                >Admins
+                <span *ngIf="admins.length > 0"> ({{ admins.length }})</span>
+            </mat-card-title>
+            <mat-card-content class="screen">
+                <app-team-members
+                    *ngIf="admins.length > 0"
+                    [config]="adminProfile"
+                    (removeTeamAdmin)="removeAdmin($event)"
+                ></app-team-members>
+                <p *ngIf="admins.length === 0">No Admin staff have been assigned.</p>
+            </mat-card-content>
+        </div>
     </div>
-  </div>
 
-  <div class="row wrap">
-    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-card-title
-        >Members
-        <span *ngIf="members.length > 0"> ({{ members.length }})</span>
-      </mat-card-title>
-      <mat-card-content class="screen">
-        <app-team-members *ngIf="members.length > 0" [config]="membersProfile" (removeTeamMember)="removal($event)" (adminUser)="makeAdmin($event)"> </app-team-members>
-        <p *ngIf="members.length === 0">There are currently no members of this group.</p>
-      </mat-card-content>
+    <div class="row wrap">
+        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card-title
+                >Members
+                <span *ngIf="members.length > 0"> ({{ members.length }})</span>
+            </mat-card-title>
+            <mat-card-content class="screen">
+                <app-team-members
+                    *ngIf="members.length > 0"
+                    [config]="membersProfile"
+                    (removeTeamMember)="removal($event)"
+                    (adminUser)="makeAdmin($event)"
+                >
+                </app-team-members>
+                <p *ngIf="members.length === 0">There are currently no members of this group.</p>
+            </mat-card-content>
+        </div>
     </div>
-  </div>
 
-  <div class="row wrap">
-    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-card-title
-        >Invites Awaiting Acceptance
-        <span *ngIf="invitees.length > 0"> ({{ invitees.length }})</span>
-        <button mat-icon-button type="button" color="primary" title="Invite More People" class="margin-left-right" (click)="invitePerson()" *ngIf="isAdmin">
-          <mat-icon>person_add</mat-icon>
-        </button>
-      </mat-card-title>
-      <mat-card-content class="screen">
-        <app-team-members *ngIf="invitees.length > 0" [config]="invitesProfile" (removeTeamMember)="removal($event)" (changedTeams)="teamsChanged($event)" (adminUser)="makeAdmin($event)"> </app-team-members>
-        <p *ngIf="invitees.length === 0">All invitations have been responded to.</p>
-      </mat-card-content>
+    <div class="row wrap">
+        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card-title
+                >Invites Awaiting Acceptance
+                <span *ngIf="invitees.length > 0"> ({{ invitees.length }})</span>
+                <button
+                    mat-icon-button
+                    type="button"
+                    color="primary"
+                    title="Invite More People"
+                    class="margin-left-right"
+                    (click)="invitePerson()"
+                    *ngIf="isAdmin"
+                >
+                    <mat-icon>person_add</mat-icon>
+                </button>
+            </mat-card-title>
+            <mat-card-content class="screen">
+                <app-team-members
+                    *ngIf="invitees.length > 0"
+                    [config]="invitesProfile"
+                    (removeTeamMember)="removal($event)"
+                    (changedTeams)="teamsChanged($event)"
+                    (adminUser)="makeAdmin($event)"
+                >
+                </app-team-members>
+                <p *ngIf="invitees.length === 0">All invitations have been responded to.</p>
+            </mat-card-content>
+        </div>
     </div>
-  </div>
 
-  <div class="row wrap">
-    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-card-title
-        >Staff Requesting Access to this Team
-        <span *ngIf="outstanding.length > 0"> ({{ outstanding.length }})</span>
-      </mat-card-title>
-      <mat-card-content class="screen">
-        <app-team-members *ngIf="outstanding.length > 0" [config]="requestsProfile" (changedTeams)="teamsChanged($event)" (adminUser)="makeAdmin($event)"> </app-team-members>
-        <p *ngIf="outstanding.length === 0">All requests to join the group have been responded to.</p>
-      </mat-card-content>
+    <div class="row wrap">
+        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card-title
+                >Staff Requesting Access to this Team
+                <span *ngIf="outstanding.length > 0"> ({{ outstanding.length }})</span>
+            </mat-card-title>
+            <mat-card-content class="screen">
+                <app-team-members
+                    *ngIf="outstanding.length > 0"
+                    [config]="requestsProfile"
+                    (changedTeams)="teamsChanged($event)"
+                    (adminUser)="makeAdmin($event)"
+                >
+                </app-team-members>
+                <p *ngIf="outstanding.length === 0">All requests to join the group have been responded to.</p>
+            </mat-card-content>
+        </div>
     </div>
-  </div>
 
-  <div class="row wrap" *ngIf="!TeamMember">
-    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-      <button type="button" mat-raised-button color="primary" style="width: 100%" (click)="requestAccess()">Request Access to Team</button>
+    <div class="row wrap" *ngIf="!TeamMember">
+        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <button type="button" mat-raised-button color="primary" style="width: 100%" (click)="requestAccess()">
+                Request Access to Team
+            </button>
+        </div>
     </div>
-  </div>
 </div>

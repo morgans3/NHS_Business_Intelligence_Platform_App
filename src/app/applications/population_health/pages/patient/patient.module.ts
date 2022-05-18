@@ -12,20 +12,19 @@ import { PatientComponent } from "./patient.component";
 
 @NgModule({
     imports: [
-        CommonModule, 
-        FormsModule, 
+        CommonModule,
+        FormsModule,
         SharedModule,
-        ReactiveFormsModule, 
-        DemoMaterialModule, 
-        FlexLayoutModule, 
-        RouterModule.forChild([{
-            path: "", component: PatientComponent
-        }]), 
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        RouterModule.forChild([
+            {
+                path: "",
+                component: PatientComponent,
+            },
+        ]),
     ],
-    declarations: [
-        PatientComponent, 
-        TheographComponent,
-        CrimeInformationComponent
-    ],
+    declarations: [PatientComponent, TheographComponent, CrimeInformationComponent],
 })
 export class PatientModule {}

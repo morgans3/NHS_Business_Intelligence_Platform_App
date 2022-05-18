@@ -6,10 +6,10 @@ export const Routes: RouteInterface = [
     {
         path: "",
         component: TeamsTableComponent,
-        data: { awsTrackable: true }
+        data: { awsTrackable: true },
     },
     {
         path: ":id",
         component: TeamComponent,
-    }
+    },
 ];

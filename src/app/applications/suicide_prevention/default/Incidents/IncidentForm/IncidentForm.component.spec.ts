@@ -16,23 +16,32 @@ import { DemoMaterialModule } from "src/app/demo-material-module";
 import { NotificationService } from "src/app/_services/notification.service";
 
 describe("IncidentFormComponent", () => {
-  let component: IncidentFormComponent;
-  let fixture: ComponentFixture<IncidentFormComponent>;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, DemoMaterialModule, ToastrModule.forRoot(), HttpClientModule, RouterTestingModule, FormsModule, LeafletModule, LeafletDrawModule],
-      providers: [APIService, PostcodeService, ToastrService, NotificationService],
-      declarations: [IncidentFormComponent, FindlocationComponent, FindMosaicComponent],
-    }).compileComponents();
-  }));
+    let component: IncidentFormComponent;
+    let fixture: ComponentFixture<IncidentFormComponent>;
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                BrowserAnimationsModule,
+                DemoMaterialModule,
+                ToastrModule.forRoot(),
+                HttpClientModule,
+                RouterTestingModule,
+                FormsModule,
+                LeafletModule,
+                LeafletDrawModule,
+            ],
+            providers: [APIService, PostcodeService, ToastrService, NotificationService],
+            declarations: [IncidentFormComponent, FindlocationComponent, FindMosaicComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(IncidentFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(IncidentFormComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -1,5 +1,5 @@
 import { Routes as RouteInterface } from "@angular/router";
-import { UsersTableComponent } from "./table/users-table.component"
+import { UsersTableComponent } from "./table/users-table.component";
 import { UserComponent } from "./user/user.component";
 
 export const Routes: RouteInterface = [
@@ -10,5 +10,5 @@ export const Routes: RouteInterface = [
     {
         path: ":id",
         component: UserComponent,
-    }
+    },
 ];

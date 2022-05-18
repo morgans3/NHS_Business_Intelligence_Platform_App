@@ -16,25 +16,34 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterTestingModule } from "@angular/router/testing";
 
 describe("FullComponent", () => {
-  let component: FullComponent;
-  let fixture: ComponentFixture<FullComponent>;
+    let component: FullComponent;
+    let fixture: ComponentFixture<FullComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      // public store: Store
-      imports: [DemoMaterialModule, FlexLayoutModule, CommonModule, HttpClientModule, NgxsModule.forRoot([AuthState, AlertState]), ToastrModule.forRoot(), BrowserAnimationsModule, RouterTestingModule],
-      providers: [APIService, ToastrService, NotificationService],
-      declarations: [FullComponent],
-    }).compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            // public store: Store
+            imports: [
+                DemoMaterialModule,
+                FlexLayoutModule,
+                CommonModule,
+                HttpClientModule,
+                NgxsModule.forRoot([AuthState, AlertState]),
+                ToastrModule.forRoot(),
+                BrowserAnimationsModule,
+                RouterTestingModule,
+            ],
+            providers: [APIService, ToastrService, NotificationService],
+            declarations: [FullComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FullComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(FullComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -12,10 +12,15 @@ import { TeamsTableComponent } from "./table/teams-table.component";
 import { TeamComponent } from "./team/team.component";
 
 @NgModule({
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, DemoMaterialModule, FlexLayoutModule, RouterModule.forChild(Routes), DiuComponentLibraryModule],
-    declarations: [
-        TeamsTableComponent,
-        TeamComponent
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        RouterModule.forChild(Routes),
+        DiuComponentLibraryModule,
     ],
+    declarations: [TeamsTableComponent, TeamComponent],
 })
-export class TeamsAdminModule { }
+export class TeamsAdminModule {}

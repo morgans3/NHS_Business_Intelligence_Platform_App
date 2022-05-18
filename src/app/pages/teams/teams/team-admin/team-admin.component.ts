@@ -6,118 +6,119 @@ import { iApplication, iInstallation, iTeam, iDisplayList, APIService } from "di
 import { decodeToken } from "src/app/_pipes/functions";
 
 @Component({
-  selector: "app-team-admin",
-  templateUrl: "./team-admin.component.html",
-  styleUrls: ["./team-admin.component.scss"],
+    selector: "app-team-admin",
+    templateUrl: "./team-admin.component.html",
+    styleUrls: ["./team-admin.component.scss"],
 })
 export class TeamAdminComponent implements OnInit, OnChanges {
-  @Input() team: iTeam;
-  selectedTeam: iTeam;
-  applications: iApplication[] = [];
-  roles: any[] = [];
-  teamInstalls: iInstallation[] = [];
-  tokenDecoded: any;
-  displayLists: { title: string; data: iDisplayList[] }[] = [];
-  teamInstallations: iInstallation[] = [];
+    @Input() team: iTeam;
+    selectedTeam: iTeam;
+    applications: iApplication[] = [];
+    roles: any[] = [];
+    teamInstalls: iInstallation[] = [];
+    tokenDecoded: any;
+    displayLists: { title: string; data: iDisplayList[] }[] = [];
+    teamInstallations: iInstallation[] = [];
 
-  constructor(private apiService: APIService, public store: Store, private notificationService: NotificationService) {
-    const token = this.store.selectSnapshot(AuthState.getToken);
-    if (token) {
-      this.tokenDecoded = decodeToken(token);
+    constructor(private apiService: APIService, public store: Store, private notificationService: NotificationService) {
+        const token = this.store.selectSnapshot(AuthState.getToken);
+        if (token) {
+            this.tokenDecoded = decodeToken(token);
+        }
     }
-  }
 
-  ngOnInit() {
-    this.selectedTeam = this.team;
-    this.getInstallations();
-    this.getTeamRoles();
-  }
-
-  ngOnChanges() {
-    if (this.team && this.team !== this.selectedTeam) {
-      this.selectedTeam = this.team;
-      this.getInstallations();
-      this.getTeamRoles();
+    ngOnInit() {
+        this.selectedTeam = this.team;
+        this.getInstallations();
+        this.getTeamRoles();
     }
-  }
 
-  getTeamRoles() {
-    this.apiService.getRolesByTeamcode(this.team.code).subscribe((res: any) => {
-      this.roles = [];
-      if (res) {
-        res.forEach((role) => {
-          let currentRole = role;
-          Object.keys(currentRole.role).forEach((key, index) => {
-            currentRole.name = key;
-            currentRole.status = currentRole.role[key];
-          });
-          this.roles.push(currentRole);
+    ngOnChanges() {
+        if (this.team && this.team !== this.selectedTeam) {
+            this.selectedTeam = this.team;
+            this.getInstallations();
+            this.getTeamRoles();
+        }
+    }
+
+    getTeamRoles() {
+        this.apiService.getRolesByTeamcode(this.team.code).subscribe((res: any) => {
+            this.roles = [];
+            if (res) {
+                res.forEach((role) => {
+                    const currentRole = role;
+                    Object.keys(currentRole.role).forEach((key) => {
+                        currentRole.name = key;
+                        currentRole.status = currentRole.role[key];
+                    });
+                    this.roles.push(currentRole);
+                });
+            }
         });
-      }
-    });
-  }
-
-  getInstallations() {
-    // TODO: get installations
-    // if (this.installbroker.getAllInstallations.length === 0) this.installbroker.buildUserData();
-    // this.installbroker.getAllTeamInstallations(this.selectedTeam.code, (err: any, res: any) => {
-    //   this.teamInstallations = res;
-    // });
-    // this.installbroker.createDisplayLists(
-    //   "team",
-    //   (err: any, res: any) => {
-    //     this.displayLists = res;
-    //   },
-    //   this.selectedTeam.code
-    // );
-  }
-
-  install(event: any, type: string) {
-    // TODO: install app
-    // this.installbroker.addInstallation(
-    //   event.name,
-    //   type.toLowerCase(),
-    //   (err: any, res: iInstallation[]) => {
-    //     if (err) this.notificationService.warning(err);
-    //     else {
-    //       this.notificationService.success("Installed");
-    //     }
-    //     this.getInstallations();
-    //   },
-    //   undefined,
-    //   this.team.code
-    // );
-  }
-
-  remove(event: any, type: string) {
-    const install = this.teamInstallations.find((x) => x.app_name === event.name);
-    if (install) {
-      // TODO: remove app
-      // this.installbroker.removeInstallationFromAList(
-      //   install,
-      //   (err: any, res: iInstallation[]) => {
-      //     this.getInstallations();
-      //     if (err) this.notificationService.warning(err);
-      //     else {
-      //       this.notificationService.success("Request Updated");
-      //     }
-      //   },
-      //   this.teamInstallations
-      // );
     }
-  }
-  removeTeamRole(role) {
-    this.apiService.removeTeamRole(role).subscribe((res: any) => {
-      if (res.success) {
-        this.notificationService.success(res.msg);
-      } else {
-        this.notificationService.warning(res.msg);
-      }
-      this.getTeamRoles();
-    });
-  }
 
-  addTeamRole(role) {
-    //TODO: add role to team
-  }
+    getInstallations() {
+        // TODO: get installations
+        // if (this.installbroker.getAllInstallations.length === 0) this.installbroker.buildUserData();
+        // this.installbroker.getAllTeamInstallations(this.selectedTeam.code, (err: any, res: any) => {
+        //   this.teamInstallations = res;
+        // });
+        // this.installbroker.createDisplayLists(
+        //   "team",
+        //   (err: any, res: any) => {
+        //     this.displayLists = res;
+        //   },
+        //   this.selectedTeam.code
+        // );
+    }
+
+    install(event: any, type: string) {
+        // TODO: install app
+        // this.installbroker.addInstallation(
+        //   event.name,
+        //   type.toLowerCase(),
+        //   (err: any, res: iInstallation[]) => {
+        //     if (err) this.notificationService.warning(err);
+        //     else {
+        //       this.notificationService.success("Installed");
+        //     }
+        //     this.getInstallations();
+        //   },
+        //   undefined,
+        //   this.team.code
+        // );
+    }
+
+    remove(event: any, type: string) {
+        const install = this.teamInstallations.find((x) => x.app_name === event.name);
+        if (install) {
+            // TODO: remove app
+            // this.installbroker.removeInstallationFromAList(
+            //   install,
+            //   (err: any, res: iInstallation[]) => {
+            //     this.getInstallations();
+            //     if (err) this.notificationService.warning(err);
+            //     else {
+            //       this.notificationService.success("Request Updated");
+            //     }
+            //   },
+            //   this.teamInstallations
+            // );
+        }
+    }
+    removeTeamRole(role) {
+        this.apiService.removeTeamRole(role).subscribe((res: any) => {
+            if (res.success) {
+                this.notificationService.success(res.msg);
+            } else {
+                this.notificationService.warning(res.msg);
+            }
+            this.getTeamRoles();
+        });
+    }
+
+    addTeamRole(role) {
+        // TODO: add role to team
+        console.log(role);
+    }
 }

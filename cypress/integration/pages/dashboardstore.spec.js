@@ -2,16 +2,16 @@
 
 describe("Dashboard store", () => {
     beforeEach(() => {
-        cy.login('#1');
+        cy.login("#1");
         cy.visit("http://localhost:4200/dashboardstore");
     });
 
     it("has list of apps", () => {
-        //Query number of tiles
+        // Query number of tiles
         cy.get("app-application-tile").should("have.length.gt", 0);
     });
 
     it("each app will open", () => {
-        //Awaiting changes for installations
+        // Awaiting changes for installations
     });
 });

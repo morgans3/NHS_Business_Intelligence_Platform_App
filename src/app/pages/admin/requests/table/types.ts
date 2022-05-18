@@ -4,60 +4,62 @@ export const requestTypes = {
             {
                 def: "user_name",
                 name: "User's name",
-                key: "${this.item.data.firstname} ${this.item.data.surname}|html"
+                key: "${this.item.data.firstname} ${this.item.data.surname}|html",
             },
             {
                 def: "user_email",
                 name: "User's email",
-                key: "data.email"
+                key: "data.email",
             },
             {
                 def: "status",
                 name: "Status",
-                key: "${this.item.data.approved == null ? 'Requires action' : (this.item.data.approved == true ? 'Approved' : 'Denied')}| html"
+                key:
+                    "${this.item.data.approved === null ? 'Requires action' : " +
+                    "(this.item.data.approved === true ? 'Approved' : 'Denied')}| html",
             },
             {
                 def: "submitted",
                 name: "Submitted",
-                key: "created_at"
-            }
+                key: "created_at",
+            },
         ],
         actions: [
             {
                 name: "View",
                 type: "link",
-                link: "/admin/requests/${this.item.id}| html"
-            }
-        ]
+                link: "/admin/requests/${this.item.id}| html",
+            },
+        ],
     },
-    AccountRequestComplete : {
+    AccountRequestComplete: {
         columns: [
             {
                 def: "officer",
                 name: "Officer",
-                key: "data.officer"
+                key: "data.officer",
             },
             {
                 def: "officer_job",
                 name: "Officer job",
-                key: "data.officer_job"
+                key: "data.officer_job",
             },
             {
                 def: "organisation",
                 name: "Organisation",
-                key: "data.organisation"
+                key: "data.organisation",
             },
             {
                 def: "action",
                 name: "Action",
-                key: "data.action"
+                key: "data.action",
             },
             {
                 def: "submitted",
                 name: "Submitted",
-                key: "created_at"
-            }
+                key: "created_at",
+            },
         ],
-        actions: []
-    }
-}
+        actions: [],
+    },
+};

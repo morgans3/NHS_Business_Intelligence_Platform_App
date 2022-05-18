@@ -6,30 +6,28 @@ import { NotificationService } from "../_services/notification.service";
 import { decodeToken } from "../_pipes/functions";
 
 @Injectable({
-  providedIn: "root",
+    providedIn: "root",
 })
 export class PidGuard implements CanActivate {
-
-    _user;
+    selectedUser;
     get user() {
-        if(this._user == undefined) {
+        if (this.selectedUser === undefined) {
             const jwtToken = this.store.selectSnapshot(AuthState.getToken);
-            this._user = decodeToken(jwtToken);
+            this.selectedUser = decodeToken(jwtToken);
         }
-        return this._user;
+        return this.selectedUser;
     }
 
-    constructor(
-        private notificationService: NotificationService,
-        private store: Store
-    ) { }
+    constructor(private notificationService: NotificationService, private store: Store) {}
 
     canActivate(): boolean {
-        if(this.user.mfa) { 
-            return true; 
+        if (this.user.mfa) {
+            return true;
         } else {
-            this.notificationService.error("Unauthorised!  Please provide a second factor of authentication to proceed to Sensitive Information.");
-            return false;    
+            this.notificationService.error(
+                "Unauthorised!  Please provide a second factor of authentication to proceed to Sensitive Information."
+            );
+            return false;
         }
     }
 }

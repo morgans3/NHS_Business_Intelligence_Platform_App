@@ -8,14 +8,19 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Routes } from "./user.routing";
 import { DiuComponentLibraryModule } from "diu-component-library";
 
-import { UsersTableComponent } from "./table/users-table.component"
+import { UsersTableComponent } from "./table/users-table.component";
 import { UserComponent } from "./user/user.component";
 
 @NgModule({
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, DemoMaterialModule, FlexLayoutModule, RouterModule.forChild(Routes), DiuComponentLibraryModule],
-    declarations: [
-        UsersTableComponent,
-        UserComponent
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        RouterModule.forChild(Routes),
+        DiuComponentLibraryModule,
     ],
+    declarations: [UsersTableComponent, UserComponent],
 })
-export class UsersAdminModule { }
+export class UsersAdminModule {}

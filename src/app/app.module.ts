@@ -8,14 +8,14 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutes } from "./app.routing";
 import { AppComponent } from "./app.component";
 
-//Layouts
+// Layouts
 import { FullComponent } from "./layouts/full/full.component";
 import { FormLayoutComponent } from "./layouts/form/form.component";
 import { SupportLayoutComponent } from "./layouts/support/support.component";
 import { SupportLayoutSidebarComponent } from "./layouts/support/sidebar/status-sidebar.component";
 import { FullmapComponent } from "./layouts/fullmap/fullmap.component";
 
-//Libraries
+// Libraries
 import { NgxsModule } from "@ngxs/store";
 import { NgxsResetPluginModule } from "ngxs-reset-plugin";
 import { ToastrModule } from "ngx-toastr";
@@ -31,12 +31,12 @@ import { MAT_DATE_LOCALE } from "@angular/material/core";
 import { DIUServicesModule } from "diu-component-library";
 import { NgxTwitterTimelineModule } from "ngx-twitter-timeline";
 
-//Route guards
+// Route guards
 import { AuthGuard } from "./_guards/auth.guard";
 import { PidGuard } from "./_guards/pid.guard";
 import { CapabilityGuard } from "./_guards/capability.guard";
 
-//Other
+// Other
 import { AccordionLinkModule } from "./shared/accordion/accordionLinkModule";
 import { SpinnerComponent } from "./shared/spinner.component";
 import { AlertState } from "./_states/alert.state";
@@ -51,68 +51,76 @@ import { environment } from "src/environments/environment";
 import { CwrErrorHandler } from "./cwr-error-handler";
 
 @NgModule({
-  declarations: [AppComponent, FullComponent, FullmapComponent, SpinnerComponent, FormLayoutComponent, SupportLayoutComponent, SupportLayoutSidebarComponent],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    SharedModule,
-    HttpClientModule,
-    AccordionLinkModule,
-    RouterModule.forRoot(AppRoutes),
-    DiuAngularNavigationModule,
-    DiuHeaderModule,
-    ToastrModule.forRoot({
-      timeOut: 4000,
-      positionClass: "toast-bottom-full-width",
-      preventDuplicates: true,
-    }),
-    SharedModule,
-    NgxsModule.forRoot([AuthState, AlertState, ReferenceState], {
-      developmentMode: !true,
-    }),
-    NgxsStoragePluginModule.forRoot({
-      storage: StorageOption.LocalStorage,
-    }),
-    NgxsResetPluginModule.forRoot(),
-    NgxsEmitPluginModule.forRoot(),
-    NgxsReduxDevtoolsPluginModule.forRoot({
-      disabled: true,
-    }),
-    NgxsLoggerPluginModule.forRoot({
-      disabled: true,
-    }),
-    MaterialModule,
-    MatDatepickerModule,
-    MatMomentDateModule,
-    MatDatetimepickerModule,
-    NgxTwitterTimelineModule,
-    DIUServicesModule,
-  ],
-  providers: [
-    {
-      provide: LocationStrategy,
-      useClass: PathLocationStrategy,
-    },
-    AuthGuard,
-    PidGuard,
-    CapabilityGuard,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: RequestInterceptor,
-      multi: true,
-    },
-    { provide: MAT_DATE_LOCALE, useValue: "en-GB" },
-    PostcodeService,
-    StorageService,
-    DIUServicesModule,
-    { provide: "environment", useValue: environment },
-    NotificationService,
-    {
-      provide: ErrorHandler,
-      useClass: CwrErrorHandler,
-    },
-  ],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        FullComponent,
+        FullmapComponent,
+        SpinnerComponent,
+        FormLayoutComponent,
+        SupportLayoutComponent,
+        SupportLayoutSidebarComponent,
+    ],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        SharedModule,
+        HttpClientModule,
+        AccordionLinkModule,
+        RouterModule.forRoot(AppRoutes),
+        DiuAngularNavigationModule,
+        DiuHeaderModule,
+        ToastrModule.forRoot({
+            timeOut: 4000,
+            positionClass: "toast-bottom-full-width",
+            preventDuplicates: true,
+        }),
+        SharedModule,
+        NgxsModule.forRoot([AuthState, AlertState, ReferenceState], {
+            developmentMode: !true,
+        }),
+        NgxsStoragePluginModule.forRoot({
+            storage: StorageOption.LocalStorage,
+        }),
+        NgxsResetPluginModule.forRoot(),
+        NgxsEmitPluginModule.forRoot(),
+        NgxsReduxDevtoolsPluginModule.forRoot({
+            disabled: true,
+        }),
+        NgxsLoggerPluginModule.forRoot({
+            disabled: true,
+        }),
+        MaterialModule,
+        MatDatepickerModule,
+        MatMomentDateModule,
+        MatDatetimepickerModule,
+        NgxTwitterTimelineModule,
+        DIUServicesModule,
+    ],
+    providers: [
+        {
+            provide: LocationStrategy,
+            useClass: PathLocationStrategy,
+        },
+        AuthGuard,
+        PidGuard,
+        CapabilityGuard,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: RequestInterceptor,
+            multi: true,
+        },
+        { provide: MAT_DATE_LOCALE, useValue: "en-GB" },
+        PostcodeService,
+        StorageService,
+        DIUServicesModule,
+        { provide: "environment", useValue: environment },
+        NotificationService,
+        {
+            provide: ErrorHandler,
+            useClass: CwrErrorHandler,
+        },
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

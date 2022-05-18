@@ -1,12 +1,14 @@
 <div mat-dialog-actions style="display: inherit !important">
-  <form class="m-t-20" [formGroup]="myForm">
-    <mat-form-field class="example-full-width">
-      <input autocomplete="off" matInput placeholder="Enter value here..." type="text" formControlName="text">
-    </mat-form-field>
-  </form>
-  <button type="button" mat-button color="primary" style="width: 100%; padding-left:5px; padding-right: 5px"
-    (click)="onAddClick()">Add</button>
-  <br /><br />
-  <button type="button" mat-button color="warn" style="width: 100%; padding-left:5px; padding-right: 5px"
-    (click)="onNoClick()">Cancel</button>
+    <form class="m-t-20" [formGroup]="myForm">
+        <mat-form-field class="example-full-width">
+            <input autocomplete="off" matInput placeholder="Enter value here..." type="text" formControlName="text" />
+        </mat-form-field>
+    </form>
+    <button type="button" mat-button color="primary" style="width: 100%; padding-left: 5px; padding-right: 5px" (click)="onAddClick()">
+        Add
+    </button>
+    <br /><br />
+    <button type="button" mat-button color="warn" style="width: 100%; padding-left: 5px; padding-right: 5px" (click)="onNoClick()">
+        Cancel
+    </button>
 </div>

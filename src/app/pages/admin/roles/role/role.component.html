@@ -3,7 +3,7 @@
 <form [formGroup]="role">
     <mat-form-field class="m-b-10">
         <mat-label>Name</mat-label>
-        <input matInput formControlName="name">
+        <input matInput formControlName="name" />
     </mat-form-field>
 
     <mat-form-field class="m-b-10">
@@ -12,18 +12,18 @@
 
     <mat-form-field class="m-b-10">
         <mat-label>Authoriser</mat-label>
-        <input matInput formControlName="authoriser">
+        <input matInput formControlName="authoriser" />
     </mat-form-field>
 
     <mat-form-field color="primary" floatLabel="always">
         <mat-label>Capabilities</mat-label>
-        <input (keyup)="searchCapabilities($event.target.value)" matInput placeholder="Search by name">
+        <input (keyup)="searchCapabilities($event.target.value)" matInput placeholder="Search by name" />
         <mat-selection-list formControlName="capabilities">
             <mat-list-option *ngFor="let capability of capabilities" [value]="capability.id">
                 <div mat-line>{{ capability.name }}</div>
                 <div mat-line>{{ capability.description }}</div>
             </mat-list-option>
-        </mat-selection-list>    
+        </mat-selection-list>
     </mat-form-field>
 </form>
 

@@ -10,17 +10,17 @@ import { LoginComponent } from "./login.component";
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild([{
-            path: "",
-            component: LoginComponent
-        }]),
+        RouterModule.forChild([
+            {
+                path: "",
+                component: LoginComponent,
+            },
+        ]),
         FlexLayoutModule,
         DemoMaterialModule,
         ReactiveFormsModule,
         FormsModule,
     ],
-    declarations: [
-        LoginComponent
-    ]
+    declarations: [LoginComponent],
 })
-export class LoginModule { }
+export class LoginModule {}

@@ -1,29 +1,58 @@
-<div class="main-container" [dir]="dir" [ngClass]="{
-    boxed: boxed,
-    danger: danger,
-    blue: blue,
-    green: green,
-    dark: dark,
-    minisidebar: minisidebar
-  }" style="min-height: 100vh">
-    <mat-sidenav-container class="example-sidenav-container" [ngClass]="{ minisidebar: minisidebar }"
-        [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
-        <mat-sidenav #snav id="snav" class="pl-xs" mode="side" fixedTopGap="0" style="overflow: hidden"
-            (open)="sidebarOpened = true" (close)="sidebarOpened = false" [opened]="mobileQuery.matches"
-            [ngClass]="{ matsidenavsmall: minisidebar, matsidenavbig: !minisidebar }">
+<div
+    class="main-container"
+    [dir]="dir"
+    [ngClass]="{
+        boxed: boxed,
+        danger: danger,
+        blue: blue,
+        green: green,
+        dark: dark,
+        minisidebar: minisidebar
+    }"
+    style="min-height: 100vh"
+>
+    <mat-sidenav-container
+        class="example-sidenav-container"
+        [ngClass]="{ minisidebar: minisidebar }"
+        [style.marginTop.px]="mobileQuery.matches ? 0 : 0"
+    >
+        <mat-sidenav
+            #snav
+            id="snav"
+            class="pl-xs"
+            mode="side"
+            fixedTopGap="0"
+            style="overflow: hidden"
+            (open)="sidebarOpened = true"
+            (close)="sidebarOpened = false"
+            [opened]="mobileQuery.matches"
+            [ngClass]="{ matsidenavsmall: minisidebar, matsidenavbig: !minisidebar }"
+        >
             <app-status-sidebar id="app-status-sidebar" [minisidebar]="minisidebar"></app-status-sidebar>
         </mat-sidenav>
 
         <mat-sidenav-content [ngClass]="{ 'page-wrapper': true, 'full-width': !managedWidth, 'no-overflow': true }">
             <div style="display: inline; padding: 3px">
-                <button mat-icon-button (click)="toggleSidebar()" class="sidebarclosed" joyrideStep="overview4"
-                    title="Wide Screen Views" text="To toggle the side menu open or minimized, click this button.">
-                    <mat-icon>swap_horizontal_circle</mat-icon>
-                </button>&nbsp;
-                <a [routerLink]="['/' + home]" routerLinkActive="router-link-active"
-                    style="color: black; padding-top: 10px" joyrideStep="overview2" title="Application"
-                    text="This is the currently selected application, for more please visit Nexus Intelligence."> Nexus
-                    Intelligence </a>
+                <button
+                    mat-icon-button
+                    (click)="toggleSidebar()"
+                    class="sidebarclosed"
+                    joyrideStep="overview4"
+                    title="Wide Screen Views"
+                    text="To toggle the side menu open or minimized, click this button."
+                >
+                    <mat-icon>swap_horizontal_circle</mat-icon></button
+                >&nbsp;
+                <a
+                    [routerLink]="['/' + home]"
+                    routerLinkActive="router-link-active"
+                    style="color: black; padding-top: 10px"
+                    joyrideStep="overview2"
+                    title="Application"
+                    text="This is the currently selected application, for more please visit Nexus Intelligence."
+                >
+                    Nexus Intelligence
+                </a>
                 <span fxFlex></span>
             </div>
             <hr />
@@ -34,9 +63,10 @@
                             <mat-card-content class="text-white" style="padding-top: 0px; padding-bottom: 0px">
                                 <div fxLayoutAlign="center center">
                                     <i class="fas fa-exclamation-circle icon-2x"></i>
-                                    <p style="margin-left: 5px; text-align: center">This browser is not optimized for
-                                        Nexus Intelligence, we would recommend using an up-to-date browser like
-                                        Microsoft Edge or Google Chrome for an improved user experience.</p>
+                                    <p style="margin-left: 5px; text-align: center">
+                                        This browser is not optimized for Nexus Intelligence, we would recommend using an up-to-date browser
+                                        like Microsoft Edge or Google Chrome for an improved user experience.
+                                    </p>
                                 </div>
                             </mat-card-content>
                         </mat-card>

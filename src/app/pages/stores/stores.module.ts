@@ -8,7 +8,7 @@ import { DiuComponentLibraryModule } from "diu-component-library";
 import { StoresComponent } from "./stores/stores.component";
 
 @NgModule({
-  imports: [CommonModule, DemoMaterialModule, FlexLayoutModule, RouterModule.forChild(StoresRoutes), DiuComponentLibraryModule],
-  declarations: [StoresComponent],
+    imports: [CommonModule, DemoMaterialModule, FlexLayoutModule, RouterModule.forChild(StoresRoutes), DiuComponentLibraryModule],
+    declarations: [StoresComponent],
 })
 export class StoresModule {}

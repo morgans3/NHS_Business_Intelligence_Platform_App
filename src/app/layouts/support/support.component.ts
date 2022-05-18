@@ -11,28 +11,28 @@ import { environment } from "../../../environments/environment";
 export class SupportLayoutComponent implements OnDestroy, OnInit {
     mobileQuery: MediaQueryList;
     dir = "ltr";
-    green: boolean = false;
-    blue: boolean = false;
-    dark: boolean = false;
+    green = false;
+    blue = false;
+    dark = false;
     minisidebar = false;
-    boxed: boolean = false;
-    danger: boolean = false;
-    showHide: boolean = false;
+    boxed = false;
+    danger = false;
+    showHide = false;
     sidebarOpened = true;
     env: any;
-    pageloaded: boolean = false;
+    pageloaded = false;
     managedWidth = true;
     appName = environment.appName;
     home = environment.homepage;
     isIE = /msie\s|trident\//i.test(window.navigator.userAgent);
 
-    private _mobileQueryListener: () => void;
+    private mobileQueryListener: () => void;
 
     constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private titleService: Title) {
         this.minisidebar = false;
         this.mobileQuery = media.matchMedia("(min-width: 768px)");
-        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-        this.mobileQuery.addListener(this._mobileQueryListener);
+        this.mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addListener(this.mobileQueryListener);
         this.env = environment;
         setTimeout(() => {
             window.dispatchEvent(new Event("resize"));
@@ -45,7 +45,7 @@ export class SupportLayoutComponent implements OnDestroy, OnInit {
     }
 
     ngOnDestroy(): void {
-        this.mobileQuery.removeListener(this._mobileQueryListener);
+        this.mobileQuery.removeListener(this.mobileQueryListener);
     }
 
     toggleSidebar() {

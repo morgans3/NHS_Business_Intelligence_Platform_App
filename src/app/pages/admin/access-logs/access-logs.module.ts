@@ -13,11 +13,15 @@ import { AccessLogsTableComponent } from "./table/logs-table.component";
 import { AccessLogsChartComponent } from "./chart/logs-chart.component";
 
 @NgModule({
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, DemoMaterialModule, FlexLayoutModule, RouterModule.forChild(Routes), DiuComponentLibraryModule],
-    declarations: [
-        AccessLogComponent,
-        AccessLogsTableComponent,
-        AccessLogsChartComponent
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        RouterModule.forChild(Routes),
+        DiuComponentLibraryModule,
     ],
+    declarations: [AccessLogComponent, AccessLogsTableComponent, AccessLogsChartComponent],
 })
-export class AccessLogsAdminModule { }
+export class AccessLogsAdminModule {}

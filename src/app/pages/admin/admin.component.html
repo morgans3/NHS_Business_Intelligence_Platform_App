@@ -2,8 +2,16 @@
     <mat-card-content>
         <nav class="m-b-30" mat-tab-nav-bar mat-align-tabs="center">
             <ng-container *ngFor="let item of menuItems">
-                <a *ngIf="!item.sub" mat-tab-link [routerLink]="item.link" [active]="rla.isActive" routerLinkActive #rla="routerLinkActive">{{ item.name }}</a>
-                <a *ngIf="item.sub" mat-tab-link [matMenuTriggerFor]="subMenu" [matMenuTriggerData]="{items: item.sub}">
+                <a
+                    *ngIf="!item.sub"
+                    mat-tab-link
+                    [routerLink]="item.link"
+                    [active]="rla.isActive"
+                    routerLinkActive
+                    #rla="routerLinkActive"
+                    >{{ item.name }}</a
+                >
+                <a *ngIf="item.sub" mat-tab-link [matMenuTriggerFor]="subMenu" [matMenuTriggerData]="{ items: item.sub }">
                     {{ item.name }} <mat-icon>arrow_drop_down</mat-icon>
                 </a>
             </ng-container>
@@ -11,11 +19,10 @@
 
         <mat-menu #subMenu="matMenu">
             <ng-template matMenuContent let-items="items">
-                <a *ngFor="let item of items" mat-menu-item [routerLink]="item.link">{{ item.name }}</a>    
+                <a *ngFor="let item of items" mat-menu-item [routerLink]="item.link">{{ item.name }}</a>
             </ng-template>
         </mat-menu>
-        
+
         <router-outlet></router-outlet>
     </mat-card-content>
 </mat-card>
-

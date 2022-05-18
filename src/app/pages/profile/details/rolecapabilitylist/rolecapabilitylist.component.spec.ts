@@ -1,28 +1,24 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { RoleCapabilityListComponent } from "./rolecapabilitylist.component";
 
-import { RolecapabilitylistComponent } from './rolecapabilitylist.component';
+describe("RolecapabilitylistComponent", () => {
+    let component: RoleCapabilityListComponent;
+    let fixture: ComponentFixture<RoleCapabilityListComponent>;
 
-describe('RolecapabilitylistComponent', () => {
-  let component: RolecapabilitylistComponent;
-  let fixture: ComponentFixture<RolecapabilitylistComponent>;
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [RoleCapabilityListComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RolecapabilitylistComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(() => {
+        fixture = TestBed.createComponent(RoleCapabilityListComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RolecapabilitylistComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

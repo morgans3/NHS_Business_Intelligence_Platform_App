@@ -10,23 +10,23 @@ import { PostcodeService } from "src/app/_services/postcodes.service";
 import { FindMosaicComponent } from "./findMosaic.component";
 
 describe("FindMosaicComponent", () => {
-  let component: FindMosaicComponent;
-  let fixture: ComponentFixture<FindMosaicComponent>;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, DemoMaterialModule, ToastrModule.forRoot(), HttpClientModule],
-      providers: [APIService, PostcodeService, ToastrService, NotificationService],
-      declarations: [FindMosaicComponent],
-    }).compileComponents();
-  }));
+    let component: FindMosaicComponent;
+    let fixture: ComponentFixture<FindMosaicComponent>;
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [BrowserAnimationsModule, DemoMaterialModule, ToastrModule.forRoot(), HttpClientModule],
+            providers: [APIService, PostcodeService, ToastrService, NotificationService],
+            declarations: [FindMosaicComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FindMosaicComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(FindMosaicComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -12,20 +12,21 @@ import { JoyrideModule } from "ngx-joyride";
 
 @NgModule({
     imports: [
-        CommonModule, 
-        FormsModule, 
+        CommonModule,
+        FormsModule,
         SharedModule,
         DragDropModule,
-        ReactiveFormsModule, 
-        DemoMaterialModule, 
+        ReactiveFormsModule,
+        DemoMaterialModule,
         FlexLayoutModule,
-        JoyrideModule.forRoot(), 
-        RouterModule.forChild([{
-            path: "", component: NeedListComponent
-        }]), 
+        JoyrideModule.forRoot(),
+        RouterModule.forChild([
+            {
+                path: "",
+                component: NeedListComponent,
+            },
+        ]),
     ],
-    declarations: [
-        NeedListComponent, 
-    ],
+    declarations: [NeedListComponent],
 })
 export class NeedListModule {}

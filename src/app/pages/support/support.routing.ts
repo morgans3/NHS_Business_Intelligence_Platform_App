@@ -6,9 +6,9 @@ import { AccessRequestActionFormComponent } from "../forms/access-request/action
 export const SupportRoutes: Routes = [
     { path: "guides", component: GuideComponent },
     { path: "access-request", component: AccessRequestFormComponent },
-    { 
-        path: "access-request/:action", 
+    {
+        path: "access-request/:action",
         component: AccessRequestActionFormComponent,
-        data: { awsTrackable: true }
-    }
+        data: { awsTrackable: true },
+    },
 ];

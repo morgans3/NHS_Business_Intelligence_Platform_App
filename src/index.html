@@ -1,38 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Nexus Intelligence</title>
-    <base href="/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <link rel="icon" type="image/x-icon" href="assets/images/NexusX.png" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,300,600,700&display=swap" rel="stylesheet" />
+    <head>
+        <meta charset="utf-8" />
+        <title>Nexus Intelligence</title>
+        <base href="/" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <link rel="icon" type="image/x-icon" href="assets/images/NexusX.png" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,300,600,700&display=swap" rel="stylesheet" />
 
-    <script>
-      (function (n, i, v, r, s, c, x, z) {
-        x = window.AwsRumClient = { q: [], n: n, i: i, v: v, r: r, c: c };
-        window[n] = function (c, p) {
-          x.q.push({ c: c, p: p });
-        };
-        z = document.createElement("script");
-        z.async = true;
-        z.src = s;
-        document.head.insertBefore(z, document.head.getElementsByTagName("script")[0]);
-      })("cwr", "d2e62228-5fc8-4df8-8071-f976741768bf", "1.0.0", "eu-west-2", "https://client.rum.us-east-1.amazonaws.com/1.2.1/cwr.js", {
-        sessionSampleRate: 1,
-        guestRoleArn: "arn:aws:iam::077341872813:role/RUM-Monitor-eu-west-2-077341872813-7504418741561-Unauth",
-        identityPoolId: "eu-west-2:c86228f7-2eab-48fb-9c02-d4cb8bdf9d3f",
-        endpoint: "https://dataplane.rum.eu-west-2.amazonaws.com",
-        telemetries: ["performance", "errors", "http"],
-        allowCookies: true,
-        enableXRay: true,
-      });
-    </script>
-  </head>
+        <script>
+            (function (n, i, v, r, s, c, x, z) {
+                x = window.AwsRumClient = { q: [], n: n, i: i, v: v, r: r, c: c };
+                window[n] = function (c, p) {
+                    x.q.push({ c: c, p: p });
+                };
+                z = document.createElement("script");
+                z.async = true;
+                z.src = s;
+                document.head.insertBefore(z, document.head.getElementsByTagName("script")[0]);
+            })(
+                "cwr",
+                "d2e62228-5fc8-4df8-8071-f976741768bf",
+                "1.0.0",
+                "eu-west-2",
+                "https://client.rum.us-east-1.amazonaws.com/1.2.1/cwr.js",
+                {
+                    sessionSampleRate: 1,
+                    guestRoleArn: "arn:aws:iam::077341872813:role/RUM-Monitor-eu-west-2-077341872813-7504418741561-Unauth",
+                    identityPoolId: "eu-west-2:c86228f7-2eab-48fb-9c02-d4cb8bdf9d3f",
+                    endpoint: "https://dataplane.rum.eu-west-2.amazonaws.com",
+                    telemetries: ["performance", "errors", "http"],
+                    allowCookies: true,
+                    enableXRay: true,
+                }
+            );
+        </script>
+    </head>
 
-  <body>
-    <app-root></app-root>
-  </body>
+    <body>
+        <app-root></app-root>
+    </body>
 </html>

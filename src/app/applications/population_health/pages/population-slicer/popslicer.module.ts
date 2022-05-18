@@ -15,23 +15,20 @@ import { PopslicerComponent } from "./popslicer.component";
 
 @NgModule({
     imports: [
-        CommonModule, 
-        FormsModule, 
+        CommonModule,
+        FormsModule,
         SharedModule,
-        ReactiveFormsModule, 
-        DemoMaterialModule, 
-        FlexLayoutModule, 
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
         JoyrideModule.forRoot(),
-        RouterModule.forChild([{
-            path: "", component: PopslicerComponent
-        }]), 
+        RouterModule.forChild([
+            {
+                path: "",
+                component: PopslicerComponent,
+            },
+        ]),
     ],
-  declarations: [
-      PopslicerComponent, 
-      UserValidationComponent, 
-      ValidateDialogComponent,
-      VerifiyDialogComponent,
-      CohortAllComponent
-    ],
+    declarations: [PopslicerComponent, UserValidationComponent, ValidateDialogComponent, VerifiyDialogComponent, CohortAllComponent],
 })
 export class PopslicerModule {}

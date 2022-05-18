@@ -10,18 +10,19 @@ import { PatientListComponent } from "./patient-list.component";
 
 @NgModule({
     imports: [
-        CommonModule, 
-        FormsModule, 
+        CommonModule,
+        FormsModule,
         SharedModule,
-        ReactiveFormsModule, 
-        DemoMaterialModule, 
-        FlexLayoutModule, 
-        RouterModule.forChild([{
-            path: "", component: PatientListComponent
-        }]), 
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        RouterModule.forChild([
+            {
+                path: "",
+                component: PatientListComponent,
+            },
+        ]),
     ],
-    declarations: [
-        PatientListComponent, 
-    ],
+    declarations: [PatientListComponent],
 })
-export class PatientListModule { }
+export class PatientListModule {}

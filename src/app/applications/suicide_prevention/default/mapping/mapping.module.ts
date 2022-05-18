@@ -14,9 +14,20 @@ import { MaterialModule } from "diu-component-library";
 import { MainPipe } from "src/app/_pipes/main-pipe.module";
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(MappingRoutes), ReactiveFormsModule, FormsModule, MaterialModule, FlexLayoutModule, MainPipe, LeafletModule, LeafletDrawModule, DefaultModule],
-  declarations: [MappingComponent, WorksheetComponent],
-  entryComponents: [],
-  exports: [],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(MappingRoutes),
+        ReactiveFormsModule,
+        FormsModule,
+        MaterialModule,
+        FlexLayoutModule,
+        MainPipe,
+        LeafletModule,
+        LeafletDrawModule,
+        DefaultModule,
+    ],
+    declarations: [MappingComponent, WorksheetComponent],
+    entryComponents: [],
+    exports: [],
 })
 export class MappingModule {}
