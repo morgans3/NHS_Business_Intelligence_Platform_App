@@ -355,7 +355,7 @@ export class NeedListComponent {
                 (res: any) => {
                     this.practiceList = res.body;
                     this.practiceList.forEach((d: any) => {
-                        d.ccg = d.ccg.replace("&", "and");
+                        d.ccg = d.ccg.split("&").join("and");
                     });
                     this.practiceList.filter((d: any) => d.pcn);
                     this.training_groups.forEach((d) => {
@@ -389,7 +389,7 @@ export class NeedListComponent {
                     ccgList.forEach((d) => this.ccg_list.push(d.ccg));
                     this.training_groups = ccgList;
                     this.training_groups.forEach((d) => {
-                        d.name = d.ccg.replace("&", "and");
+                        d.name = d.ccg.split("&").join("and");
                     });
                 },
                 (error) => {
