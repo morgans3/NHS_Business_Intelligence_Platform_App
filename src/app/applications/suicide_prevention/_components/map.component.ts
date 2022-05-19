@@ -3,20 +3,20 @@ import { latLng, tileLayer, circle, TileLayer, LatLng } from "leaflet";
 import * as L from "leaflet";
 
 export class MapData {
-  layers?: any;
-  options: MapDataOptions;
-  markerCluster?: any;
+    layers?: any;
+    options: MapDataOptions;
+    markerCluster?: any;
 }
 
 export class MapDataOptions {
-  layers?: TileLayer[];
-  zoom: number;
-  center: LatLng;
+    layers?: TileLayer[];
+    zoom: number;
+    center: LatLng;
 }
 
 @Component({
-  selector: "app-map",
-  template: `<div
+    selector: "app-map",
+    template: `<div
     *ngIf="MapData"
     [id]="MapName"
     class="leafletmap"
@@ -32,7 +32,7 @@ export class MapDataOptions {
     (leafletMapReady)="onMapReady($event)"
     (leafletDrawStop)="drawStopped($event)"
   ></div> `,
-  styles: [],
+    styles: [],
 })
 export class MapComponent implements OnInit, OnChanges, AfterViewChecked {
   @Input() rerender?: boolean;
@@ -52,153 +52,153 @@ export class MapComponent implements OnInit, OnChanges, AfterViewChecked {
   mapreference: any;
   inMapData: MapData;
   drawOptions = {
-    draw: {
-      marker: {
-        icon: L.icon({
-          iconSize: [25, 41],
-          iconAnchor: [13, 41],
-          iconUrl: "assets/images/marker.png",
-          // shadowUrl: "assets/images/marker-shadow.png"
-        }),
+      draw: {
+          marker: {
+              icon: L.icon({
+                  iconSize: [25, 41],
+                  iconAnchor: [13, 41],
+                  iconUrl: "assets/images/marker.png",
+                  // shadowUrl: "assets/images/marker-shadow.png"
+              }),
+          },
+          polyline: false,
+          circle: {
+              shapeOptions: {
+                  color: "#aaaaaa",
+              },
+          },
       },
-      polyline: false,
-      circle: {
-        shapeOptions: {
-          color: "#aaaaaa",
-        },
-      },
-    },
   };
 
   get defaultoptions() {
-    return (
-      this.inMapData.options || {
-        layers: [
-          tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 12,
-            minZoom: 8,
-            attribution: "...",
-          }),
-        ],
-        zoom: 10,
-        center: latLng(53.789995, -3.024889),
-      }
-    );
+      return (
+          this.inMapData.options || {
+              layers: [
+                  tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                      maxZoom: 12,
+                      minZoom: 8,
+                      attribution: "...",
+                  }),
+              ],
+              zoom: 10,
+              center: latLng(53.789995, -3.024889),
+          }
+      );
   }
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit() {
-    if (this.MapData) {
-      this.inMapData = this.MapData;
-      this.oldzoom = this.MapZoom;
-      this.oldcenter = this.MapCenter;
-      if (this.rerender !== undefined) {
-        this.rerendertrigger = this.rerender;
+      if (this.MapData) {
+          this.inMapData = this.MapData;
+          this.oldzoom = this.MapZoom;
+          this.oldcenter = this.MapCenter;
+          if (this.rerender !== undefined) {
+              this.rerendertrigger = this.rerender;
+          }
       }
-    }
   }
 
   ngOnChanges() {
-    if (this.MapData && this.MapData !== this.inMapData) {
-      this.inMapData = this.MapData;
-      this.changeDetector.detectChanges();
-    }
-    if (this.oldzoom !== this.MapZoom) {
-      this.updateZoom();
-      this.oldzoom = this.MapZoom;
-      this.changeDetector.detectChanges();
-    }
-    if (this.oldcenter !== this.MapCenter) {
-      this.updateCenter();
-      this.oldcenter = this.MapCenter;
-      this.changeDetector.detectChanges();
-    }
-    if (this.rerender !== undefined && this.rerender !== this.rerendertrigger) {
-      this.rerendertrigger = this.rerender;
-      setTimeout(() => {
-        this.mapreference.invalidateSize();
-        this.mapreference._resetView(this.mapreference.getCenter(), this.mapreference.getZoom(), true);
-      }, 200);
-      this.changeDetector.detectChanges();
-    }
+      if (this.MapData && this.MapData !== this.inMapData) {
+          this.inMapData = this.MapData;
+          this.changeDetector.detectChanges();
+      }
+      if (this.oldzoom !== this.MapZoom) {
+          this.updateZoom();
+          this.oldzoom = this.MapZoom;
+          this.changeDetector.detectChanges();
+      }
+      if (this.oldcenter !== this.MapCenter) {
+          this.updateCenter();
+          this.oldcenter = this.MapCenter;
+          this.changeDetector.detectChanges();
+      }
+      if (this.rerender !== undefined && this.rerender !== this.rerendertrigger) {
+          this.rerendertrigger = this.rerender;
+          setTimeout(() => {
+              this.mapreference.invalidateSize();
+              this.mapreference._resetView(this.mapreference.getCenter(), this.mapreference.getZoom(), true);
+          }, 200);
+          this.changeDetector.detectChanges();
+      }
   }
 
   ngAfterViewChecked() {
-    this.changeDetector.detectChanges();
+      this.changeDetector.detectChanges();
   }
 
   handleMapZoomEnd(map: L.Map): void {
-    if (map) {
-      const newValues = {
-        zoom: this.zoom,
-        center: this.center,
-        bounds: this.createPolygonFromBounds(this.mapreference.getBounds()),
-      };
-      this.ZoomChange.emit(newValues);
-    }
+      if (map) {
+          const newValues = {
+              zoom: this.zoom,
+              center: this.center,
+              bounds: this.createPolygonFromBounds(this.mapreference.getBounds()),
+          };
+          this.ZoomChange.emit(newValues);
+      }
   }
 
   handleMapCenterEnd(event): void {
-    if (event) {
-      if (this.mapreference && this.mapreference.getBounds()) {
-        const newValues = {
-          zoom: this.zoom,
-          center: this.center,
-          bounds: this.createPolygonFromBounds(this.mapreference.getBounds()),
-        };
-        this.CenterChange.emit(newValues);
+      if (event) {
+          if (this.mapreference && this.mapreference.getBounds()) {
+              const newValues = {
+                  zoom: this.zoom,
+                  center: this.center,
+                  bounds: this.createPolygonFromBounds(this.mapreference.getBounds()),
+              };
+              this.CenterChange.emit(newValues);
+          }
       }
-    }
   }
 
   createPolygonFromBounds(latLngBounds) {
-    if (latLngBounds && this.center) {
-      const center = this.center;
-      const latlngs = [];
-      if (latLngBounds.getSouthWest()) {
-        latlngs.push(latLngBounds.getSouthWest());
-      } // bottom left
-      if (latLngBounds.getSouth()) {
-        latlngs.push({ lat: latLngBounds.getSouth(), lng: center.lng });
-      } // bottom center
-      if (latLngBounds.getSouthEast()) {
-        latlngs.push(latLngBounds.getSouthEast());
-      } // bottom right
-      if (latLngBounds.getEast()) {
-        latlngs.push({ lat: center.lat, lng: latLngBounds.getEast() });
-      } // center right
-      if (latLngBounds.getNorthEast()) {
-        latlngs.push(latLngBounds.getNorthEast());
-      } // top right
-      if (latLngBounds.getNorth()) {
-        latlngs.push({ lat: latLngBounds.getNorth(), lng: center.lng });
-      } // top center
-      if (latLngBounds.getNorthWest()) {
-        latlngs.push(latLngBounds.getNorthWest());
-      } // top left
-      if (latLngBounds.getWest()) {
-        latlngs.push({ lat: center.lat, lng: latLngBounds.getWest() });
-      } // center left
-      return latlngs;
-    }
+      if (latLngBounds && this.center) {
+          const center = this.center;
+          const latlngs = [];
+          if (latLngBounds.getSouthWest()) {
+              latlngs.push(latLngBounds.getSouthWest());
+          } // bottom left
+          if (latLngBounds.getSouth()) {
+              latlngs.push({ lat: latLngBounds.getSouth(), lng: center.lng });
+          } // bottom center
+          if (latLngBounds.getSouthEast()) {
+              latlngs.push(latLngBounds.getSouthEast());
+          } // bottom right
+          if (latLngBounds.getEast()) {
+              latlngs.push({ lat: center.lat, lng: latLngBounds.getEast() });
+          } // center right
+          if (latLngBounds.getNorthEast()) {
+              latlngs.push(latLngBounds.getNorthEast());
+          } // top right
+          if (latLngBounds.getNorth()) {
+              latlngs.push({ lat: latLngBounds.getNorth(), lng: center.lng });
+          } // top center
+          if (latLngBounds.getNorthWest()) {
+              latlngs.push(latLngBounds.getNorthWest());
+          } // top left
+          if (latLngBounds.getWest()) {
+              latlngs.push({ lat: center.lat, lng: latLngBounds.getWest() });
+          } // center left
+          return latlngs;
+      }
   }
 
   onMapReady(map) {
-    this.mapreference = map;
+      this.mapreference = map;
   }
 
   updateZoom() {
-    if (this.mapreference._zoom !== this.MapZoom) {
-      this.zoom = this.MapZoom;
-    }
+      if (this.mapreference._zoom !== this.MapZoom) {
+          this.zoom = this.MapZoom;
+      }
   }
 
   updateCenter() {
-    this.mapreference.panTo(this.MapCenter);
+      this.mapreference.panTo(this.MapCenter);
   }
 
   drawStopped(event) {
-    console.log(event);
+      console.log(event);
   }
 }

@@ -3,7 +3,7 @@ import { Inject, Injectable } from "@angular/core";
 import { DTOGlobalList } from "../_models/DTOListItem";
 import { EntityForms, EntityFormTypes } from "../_models/ModelForms";
 import { BaseService } from "diu-component-library";
-declare var window: any;
+declare let window: any;
 
 @Injectable({
     providedIn: "root",

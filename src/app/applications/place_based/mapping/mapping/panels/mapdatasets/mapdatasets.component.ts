@@ -42,7 +42,7 @@ export class MapdatasetsComponent implements OnInit {
         fileReader.onload = (e) => {
             this.arrayBuffer = fileReader.result;
             const data = new Uint8Array(this.arrayBuffer);
-            const arr = new Array();
+            const arr = [];
             for (let i = 0; i !== data.length; ++i) {
                 arr[i] = String.fromCharCode(data[i]);
             }

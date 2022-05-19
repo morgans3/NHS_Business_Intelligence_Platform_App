@@ -21,7 +21,7 @@ export class MapsettingsComponent implements OnInit, OnChanges {
     @Output() changeMapType = new EventEmitter<string>();
     mapTypes = tilelayerOptions;
     scale: L.Control.Scale;
-    selectedMapType: string = "Default";
+    selectedMapType = "Default";
 
     constructor(private notificationService: NotificationService, private postcodeService: PostcodeService) {}
 

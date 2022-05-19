@@ -99,6 +99,7 @@
         "@types/jasminewd2": "~2.0.3",
         "@types/node": "^12.11.1",
         "@typescript-eslint/eslint-plugin": "^5.25.0",
+        "@typescript-eslint/parser": "^5.25.0",
         "codelyzer": "^6.0.0",
         "cypress": "^9.6.1",
         "eslint": "8.1.0",

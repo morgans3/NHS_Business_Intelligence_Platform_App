@@ -16,10 +16,10 @@ export class LpresviewerComponent implements OnInit {
     endpointRes: string;
     tokenDecoded: any;
     lpresauthendpoint = "https://testing.lpres.co.uk/authentication/";
-    username: string = "";
-    staffrole: string = "";
-    firstname: string = "";
-    secondname: string = "";
+    username = "";
+    staffrole = "";
+    firstname = "";
+    secondname = "";
     hideLPRES = true;
 
     constructor(

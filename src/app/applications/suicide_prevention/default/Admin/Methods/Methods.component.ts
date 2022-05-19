@@ -25,7 +25,7 @@ export class MethodsComponent implements OnInit, OnChanges {
         list: new FormControl(),
     });
     @ViewChild(FormGroupDirective, { static: false })
-    formDirective: FormGroupDirective;
+        formDirective: FormGroupDirective;
     form: IncidentMethods;
     dataChanged: false;
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;

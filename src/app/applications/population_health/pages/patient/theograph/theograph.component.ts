@@ -328,9 +328,9 @@ export class TheographComponent implements OnInit {
         this.height2 = this.totalHeight - this.margin2.top - this.margin2.bottom;
 
         (this.x = d3.scaleTime().range([0, this.width])),
-            (this.x2 = d3.scaleTime().range([0, this.width])),
-            (this.y = d3.scaleBand().rangeRound([0, this.height]).padding(1)),
-            (this.y2 = d3.scaleBand().rangeRound([0, this.height2]).padding(1));
+        (this.x2 = d3.scaleTime().range([0, this.width])),
+        (this.y = d3.scaleBand().rangeRound([0, this.height]).padding(1)),
+        (this.y2 = d3.scaleBand().rangeRound([0, this.height2]).padding(1));
 
         this.xAxis = d3.axisBottom(this.x);
         this.xAxis2 = d3.axisBottom(this.x2);

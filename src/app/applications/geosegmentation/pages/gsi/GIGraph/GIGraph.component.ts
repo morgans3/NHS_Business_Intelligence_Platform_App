@@ -74,10 +74,10 @@ export class GIGraphComponent implements OnInit, OnChanges {
         const noBars = data.length;
         const barCent = 100;
         const barMax = barCent * 2;
-        const width = this.settings.width - (margin.left + margin.right),
-            height = noBars * barHeight;
+        const width = this.settings.width - (margin.left + margin.right);
+        const height = noBars * barHeight;
 
-        //console.log(this.allKeys);
+        // console.log(this.allKeys);
 
         this.allKeys = null;
         this.giGraphDiv.nativeElement.innerHTML = "";

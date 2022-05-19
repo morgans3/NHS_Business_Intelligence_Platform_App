@@ -184,10 +184,10 @@ export class TheographComponent implements OnInit, AfterViewInit {
                 this.addHtmlDetailsAndTooltip(this.div, d);
 
                 this.div
-                    //@ts-ignore
+                    // @ts-ignore
                     .style("left", d3.event.pageX + "px")
                     .style("background", this.color(d.Type))
-                    //@ts-ignore
+                    // @ts-ignore
                     .style("top", d3.event.pageY + "px")
                     .style("width", this.toolTipInitialSize[1])
                     .style("height", this.toolTipInitialSize[2]);
@@ -205,7 +205,7 @@ export class TheographComponent implements OnInit, AfterViewInit {
             ])
             .on("start", () => this.x2.domain())
             .on("brush", () => {
-                //@ts-ignore
+                // @ts-ignore
                 const s = d3.event.selection; // || this.x2.range();
                 this.x2.domain();
                 this.x.domain(s.map(this.x2.invert, this.x2));
@@ -257,10 +257,10 @@ export class TheographComponent implements OnInit, AfterViewInit {
                 this.addHtmlDetailsAndTooltip(this.div, d);
 
                 this.div
-                    //@ts-ignore
+                    // @ts-ignore
                     .style("left", d3.event.pageX + "px")
                     .style("background", this.color(d.Type))
-                    //@ts-ignore
+                    // @ts-ignore
                     .style("top", d3.event.pageY + "px")
                     .style("width", this.toolTipInitialSize[1])
                     .style("height", this.toolTipInitialSize[2]);

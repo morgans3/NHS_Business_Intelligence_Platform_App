@@ -13,7 +13,7 @@ export class MarkeroptionsComponent implements OnChanges {
     @Input() mapreference: any;
     tableData: iMarkerData[] = [];
     showIsoChrone: iMarkerData;
-    travelTime: number = 10;
+    travelTime = 10;
     isoserverUrl = "https://isochrone.nexusintelligencenw.nhs.uk/otp/routers/lsc/isochrone?";
 
     constructor(private http: HttpClient) {}
@@ -25,7 +25,7 @@ export class MarkeroptionsComponent implements OnChanges {
 
     selectInfo(data: string) {
         if (data.includes("h4")) {
-            let output = data.toString().split("h4>")[1].toString().split("</")[0];
+            const output = data.toString().split("h4>")[1].toString().split("</")[0];
             return output;
         } else {
             return data;
@@ -33,7 +33,7 @@ export class MarkeroptionsComponent implements OnChanges {
     }
 
     markerSelected(data: iMarkerData) {
-        let carryOutFunction = data.selected;
+        const carryOutFunction = data.selected;
         this.showIsoChrone = null;
         this.tableData.forEach((marker) => {
             if (marker.selected) {

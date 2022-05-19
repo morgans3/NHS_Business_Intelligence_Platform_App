@@ -62,10 +62,10 @@ export class MappingComponent implements OnInit {
     ngOnInit() {
         this.range.valueChanges.subscribe(() => {
             let start = this.range.controls.start.value;
-            if (start) start = <Moment>this.range.controls.start.value.toISOString();
+            if (start) start = this.range.controls.start.value.toISOString() as Moment;
             let end = this.range.controls.end.value;
-            if (end) end = <Moment>this.range.controls.end.value.toISOString();
-            this.selectedDashboard.range = { start: start, end: end };
+            if (end) end = this.range.controls.end.value.toISOString() as Moment;
+            this.selectedDashboard.range = { start, end };
         });
     }
 
@@ -87,7 +87,7 @@ export class MappingComponent implements OnInit {
         fileReader.onload = (e) => {
             this.arrayBuffer = fileReader.result;
             const data = new Uint8Array(this.arrayBuffer);
-            const arr = new Array();
+            const arr = [];
             for (let i = 0; i !== data.length; ++i) {
                 arr[i] = String.fromCharCode(data[i]);
             }
@@ -143,7 +143,7 @@ export class MappingComponent implements OnInit {
                 },
                 {
                     icon: new L.Icon({
-                        iconUrl: "assets/images/marker-icon-2x-" + type.color + ".png",
+                        iconUrl: "assets/images/marker-icon-2x-" + (type.color as string) + ".png",
                         shadowUrl: "assets/images/marker-shadow.png",
                         iconSize: [25, 41],
                         iconAnchor: [12, 41],

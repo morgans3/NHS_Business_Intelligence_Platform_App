@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { BaseService } from "diu-component-library";
-declare var window: any;
+declare let window: any;
 
 @Injectable({
     providedIn: "root",

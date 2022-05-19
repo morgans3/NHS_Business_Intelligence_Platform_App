@@ -16,7 +16,7 @@ import { StatCardData } from "src/app/_models/SPI_Lookups";
 import { MosaicColours, MosaicDomain } from "src/app/_models/mosaiccode";
 import { StorageService } from "src/app/_services/storage.service";
 import { APIService } from "diu-component-library";
-declare var window: any;
+declare let window: any;
 
 @Component({
     selector: "app-Landing",
@@ -40,48 +40,27 @@ export class LandingComponent implements OnInit {
     origin: any;
     selectedPopulation = 0;
 
-    @ViewChild("methodsChartParent", { static: false })
-    methodsChartParent: ElementRef;
-    @ViewChild("inquestconclusionChartParent", { static: false })
-    inquestconclusionChartParent: ElementRef;
-    @ViewChild("type_of_locationsChartParent", { static: false })
-    type_of_locationsChartParent: ElementRef;
-    @ViewChild("typesChartParent", { static: false })
-    typesChartParent: ElementRef;
-    @ViewChild("csp_districtsChartParent", { static: false })
-    csp_districtsChartParent: ElementRef;
-    @ViewChild("coroner_areasChartParent", { static: false })
-    coroner_areasChartParent: ElementRef;
-    @ViewChild("local_authoritysChartParent", { static: false })
-    local_authoritysChartParent: ElementRef;
-    @ViewChild("reported_bysChartParent", { static: false })
-    reported_bysChartParent: ElementRef;
-    @ViewChild("bereavement_offeredsChartParent", { static: false })
-    bereavement_offeredsChartParent: ElementRef;
-    @ViewChild("imd_decilesChartParent", { static: false })
-    imd_decilesChartParent: ElementRef;
-    @ViewChild("employmentsChartParent", { static: false })
-    employmentsChartParent: ElementRef;
-    @ViewChild("gendersChartParent", { static: false })
-    gendersChartParent: ElementRef;
-    @ViewChild("rts_accuratesChartParent", { static: false })
-    rts_accuratesChartParent: ElementRef;
-    @ViewChild("agesChartParent", { static: false })
-    agesChartParent: ElementRef;
-    @ViewChild("day_of_the_weeksChartParent", { static: false })
-    day_of_the_weeksChartParent: ElementRef;
-    @ViewChild("monthsChartParent", { static: false })
-    monthsChartParent: ElementRef;
-    @ViewChild("datesChartParent", { static: false })
-    datesChartParent: ElementRef;
-    @ViewChild("inquest_datesChartParent", { static: false })
-    inquest_datesChartParent: ElementRef;
-    @ViewChild("mh_services_lscft_updatesChartParent", { static: false })
-    mh_services_lscft_updatesChartParent: ElementRef;
-    @ViewChild("dasChartParent", { static: false })
-    dasChartParent: ElementRef;
-    @ViewChild("asc_lcc_updatesChartParent", { static: false })
-    asc_lcc_updatesChartParent: ElementRef;
+    @ViewChild("methodsChartParent", { static: false }) methodsChartParent: ElementRef;
+    @ViewChild("inquestconclusionChartParent", { static: false }) inquestconclusionChartParent: ElementRef;
+    @ViewChild("type_of_locationsChartParent", { static: false }) type_of_locationsChartParent: ElementRef;
+    @ViewChild("typesChartParent", { static: false }) typesChartParent: ElementRef;
+    @ViewChild("csp_districtsChartParent", { static: false }) csp_districtsChartParent: ElementRef;
+    @ViewChild("coroner_areasChartParent", { static: false }) coroner_areasChartParent: ElementRef;
+    @ViewChild("local_authoritysChartParent", { static: false }) local_authoritysChartParent: ElementRef;
+    @ViewChild("reported_bysChartParent", { static: false }) reported_bysChartParent: ElementRef;
+    @ViewChild("bereavement_offeredsChartParent", { static: false }) bereavement_offeredsChartParent: ElementRef;
+    @ViewChild("imd_decilesChartParent", { static: false }) imd_decilesChartParent: ElementRef;
+    @ViewChild("employmentsChartParent", { static: false }) employmentsChartParent: ElementRef;
+    @ViewChild("gendersChartParent", { static: false }) gendersChartParent: ElementRef;
+    @ViewChild("rts_accuratesChartParent", { static: false }) rts_accuratesChartParent: ElementRef;
+    @ViewChild("agesChartParent", { static: false }) agesChartParent: ElementRef;
+    @ViewChild("day_of_the_weeksChartParent", { static: false }) day_of_the_weeksChartParent: ElementRef;
+    @ViewChild("monthsChartParent", { static: false }) monthsChartParent: ElementRef;
+    @ViewChild("datesChartParent", { static: false }) datesChartParent: ElementRef;
+    @ViewChild("inquest_datesChartParent", { static: false }) inquest_datesChartParent: ElementRef;
+    @ViewChild("mh_services_lscft_updatesChartParent", { static: false }) mh_services_lscft_updatesChartParent: ElementRef;
+    @ViewChild("dasChartParent", { static: false }) dasChartParent: ElementRef;
+    @ViewChild("asc_lcc_updatesChartParent", { static: false }) asc_lcc_updatesChartParent: ElementRef;
     ics: any;
     ics_group: any;
     icsSelect: dc.SelectMenu;
@@ -623,14 +602,14 @@ export class LandingComponent implements OnInit {
                 this.crossFilterData[key].chartData.group = this[this.crossFilterData[key].dimgroup];
                 switch (this.crossFilterData[key].chartData.type) {
                     case "pie":
-                        this.crossFilterData[key].chart = this.myDC.pieChart("#" + this.crossFilterData[key].chartData.name);
+                        this.crossFilterData[key].chart = this.myDC.pieChart("#" + (this.crossFilterData[key].chartData.name as string));
                         break;
                     case "bar":
-                        this.crossFilterData[key].chart = this.myDC.barChart("#" + this.crossFilterData[key].chartData.name);
+                        this.crossFilterData[key].chart = this.myDC.barChart("#" + (this.crossFilterData[key].chartData.name as string));
                         break;
                     case "row":
                     default:
-                        this.crossFilterData[key].chart = this.myDC.rowChart("#" + this.crossFilterData[key].chartData.name);
+                        this.crossFilterData[key].chart = this.myDC.rowChart("#" + (this.crossFilterData[key].chartData.name as string));
                         break;
                 }
                 this.createChart(
@@ -803,13 +782,13 @@ export class LandingComponent implements OnInit {
             },
         };
         Object.keys(this.crossFilterData).forEach((key, index) => {
-            let name = this.crossFilterData[key].filterName;
-            let dimgroup = this.crossFilterData[key].dimgroup;
-            let type = this.crossFilterData[key].type;
+            const name = this.crossFilterData[key].filterName;
+            const dimgroup = this.crossFilterData[key].dimgroup;
+            const type = this.crossFilterData[key].type;
             this[key] = {
                 filterName: () => name,
                 filter: (f) => this.dimensionFunction(name, f),
-                filterAll: function () {},
+                filterAll: () => {},
             };
             switch (type) {
                 case "date":
@@ -821,8 +800,8 @@ export class LandingComponent implements OnInit {
                             });
                             return array;
                         },
-                        order: function () {},
-                        top: function () {},
+                        order: () => {},
+                        top: () => {},
                     };
                     break;
                 default:
@@ -830,8 +809,8 @@ export class LandingComponent implements OnInit {
                         all: () => {
                             return this.filteredData[name].values;
                         },
-                        order: function () {},
-                        top: function () {},
+                        order: () => {},
+                        top: () => {},
                     };
                     break;
             }
@@ -867,9 +846,9 @@ export class LandingComponent implements OnInit {
             };
             await d3
                 .json(
-                    this.origin.replace("spi", "storage" + this.subd) +
+                    (this.origin.replace("spi", "storage" + this.subd) as string) +
                         "/spindex/getCrossfilter?filter=" +
-                        this.replaceAmpersand(JSON.stringify(queryFilter)),
+                        (this.replaceAmpersand(JSON.stringify(queryFilter)) as string),
                     options
                 )
                 .then((d) => {
@@ -902,7 +881,7 @@ export class LandingComponent implements OnInit {
             method: "GET",
             headers: header,
         };
-        d3.json(this.origin.replace("spi", "storage" + this.subd) + "/spindex/getCrossfilter", options).then((d) => {
+        d3.json((this.origin.replace("spi", "storage" + this.subd) as string) + "/spindex/getCrossfilter", options).then((d) => {
             this.filteredData = d;
             this.myDC.filterAll();
             this.icsSelect.redraw();
@@ -936,7 +915,7 @@ export class LandingComponent implements OnInit {
     }
 
     getDimensionFromName(name: string): any {
-        const strippedName = name.replace('"', "").replace('"', "");
+        const strippedName = name.replace(`"`, "").replace(`"`, "");
         return this[strippedName];
     }
 
@@ -1050,7 +1029,7 @@ export class LandingComponent implements OnInit {
                     chart.xUnits(this.myDC.units.ordinal);
                     break;
                 default:
-                    chart.xUnits(function (xUnits) {
+                    chart.xUnits((xUnits) => {
                         return details.xUnits;
                     });
             }
@@ -1103,12 +1082,12 @@ export class LandingComponent implements OnInit {
         if (details.xAxisTickFormat) {
             switch (details.xAxisTickFormat) {
                 case "prcnt":
-                    chart.xAxis().tickFormat(function (v) {
+                    chart.xAxis().tickFormat((v: string) => {
                         return v + "%";
                     });
                     break;
                 default:
-                    chart.xAxis().tickFormat(function (v) {
+                    chart.xAxis().tickFormat((v: string) => {
                         return v + "";
                     });
                     break;
@@ -1133,22 +1112,22 @@ export class LandingComponent implements OnInit {
         if (details.ordering) {
             switch (details.ordering) {
                 case "descD":
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return -d.d;
                     });
                     break;
                 case "descValue":
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return -d.value;
                     });
                     break;
                 case "custom":
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return details.customOrder[d.key];
                     });
                     break;
                 default:
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return String(d.key);
                     });
                     break;
@@ -1217,8 +1196,7 @@ export class LandingComponent implements OnInit {
     updateSummaries() {
         const list = this.myDC.chartRegistry.list();
         if (list.length > 0) {
-            // tslint:disable-next-line: forin
-            for (const e in list) {
+            list.forEach((e) => {
                 const chart = list[e];
                 if (
                     chart.anchorName() === "dc-data-count" ||
@@ -1228,7 +1206,7 @@ export class LandingComponent implements OnInit {
                 ) {
                     this.myDC.chartRegistry.deregister(chart);
                 }
-            }
+            });
         }
         this.patientsCount = this.myDC.numberDisplay("#dc-data-count");
         this.updatePatientsCount();
@@ -1253,7 +1231,7 @@ export class LandingComponent implements OnInit {
             .formatNumber(() => {
                 const selectedCount = this.patientsCount.group().value();
                 const total = this.patientsCount.dimension().size();
-                const percentTotal = this.humanize((100 * selectedCount) / total) + "%";
+                const percentTotal = (this.humanize((100 * selectedCount) / total) as string) + "%";
                 return percentTotal;
             });
         this.getAverageAge();
@@ -1277,14 +1255,14 @@ export class LandingComponent implements OnInit {
         if (this.filteredData.age) {
             this.filteredData.age.values.forEach((ageData) => {
                 if (this.queryFilter.age) {
-                    let ages = this.processAgeFilter();
+                    const ages = this.processAgeFilter();
                     if (ageData.key >= ages.low && ageData.key < ages.high) {
                         totalAges = totalAges + ageData.key * ageData.value;
-                        totalIncidents = totalIncidents + ageData.value;
+                        totalIncidents = totalIncidents + (ageData.value as number);
                     }
                 } else {
                     totalAges = totalAges + ageData.key * ageData.value;
-                    totalIncidents = totalIncidents + ageData.value;
+                    totalIncidents = totalIncidents + (ageData.value as number);
                 }
             });
         }
@@ -1307,16 +1285,16 @@ export class LandingComponent implements OnInit {
                 const selectedCount = this.all.value();
                 const total = this.ndx.size();
                 if (selectedCount === total) {
-                    return "All <strong>" + total + "</strong> records shown. ";
+                    return "All <strong>" + (total as string) + "</strong> records shown. ";
                 }
                 const percent = this.humanize((100 * selectedCount) / total);
                 return (
                     "Selected <strong>" +
-                    percent +
+                    (percent as string) +
                     "%</strong> (<strong>" +
-                    selectedCount +
+                    (selectedCount as string) +
                     "</strong> out of <strong>" +
-                    total +
+                    (total as string) +
                     "</strong> records)"
                 );
             });
@@ -1336,8 +1314,8 @@ export class LandingComponent implements OnInit {
         this.keyToolTip.transition().duration(200).style("opacity", 0.9);
         this.keyToolTip
             .html(this.getTooltipHtml(datum.x))
-            .style("left", x + "px")
-            .style("top", drawer.scrollTop + rect.top - y + "px");
+            .style("left", x.toString() + "px")
+            .style("top", (drawer.scrollTop + rect.top - y).toString() + "px");
     }
 
     exitMosaic() {
@@ -1351,7 +1329,7 @@ export class LandingComponent implements OnInit {
             title: "Mosaic Type",
             type: "bar",
             dim: dimension,
-            group: group,
+            group,
             name: "mosaicChart",
             renderLabel: false,
             elasticY: true,
@@ -1375,7 +1353,6 @@ export class LandingComponent implements OnInit {
                 .select("svg")
                 .selectAll("rect");
             graph
-                // @ts-ignore
                 .on("mouseover.something", (data, index, ar) => this.mosaicMouseEnter(data, index, ar))
                 .on("mouseout.something", (data: any) => {
                     this.keyToolTip.style("opacity", 0);
@@ -1396,7 +1373,7 @@ export class LandingComponent implements OnInit {
         }
     }
 
-    collapse(opencloseanim, chartname) {
+    collapse(opencloseanim, chartname: string) {
         if (opencloseanim === "open") {
             setTimeout(() => {
                 this.drawCharts();
@@ -1406,7 +1383,7 @@ export class LandingComponent implements OnInit {
         }
     }
 
-    collapseMap(opencloseanim, chartname) {
+    collapseMap(opencloseanim, chartname: string) {
         if (opencloseanim === "open") {
             setTimeout(() => {
                 d3.select("div#" + chartname).attr("style", "display:block");
@@ -1423,35 +1400,35 @@ export class LandingComponent implements OnInit {
         return text;
     }
 
-    tiphtml(d, mosaic) {
+    tiphtml(d: string, mosaic) {
         const usedMosaicType = d;
         let output = "";
         output = "	<div id='mosaicToolTip' class='container d3-tip mosaic-" + usedMosaicType.substr(0, 1) + "'>";
         output += "		<div fxLayout='row wrap'>";
         output += "			<div>";
         output += "<h2>" + usedMosaicType + "</h2>";
-        output += "<h5>" + mosaic.name + "</h5>";
+        output += "<h5>" + (mosaic.name as string) + "</h5>";
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += "<h6>" + mosaic.desc + "</h6>";
+        output += "<h6>" + (mosaic.desc as string) + "</h6>";
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += '<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_' + usedMosaicType + '.jpg">';
+        output += `<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_` + usedMosaicType + `.jpg">`;
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
         output += "<ul>";
-        output += "<li>" + mosaic.Feat1 + "</li >";
-        output += "<li>" + mosaic.Feat2 + "</li >";
-        output += "<li>" + mosaic.Feat3 + "</li >";
-        output += "<li>" + mosaic.Feat4 + "</li >";
-        output += "<li>" + mosaic.Feat5 + "</li >";
-        output += "<li>" + mosaic.Feat6 + "</li >";
+        output += "<li>" + (mosaic.Feat1 as string) + "</li >";
+        output += "<li>" + (mosaic.Feat2 as string) + "</li >";
+        output += "<li>" + (mosaic.Feat3 as string) + "</li >";
+        output += "<li>" + (mosaic.Feat4 as string) + "</li >";
+        output += "<li>" + (mosaic.Feat5 as string) + "</li >";
+        output += "<li>" + (mosaic.Feat6 as string) + "</li >";
         output += "<ul>";
         output += "			</div>";
         output += "		</div>";

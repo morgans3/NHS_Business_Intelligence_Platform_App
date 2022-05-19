@@ -15,7 +15,7 @@ export class AdminComponent implements OnInit {
         mobilenumber: new FormControl(null),
     });
     @ViewChild(FormGroupDirective)
-    formDirective: FormGroupDirective;
+        formDirective: FormGroupDirective;
     form: any;
     constructor(private notificationService: NotificationService) {}
 

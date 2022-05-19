@@ -14,7 +14,7 @@ import { AuthState } from "../../../../_states/auth.state";
 import { APIService } from "diu-component-library";
 import { decodeToken } from "../../../../_pipes/functions";
 import { CohortService } from "../../_services/cohort-service";
-declare var window: any;
+declare let window: any;
 
 @Component({
     selector: "app-need-list",
@@ -115,7 +115,7 @@ export class NeedListComponent {
     ];
     ccg_list = ["Fylde and Wyre CCG", "Blackpool CCG"];
     cohort_array: any;
-    cohort_names = []; //['Cohort Young/Female/Hypertension'];
+    cohort_names = []; // ['Cohort Young/Female/Hypertension'];
     // Area grouping array
     area = ["Ward", "GP Practice", "Primary Care Network", "CCG", "County"];
     training_groups = [
@@ -377,7 +377,7 @@ export class NeedListComponent {
         // let http_request = this.origin + "modelledneed/logistic_model_api?";
         let http_request = "https://need.nexusintelligencenw.nhs.uk/modelled_needs_api?";
 
-        //let http_request = "http://localhost:8092/modelled_needs_api?";
+        // let http_request = "http://localhost:8092/modelled_needs_api?";
 
         // Check at least one item is in each box before sending call
         if (this.use_response[0] === null) {
@@ -789,7 +789,7 @@ export class NeedListComponent {
     // Initialise the SVG in which the ROC/PR plot is kept
     private dummy_svg() {
         // Remove previous plot
-        var svg_remove = d3_test.select("#dummy_div");
+        const svg_remove = d3_test.select("#dummy_div");
         svg_remove.selectAll("*").remove();
 
         const box_width = this.plotareaParent.nativeElement.clientWidth - 40;
@@ -801,13 +801,13 @@ export class NeedListComponent {
         // Create new plot
         d3.select("#dummy_div").append("svg").attr("id", "dummy_plot").attr("width", box_width).attr("height", box_height);
 
-        var dummy_svg = d3.select("#dummy_plot");
-        var dummy_width = box_width - 20; //+this.roc_pr_svg.attr('width') - this.margin.left - this.margin.right;
-        var dummy_height = box_height - 200; //+this.roc_pr_svg.attr('height') - this.margin.top - this.margin.bottom;
-        var dummy_g = dummy_svg.append("g").attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+        const dummy_svg = d3.select("#dummy_plot");
+        const dummy_width = box_width - 20; // +this.roc_pr_svg.attr('width') - this.margin.left - this.margin.right;
+        const dummy_height = box_height - 200; // +this.roc_pr_svg.attr('height') - this.margin.top - this.margin.bottom;
+        const dummy_g = dummy_svg.append("g").attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
 
-        var dummy_x = d3Scale.scaleLinear().rangeRound([0, dummy_width]);
-        var dummy_y = d3Scale.scaleLinear().rangeRound([dummy_height, 0]);
+        const dummy_x = d3Scale.scaleLinear().rangeRound([0, dummy_width]);
+        const dummy_y = d3Scale.scaleLinear().rangeRound([dummy_height, 0]);
         dummy_x.domain([0, 1]);
         dummy_y.domain([0, 1]);
 
@@ -825,7 +825,7 @@ export class NeedListComponent {
     // Initialise the SVG in which the ROC/PR plot is kept
     private init_roc_pr_svg() {
         // Remove previous plot
-        var svg_remove = d3_test.select("#diagnostic_div");
+        const svg_remove = d3_test.select("#diagnostic_div");
         svg_remove.selectAll("*").remove();
 
         const box_width = this.plotareaParent.nativeElement.clientWidth - 40;
@@ -838,8 +838,8 @@ export class NeedListComponent {
         d3.select("#diagnostic_div").append("svg").attr("id", "diagnostics_plot").attr("width", box_width).attr("height", box_height);
 
         this.roc_pr_svg = d3.select("#diagnostics_plot");
-        this.roc_pr_width = box_width - 20; //+this.roc_pr_svg.attr('width') - this.margin.left - this.margin.right;
-        this.roc_pr_height = box_height - 200; //+this.roc_pr_svg.attr('height') - this.margin.top - this.margin.bottom;
+        this.roc_pr_width = box_width - 20; // +this.roc_pr_svg.attr('width') - this.margin.left - this.margin.right;
+        this.roc_pr_height = box_height - 200; // +this.roc_pr_svg.attr('height') - this.margin.top - this.margin.bottom;
         this.roc_pr_g = this.roc_pr_svg.append("g").attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
     }
 
@@ -879,7 +879,7 @@ export class NeedListComponent {
 
     // Draw the Receiver Operating Characteristic curve
     private draw_roc_line() {
-        let roc_line_position = d3_test
+        const roc_line_position = d3_test
             .line()
             .defined((d: any) => {
                 return !isNaN(d.cutoff);
@@ -892,18 +892,18 @@ export class NeedListComponent {
             })
             .curve(d3_test.curveBasis);
 
-        var bisect = d3_test.bisector((d: any) => {
+        const bisect = d3_test.bisector((d: any) => {
             return d.false_positive;
         }).left;
-        var bounds = d3_test.extent(this.roc_diagnostics, (d) => d.cutoff);
-        var defs = this.roc_pr_svg.append("defs");
-        var linear_gradient = defs.append("linearGradient").attr("id", "linear-gradient").attr("x1", bounds[0]).attr("x2", bounds[1]);
+        const bounds = d3_test.extent(this.roc_diagnostics, (d) => d.cutoff);
+        const defs = this.roc_pr_svg.append("defs");
+        const linear_gradient = defs.append("linearGradient").attr("id", "linear-gradient").attr("x1", bounds[0]).attr("x2", bounds[1]);
 
         linear_gradient.append("stop").attr("offset", bounds[0]).attr("stop-color", "blue");
 
         linear_gradient.append("stop").attr("offset", bounds[1]).attr("stop-color", "purple");
 
-        let roc_line = this.roc_pr_g
+        const roc_line = this.roc_pr_g
             .append("path")
             .datum(this.roc_diagnostics)
             .attr("class", "line")
@@ -974,7 +974,7 @@ export class NeedListComponent {
 
     // Draw the precision-recall line
     private draw_pr_line() {
-        let pr_line_position = d3_test
+        const pr_line_position = d3_test
             .line()
             .defined((d: any) => {
                 return !isNaN(d.cutoff);
@@ -987,18 +987,18 @@ export class NeedListComponent {
             })
             .curve(d3_test.curveBasis);
 
-        var bisect = d3_test.bisector((d: any) => {
+        const bisect = d3_test.bisector((d: any) => {
             return d.recall;
         }).left;
-        var bounds = d3_test.extent(this.pr_diagnostics, (d) => d.cutoff);
-        var defs = this.roc_pr_svg.append("defs");
-        var linear_gradient = defs.append("linearGradient").attr("id", "linear-gradient").attr("x1", bounds[0]).attr("x2", bounds[1]);
+        const bounds = d3_test.extent(this.pr_diagnostics, (d) => d.cutoff);
+        const defs = this.roc_pr_svg.append("defs");
+        const linear_gradient = defs.append("linearGradient").attr("id", "linear-gradient").attr("x1", bounds[0]).attr("x2", bounds[1]);
 
         linear_gradient.append("stop").attr("offset", bounds[0]).attr("stop-color", "blue");
 
         linear_gradient.append("stop").attr("offset", bounds[1]).attr("stop-color", "purple");
 
-        let pr_line = this.roc_pr_g
+        const pr_line = this.roc_pr_g
             .append("path")
             .datum(this.pr_diagnostics)
             .attr("class", "line")
@@ -1063,7 +1063,7 @@ export class NeedListComponent {
     // Initialise the SVG in which the variable importance plot is kept
     private init_var_imp_svg() {
         // Remove previous plot
-        var svg_remove = d3_test.select("#variable_importance_div");
+        const svg_remove = d3_test.select("#variable_importance_div");
         svg_remove.selectAll("*").remove();
 
         const box_width = this.plotareaParent.nativeElement.clientWidth - 40;
@@ -1080,8 +1080,8 @@ export class NeedListComponent {
             .attr("height", box_height);
 
         this.var_imp_svg = d3.select("#variable_importance_plot");
-        this.var_imp_width = box_width - 20; //+this.var_imp_svg.attr('width') - this.margin.left - this.margin.right;
-        this.var_imp_height = box_height - 200; //+this.var_imp_svg.attr('height') - this.margin.top - this.margin.bottom;
+        this.var_imp_width = box_width - 20; // +this.var_imp_svg.attr('width') - this.margin.left - this.margin.right;
+        this.var_imp_height = box_height - 200; // +this.var_imp_svg.attr('height') - this.margin.top - this.margin.bottom;
         this.var_imp_g = this.var_imp_svg.append("g").attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
     }
 
@@ -1178,7 +1178,7 @@ export class NeedListComponent {
         // Remove previous plot
         d3.select("#count_diagnostic_div").selectAll("*").remove();
 
-        let box_width = this.plotareaParent.nativeElement.clientWidth - 40;
+        const box_width = this.plotareaParent.nativeElement.clientWidth - 40;
         let box_height = this.plotareaParent.nativeElement.clientHeight - 40;
 
         if (box_height < box_width) {
@@ -1187,8 +1187,8 @@ export class NeedListComponent {
         // Create new plot
         this.hist_svg = d3.select("#count_diagnostic_div").append("svg").attr("width", box_width).attr("height", box_height);
 
-        this.hist_width = box_width - 20; //+this.hist_svg.attr('width') - this.margin.left - this.margin.right;
-        this.hist_height = box_height - 200; //+this.hist_svg.attr('height') - this.margin.top - this.margin.bottom;
+        this.hist_width = box_width - 20; // +this.hist_svg.attr('width') - this.margin.left - this.margin.right;
+        this.hist_height = box_height - 200; // +this.hist_svg.attr('height') - this.margin.top - this.margin.bottom;
         this.hist_g = this.hist_svg.append("g").attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
     }
 
@@ -1244,7 +1244,7 @@ export class NeedListComponent {
     }
 
     private draw_hist_bar() {
-        let bars = this.hist_g
+        const bars = this.hist_g
             .selectAll(".hist_bar")
             .data(this.count_diagnostics)
             .enter()
@@ -1281,10 +1281,10 @@ export class NeedListComponent {
     // Initialise the SVG in which the plot is kept
     private init_scatter_svg() {
         // Remove previous plot
-        var svg_remove = d3_test.select("#scatterplot_div");
+        const svg_remove = d3_test.select("#scatterplot_div");
         svg_remove.selectAll("*").remove();
 
-        let box_width = this.plotareaParent.nativeElement.clientWidth - 40;
+        const box_width = this.plotareaParent.nativeElement.clientWidth - 40;
         let box_height = this.plotareaParent.nativeElement.clientHeight - 40;
 
         if (box_height < box_width) {
@@ -1295,8 +1295,8 @@ export class NeedListComponent {
         d3.select("#scatterplot_div").append("svg").attr("id", "scatter_plot").attr("width", box_width).attr("height", box_height);
 
         this.scatter_svg = d3.select("#scatter_plot");
-        this.scatter_width = box_width - 20; //+this.scatter_svg.attr('width') - this.margin.left - this.margin.right;
-        this.scatter_height = box_height - 200; //+this.scatter_svg.attr('height') - this.margin.top - this.margin.bottom;
+        this.scatter_width = box_width - 20; // +this.scatter_svg.attr('width') - this.margin.left - this.margin.right;
+        this.scatter_height = box_height - 200; // +this.scatter_svg.attr('height') - this.margin.top - this.margin.bottom;
         this.scatter_g = this.scatter_svg.append("g").attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
     }
 
@@ -1305,7 +1305,7 @@ export class NeedListComponent {
         this.scatter_x = d3Scale.scaleLinear().rangeRound([0, this.hist_width]);
         this.scatter_y = d3Scale.scaleLinear().rangeRound([this.hist_height, 0]);
         this.scatter_x.domain([
-            //d3_test.min(this.response.map((d) => d.expected)),
+            // d3_test.min(this.response.map((d) => d.expected)),
             0,
             Math.max(d3_test.max(this.response.map((d) => d.expected)), d3_test.max(this.response.map((d) => d.observed))),
         ]);
@@ -1356,8 +1356,8 @@ export class NeedListComponent {
 
     // Draw the bars onto the barplot
     private draw_scatter_points() {
-        let max_x = d3Array.max(this.response.map((d) => d.expected));
-        var linear_data = d3_test.range(0, max_x, max_x / 100);
+        const max_x = d3Array.max(this.response.map((d) => d.expected));
+        const linear_data = d3_test.range(0, max_x, max_x / 100);
 
         // Add y = x line for reference
         this.scatter_g
@@ -1420,7 +1420,7 @@ export class NeedListComponent {
                     });
                 });
 
-            /**this.cohortService.get()
+            /** this.cohortService.get()
           .subscribe(res => {
             this.cohort_array = res;
             this.cohort_array.forEach(d => {

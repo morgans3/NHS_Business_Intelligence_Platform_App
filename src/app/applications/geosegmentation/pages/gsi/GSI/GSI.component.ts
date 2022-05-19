@@ -55,7 +55,7 @@ export class GSIComponent implements OnInit, OnDestroy {
                     maxZoom: 18,
                     minZoom: 8,
                     attribution: "...",
-                }) /*,
+                }) /* ,
         betterWMS.betterWMS("http://localhost:8080/geoserver/ows?", {
           layers: "MosaicHousehold:mosaichousehold",
           format: "image/png",
@@ -510,9 +510,9 @@ export class GSIComponent implements OnInit, OnDestroy {
         this.displayKey = true;
         this.giGraphKeySettings = {
             name: "Name",
-            variableRange: variableRange,
-            MosaicTypeLookup: MosaicTypeLookup,
-            MosaicTypeLookupValAndRange: MosaicTypeLookupValAndRange,
+            variableRange,
+            MosaicTypeLookup,
+            MosaicTypeLookupValAndRange,
         };
     }
 
@@ -539,8 +539,8 @@ export class GSIComponent implements OnInit, OnDestroy {
             this.giGraphSettings = {
                 name: this.mosaicCodes.find((x) => x.code === mosType).name,
                 category: cat,
-                topic: topic,
-                mosType: mosType,
+                topic,
+                mosType,
                 width: this.mapGraphDiv.nativeElement.clientWidth,
             };
         } else {
@@ -631,7 +631,7 @@ export class GSIComponent implements OnInit, OnDestroy {
             this.giGraphSettings = {
                 name: this.mosaicCodes.find((x) => x.code === this.selectedMosType).name,
                 category: cat,
-                topic: topic,
+                topic,
                 mosType: this.selectedMosType,
                 width: this.mapGraphDiv.nativeElement.clientWidth,
             };
@@ -883,7 +883,7 @@ export class GSIComponent implements OnInit, OnDestroy {
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += '<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_' + usedMosaicType + '.jpg">';
+        output += "<img alt=\"image\" class=\"img-container\" src=\"assets/images/mosaic/mosaic_" + usedMosaicType + ".jpg\">";
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";

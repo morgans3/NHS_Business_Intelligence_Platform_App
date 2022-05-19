@@ -43,7 +43,7 @@ export class MapfiltersComponent implements OnInit, OnChanges {
             if (start) start = <Moment>this.range.controls.start.value.toISOString();
             let end = this.range.controls.end.value;
             if (end) end = <Moment>this.range.controls.end.value.toISOString();
-            this.filterrange = { start: start, end: end };
+            this.filterrange = { start, end };
             this.updateFilter.emit({ type: "range", value: this.filterrange });
         });
     }

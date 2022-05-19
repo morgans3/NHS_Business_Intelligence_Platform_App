@@ -8,7 +8,7 @@ import { FormGroup, FormControl, Validators, FormGroupDirective } from "@angular
 })
 export class ReasonDialogComponent {
     @ViewChild(FormGroupDirective)
-    formDirective: FormGroupDirective;
+        formDirective: FormGroupDirective;
     myForm = new FormGroup({
         reason: new FormControl(null, Validators.required),
     });

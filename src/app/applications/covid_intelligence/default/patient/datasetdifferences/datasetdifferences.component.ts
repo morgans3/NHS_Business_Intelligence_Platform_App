@@ -54,8 +54,8 @@ export class DatasetdifferencesComponent implements OnInit, OnChanges {
                         }
                         this.differences.push({
                             name: f.split("_").join(" "),
-                            value1: value1,
-                            value2: value2,
+                            value1,
+                            value2,
                             dataset1: "CSU",
                             dataset2: "District",
                         });

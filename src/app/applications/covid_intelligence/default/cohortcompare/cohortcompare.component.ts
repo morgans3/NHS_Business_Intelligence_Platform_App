@@ -218,7 +218,7 @@ export class CohortcompareComponent implements OnInit {
 
     /* #region Tooltip Functions */
     htmlComparatorTable(d: any) {
-        let usedCompType, output;
+        let usedCompType; let output;
         if (typeof d.data === "undefined") {
             usedCompType = d.key;
         } else {
@@ -293,7 +293,7 @@ export class CohortcompareComponent implements OnInit {
     }
 
     htmlCompTooltip(d: any) {
-        let usedCompType, output;
+        let usedCompType; let output;
         if (typeof d.data === "undefined") {
             usedCompType = d.key;
         } else {
@@ -362,7 +362,7 @@ export class CohortcompareComponent implements OnInit {
 
     htmlMosaicTooltip(d: any) {
         const mosaic: MosaicCode = this.mosaicCodes.find((x) => x.code === d.key);
-        let usedMosaicType, isCompGraph, output;
+        let usedMosaicType; let isCompGraph; let output;
         if (typeof d.data === "undefined") {
             usedMosaicType = d.key;
             isCompGraph = true;
@@ -386,7 +386,7 @@ export class CohortcompareComponent implements OnInit {
         output += "		</div>";
         output += "			<div class='row'>";
         output += "		<div class='col-md-12'>";
-        output += '<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_' + usedMosaicType + '.jpg">';
+        output += "<img alt=\"image\" class=\"img-container\" src=\"assets/images/mosaic/mosaic_" + usedMosaicType + ".jpg\">";
         output += "			</div>";
         output += "		</div>";
         output += "			<div class='row'>";
@@ -614,7 +614,7 @@ export class CohortcompareComponent implements OnInit {
     }
     getLabelPosition(datum, axisCrossPoint, x) {
         let adjPos;
-        let ratio = datum.ratio;
+        const ratio = datum.ratio;
         if (isNaN(ratio)) {
             adjPos = 3;
         } else if (this.ratioPosition(datum, axisCrossPoint) < axisCrossPoint) {
@@ -665,7 +665,7 @@ export class CohortcompareComponent implements OnInit {
         }
         this.maps[chartName] = L.map(chartName).setView([53.967752, -2.444284], 8);
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+            attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a>",
         }).addTo(this.maps[chartName]);
         let maxCompPop = 0;
         for (const key in json.features) {
@@ -732,7 +732,7 @@ export class CohortcompareComponent implements OnInit {
                     offset: L.point(0, -20),
                 });
             },
-            pointToLayer: function (feature, latlng) {
+            pointToLayer (feature, latlng) {
                 let radToUse;
                 if (typeof feature.properties.compPop === "undefined") {
                     radToUse = 0;

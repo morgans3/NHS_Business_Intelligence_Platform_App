@@ -11,7 +11,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { AuthState } from "../../../../_states/auth.state";
 import { decodeToken } from "../../../../_pipes/functions";
 import { CviCohortService } from "../../_services/cvicohort-service";
-declare var window: any;
+declare let window: any;
 
 @Component({
     selector: "app-intervention-assistant",
@@ -74,7 +74,7 @@ export class InterventionAssistantComponent implements OnInit {
 
     nice_secondary_columns: string[] = ["Title", "Abstract", "EvidenceTypes", "SourceName"];
     nice_primary_columns: string[] = ["Title"];
-    //this.selected_type && this.selected_type.name === 'primary'
+    // this.selected_type && this.selected_type.name === 'primary'
     constructor(
         public http: HttpClient,
         private store: Store,

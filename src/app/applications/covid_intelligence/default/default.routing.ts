@@ -49,13 +49,13 @@ export const DefaultRoutes: Routes = [
     {
         path: "outbreaks",
         component: OutbreaksComponent,
-        //canActivate: [CapabilityGuard],
+        // canActivate: [CapabilityGuard],
         data: { capabilities: ["cvi_outbreakmap"] },
     },
     {
         path: "heatmap",
         component: HeatmapComponent,
-        //canActivate: [CapabilityGuard],
+        // canActivate: [CapabilityGuard],
         data: { capabilities: ["cvi_outbreakmap"] },
     },
     {
@@ -77,7 +77,7 @@ export const DefaultRoutes: Routes = [
     {
         path: "nsss",
         component: NSSSComponent,
-        //canActivate: [CapabilityGuard],
+        // canActivate: [CapabilityGuard],
         data: { capabilities: ["cvi_shielding"] },
     },
     {

@@ -24,11 +24,11 @@ import { MatDialog } from "@angular/material/dialog";
 import { JoyrideService } from "ngx-joyride";
 import { NotificationService } from "../../../../../_services/notification.service";
 import { ExpandTextDialogComponent } from "../../../_modals/dialogexpand";
-declare var leafletChoroplethChart: any;
-declare var leafletLegend: any;
-declare var leafletMarkerChartBubble: any;
-declare var dc: any;
-declare var window: any;
+declare let leafletChoroplethChart: any;
+declare let leafletLegend: any;
+declare let leafletMarkerChartBubble: any;
+declare let dc: any;
+declare let window: any;
 import { RiskRows, RiskCols, CareModelExamples } from "./RiskRows";
 
 export class StatCardData {
@@ -285,14 +285,14 @@ export class PopslicerComponent implements OnInit {
         this.LDimension = {
             filterName: () => "LDimension",
             filter: (f) => this.dimensionFunction("LDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.LDimGroup = {
             all: () => {
                 return this.filteredData["LDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.WDimension = {
             filterName: () => "WDimension",
@@ -300,14 +300,14 @@ export class PopslicerComponent implements OnInit {
                 this.dimensionFunction("WDimension", f);
                 this.refresh(this.queryFilter);
             },
-            filterAll: function () {},
+            filterAll () {},
         };
         this.WDimGroup = {
             all: () => {
                 return this.filteredData["WDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.GPDimension = {
             filterName: () => "GPDimension",
@@ -315,139 +315,139 @@ export class PopslicerComponent implements OnInit {
                 this.dimensionFunction("GPDimension", f);
                 this.refresh(this.queryFilter);
             },
-            filterAll: function () {},
+            filterAll () {},
         };
         this.GPDimGroup = {
             all: () => {
                 return this.filteredData["GPDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.UDimension = {
             filterName: () => "UDimension",
             filter: (f) => this.dimensionFunction("UDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.UDimGroup = {
             all: () => {
                 return this.filteredData["UDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.LTCsDimension = {
             filterName: () => "LTCsDimension",
             filter: (f) => this.dimensionFunction("LTCsDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.LTCsDimGroup = {
             all: () => {
                 return this.sortedArrayList(this.filteredData["LTCs2Dimension"].values);
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.LTCs2Dimension = {
             filterName: () => "LTCs2Dimension",
             filter: (f) => this.dimensionFunction("LTCs2Dimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.LTCs2DimGroup = {
             all: () => {
                 return this.sortedArrayList(this.filteredData["LTCs2Dimension"].values);
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.FlagsDimension = {
             filterName: () => "FlagsDimension",
             filter: (f) => this.dimensionFunction("FlagsDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.FlagsDimGroup = {
             all: () => {
                 return this.sortedArrayList(this.filteredData["Flags2Dimension"].values);
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.Flags2Dimension = {
             filterName: () => "Flags2Dimension",
             filter: (f) => this.dimensionFunction("Flags2Dimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.Flags2DimGroup = {
             all: () => {
                 return this.sortedArrayList(this.filteredData["Flags2Dimension"].values);
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.SexDimension = {
             filterName: () => "SexDimension",
             filter: (f) => this.dimensionFunction("SexDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.SexDimGroup = {
             all: () => {
                 return this.filteredData["SexDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.MDimension = {
             filterName: () => "MDimension",
             filter: (f) => this.dimensionFunction("MDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.MDimGroup = {
             all: () => {
                 return this.filteredData["MDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.MatrixDimension = {
             filterName: () => "MatrixDimension",
             filter: (f) => this.dimensionFunction("MatrixDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.MatrixDimGroup = {
             all: () => {
                 return this.filteredData["MatrixDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.CCGDimension = {
             filterName: () => "CCGDimension",
             filter: (f) => this.dimensionFunction("CCGDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.CCGDimGroup = {
             all: () => {
                 return this.filteredData["CCGDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.ICPDimension = {
             filterName: () => "ICPDimension",
             filter: (f) => this.dimensionFunction("ICPDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.ICPDimGroup = {
             all: () => {
                 return this.filteredData["ICPDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.numberSelLtc = {
             filterName: () => "numberSelLtc",
             filter: (f) => this.dimensionFunction("numberSelLtc", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.numberSelLtcs = {
             all: () => {
@@ -457,25 +457,25 @@ export class PopslicerComponent implements OnInit {
                     return null;
                 }
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.LCntDimension = {
             filterName: () => "LCntDimension",
             filter: (f) => this.dimensionFunction("LCntDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.LCntDimGroup = {
             all: () => {
                 return this.filteredData["LCntDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.numberSelFlag = {
             filterName: () => "numberSelFlag",
             filter: (f) => this.dimensionFunction("numberSelFlag", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.numberSelFlags = {
             all: () => {
@@ -485,56 +485,56 @@ export class PopslicerComponent implements OnInit {
                     return null;
                 }
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.FCntDimension = {
             filterName: () => "FCntDimension",
             filter: (f) => this.dimensionFunction("FCntDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.FCntDimGroup = {
             all: () => {
                 return this.filteredData["FCntDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.AgeDimension = {
             filterName: () => "AgeDimension",
             filter: (f) => this.dimensionFunction("AgeDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.AgeDimGroup = {
             all: () => {
                 return this.filteredData["AgeDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.RskDimension = {
             filterName: () => "RskDimension",
             filter: (f) => this.dimensionFunction("RskDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.RskDimGroup = {
             all: () => {
                 return this.filteredData["RskDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.DDimension = {
             filterName: () => "DDimension",
             filter: (f) => this.dimensionFunction("DDimension", f),
-            filterAll: function () {},
+            filterAll () {},
         };
         this.DDimGroup = {
             all: () => {
                 return this.filteredData["DDimension"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
     }
 
@@ -937,7 +937,7 @@ export class PopslicerComponent implements OnInit {
             name: "ewChart",
             title: "Electoral Ward",
             dim: dimension,
-            group: group,
+            group,
             type: "choropleth",
             geojson: this.wards,
             mapOptions: {
@@ -967,11 +967,11 @@ export class PopslicerComponent implements OnInit {
                 // console.log("popup");
                 // console.log(d);
                 // console.log(feature);
-                let output = '<h5 class="ttipmap">';
+                let output = "<h5 class=\"ttipmap\">";
                 output += feature.properties.wd15nm;
-                output += '</h5><h5 class="ttipmap">';
+                output += "</h5><h5 class=\"ttipmap\">";
                 output += feature.properties.lad15nm;
-                output += '</h5><p class="ttipmap">Population: ';
+                output += "</h5><p class=\"ttipmap\">Population: ";
                 output += this.numberWithCommas(d.value) + "</p>";
                 return output;
             },
@@ -994,13 +994,13 @@ export class PopslicerComponent implements OnInit {
         });
     }
     createGPMap(dimension: any, group: any) {
-        //Create map details
+        // Create map details
         this.gpLoading = false;
         this.gpmapChartDetails = {
             name: "gpBubbleChart",
             title: "GP Practice",
             dim: dimension,
-            group: group,
+            group,
             type: "markermap",
             mapOptions: {
                 zoom: 8,
@@ -1013,7 +1013,7 @@ export class PopslicerComponent implements OnInit {
             renderPopup: true,
             circleScale: this.gpCircleScalingFactor,
             locationAccessor: (d) => {
-                let gp = this.GPs.features.find((x) => x.properties.Code === d.key);
+                const gp = this.GPs.features.find((x) => x.properties.Code === d.key);
                 if (gp) {
                     return [gp.properties.Lat, gp.properties.Long];
                 } else {
@@ -1024,18 +1024,18 @@ export class PopslicerComponent implements OnInit {
                 const GP = this.GPs.features.filter((x) => x.properties.Code === d.key);
                 if (GP.length > 0) {
                     return (
-                        '<h5 class="ttipmap">' +
+                        "<h5 class=\"ttipmap\">" +
                         GP[0].properties.Name +
                         "</h5>" +
-                        '<p class="ttipmap">Total Population: ' +
+                        "<p class=\"ttipmap\">Total Population: " +
                         this.numberWithCommas(d.value) +
                         "</p>"
                     );
                 } else {
                     return (
-                        '<h5 class="ttipmap">' +
+                        "<h5 class=\"ttipmap\">" +
                         d.key +
-                        '</h5><p class="ttipmap">Total Population: ' +
+                        "</h5><p class=\"ttipmap\">Total Population: " +
                         this.numberWithCommas(d.value) +
                         "</p>"
                     );
@@ -1043,8 +1043,8 @@ export class PopslicerComponent implements OnInit {
             },
         };
 
-        //Create bubble map
-        let gpBubbleChart = leafletMarkerChartBubble("#" + this.gpmapChartDetails.name);
+        // Create bubble map
+        const gpBubbleChart = leafletMarkerChartBubble("#" + this.gpmapChartDetails.name);
         this.createChart(gpBubbleChart, this.gpmapChartDetails, this.gpChartParent);
         gpBubbleChart.on("preRedraw", (chart) => {
             chart.circleScale(this.gpCircleScalingFactor);
@@ -1053,19 +1053,19 @@ export class PopslicerComponent implements OnInit {
             this.leafletMapRenderedGP = true;
         });
 
-        //Create marker chart
+        // Create marker chart
         this.gpmapChartDetails.name = "gpMarkerChart";
         delete this.gpmapChartDetails.circleScale;
-        let gpMarkerChart = dc.leafletMarkerChart("#" + this.gpmapChartDetails.name);
+        const gpMarkerChart = dc.leafletMarkerChart("#" + this.gpmapChartDetails.name);
         gpMarkerChart.icon(() => {
-            //@ts-ignore
+            // @ts-ignore
             return new L.Icon({
                 iconUrl: "/assets/images/marker-icon-violet.png",
             });
         });
         this.createChart(gpMarkerChart, this.gpmapChartDetails, this.gpChartParent);
 
-        //Create map object
+        // Create map object
         this.gpChart = {
             maps: { bubble: gpBubbleChart, marker: gpMarkerChart },
             render: () => {
@@ -1095,11 +1095,11 @@ export class PopslicerComponent implements OnInit {
     }
 
     toggleGpMapChartType() {
-        //Toggle map
+        // Toggle map
         this.gpMapShowMarkers = !this.gpMapShowMarkers;
         this.gpChart.redraw();
 
-        //Sync center and zoom
+        // Sync center and zoom
         if (this.gpMapShowMarkers === true) {
             this.gpChart.maps.marker.map().setView(this.gpChart.maps.bubble.map().getCenter(), this.gpChart.maps.bubble.map().getZoom());
         } else {
@@ -1112,7 +1112,7 @@ export class PopslicerComponent implements OnInit {
             title: "Age",
             type: "bar",
             dim: dimension,
-            group: group,
+            group,
             name: "ageChart",
             xUnits: "60",
             elasticY: true,
@@ -1133,7 +1133,7 @@ export class PopslicerComponent implements OnInit {
             title: "Risk Score",
             type: "bar",
             dim: dimension,
-            group: group,
+            group,
             name: "riskChart",
             xUnits: "60",
             elasticY: true,
@@ -1159,7 +1159,7 @@ export class PopslicerComponent implements OnInit {
             title: "Sex",
             type: "pie",
             dim: dimension,
-            group: group,
+            group,
             name: "sexChart",
             // ordinalColors: ["#E03F8B", "#4D75BA"],
         };
@@ -1172,7 +1172,7 @@ export class PopslicerComponent implements OnInit {
             title: "Mosaic Type",
             type: "bar",
             dim: dimension,
-            group: group,
+            group,
             name: "mosaicChart",
             renderLabel: false,
             elasticY: true,
@@ -1251,7 +1251,7 @@ export class PopslicerComponent implements OnInit {
             title: "COVID Risk Matric",
             type: "heat",
             dim: dimension,
-            group: group,
+            group,
             name: "matrixChart",
             colorAccessor: (d) => {
                 return Math.log(d.value) + 1;
@@ -1331,7 +1331,7 @@ export class PopslicerComponent implements OnInit {
             containerHeight: "55vh",
             type: "row",
             dim: dimension,
-            group: group,
+            group,
             name: "ltcChart",
             elasticX: true,
             cap: 20,
@@ -1371,7 +1371,7 @@ export class PopslicerComponent implements OnInit {
             containerHeight: "55vh",
             type: "row",
             dim: dimension,
-            group: group,
+            group,
             name: "flagChart",
             elasticX: true,
             cap: 20,
@@ -1410,7 +1410,7 @@ export class PopslicerComponent implements OnInit {
             title: "Count of LTCs",
             type: "row",
             dim: dimension,
-            group: group,
+            group,
             name: "countltcChart",
             renderLabel: true,
             elasticX: true,
@@ -1426,7 +1426,7 @@ export class PopslicerComponent implements OnInit {
             title: "Count of Lists",
             type: "row",
             dim: dimension,
-            group: group,
+            group,
             name: "countflagChart",
             renderLabel: true,
             elasticX: true,
@@ -1442,7 +1442,7 @@ export class PopslicerComponent implements OnInit {
             title: "Deprivation Decile",
             type: "row",
             dim: dimension,
-            group: group,
+            group,
             name: "deprivationChart",
             renderLabel: true,
             elasticX: true,
@@ -1784,7 +1784,7 @@ export class PopslicerComponent implements OnInit {
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += '<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_' + usedMosaicType + '.jpg">';
+        output += "<img alt=\"image\" class=\"img-container\" src=\"assets/images/mosaic/mosaic_" + usedMosaicType + ".jpg\">";
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
@@ -1887,7 +1887,7 @@ export class PopslicerComponent implements OnInit {
     }
 
     getDimensionFromName(name: string): any {
-        const strippedName = name.replace('"', "").replace('"', "");
+        const strippedName = name.replace("\"", "").replace("\"", "");
         switch (strippedName) {
             case "numberSelFlags":
                 return this.numberSelFlags;

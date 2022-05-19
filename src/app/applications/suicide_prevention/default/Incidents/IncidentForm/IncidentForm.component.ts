@@ -79,8 +79,7 @@ export class IncidentFormComponent implements OnInit {
         location_of_postcode: new FormControl(null, null),
         residence_location: new FormControl(null, null),
     });
-    @ViewChild(FormGroupDirective, { static: false })
-    formDirective: FormGroupDirective;
+    @ViewChild(FormGroupDirective, { static: false }) formDirective: FormGroupDirective;
     form: Incident;
     allsortedmethods: IncidentMethods[] = [];
     medicationlist = [];
@@ -173,7 +172,7 @@ export class IncidentFormComponent implements OnInit {
         let incident_location = {};
         try {
             if (incident.location_postcode_data) {
-                let incident_location_data = JSON.parse(incident.location_postcode_data);
+                const incident_location_data = JSON.parse(incident.location_postcode_data);
                 if (incident_location_data) {
                     incident_location = {
                         latitude: incident_location_data.latitude,
@@ -187,7 +186,7 @@ export class IncidentFormComponent implements OnInit {
         }
         let residence_location = {};
         try {
-            let residence_location_data = JSON.parse(incident.postcode_data);
+            const residence_location_data = JSON.parse(incident.postcode_data);
             if (residence_location_data) {
                 residence_location = {
                     latitude: residence_location_data.latitude,
@@ -244,7 +243,7 @@ export class IncidentFormComponent implements OnInit {
             item.ics = this.editForm.ics;
             this.storageService.updateIncident(item).subscribe((data: any) => {
                 if (data.success && data.success === false) {
-                    this.notificationService.error("Unable to add Incident, reason: " + data.msg);
+                    this.notificationService.error("Unable to add Incident, reason: " + (data.msg as string));
                 } else {
                     this.formDirective.resetForm();
                     this.medicationlist = [];
@@ -256,7 +255,7 @@ export class IncidentFormComponent implements OnInit {
         } else {
             this.storageService.updateIncident(this.myForm.value).subscribe((data: any) => {
                 if (data.success && data.success === false) {
-                    this.notificationService.error("Unable to add Incident, reason: " + data.msg);
+                    this.notificationService.error("Unable to add Incident, reason: " + (data.msg as string));
                 } else {
                     this.formDirective.resetForm();
                     this.medicationlist = [];
@@ -290,10 +289,10 @@ export class IncidentFormComponent implements OnInit {
     }
 
     getAge(incidentData, dateOfBirth) {
-        var today = new Date(incidentData);
-        var birthDate = new Date(dateOfBirth);
-        var age = today.getFullYear() - birthDate.getFullYear();
-        var m = today.getMonth() - birthDate.getMonth();
+        const today = new Date(incidentData);
+        const birthDate = new Date(dateOfBirth);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
             age--;
         }

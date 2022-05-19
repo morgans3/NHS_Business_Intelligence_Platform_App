@@ -131,14 +131,14 @@ export class MappingComponent implements OnInit {
         this.mapObject = mapObject;
         const zoomcontrol = document.getElementsByClassName("leaflet-control-zoom")[0];
         zoomcontrol.remove();
-        let layerControlParentLayer = L.control({
+        const layerControlParentLayer = L.control({
             position: "topleft",
         });
         layerControlParentLayer.onAdd = (map) => {
-            let parentDiv = L.DomUtil.create("div");
+            const parentDiv = L.DomUtil.create("div");
             parentDiv.setAttribute("id", "layer-control-parent-id");
             parentDiv.setAttribute("style", "background-color: white; border-radius: 10px;");
-            let sliderDiv = L.DomUtil.create("div", "slider-div-class", parentDiv);
+            const sliderDiv = L.DomUtil.create("div", "slider-div-class", parentDiv);
             const imageOverlayUrl = "assets/images/nexusgen_crop.png";
             sliderDiv.innerHTML = `<img src="${imageOverlayUrl}" style="width: 230px; height: 87px; padding:5px">`;
             L.DomEvent.disableClickPropagation(parentDiv);
@@ -167,7 +167,7 @@ export class MappingComponent implements OnInit {
             tab: `<i class="${panel.icon}" title="${panel.title}"></i>`,
             // pane: `<p>${panel.title}</p>`,
             // title: panel.title,
-            position: position,
+            position,
         };
         sidebar.addPanel(panelContent);
     }

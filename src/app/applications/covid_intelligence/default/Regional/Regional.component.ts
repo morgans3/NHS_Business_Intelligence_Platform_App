@@ -8,9 +8,9 @@ import { StatCardData } from "./stat-card.component";
 import { LeafletChoroplethChart, BarChart, RowChart, FeatureCollection, APIService } from "diu-component-library";
 import { AuthState } from "../../../../_states/auth.state";
 import { ExpandTextDialogComponent } from "../../_modals/dialogexpand";
-declare var leafletChoroplethChart: any;
-declare var leafletLegend: any;
-declare var window: any;
+declare let leafletChoroplethChart: any;
+declare let leafletLegend: any;
+declare let window: any;
 
 @Component({
     selector: "app-Regional",
@@ -27,7 +27,7 @@ export class RegionalComponent implements OnInit {
     @ViewChild("rlChartParent") rlChartParent: ElementRef;
     @ViewChild("ageChartParent") ageChartParent: ElementRef;
     @ViewChild("supportChartParent")
-    supportChartParent: ElementRef;
+        supportChartParent: ElementRef;
     dataLoaded = false;
     ndx: any;
     nhs_lad_code: any;
@@ -144,14 +144,14 @@ export class RegionalComponent implements OnInit {
                 this.dimensionFunction("nhs_lad_code", f);
                 this.refresh(this.queryFilter);
             },
-            filterAll: function () {},
+            filterAll () {},
         };
         this.nhs_lad_codeGroup = {
             all: () => {
                 return this.filteredData["nhs_lad_code"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.received_letter = {
             filterName: () => "received_letter",
@@ -159,14 +159,14 @@ export class RegionalComponent implements OnInit {
                 this.dimensionFunction("received_letter", f);
                 this.refresh(this.queryFilter);
             },
-            filterAll: function () {},
+            filterAll () {},
         };
         this.received_letterGroup = {
             all: () => {
                 return this.filteredData["received_letter"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.medical_conditions = {
             filterName: () => "medical_conditions",
@@ -174,14 +174,14 @@ export class RegionalComponent implements OnInit {
                 this.dimensionFunction("medical_conditions", f);
                 this.refresh(this.queryFilter);
             },
-            filterAll: function () {},
+            filterAll () {},
         };
         this.medical_conditionsGroup = {
             all: () => {
                 return this.filteredData["medical_conditions"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
         this.can_you_get_essential_supplies_delivered = {
             filterName: () => "can_you_get_essential_supplies_delivered",
@@ -189,14 +189,14 @@ export class RegionalComponent implements OnInit {
                 this.dimensionFunction("can_you_get_essential_supplies_delivered", f);
                 this.refresh(this.queryFilter);
             },
-            filterAll: function () {},
+            filterAll () {},
         };
         this.can_you_get_essential_supplies_deliveredGroup = {
             all: () => {
                 return this.filteredData["can_you_get_essential_supplies_delivered"].values;
             },
-            order: function () {},
-            top: function () {},
+            order () {},
+            top () {},
         };
     }
 
@@ -447,7 +447,7 @@ export class RegionalComponent implements OnInit {
             name: "ewChart",
             title: "Electoral Ward",
             dim: dimension,
-            group: group,
+            group,
             type: "choropleth",
             geojson: this.wards,
             mapOptions: {
@@ -474,11 +474,11 @@ export class RegionalComponent implements OnInit {
             },
             legend: leafletLegend().position("bottomright"),
             popup: (d, feature) => {
-                let output = '<h5 class="ttipmap">';
+                let output = "<h5 class=\"ttipmap\">";
                 output += feature.properties.wd15nm;
-                output += '</h5><h5 class="ttipmap">';
+                output += "</h5><h5 class=\"ttipmap\">";
                 output += feature.properties.lad15nm;
-                output += '</h5><p class="ttipmap">Population: ';
+                output += "</h5><p class=\"ttipmap\">Population: ";
                 output += this.numberWithCommas(d.value) + "</p>";
                 return output;
             },
@@ -775,7 +775,7 @@ export class RegionalComponent implements OnInit {
     }
 
     getDimensionFromName(name: string): any {
-        const strippedName = name.replace('"', "").replace('"', "");
+        const strippedName = name.replace("\"", "").replace("\"", "");
         switch (strippedName) {
             case "nhs_lad_code":
                 return this.nhs_lad_code;

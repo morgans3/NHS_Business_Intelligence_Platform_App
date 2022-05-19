@@ -8,7 +8,7 @@ import { FormGroup, FormControl, Validators, FormGroupDirective } from "@angular
 })
 export class ContactDialogComponent implements OnInit {
     @ViewChild(FormGroupDirective)
-    formDirective: FormGroupDirective;
+        formDirective: FormGroupDirective;
     myForm = new FormGroup({
         contact: new FormControl(null, Validators.required),
     });

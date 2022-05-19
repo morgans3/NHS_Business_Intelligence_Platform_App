@@ -298,7 +298,7 @@ export class RecentreferralsComponent implements OnInit {
         const options = {
             title: "Nexus Intelligence Recent Virtual Ward Referrals",
             fieldSeparator: ",",
-            quoteStrings: '"',
+            quoteStrings: "\"",
             decimalseparator: ".",
             showLabels: true,
             showTitle: false,

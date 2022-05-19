@@ -30,6 +30,6 @@ export class PoliceService {
 
     public getCategories() {
         return this.http.get("https://data.police.uk/api/crime-categories");
-        //return this.http.get("https://data.police.uk/api/crime-categories?date=2020-01");
+        // return this.http.get("https://data.police.uk/api/crime-categories?date=2020-01");
     }
 }

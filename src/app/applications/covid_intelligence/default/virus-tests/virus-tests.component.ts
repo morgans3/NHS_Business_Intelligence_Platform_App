@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-declare var require: any;
+declare let require: any;
 import * as dcFull from "dc";
 import * as d3 from "d3";
 import * as crossfilter from "crossfilter2";
 import { StatCardData } from "../Regional/stat-card.component";
-declare var leafletMarkerChartBubble: any;
+declare let leafletMarkerChartBubble: any;
 
 @Component({
     selector: "app-virus-tests",
@@ -68,8 +68,8 @@ export class VirusTestsComponent implements OnInit {
         const dateFormat = d3.timeFormat(dateFormatSpecifier);
         const dateFormatParser = d3.timeParse(dateFormatSpecifier);
 
-        const pos = {},
-            max = 50;
+        const pos = {};
+        const max = 50;
         data.forEach(function (d) {
             pos[d.code] = [d.Y, d.X];
             d.dd = dateFormatParser(d.date);

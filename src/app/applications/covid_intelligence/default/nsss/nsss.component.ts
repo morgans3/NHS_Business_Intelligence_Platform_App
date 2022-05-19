@@ -97,10 +97,10 @@ export class NSSSComponent implements OnInit {
     ngOnInit() {}
 
     formatDate(date) {
-        let d = new Date(date),
-            month = "" + (d.getMonth() + 1),
-            day = "" + d.getDate(),
-            year = d.getFullYear();
+        const d = new Date(date);
+        let month = "" + (d.getMonth() + 1);
+        let day = "" + d.getDate();
+        const year = d.getFullYear();
 
         if (month.length < 2) {
             month = "0" + month;
@@ -179,7 +179,7 @@ export class NSSSComponent implements OnInit {
         const options = {
             title: "NSSS User List",
             fieldSeparator: ",",
-            quoteStrings: '"',
+            quoteStrings: "\"",
             decimalseparator: ".",
             showLabels: true,
             showTitle: false,
@@ -220,7 +220,7 @@ export class NSSSComponent implements OnInit {
             ],
         };
 
-        var exportData;
+        let exportData;
         if (!hasMFA) {
             this.notificationService.warning("Authentication Error. Please Provide Multi-Factor Authentication Before Exporting Data.");
         } else {

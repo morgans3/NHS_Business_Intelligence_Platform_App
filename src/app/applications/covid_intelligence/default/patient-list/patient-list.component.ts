@@ -275,7 +275,7 @@ export class PatientListComponent implements OnInit {
         const options = {
             title: "Nexus Intelligence Cohort Addresses",
             fieldSeparator: ",",
-            quoteStrings: '"',
+            quoteStrings: "\"",
             decimalseparator: ".",
             showLabels: true,
             showTitle: false,
@@ -294,7 +294,7 @@ export class PatientListComponent implements OnInit {
             ],
         };
 
-        var exportData = [];
+        const exportData = [];
 
         if (!hasMFA) {
             this.notificationService.warning("Authentication Error. Please Provide Multi-Factor Authentication Before Exporting Data.");

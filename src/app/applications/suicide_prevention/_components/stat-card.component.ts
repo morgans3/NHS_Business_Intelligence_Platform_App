@@ -1,18 +1,18 @@
 import { Component, Input } from "@angular/core";
 
 export class StatCardData {
-  title: string;
-  value: string;
-  color: string;
-  icon: string;
-  text?: string;
-  subvalue?: string;
-  subvaluetext?: string;
+    title: string;
+    value: string;
+    color: string;
+    icon: string;
+    text?: string;
+    subvalue?: string;
+    subvaluetext?: string;
 }
 
 @Component({
-  selector: "app-statcard",
-  template: `
+    selector: "app-statcard",
+    template: `
     <mat-card *ngIf="data" [ngClass]="data.color" style="margin-top:0px; margin-bottom: 20px">
       <mat-card-content>
         <div class="d-flex no-block align-items-center">
@@ -37,7 +37,7 @@ export class StatCardData {
       </mat-card-content>
     </mat-card>
   `,
-  styles: [],
+    styles: [],
 })
 export class StatCardComponent {
   @Input() data: StatCardData;

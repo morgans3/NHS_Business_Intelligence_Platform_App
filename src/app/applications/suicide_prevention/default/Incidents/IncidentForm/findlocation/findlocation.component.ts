@@ -50,7 +50,7 @@ export class FindlocationComponent implements OnInit, OnChanges {
         postcode: new FormControl(null, null),
     });
     @ViewChild(FormGroupDirective, { static: false })
-    formDirective: FormGroupDirective;
+        formDirective: FormGroupDirective;
     selectedLocation: Postcodes;
     location: iLocation;
 
@@ -105,8 +105,8 @@ export class FindlocationComponent implements OnInit, OnChanges {
         const color = { color: "red" };
         this.pinGroup = L.marker(
             {
-                lat: lat,
-                lng: lng,
+                lat,
+                lng,
             },
             {
                 icon: new L.Icon({

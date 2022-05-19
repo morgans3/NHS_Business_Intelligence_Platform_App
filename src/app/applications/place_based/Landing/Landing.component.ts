@@ -16,7 +16,7 @@ import { StorageService } from "src/app/_services/storage.service";
 import { APIService } from "diu-component-library";
 import { MapData } from "../_components/map.component";
 import { ExpandTextDialogComponent } from "../../covid_intelligence/_modals/dialogexpand";
-declare var window: any;
+declare let window: any;
 
 @Component({
     selector: "app-Landing",
@@ -41,47 +41,47 @@ export class LandingComponent implements OnInit {
     selectedPopulation = 0;
 
     @ViewChild("methodsChartParent", { static: false })
-    methodsChartParent: ElementRef;
+        methodsChartParent: ElementRef;
     @ViewChild("inquestconclusionChartParent", { static: false })
-    inquestconclusionChartParent: ElementRef;
+        inquestconclusionChartParent: ElementRef;
     @ViewChild("type_of_locationsChartParent", { static: false })
-    type_of_locationsChartParent: ElementRef;
+        type_of_locationsChartParent: ElementRef;
     @ViewChild("typesChartParent", { static: false })
-    typesChartParent: ElementRef;
+        typesChartParent: ElementRef;
     @ViewChild("csp_districtsChartParent", { static: false })
-    csp_districtsChartParent: ElementRef;
+        csp_districtsChartParent: ElementRef;
     @ViewChild("coroner_areasChartParent", { static: false })
-    coroner_areasChartParent: ElementRef;
+        coroner_areasChartParent: ElementRef;
     @ViewChild("local_authoritysChartParent", { static: false })
-    local_authoritysChartParent: ElementRef;
+        local_authoritysChartParent: ElementRef;
     @ViewChild("reported_bysChartParent", { static: false })
-    reported_bysChartParent: ElementRef;
+        reported_bysChartParent: ElementRef;
     @ViewChild("bereavement_offeredsChartParent", { static: false })
-    bereavement_offeredsChartParent: ElementRef;
+        bereavement_offeredsChartParent: ElementRef;
     @ViewChild("imd_decilesChartParent", { static: false })
-    imd_decilesChartParent: ElementRef;
+        imd_decilesChartParent: ElementRef;
     @ViewChild("employmentsChartParent", { static: false })
-    employmentsChartParent: ElementRef;
+        employmentsChartParent: ElementRef;
     @ViewChild("gendersChartParent", { static: false })
-    gendersChartParent: ElementRef;
+        gendersChartParent: ElementRef;
     @ViewChild("rts_accuratesChartParent", { static: false })
-    rts_accuratesChartParent: ElementRef;
+        rts_accuratesChartParent: ElementRef;
     @ViewChild("agesChartParent", { static: false })
-    agesChartParent: ElementRef;
+        agesChartParent: ElementRef;
     @ViewChild("day_of_the_weeksChartParent", { static: false })
-    day_of_the_weeksChartParent: ElementRef;
+        day_of_the_weeksChartParent: ElementRef;
     @ViewChild("monthsChartParent", { static: false })
-    monthsChartParent: ElementRef;
+        monthsChartParent: ElementRef;
     @ViewChild("datesChartParent", { static: false })
-    datesChartParent: ElementRef;
+        datesChartParent: ElementRef;
     @ViewChild("inquest_datesChartParent", { static: false })
-    inquest_datesChartParent: ElementRef;
+        inquest_datesChartParent: ElementRef;
     @ViewChild("mh_services_lscft_updatesChartParent", { static: false })
-    mh_services_lscft_updatesChartParent: ElementRef;
+        mh_services_lscft_updatesChartParent: ElementRef;
     @ViewChild("dasChartParent", { static: false })
-    dasChartParent: ElementRef;
+        dasChartParent: ElementRef;
     @ViewChild("asc_lcc_updatesChartParent", { static: false })
-    asc_lcc_updatesChartParent: ElementRef;
+        asc_lcc_updatesChartParent: ElementRef;
     ics: any;
     ics_group: any;
     icsSelect: dc.SelectMenu;
@@ -803,13 +803,13 @@ export class LandingComponent implements OnInit {
             },
         };
         Object.keys(this.crossFilterData).forEach((key, index) => {
-            let name = this.crossFilterData[key].filterName;
-            let dimgroup = this.crossFilterData[key].dimgroup;
-            let type = this.crossFilterData[key].type;
+            const name = this.crossFilterData[key].filterName;
+            const dimgroup = this.crossFilterData[key].dimgroup;
+            const type = this.crossFilterData[key].type;
             this[key] = {
                 filterName: () => name,
                 filter: (f) => this.dimensionFunction(name, f),
-                filterAll: function () {},
+                filterAll () {},
             };
             switch (type) {
                 case "date":
@@ -821,8 +821,8 @@ export class LandingComponent implements OnInit {
                             });
                             return array;
                         },
-                        order: function () {},
-                        top: function () {},
+                        order () {},
+                        top () {},
                     };
                     break;
                 default:
@@ -830,8 +830,8 @@ export class LandingComponent implements OnInit {
                         all: () => {
                             return this.filteredData[name].values;
                         },
-                        order: function () {},
-                        top: function () {},
+                        order () {},
+                        top () {},
                     };
                     break;
             }
@@ -936,7 +936,7 @@ export class LandingComponent implements OnInit {
     }
 
     getDimensionFromName(name: string): any {
-        const strippedName = name.replace('"', "").replace('"', "");
+        const strippedName = name.replace("\"", "").replace("\"", "");
         return this[strippedName];
     }
 
@@ -1277,7 +1277,7 @@ export class LandingComponent implements OnInit {
         if (this.filteredData.age) {
             this.filteredData.age.values.forEach((ageData) => {
                 if (this.queryFilter.age) {
-                    let ages = this.processAgeFilter();
+                    const ages = this.processAgeFilter();
                     if (ageData.key >= ages.low && ageData.key < ages.high) {
                         totalAges = totalAges + ageData.key * ageData.value;
                         totalIncidents = totalIncidents + ageData.value;
@@ -1351,7 +1351,7 @@ export class LandingComponent implements OnInit {
             title: "Mosaic Type",
             type: "bar",
             dim: dimension,
-            group: group,
+            group,
             name: "mosaicChart",
             renderLabel: false,
             elasticY: true,
@@ -1440,7 +1440,7 @@ export class LandingComponent implements OnInit {
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += '<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_' + usedMosaicType + '.jpg">';
+        output += "<img alt=\"image\" class=\"img-container\" src=\"assets/images/mosaic/mosaic_" + usedMosaicType + ".jpg\">";
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";

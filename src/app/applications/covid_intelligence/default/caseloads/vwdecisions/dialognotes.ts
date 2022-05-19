@@ -9,7 +9,7 @@ import { CdkTextareaAutosize } from "@angular/cdk/text-field";
 })
 export class NotesDialogComponent implements OnInit {
     @ViewChild(FormGroupDirective)
-    formDirective: FormGroupDirective;
+        formDirective: FormGroupDirective;
     myForm = new FormGroup({
         notes: new FormControl(null, Validators.required),
     });

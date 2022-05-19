@@ -35,7 +35,7 @@ export class MinimapComponent implements OnChanges {
         }
         this.map = L.map(chartName).setView([53.967752, -2.444284], 8);
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+            attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a>",
         }).addTo(this.map);
         this.addMarkers();
     }

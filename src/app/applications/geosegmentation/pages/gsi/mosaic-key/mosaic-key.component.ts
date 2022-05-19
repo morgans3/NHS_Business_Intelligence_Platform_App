@@ -53,8 +53,8 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
             }
         }
         sortable.sort(function (a, b) {
-            const x = a[1][1],
-                y = b[1][1];
+            const x = a[1][1];
+            const y = b[1][1];
             return x < y ? -1 : x > y ? 1 : 0;
         });
         return sortable;
@@ -84,8 +84,8 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
 
         const margin = { top: 10, right: 10, bottom: 20, left: 10 };
 
-        const width = document.getElementById("giKeyGraph").offsetWidth - (margin.left + margin.right),
-            height = 150;
+        const width = document.getElementById("giKeyGraph").offsetWidth - (margin.left + margin.right);
+        const height = 150;
 
         const firstRun = d3.select("#giKeyGraph").select("svg").empty();
         const allKeys = [];
@@ -153,7 +153,7 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
             });
 
             allKeys["mainKey"].selectAll("rect").on("click", function (d, e) {
-                d3.select(this) //@ts-ignore
+                d3.select(this) // @ts-ignore
                     .transition()
                     .duration(500)
                     .style("y", 0)
@@ -343,7 +343,7 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += '<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_' + usedMosaicType + '.jpg">';
+        output += "<img alt=\"image\" class=\"img-container\" src=\"assets/images/mosaic/mosaic_" + usedMosaicType + ".jpg\">";
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";

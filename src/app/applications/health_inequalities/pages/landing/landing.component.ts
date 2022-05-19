@@ -4,24 +4,24 @@ import * as d3Scale from "d3-scale";
 import * as d3Axis from "d3-axis";
 import * as d3_test from "d3";
 
-declare var require: any;
+declare let require: any;
 const icdlookup = require("../../_data/ICDLookup.json");
 let aii = require("../../_data/admissions_inequality.json");
-aii = JSON.parse(JSON.stringify(aii).split('"id":').join('"name":'));
-//document.write(JSON.stringify(aii));
-aii = JSON.parse(JSON.stringify(aii).split('"sii":').join('"value":'));
-//document.write(JSON.stringify(aii));
-aii = JSON.parse(JSON.stringify(aii).split('"children":').join('"drilldown":'));
-//document.write(JSON.stringify(aii));
+aii = JSON.parse(JSON.stringify(aii).split("\"id\":").join("\"name\":"));
+// document.write(JSON.stringify(aii));
+aii = JSON.parse(JSON.stringify(aii).split("\"sii\":").join("\"value\":"));
+// document.write(JSON.stringify(aii));
+aii = JSON.parse(JSON.stringify(aii).split("\"children\":").join("\"drilldown\":"));
+// document.write(JSON.stringify(aii));
 let mii = require("../../_data/mortality_inequality.json");
-mii = JSON.parse(JSON.stringify(mii).split('"id":').join('"name":'));
-//document.write(JSON.stringify(mii));
-mii = JSON.parse(JSON.stringify(mii).split('"sii":').join('"value":'));
-//document.write(JSON.stringify(mii));
-mii = JSON.parse(JSON.stringify(mii).split('"children":').join('"drilldown":'));
-//document.write(JSON.stringify(mii));
-let a_dsr = require("../../_data/admissions_dsr.JSON");
-let m_dsr = require("../../_data/mortality_dsr.JSON");
+mii = JSON.parse(JSON.stringify(mii).split("\"id\":").join("\"name\":"));
+// document.write(JSON.stringify(mii));
+mii = JSON.parse(JSON.stringify(mii).split("\"sii\":").join("\"value\":"));
+// document.write(JSON.stringify(mii));
+mii = JSON.parse(JSON.stringify(mii).split("\"children\":").join("\"drilldown\":"));
+// document.write(JSON.stringify(mii));
+const a_dsr = require("../../_data/admissions_dsr.JSON");
+const m_dsr = require("../../_data/mortality_dsr.JSON");
 
 @Component({
     selector: "app-Landing",
@@ -135,7 +135,7 @@ export class HiLandingComponent implements OnInit {
             .attr("id", "y_axis")
             .call(d3Axis.axisLeft(this.y));
         // Swap y-axis label side for negative values
-        this.g.selectAll(".tick").data(aii).select("text").attr("x", "-9").style("text-anchor", "end"); //(d, i) => (d.value < 1 ? "start" : "end"));
+        this.g.selectAll(".tick").data(aii).select("text").attr("x", "-9").style("text-anchor", "end"); // (d, i) => (d.value < 1 ? "start" : "end"));
         // Mortality x-axis
         this.g
             .append("g")
@@ -373,7 +373,7 @@ export class HiLandingComponent implements OnInit {
             rate_multiplier = "1000";
         }
         this.tooltip = {
-            type: type,
+            type,
             multiplier: rate_multiplier,
             icdcode: datum.name,
             icdcategory: cat,
