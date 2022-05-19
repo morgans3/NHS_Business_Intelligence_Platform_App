@@ -23,12 +23,11 @@ import { NgxsStoragePluginModule, StorageOption } from "@ngxs/storage-plugin";
 import { NgxsEmitPluginModule } from "@ngxs-labs/emitter";
 import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 import { NgxsLoggerPluginModule } from "@ngxs/logger-plugin";
-import { DiuAngularNavigationModule, DiuHeaderModule, MaterialModule } from "diu-component-library";
+import { DiuAngularNavigationModule, DiuHeaderModule, MaterialModule, DIUServicesModule } from "diu-component-library";
 import { MatDatetimepickerModule } from "@mat-datetimepicker/core";
 import { MatDatepickerModule } from "@angular/material/datepicker/";
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { MAT_DATE_LOCALE } from "@angular/material/core";
-import { DIUServicesModule } from "diu-component-library";
 import { NgxTwitterTimelineModule } from "ngx-twitter-timeline";
 
 // Route guards

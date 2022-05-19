@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { collapseAnimations } from "../../../shared/animations";
-import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { AuthState } from "../../../_states/auth.state";
 import { FormControl } from "@angular/forms";

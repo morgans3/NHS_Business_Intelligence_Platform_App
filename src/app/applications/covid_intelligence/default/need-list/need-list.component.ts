@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from "@angular/core";
+import { Component, ViewChild, ElementRef, OnInit } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import * as d3 from "d3-selection";
 import * as d3Scale from "d3-scale";
@@ -14,14 +14,14 @@ import { AuthState } from "../../../../_states/auth.state";
 import { APIService } from "diu-component-library";
 import { decodeToken } from "../../../../_pipes/functions";
 import { CviCohortService } from "../../_services/cvicohort-service";
-declare var window: any;
+declare let window: any;
 
 @Component({
     selector: "app-need-list",
     templateUrl: "./need-list.component.html",
     styleUrls: ["./need-list.component.scss"],
 })
-export class NeedListComponent {
+export class NeedListComponent implements OnInit {
     @ViewChild("div_template") plotareaParent: ElementRef;
     @ViewChild("diagnostic_div") logistic_roc_pr_Parent: ElementRef;
     @ViewChild("variable_importance_div") logistic_var_imp_Parent: ElementRef;
@@ -100,7 +100,7 @@ export class NeedListComponent {
     ];
     ccg_list = [];
     cohort_array: any;
-    cohort_names = []; //['Cohort Young/Female/Hypertension'];
+    cohort_names = []; // ['Cohort Young/Female/Hypertension'];
     // Area grouping array
     area = ["GP Practice", "Primary Care Network", "CCG", "ICP"];
     training_groups = [];
@@ -222,7 +222,7 @@ export class NeedListComponent {
 
     // Warning pop-up if user puts too many items into a box
     n_variable_toaster(toast_message: string, n: number) {
-        this.toastr.show("", "Please Select " + n + " " + toast_message + " Only.");
+        this.toastr.show("", "Please Select " + n.toString() + " " + toast_message + " Only.");
     }
 
     // Warning pop-up if user doesn't put any items into a box
@@ -284,13 +284,6 @@ export class NeedListComponent {
         this.minData = this.minDataset();
     }
 
-    /**
-     *
-     *  Code to use the drag/drop lists to send an API call to plumbeR.
-     *  The model is run in R and returned as a JSON, which is plotted.
-     *
-     */
-
     // Loading boolean for waiting on the API call
     show() {
         this.loading.next(true);
@@ -334,7 +327,7 @@ export class NeedListComponent {
     }
 
     get_pcn() {
-        let http_request = "https://need.nexusintelligencenw.nhs.uk/get_ccg_pcn_list";
+        const http_request = "https://need.nexusintelligencenw.nhs.uk/get_ccg_pcn_list";
 
         // http_request = "'" +
         //   http_request +
@@ -364,14 +357,14 @@ export class NeedListComponent {
                         d.area = d.area.filter(Boolean);
                     });
                 },
-                (error) => {
+                () => {
                     this.server_error_toaster("Server");
                 }
             );
     }
 
     get_ccgs() {
-        let http_request = "https://need.nexusintelligencenw.nhs.uk/get_ccg_list";
+        const http_request = "https://need.nexusintelligencenw.nhs.uk/get_ccg_list";
 
         // Send API call and save/plot returned data
         this.http
@@ -385,14 +378,14 @@ export class NeedListComponent {
             })
             .subscribe(
                 (res: any) => {
-                    let ccgList = res.body;
+                    const ccgList = res.body;
                     ccgList.forEach((d) => this.ccg_list.push(d.ccg));
                     this.training_groups = ccgList;
                     this.training_groups.forEach((d) => {
                         d.name = d.ccg.split("&").join("and");
                     });
                 },
-                (error) => {
+                () => {
                     this.server_error_toaster("Server");
                 }
             );
@@ -422,8 +415,8 @@ export class NeedListComponent {
             // Create cURL string
             // Add area grouping
             let flag = false;
-            this.use_area.forEach(function (d, i) {
-                http_request = http_request + "area_level=" + d;
+            this.use_area.forEach((d) => {
+                http_request = http_request + "area_level=" + (d as string);
                 if (d === "GP Practice") {
                     flag = true;
                 }
@@ -431,20 +424,20 @@ export class NeedListComponent {
 
             // Add Response Variable(s)
             if (this.use_response.toString().includes("Cohort")) {
-                const cohort = this.cohort_array.filter((x) => "Cohort " + x.cohortName === this.use_response.toString());
+                const cohort = this.cohort_array.filter((x) => "Cohort " + (x.cohortName as string) === this.use_response.toString());
 
                 if (cohort.length > 0) {
                     http_request = http_request + "&response_filter_1=" + JSON.stringify(cohort[0].cohorturl);
                 }
             } else {
-                this.use_response.forEach(function (d, i) {
-                    http_request = http_request + "&response_filter_" + (i + 1) + "=" + d;
+                this.use_response.forEach((d, i) => {
+                    http_request = http_request + "&response_filter_" + (i + 1).toString() + "=" + (d as string);
                 });
             }
 
             // Add Predictor Variable(s)
-            this.use_predict.forEach(function (d, i) {
-                http_request = http_request + "&group_" + (i + 1) + "=" + d;
+            this.use_predict.forEach((d, i) => {
+                http_request = http_request + "&group_" + (i + 1).toString() + "=" + (d as string);
             });
 
             // Add age grouping flag
@@ -459,7 +452,7 @@ export class NeedListComponent {
 
             // Add CCG filtering (filter training set to specified area)
             if (this.selected_training) {
-                http_request = http_request + "&train_on_area=" + this.selected_training;
+                http_request = http_request + "&train_on_area=" + (this.selected_training as string);
             }
 
             // Display loading spinner
@@ -510,7 +503,7 @@ export class NeedListComponent {
                             this.get_data(res.body);
                         }
                     },
-                    (error) => {
+                    () => {
                         this.hide();
                         this.server_error_toaster("Server");
                     }
@@ -537,12 +530,6 @@ export class NeedListComponent {
     //   svg.selectAll(".x-axis").call(xAxis);
     // }
 
-    /**
-     *
-     *   Code to plot output of API call
-     *
-     */
-
     // Make the barplot, sorted by whichever method is desired
     sort_by_method(sort_method: string) {
         this.sortMethod = sort_method;
@@ -551,17 +538,17 @@ export class NeedListComponent {
 
         switch (sort_method) {
             case "ratio":
-                this.response.sort(function (a, b) {
+                this.response.sort((a, b) => {
                     return d3_test.ascending(a.match_ratio, b.match_ratio);
                 });
                 break;
             case "significance":
-                this.response.sort(function (a, b) {
+                this.response.sort((a, b) => {
                     return d3_test.ascending(a.significance, b.significance);
                 });
                 break;
             default:
-                this.response.sort(function (a, b) {
+                this.response.sort((a, b) => {
                     return d3_test.descending(a.area_var, b.area_var);
                 });
                 break;
@@ -584,7 +571,7 @@ export class NeedListComponent {
 
         // Remove g if browser is Internet Explorer, don't if not
         if (/msie\s|trident\//i.test(window.navigator.userAgent)) {
-            const inner_g = d3.select("g").remove();
+            d3.select("g").remove();
         }
 
         const tooltip_remove = d3.select("mat-sidenav-content").selectAll(".tooltip");
@@ -612,7 +599,7 @@ export class NeedListComponent {
         this.svg.attr("width", box_width).attr("height", box_height);
         this.width = box_width - 20;
         this.height = box_height - 20;
-        this.g = this.svg.append("g").attr("transform", "translate(10," + this.margin.top + ")");
+        this.g = this.svg.append("g").attr("transform", "translate(10," + this.margin.top.toString() + ")");
         this.tooltip = d3.select("mat-sidenav-content").append("div").attr("class", "tooltip").style("opacity", 1);
     }
 
@@ -630,7 +617,7 @@ export class NeedListComponent {
         this.g
             .append("g")
             .attr("class", "axis axis--y")
-            .attr("transform", "translate(" + this.width / 2 + ", 0)")
+            .attr("transform", "translate(" + (this.width / 2).toString() + ", 0)")
             .call(d3Axis.axisLeft(this.y));
 
         // Swap y-axis label side for negative values
@@ -638,8 +625,8 @@ export class NeedListComponent {
             .selectAll(".tick")
             .data(this.response)
             .select("text")
-            .attr("x", (d, i) => (d.match_ratio < 1 ? 9 : -9))
-            .style("text-anchor", (d, i) => (d.match_ratio < 1 ? "start" : "end"));
+            .attr("x", (d) => (d.match_ratio < 1 ? 9 : -9))
+            .style("text-anchor", (d) => (d.match_ratio < 1 ? "start" : "end"));
 
         // x-axis
         this.g
@@ -687,10 +674,11 @@ export class NeedListComponent {
         const rect = document.getElementById("plotarea").getBoundingClientRect();
         const drawer = document.getElementsByClassName("mat-drawer-content")[0];
         this.tooltip.transition().duration(200).style("opacity", 0.9);
+        let html;
 
         switch (tooltip_type) {
             case "ROC_PR":
-                var html = this.htmlROCTooltip(datum);
+                html = this.htmlROCTooltip(datum);
                 break;
             default:
                 html = this.htmlTooltip(datum);
@@ -698,8 +686,8 @@ export class NeedListComponent {
         }
         this.tooltip
             .html(html)
-            .style("left", rect.left + x + "px")
-            .style("top", drawer.scrollTop + rect.top + y - 150 + "px");
+            .style("left", rect.left.toString() + x.toString() + "px")
+            .style("top", (drawer.scrollTop + rect.top + y - 150).toString() + "px");
     }
 
     htmlTooltip(d: any) {
@@ -707,14 +695,14 @@ export class NeedListComponent {
         //          - otherwise just round
         let observed;
         if (this.cost_scatter) {
-            observed = "£ " + Math.round(d.observed * 1000) * 1000;
+            observed = "£ " + (Math.round(d.observed * 1000) * 1000).toString();
         } else {
             observed = Math.round(d.observed);
         }
 
         let expected;
         if (this.cost_scatter) {
-            expected = "£ " + Math.round(d.expected * 1000) * 1000;
+            expected = "£ " + (Math.round(d.expected * 1000) * 1000).toString();
         } else {
             expected = Math.round(d.expected);
         }
@@ -723,18 +711,21 @@ export class NeedListComponent {
         output = "	<div id='modelledneedToolTip' class='container'>";
 
         output += "		<div class='row'>";
-        output += "<h5>Area: " + d.area_var + "</h5>";
+        output += "<h5>Area: " + (d.area_var as string) + "</h5>";
         output += "		</div>";
         output += "		<div class='row'>";
-        output += "<h5>Observed: " + observed + "</h5>";
+        output += "<h5>Observed: " + (observed as string) + "</h5>";
         output += "		</div>";
         output += "		<div class='row'>";
-        output += "<h5>Expected: " + expected + "</h5>";
+        output += "<h5>Expected: " + (expected as string) + "</h5>";
         output += "		</div>";
         output += "		<div>";
         output += "<h5>Observed - Expected Difference: </h5><h5>";
         output +=
-            Math.round(100 * (d.match_ratio - 1)) + " &plusmn; " + Math.round((100 * (d.match_higher - d.match_lower)) / 2) + "%</h5>";
+            Math.round(100 * (d.match_ratio - 1)).toString() +
+            " &plusmn; " +
+            Math.round((100 * (d.match_higher - d.match_lower)) / 2).toString() +
+            "%</h5>";
         output += "		</div>";
 
         output += "	</div>";
@@ -746,16 +737,16 @@ export class NeedListComponent {
 
         output = "	<div id='modelledneedToolTip' class='container'>";
         output += "		<div class='row'>";
-        output += "<h5> Area Under the Curve = " + d.auc + "</h5>";
+        output += "<h5> Area Under the Curve = " + (d.auc as string) + "</h5>";
         output += "		</div>";
         output += "		<div class='row'>";
-        output += "<h5> False Positive Rate = " + d.false_positive + "</h5>";
+        output += "<h5> False Positive Rate = " + (d.false_positive as string) + "</h5>";
         output += "		</div>";
         output += "		<div class='row'>";
-        output += "<h5> True Positive Rate = " + d.true_positive + "</h5>";
+        output += "<h5> True Positive Rate = " + (d.true_positive as string) + "</h5>";
         output += "		</div>";
         output += "		<div class='row'>";
-        output += "<h5> Cutoff = " + d.cutoff + "</h5>";
+        output += "<h5> Cutoff = " + (d.cutoff as string) + "</h5>";
         output += "		</div>";
         output += " </div>";
         return output;
@@ -774,8 +765,8 @@ export class NeedListComponent {
             .attr("class", "line")
             .attr("x1", (d) => this.x(d.match_lower))
             .attr("x2", (d) => this.x(d.match_higher))
-            .attr("y1", (d) => this.y(d.area_var) + this.y.bandwidth() / 2)
-            .attr("y2", (d) => this.y(d.area_var) + this.y.bandwidth() / 2)
+            .attr("y1", (d) => (this.y(d.area_var) as number) + (this.y.bandwidth() as number) / 2)
+            .attr("y2", (d) => (this.y(d.area_var) as number) + (this.y.bandwidth() as number) / 2)
             .attr("fill", "none")
             .attr("stroke", "black")
             .attr("stroke-width", 2);
@@ -788,8 +779,8 @@ export class NeedListComponent {
             .attr("class", "line")
             .attr("x1", (d) => this.x(d.match_higher))
             .attr("x2", (d) => this.x(d.match_higher))
-            .attr("y1", (d) => this.y(d.area_var) + this.y.bandwidth() / 2 - 4)
-            .attr("y2", (d) => this.y(d.area_var) + this.y.bandwidth() / 2 + 4)
+            .attr("y1", (d) => (this.y(d.area_var) as number) + (this.y.bandwidth() as number) / 2 - 4)
+            .attr("y2", (d) => (this.y(d.area_var) as number) + (this.y.bandwidth() as number) / 2 + 4)
             .attr("fill", "none")
             .attr("stroke", "black")
             .attr("stroke-width", 2);
@@ -802,8 +793,8 @@ export class NeedListComponent {
             .attr("class", "line")
             .attr("x1", (d) => this.x(d.match_lower))
             .attr("x2", (d) => this.x(d.match_lower))
-            .attr("y1", (d) => this.y(d.area_var) + this.y.bandwidth() / 2 - 4)
-            .attr("y2", (d) => this.y(d.area_var) + this.y.bandwidth() / 2 + 4)
+            .attr("y1", (d) => (this.y(d.area_var) as number) + (this.y.bandwidth() as number) / 2 - 4)
+            .attr("y2", (d) => (this.y(d.area_var) as number) + (this.y.bandwidth() as number) / 2 + 4)
             .attr("fill", "none")
             .attr("stroke", "black")
             .attr("stroke-width", 2);
@@ -816,7 +807,7 @@ export class NeedListComponent {
             this.cviCohortsService.get({ username: this.tokenDecoded.username }).subscribe((res: any[]) => {
                 this.cohort_array = res;
                 this.cohort_array.forEach((d) => {
-                    this.cohort_names.push("Cohort " + d.cohortName);
+                    this.cohort_names.push("Cohort " + (d.cohortName as string));
                 });
                 this.cohort_names.forEach((d) => {
                     this.response_variable.push(d);
