@@ -1215,10 +1215,12 @@ lib-diu-angular-header div a {
     @include clearfix();
 }
 
+$transition-base: all 0.2s ease-in-out !default;
+
 // stylelint-disable property-blacklist
 @mixin transition($transition...) {
     @if $enable-transitions {
-        @if length($transition) === 0 {
+        @if length($transition) == 0 {
             transition: $transition-base;
         } @else {
             transition: $transition;

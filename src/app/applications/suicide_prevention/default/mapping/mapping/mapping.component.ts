@@ -116,7 +116,7 @@ export class MappingComponent implements OnInit {
             this.workbook.worksheets.forEach((sheet) => {
                 XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(sheet.data), sheet.name);
             });
-            XLSX.writeFile(wb, "NexusIntelligence_Results_" + formatDate(newDate, "dd-MM-yyyy_HH_mm", "en-GB") + ".xlsx");
+            XLSX.writeFile(wb, "Results_" + formatDate(newDate, "dd-MM-yyyy_HH_mm", "en-GB") + ".xlsx");
         }
     }
 

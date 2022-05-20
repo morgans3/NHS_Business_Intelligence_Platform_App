@@ -45,25 +45,21 @@ export class CohortAllComponent implements OnInit, OnChanges {
         if (token) {
             this.tokenDecoded = decodeToken(token);
             this.teamcodes = this.tokenDecoded["memberships"];
-            this.apiService
-                .getCohortsByUsername({
-                    username: this.tokenDecoded.username,
-                })
-                .subscribe((res: Cohort[]) => {
-                    res.forEach((item) => {
-                        if (item.cohorturl.length < 3) {
+            this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+                res.forEach((item) => {
+                    if (item.cohorturl.length < 3) {
+                        item.cohorturl = "{}";
+                    }
+                    if (typeof item.cohorturl === "object") {
+                        if (this.isEmpty(item.cohortName)) {
                             item.cohorturl = "{}";
+                        } else {
+                            item.cohorturl = JSON.stringify(item.cohorturl);
                         }
-                        if (typeof item.cohorturl === "object") {
-                            if (this.isEmpty(item.cohortName)) {
-                                item.cohorturl = "{}";
-                            } else {
-                                item.cohorturl = JSON.stringify(item.cohorturl);
-                            }
-                        }
-                    });
-                    this.allcohorts = res.sort();
+                    }
                 });
+                this.allcohorts = res.sort();
+            });
         } else {
             this.notificationService.warning("Unable to retrieve Cohorts");
         }
@@ -162,14 +158,10 @@ export class CohortAllComponent implements OnInit, OnChanges {
         }
         this.selectedCohort = newCohort;
         this.apiService.createCohort(this.selectedCohort).subscribe(() => {
-            this.apiService
-                .getCohortsByUsername({
-                    username: this.tokenDecoded.username,
-                })
-                .subscribe((res: Cohort[]) => {
-                    this.allcohorts = res;
-                    this.notificationService.success("New cohort has been created");
-                });
+            this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+                this.allcohorts = res;
+                this.notificationService.success("New cohort has been created");
+            });
         });
     }
 
@@ -197,14 +189,10 @@ export class CohortAllComponent implements OnInit, OnChanges {
     confirmUpdate() {
         this.selectedCohort.cohorturl = JSON.stringify(this.cohort);
         this.apiService.updateCohort(this.selectedCohort).subscribe(() => {
-            this.apiService
-                .getCohortsByUsername({
-                    username: this.tokenDecoded.username,
-                })
-                .subscribe((res: Cohort[]) => {
-                    this.allcohorts = res;
-                    this.notificationService.success("Cohort Database has been updated");
-                });
+            this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+                this.allcohorts = res;
+                this.notificationService.success("Cohort Database has been updated");
+            });
         });
     }
 
@@ -225,14 +213,10 @@ export class CohortAllComponent implements OnInit, OnChanges {
             .then((confirmed) => {
                 if (confirmed === true) {
                     this.apiService.deleteCohort(this.selectedCohort).subscribe(() => {
-                        this.apiService
-                            .getCohortsByUsername({
-                                username: this.tokenDecoded.username,
-                            })
-                            .subscribe((res: Cohort[]) => {
-                                this.allcohorts = res;
-                                this.notificationService.success("Cohort has been removed from Database");
-                            });
+                        this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
+                            this.allcohorts = res;
+                            this.notificationService.success("Cohort has been removed from Database");
+                        });
                     });
                 }
             });

@@ -16,6 +16,7 @@ import { StatCardData } from "src/app/_models/SPI_Lookups";
 import { MosaicColours, MosaicDomain } from "src/app/_models/mosaiccode";
 import { StorageService } from "src/app/_services/storage.service";
 import { APIService } from "diu-component-library";
+import { environment } from "src/environments/environment";
 declare let window: any;
 
 @Component({
@@ -559,7 +560,7 @@ export class LandingComponent implements OnInit {
         const parsedUrl = window.location.href;
         this.origin = parsedUrl.replace("/main", "");
         if (this.origin.includes("localhost")) {
-            this.origin = "https://spi.nexusintelligencenw.nhs.uk";
+            this.origin = "https://spi." + environment.websiteURL;
         }
         const origin = window.location.origin;
         if (origin.includes("localhost")) {
@@ -846,8 +847,8 @@ export class LandingComponent implements OnInit {
             };
             await d3
                 .json(
-                    (this.origin.replace("spi", "storage" + this.subd) as string) +
-                        "/spindex/getCrossfilter?filter=" +
+                    (this.origin.replace("www", "rts" + this.subd) as string) +
+                        "/dataset/getCrossfilter?filter=" +
                         (this.replaceAmpersand(JSON.stringify(queryFilter)) as string),
                     options
                 )

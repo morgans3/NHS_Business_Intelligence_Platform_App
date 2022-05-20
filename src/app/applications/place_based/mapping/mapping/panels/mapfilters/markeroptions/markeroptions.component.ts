@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnChanges } from "@angular/core";
 import { iMarkerData } from "../mapfilters.component";
 import * as L from "leaflet";
+import { environment } from "src/environments/environment";
 
 @Component({
     selector: "app-markeroptions",
@@ -13,7 +14,7 @@ export class MarkeroptionsComponent implements OnChanges {
     tableData: iMarkerData[] = [];
     showIsoChrone: iMarkerData;
     travelTime = 10;
-    isoserverUrl = "https://isochrone.nexusintelligencenw.nhs.uk/otp/routers/lsc/isochrone?";
+    isoserverUrl = "https://isochrone." + environment.websiteURL + "/otp/routers/lsc/isochrone?";
 
     constructor(private http: HttpClient) {}
 

@@ -191,6 +191,7 @@ export class UserComponent implements OnInit {
             // Send request
             this.apiService
                 .addTeamMember({
+                    _id: null,
                     teamcode: $event.option.value.code,
                     username: this.user.username,
                     joindate: new Date(),
@@ -215,6 +216,9 @@ export class UserComponent implements OnInit {
             this.apiService
                 .removeTeamMember({
                     _id: this.teams.selected[index].link_id,
+                    teamcode: null,
+                    username: null,
+                    joindate: null,
                 })
                 .subscribe((data: any) => {
                     if (data.success) {

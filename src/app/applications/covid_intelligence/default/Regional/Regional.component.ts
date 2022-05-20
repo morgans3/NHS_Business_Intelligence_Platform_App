@@ -8,9 +8,12 @@ import { StatCardData } from "./stat-card.component";
 import { LeafletChoroplethChart, BarChart, RowChart, FeatureCollection, APIService } from "diu-component-library";
 import { AuthState } from "../../../../_states/auth.state";
 import { ExpandTextDialogComponent } from "../../_modals/dialogexpand";
+import { environment } from "src/environments/environment";
 declare let leafletChoroplethChart: any;
 declare let leafletLegend: any;
 declare let window: any;
+
+// TODO: is this component used?
 
 @Component({
     selector: "app-Regional",
@@ -111,8 +114,7 @@ export class RegionalComponent implements OnInit {
         const parsedUrl = window.location.href;
         this.origin = parsedUrl.replace("/population-health", "");
         if (this.origin.includes("localhost")) {
-            // TODO: use environment files for url ref
-            this.origin = "https://cvi.nexusintelligencenw.nhs.uk";
+            this.origin = "https://www." + environment.websiteURL;
         }
     }
 
@@ -227,8 +229,9 @@ export class RegionalComponent implements OnInit {
                 method: "GET",
                 headers: header,
             };
+            // TODO: What cf-api does it call?
             await d3
-                .json(this.origin.replace("cvi", "mosaic") + "/people/getCrossfilter?filter=" + JSON.stringify(queryFilter), options)
+                .json(this.origin.replace("www", "mosaic") + "/dataset/getCrossfilter?filter=" + JSON.stringify(queryFilter), options)
                 .then((d) => {
                     if (this.filteredData !== d) {
                         this.filteredData = d;

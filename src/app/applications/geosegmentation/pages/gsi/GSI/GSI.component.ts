@@ -400,6 +400,7 @@ export class GSIComponent implements OnInit, OnDestroy {
                 window.dispatchEvent(new Event("resize"));
             });
 
+        // TODO: Why? Why is this trying to connect to the local HSCN network and not the one in the cloud?
         this.HHTile = new betterWMS.betterWMS("http://nexusintelligence.xfyldecoast.nhs.uk:8600/geoserver/ows?", {
             layers: "MosaicHousehold:mosaichousehold",
             format: "image/png",

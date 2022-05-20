@@ -16,6 +16,7 @@ import { StorageService } from "src/app/_services/storage.service";
 import { APIService } from "diu-component-library";
 import { MapData } from "../_components/map.component";
 import { ExpandTextDialogComponent } from "../../covid_intelligence/_modals/dialogexpand";
+import { environment } from "src/environments/environment";
 declare let window: any;
 
 @Component({
@@ -559,7 +560,7 @@ export class LandingComponent implements OnInit {
         const parsedUrl = window.location.href;
         this.origin = parsedUrl.replace("/main", "");
         if (this.origin.includes("localhost")) {
-            this.origin = "https://spi.nexusintelligencenw.nhs.uk";
+            this.origin = "https://www." + environment.websiteURL;
         }
         const origin = window.location.origin;
         if (origin.includes("localhost")) {
@@ -846,8 +847,8 @@ export class LandingComponent implements OnInit {
             };
             await d3
                 .json(
-                    this.origin.replace("spi", "storage" + this.subd) +
-                        "/spindex/getCrossfilter?filter=" +
+                    this.origin.replace("www", "rts" + this.subd) +
+                        "/dataset/getCrossfilter?filter=" +
                         this.replaceAmpersand(JSON.stringify(queryFilter)),
                     options
                 )

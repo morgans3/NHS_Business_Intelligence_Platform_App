@@ -13,6 +13,7 @@ import { Store } from "@ngxs/store";
 import { AuthState } from "../../../../_states/auth.state";
 import { APIService } from "diu-component-library";
 import { decodeToken } from "../../../../_pipes/functions";
+import { environment } from "src/environments/environment";
 declare let window: any;
 
 @Component({
@@ -372,7 +373,7 @@ export class NeedListComponent implements OnInit {
     // Send API call to plumbeR
     send_api() {
         // let http_request = this.origin + "modelledneed/logistic_model_api?";
-        let http_request = "https://need.nexusintelligencenw.nhs.uk/modelled_needs_api?";
+        let http_request = "https://need." + environment.websiteURL + "/modelled_needs_api?";
 
         // let http_request = "http://localhost:8092/modelled_needs_api?";
 
@@ -1405,19 +1406,15 @@ export class NeedListComponent implements OnInit {
         const token = this.store.selectSnapshot(AuthState.getToken);
         if (token) {
             this.tokenDecoded = decodeToken(token);
-            this.apiService
-                .getCohortsByUsername({
-                    username: this.tokenDecoded.username,
-                })
-                .subscribe((res: any[]) => {
-                    this.cohort_array = res;
-                    this.cohort_array.forEach((d) => {
-                        this.cohort_names.push("Cohort " + d.cohortName);
-                    });
-                    this.cohort_names.forEach((d) => {
-                        this.response_variable.push(d);
-                    });
+            this.apiService.getCohortsByUsername(this.tokenDecoded.username).subscribe((res: any[]) => {
+                this.cohort_array = res;
+                this.cohort_array.forEach((d) => {
+                    this.cohort_names.push("Cohort " + d.cohortName);
                 });
+                this.cohort_names.forEach((d) => {
+                    this.response_variable.push(d);
+                });
+            });
 
             /** this.cohortService.get()
           .subscribe(res => {

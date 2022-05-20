@@ -6,15 +6,12 @@ import { decodeToken } from "../../../../_pipes/functions";
 import { AuthState } from "../../../../_states/auth.state";
 import { PatientLinked, APIService } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
-import { faNotesMedical, faProcedures } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
     selector: "app-patient",
     templateUrl: "./patient.component.html",
 })
 export class PatientComponent implements OnInit {
-    Procedures = faProcedures;
-    NotesMedical = faNotesMedical;
     dataFetched = false;
     tokenDecoded: any;
     nhsnumber: string;

@@ -6,6 +6,7 @@ import { GSIComponent } from "../GSI/GSI.component";
 
 import * as d3 from "d3";
 import fisheye from "./d3.fisheye.js";
+import { BaseType } from "d3";
 
 export interface GIGraphKey {
     name: string;
@@ -152,7 +153,8 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
             });
 
             allKeys["mainKey"].selectAll("rect").on("click", function () {
-                d3.select(this).transition().duration(500).style("y", 0).style("height", height);
+                const selection = d3.selection(this);
+                selection.transition().duration(500).style("y", 0).style("height", height);
             });
         }
         const applyAxisScale = (scale) => {

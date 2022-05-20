@@ -25,6 +25,7 @@ import { collapseAnimations } from "../../../../shared/animations";
 import { ExpandTextDialogComponent } from "../../shared/modals/expand/dialogexpand";
 import { NotificationService } from "../../../../_services/notification.service";
 import { StatCardData } from "../../shared/components/stat-card/stat-card.component";
+import { environment } from "src/environments/environment";
 
 declare let leafletChoroplethChart: any;
 declare let leafletLegend: any;
@@ -205,7 +206,7 @@ export class PopslicerComponent implements OnInit {
         const parsedUrl = window.location.href;
         this.origin = parsedUrl.replace("/population-health", "");
         if (this.origin.includes("localhost")) {
-            this.origin = "https://phi.nexusintelligencenw.nhs.uk";
+            this.origin = "https://www." + environment.websiteURL;
         }
     }
 
@@ -482,9 +483,7 @@ export class PopslicerComponent implements OnInit {
             };
             await d3
                 .json(
-                    (this.origin.replace("phi", "population") as string) +
-                        "/populations/getCrossfilter?filter=" +
-                        JSON.stringify(queryFilter),
+                    (this.origin.replace("www", "population") as string) + "/dataset/getCrossfilter?filter=" + JSON.stringify(queryFilter),
                     options
                 )
                 .then((d) => {
