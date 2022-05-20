@@ -15,11 +15,6 @@ import { PublisherNotesComponent } from "./DisplayReport/PublisherNotes/Publishe
 import { ReportAnalysisComponent } from "./DisplayReport/ReportAnalysis/ReportAnalysis.component";
 import { ReportSettingsComponent } from "./DisplayReport/ReportSettings/ReportSettings.component";
 import { RegionalComponent } from "./Regional/Regional.component";
-import { LocalComponent } from "./Local/Local.component";
-import { BedDataComponent } from "./Local/BedData/BedData.component";
-import { TestDataComponent } from "./Local/TestData/TestData.component";
-import { EquipmentDataComponent } from "./Local/EquipmentData/EquipmentData.component";
-import { MortalityDataComponent } from "./Local/MortalityData/MortalityData.component";
 import { ModellingComponent } from "./Modelling/Modelling.component";
 import { PatientListComponent } from "./patient-list/patient-list.component";
 import { PatientComponent } from "./patient/patient.component";
@@ -27,7 +22,6 @@ import { TheographComponent } from "./patient/theograph/theograph.component";
 import { CohortAllComponent } from "./Regional/cohort-all/cohort-all.component";
 import { ConfirmTextDialogComponent } from "./Regional/dialogtextconfirm";
 import { ConfirmDialogComponent } from "./Regional/dialogconfirm";
-import { VirusTestsComponent } from "./virus-tests/virus-tests.component";
 import { OutbreaksComponent } from "./outbreaks/outbreaks.component";
 import { LimitsettingComponent } from "./patient-list/limitsetting/limitsetting.component";
 import { NumberDialogComponent } from "./patient-list/limitsetting/dialognumber";
@@ -80,11 +74,6 @@ import { SharedModule } from "../shared/shared.module";
         ReportAnalysisComponent,
         ReportSettingsComponent,
         RegionalComponent,
-        LocalComponent,
-        BedDataComponent,
-        TestDataComponent,
-        EquipmentDataComponent,
-        MortalityDataComponent,
         ModellingComponent,
         PatientListComponent,
         PatientComponent,
@@ -93,7 +82,6 @@ import { SharedModule } from "../shared/shared.module";
         CohortAllComponent,
         ConfirmDialogComponent,
         ConfirmTextDialogComponent,
-        VirusTestsComponent,
         OutbreaksComponent,
         LimitsettingComponent,
         NumberDialogComponent,

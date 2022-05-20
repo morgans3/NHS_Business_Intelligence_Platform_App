@@ -21,7 +21,6 @@ export interface ReportDetails {
 @Component({
     selector: "app-DisplayReport",
     templateUrl: "./DisplayReport.component.html",
-    styleUrls: ["./DisplayReport.component.scss"],
 })
 export class DisplayReportComponent implements OnInit {
     reportID: string;
@@ -38,7 +37,8 @@ export class DisplayReportComponent implements OnInit {
             authentication: false,
             analysis: false,
             reportUrl:
-                "https://sense-demo.qlik.com/sso/sense/app/dcb7c95a-9ecd-43e2-8786-cae00108a324/sheet/54b60312-68c5-4d92-a225-79326b68ad5a/state/analysis",
+                "https://sense-demo.qlik.com/sso/sense/app/dcb7c95a-9ecd-43e2-8786-cae00108a324/" +
+                "sheet/54b60312-68c5-4d92-a225-79326b68ad5a/state/analysis",
         },
         {
             _id: "2",
@@ -48,7 +48,8 @@ export class DisplayReportComponent implements OnInit {
             authentication: false,
             analysis: false,
             reportUrl:
-                "https://app.powerbi.com/view?r=eyJrIjoiMTlhNjM4NTMtZWU2Ni00YWNlLTg5ZDItM2NiYmRhNjA2MDZjIiwidCI6ImJhMzNiNjE1LTI3MzItNGYwYi05MmU2LWE3NDZlNWNjNzBhMCIsImMiOjN9",
+                "https://app.powerbi.com/view?r=eyJrIjoiMTlhNjM4NTMtZWU2Ni00YWNlLTg5ZDItM2NiYm" +
+                "RhNjA2MDZjIiwidCI6ImJhMzNiNjE1LTI3MzItNGYwYi05MmU2LWE3NDZlNWNjNzBhMCIsImMiOjN9",
         },
         {
             _id: "3",
@@ -58,7 +59,8 @@ export class DisplayReportComponent implements OnInit {
             authentication: false,
             analysis: false,
             reportUrl:
-                "https://public.tableau.com/views/NHSRightCareSimilar10CCGInteractiveMap/Similar10CCGInteractiveMap?:embed=y&:display_count=yes&:showVizHome=no",
+                "https://public.tableau.com/views/NHSRightCareSimilar10CCGInteractiveMap/" +
+                "Similar10CCGInteractiveMap?:embed=y&:display_count=yes&:showVizHome=no",
         },
         {
             _id: "4",
@@ -80,7 +82,8 @@ export class DisplayReportComponent implements OnInit {
             analysis: false,
             publisherNotes: "These are the notes provided by the Publisher.",
             reportUrl:
-                "https://public.tableau.com/views/TopCCGsandGPPracticesbypotentialsavingsforanexampleUKmarket/TopCCGsandGPPracticesbypotentialsavingsforanexampleUKmarketsavingsdashboard?:embed=y&:display_count=yes&:showVizHome=no",
+                "https://public.tableau.com/views/TopCCGsandGPPracticesbypotentialsavingsforanexampleUKmarket/" +
+                "TopCCGsandGPPracticesbypotentialsavingsforanexampleUKmarketsavingsdashboard?:embed=y&:display_count=yes&:showVizHome=no",
         },
         {
             _id: "6",
@@ -92,7 +95,8 @@ export class DisplayReportComponent implements OnInit {
             analysis: true,
             analysisContent: "This is the analysis by our team.",
             reportUrl:
-                "https://app.powerbi.com/view?r=eyJrIjoiNzNmNTIxZjQtZjNlMy00NmRkLWI4MTctN2ZiZDBjNDhkMGNlIiwidCI6IjgxNzdmMWQzLWU2NTAtNDAxNS1iNzdhLTY4MjUxODQwMzRiNyJ9",
+                "https://app.powerbi.com/view?r=eyJrIjoiNzNmNTIxZjQtZjNlMy00NmRkLWI4MTctN2ZiZDBjNDhkMGN" +
+                "lIiwidCI6IjgxNzdmMWQzLWU2NTAtNDAxNS1iNzdhLTY4MjUxODQwMzRiNyJ9",
         },
     ];
 
@@ -111,7 +115,7 @@ export class DisplayReportComponent implements OnInit {
         this.getReportID();
         if (this.reportID !== this.lastReportID) {
             this.lastReportID = this.reportID;
-            const report = this.reportExamples.filter((x) => x._id === this.reportID)[0];
+            const report = this.reportExamples.filter((x) => x["_id"] === this.reportID)[0];
             if (report) {
                 this.thisReport = report;
             }
@@ -124,7 +128,7 @@ export class DisplayReportComponent implements OnInit {
                 this.getReportID();
                 if (this.reportID !== this.lastReportID) {
                     this.lastReportID = this.reportID;
-                    const report = this.reportExamples.filter((x) => x._id === this.reportID)[0];
+                    const report = this.reportExamples.filter((x) => x["_id"] === this.reportID)[0];
                     if (report) {
                         this.thisReport = report;
                     }

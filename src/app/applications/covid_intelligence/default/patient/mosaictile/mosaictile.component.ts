@@ -4,7 +4,6 @@ import { PatientLinked, MosaicCode, APIService } from "diu-component-library";
 @Component({
     selector: "app-mosaictile",
     templateUrl: "./mosaictile.component.html",
-    styleUrls: ["./mosaictile.component.scss"],
 })
 export class MosaictileComponent implements OnInit, OnChanges {
     @Input() setperson: PatientLinked;
@@ -66,7 +65,7 @@ export class MosaictileComponent implements OnInit, OnChanges {
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += "<img alt=\"image\" class=\"img-container\" src=\"assets/images/mosaic/mosaic_" + usedMosaicType + ".jpg\">";
+        output += `<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_` + usedMosaicType + `.jpg">`;
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";

@@ -215,7 +215,7 @@
                                     <mat-icon>account_circle</mat-icon>
                                 </button>
                                 <button
-                                    (click)="personBookmarked(row, i)"
+                                    (click)="personBookmarked(row)"
                                     *ngIf="bookmarks.indexOf(row.nhs_number) === -1"
                                     mat-icon-button
                                     color="default"
@@ -224,7 +224,7 @@
                                     <mat-icon>bookmarks</mat-icon>
                                 </button>
                                 <button
-                                    (click)="personBookmarked(row, i)"
+                                    (click)="personBookmarked(row)"
                                     *ngIf="bookmarks.indexOf(row.nhs_number) !== -1"
                                     mat-icon-button
                                     color="primary"

@@ -4,9 +4,9 @@ import { Store } from "@ngxs/store";
 import { AuthState } from "src/app/_states/auth.state";
 import { UpdateTeams } from "src/app/_states/reference.state";
 import { NotificationService } from "src/app/_services/notification.service";
-import { generateID, decodeToken } from "src/app/_pipes/functions";
+import { decodeToken } from "src/app/_pipes/functions";
 import { APIService, UserSearchDialogComponent } from "diu-component-library";
-import { iFullUser, iTeam, iTeamRequest, iTeamMembers, iTasks } from "diu-component-library";
+import { iFullUser, iTeam, iTeamRequest, iTeamMembers } from "diu-component-library";
 
 @Component({
     selector: "app-meet-team",
@@ -145,7 +145,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
         });
     }
 
-    teamsChanged(event: any) {
+    teamsChanged() {
         this.store.dispatch(UpdateTeams);
         this.getPeople();
     }
@@ -158,7 +158,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
                     if (res.success) {
                         this.members.splice(this.members.indexOf(person), 1);
                         this.notificationService.success("Removed from Members");
-                        this.teamsChanged(true);
+                        this.teamsChanged();
                     }
                 });
             }
@@ -172,7 +172,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
                     if (res.success) {
                         this.invitees.splice(this.invitees.indexOf(person), 1);
                         this.notificationService.success("Removed Invitation");
-                        this.teamsChanged(true);
+                        this.teamsChanged();
                     }
                 });
             }
@@ -182,7 +182,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
             this.apiService.updateTeam(this.selectedTeam).subscribe((res: any) => {
                 if (res.success) {
                     this.notificationService.success("Removed Admin");
-                    this.teamsChanged(true);
+                    this.teamsChanged();
                 }
             });
         }
@@ -194,7 +194,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
             this.apiService.updateTeam(this.selectedTeam).subscribe((res: any) => {
                 if (res.success) {
                     this.notificationService.success("Removed Admin");
-                    this.teamsChanged(true);
+                    this.teamsChanged();
                 }
             });
         }
@@ -203,10 +203,10 @@ export class MeetTeamComponent implements OnInit, OnChanges {
     makeAdmin(person: iFullUser) {
         if (this.admins.filter((x) => x.username === person.username).length === 0) {
             this.selectedTeam.responsiblepeople.push(person.username);
-            this.apiService.updateTeam(this.selectedTeam).subscribe((res: any) => {
+            this.apiService.updateTeam(this.selectedTeam).subscribe(() => {
                 this.admins.push(person);
                 this.notificationService.success("Promoted to Admin");
-                this.teamsChanged(true);
+                this.teamsChanged();
             });
         } else {
             this.notificationService.warning("Already an Admin");
@@ -229,23 +229,10 @@ export class MeetTeamComponent implements OnInit, OnChanges {
                 };
                 this.apiService.addTeamRequest(request).subscribe((res: any) => {
                     if (res.success) {
-                        const Task: iTasks = {
-                            _id: generateID(),
-                            username: result.username,
-                            iscompleted: false,
-                            sentdate: new Date(),
-                            sender: this.tokenDecoded.username,
-                            archive: false,
-                            header: "Request to join " + this.selectedTeam.name,
-                            importance: "Normal",
-                            message: "Would you like to join our Team?",
-                            invite: "Team",
-                            teamcode: this.selectedTeam.code,
-                        };
                         this.notificationService.success("Request Sent.");
                         this.teamrequests.push(request);
                         this.invitees.push(result);
-                        this.teamsChanged(true);
+                        this.teamsChanged();
                     } else {
                         this.notificationService.warning("Unable to add team request.");
                     }
@@ -272,7 +259,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
                     organisation: this.tokenDecoded.organisation,
                 };
                 this.outstanding.push(thisPerson);
-                this.teamsChanged(true);
+                this.teamsChanged();
             } else {
                 this.notificationService.warning(res.msg);
             }

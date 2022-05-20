@@ -47,10 +47,12 @@ export class RoleCapabilityListComponent implements OnInit, OnChanges {
     }
 
     unassign(item: iRole | iCapability) {
+        console.log(item);
         // TODO: remove link for this item
     }
 
     request(item: iRole | iCapability) {
+        console.log(item);
         // TODO: remove link for this item
     }
 }

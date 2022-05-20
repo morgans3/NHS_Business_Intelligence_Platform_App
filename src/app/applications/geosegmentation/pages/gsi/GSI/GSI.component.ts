@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit, ViewChild, ElementRef, EventEmitter, OnDestroy } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 
@@ -9,8 +10,6 @@ import { tileLayer, latLng } from "leaflet";
 import * as betterWMS from "./L.TileLayer.BetterWMS.js";
 
 import { DisplayType } from "../../../_models/displayType";
-import { RootObject } from "../../../_models/GSI";
-import { MapData } from "../../../shared/components/page-content/map/map.component";
 import { MosaicCode, MosaicColorCodes } from "../../../_models/mosaiccode";
 import { MosaicTable } from "../MosaicTable/MosaicTable.component";
 import { CategoryBreakdown } from "../../../_models/categorybreakdown";
@@ -23,11 +22,11 @@ import { PoliceService } from "../../../_services/police.service";
 import { CrimeCategoryColors } from "./colorlists";
 import { Crime } from "../../../_models/police";
 import { APIService, FeatureCollection } from "diu-component-library";
+import { MapData } from "src/app/applications/covid_intelligence/default/patient/minimap/map.component.js";
 
 @Component({
     selector: "app-GSI",
     templateUrl: "./GSI.component.html",
-    styleUrls: ["./GSI.component.scss"],
 })
 export class GSIComponent implements OnInit, OnDestroy {
     loadedCrimes: Crime[];
@@ -55,21 +54,7 @@ export class GSIComponent implements OnInit, OnDestroy {
                     maxZoom: 18,
                     minZoom: 8,
                     attribution: "...",
-                }) /* ,
-        betterWMS.betterWMS("http://localhost:8080/geoserver/ows?", {
-          layers: "MosaicHousehold:mosaichousehold",
-          format: "image/png",
-          transparent: true,
-          attribution: "Experian Mosaic"
-        })
-
-        */,
-                // tileLayer.wms("http://localhost:8080/geoserver/ows?", {
-                //   layers: "MosaicHousehold:mosaichousehold",
-                //   format: "image/png",
-                //   transparent: true,
-                //   attribution: "Experian Mosaic"
-                // })
+                }),
             ],
             zoom: 10,
             center: latLng(53.838759, -2.909497),
@@ -96,7 +81,7 @@ export class GSIComponent implements OnInit, OnDestroy {
     HHPoints: any = {};
     pinClicked: EventEmitter<any> = new EventEmitter();
 
-    gsiData: RootObject;
+    gsiData: any;
     PC15: FeatureCollection;
     mosaicCodes: MosaicCode[];
 
@@ -555,48 +540,43 @@ export class GSIComponent implements OnInit, OnDestroy {
         this.selectedMosType = mosType;
         this.mosTypeTitle = this.mosaicCodes.find((x) => x.code === mosType).name;
 
-        // tslint:disable-next-line: forin
-        for (const cat in this.gsiData) {
+        this.gsiData.forEach((cat) => {
             const categoryTable: CategoryBreakdown = { cat: "", tables: null };
 
-            if (!this.gsiData.hasOwnProperty(cat)) {
-                continue;
-            }
-            const thisTop = this.gsiData[cat];
-            categoryTable.cat = cat;
-            categoryTable.tables = [];
-            // tslint:disable-next-line: forin
-            for (const topic in thisTop) {
-                const outputHtml: MosaicTable = { title: "", data: null };
-                if (!thisTop.hasOwnProperty(topic)) {
-                    continue;
-                }
-                const letb = thisTop[topic];
-                outputHtml.title = topic;
-                const variableValues: VariableDetails[] = [];
-                for (const leti in letb) {
-                    if (!letb.hasOwnProperty(leti)) {
-                        continue;
+            if (this.gsiData[cat]) {
+                const thisTop = this.gsiData[cat];
+                categoryTable.cat = cat;
+                categoryTable.tables = [];
+                thisTop.forEach((topic) => {
+                    const outputHtml: MosaicTable = { title: "", data: null };
+                    if (thisTop[topic]) {
+                        const letb = thisTop[topic];
+                        outputHtml.title = topic;
+                        const variableValues: VariableDetails[] = [];
+                        letb.forEach((leti) => {
+                            if (letb[leti]) {
+                                const thisvariable = letb[leti];
+                                const variableAverage = this.average(Object.values(letb[leti]));
+                                const thisCodeValue = thisvariable[mosType];
+                                const obsOverExpected = (thisCodeValue / variableAverage) * 100.0;
+                                const thisDetail: VariableDetails = {
+                                    Type: leti,
+                                    Value: Math.round(thisCodeValue * 10.0) / 10.0,
+                                    Ratio: Math.round(obsOverExpected),
+                                };
+                                variableValues.push(thisDetail);
+                            }
+                        });
+                        outputHtml.data = variableValues;
+                        categoryTable.tables.push(outputHtml);
                     }
-                    const thisvariable = letb[leti];
-                    const variableAverage = this.average(Object.values(letb[leti]));
-                    const thisCodeValue = thisvariable[mosType];
-                    const obsOverExpected = (thisCodeValue / variableAverage) * 100.0;
-                    const thisDetail: VariableDetails = {
-                        Type: leti,
-                        Value: Math.round(thisCodeValue * 10.0) / 10.0,
-                        Ratio: Math.round(obsOverExpected),
-                    };
-                    variableValues.push(thisDetail);
-                }
-                outputHtml.data = variableValues;
-                categoryTable.tables.push(outputHtml);
+                });
+                this.giTable.push(categoryTable);
             }
-            this.giTable.push(categoryTable);
-        }
+        });
     }
     average(data) {
-        const sum = data.reduce(function (sm, value) {
+        const sum = data.reduce((sm, value) => {
             return sm + value;
         }, 0);
         return sum / data.length;
@@ -651,7 +631,7 @@ export class GSIComponent implements OnInit, OnDestroy {
             }
         }
     }
-    changeVariable(value: any) {
+    changeVariable() {
         if (this.typesOfPolygons.find((x) => x.name === "Mosaic").selectedPrimary) {
             this.initThematicView(this.MosaicMap);
         } else if (this.typesOfPolygons.find((x) => x.name === "Mosaic").selectedSecondary) {
@@ -675,12 +655,13 @@ export class GSIComponent implements OnInit, OnDestroy {
                         this.initSingleView(this.selectedMosType);
                     }
                     break;
-                case "thematic":
+                case "thematic": {
                     const variable = this.group.value["variable"];
                     if (variable) {
                         this.initThematicView(map);
                     }
                     break;
+                }
                 default:
                     break;
             }
@@ -883,7 +864,7 @@ export class GSIComponent implements OnInit, OnDestroy {
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += "<img alt=\"image\" class=\"img-container\" src=\"assets/images/mosaic/mosaic_" + usedMosaicType + ".jpg\">";
+        output += `<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_` + usedMosaicType + `.jpg">`;
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";

@@ -122,7 +122,7 @@ export class FullComponent implements OnDestroy, OnInit {
         });
     }
 
-    toggleSidebar(event: any) {
+    toggleSidebar() {
         this.minisidebar = !this.minisidebar;
         setTimeout(() => {
             window.dispatchEvent(new Event("resize"));

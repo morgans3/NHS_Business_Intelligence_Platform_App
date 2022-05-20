@@ -6,7 +6,6 @@ import * as XLSX from "xlsx";
 @Component({
     selector: "app-mapdatasets",
     templateUrl: "./mapdatasets.component.html",
-    styleUrls: ["./mapdatasets.component.css"],
 })
 export class MapdatasetsComponent implements OnInit {
     arrayBuffer: any;
@@ -39,7 +38,7 @@ export class MapdatasetsComponent implements OnInit {
     Upload() {
         this.workbook = { name: this.file.name, worksheets: [] };
         const fileReader = new FileReader();
-        fileReader.onload = (e) => {
+        fileReader.onload = () => {
             this.arrayBuffer = fileReader.result;
             const data = new Uint8Array(this.arrayBuffer);
             const arr = [];

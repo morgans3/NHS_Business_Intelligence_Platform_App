@@ -184,7 +184,7 @@ export class PatientListComponent implements OnInit {
         this.router.navigate(["/person", nhsnumber]);
     }
 
-    personBookmarked(row, i: number) {
+    personBookmarked(row) {
         if (this.bookmarks.indexOf(row.nhs_number) > -1) {
             this.bookmarks.splice(this.bookmarks.indexOf(row.nhs_number), 1);
         } else {
@@ -275,7 +275,7 @@ export class PatientListComponent implements OnInit {
         const options = {
             title: "Nexus Intelligence Cohort Addresses",
             fieldSeparator: ",",
-            quoteStrings: "\"",
+            quoteStrings: `"`,
             decimalseparator: ".",
             showLabels: true,
             showTitle: false,

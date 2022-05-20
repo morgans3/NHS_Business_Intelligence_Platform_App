@@ -8,7 +8,6 @@ import { PostcodeService } from "src/app/_services/postcodes.service";
 @Component({
     selector: "app-mapsettings",
     templateUrl: "./mapsettings.component.html",
-    styleUrls: ["./mapsettings.component.css"],
 })
 export class MapsettingsComponent implements OnInit, OnChanges {
     @Input() mapreference: any;
@@ -50,7 +49,7 @@ export class MapsettingsComponent implements OnInit, OnChanges {
                         this.notificationService.info("Unable to find postcode from database.");
                     }
                 },
-                (err) => {
+                () => {
                     this.notificationService.info("Unable to find postcode from database.");
                 }
             );

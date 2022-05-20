@@ -24,8 +24,7 @@ export class MethodsComponent implements OnInit, OnChanges {
         priority: new FormControl("0", Validators.required),
         list: new FormControl(),
     });
-    @ViewChild(FormGroupDirective, { static: false })
-        formDirective: FormGroupDirective;
+    @ViewChild(FormGroupDirective, { static: false }) formDirective: FormGroupDirective;
     form: IncidentMethods;
     dataChanged: false;
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -61,7 +60,7 @@ export class MethodsComponent implements OnInit, OnChanges {
             if (updateItem.length > 0) {
                 updateItem[0].priority = this.myForm.value["priority"];
                 updateItem[0].list = this.list;
-                this.apiService.updateSpiIncident(updateItem[0]).subscribe((data: any) => {
+                this.apiService.updateSpiIncident(updateItem[0]).subscribe(() => {
                     this.methods.splice(
                         this.methods.indexOf(this.methods.filter((x) => x.method === this.myForm.value["method"])[0]),
                         1,
@@ -84,7 +83,7 @@ export class MethodsComponent implements OnInit, OnChanges {
             const item = this.myForm.value;
             item.list = this.list;
             item.dateCreated = new Date().toISOString();
-            this.apiService.createSpiIncident(item).subscribe((data: any) => {
+            this.apiService.createSpiIncident(item).subscribe(() => {
                 this.methods.push(item);
                 this.buildTable();
                 this.formDirective.resetForm();
@@ -114,7 +113,7 @@ export class MethodsComponent implements OnInit, OnChanges {
     removeRecord(row: IncidentMethods) {
         this.apiService.deleteSpiIncident(row).subscribe((res: any) => {
             if (res.error) {
-                this.notificationService.warning("Unable to remove method, reason: " + res.message);
+                this.notificationService.warning("Unable to remove method, reason: " + (res.message as string));
             } else {
                 this.notificationService.success("Method removed");
                 this.methods.splice(this.methods.indexOf(row));
@@ -125,6 +124,6 @@ export class MethodsComponent implements OnInit, OnChanges {
     }
 
     trunc(word, n) {
-        return word.length > n ? word.substr(0, n - 1) + "..." : word;
+        return word.length > n ? (word.substr(0, n - 1) as string) + "..." : word;
     }
 }

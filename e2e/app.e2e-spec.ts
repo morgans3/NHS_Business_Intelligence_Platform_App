@@ -1,10 +1,8 @@
 import { AppPage } from "./app.po";
 
 describe("material App", () => {
-    let page: AppPage;
-
     beforeEach(() => {
-        page = new AppPage();
+        new AppPage();
     });
 
     /* it('should display welcome message', () => {

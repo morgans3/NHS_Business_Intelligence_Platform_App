@@ -23,7 +23,6 @@ export interface Crime {
 @Component({
     selector: "app-crime-information",
     templateUrl: "./crime-information.component.html",
-    styleUrls: ["./crime-information.component.scss"],
 })
 export class CrimeInformationComponent implements OnInit {
     @Input() lat: string;
@@ -49,7 +48,7 @@ export class CrimeInformationComponent implements OnInit {
 
     getStats() {
         this.categoryCount = {};
-        this.crimes.reduce((previous, current, index, array) => {
+        this.crimes.reduce((previous, current) => {
             this.categoryCount[current.category] = (this.categoryCount[current.category] || 0) + 1;
             return previous;
         });

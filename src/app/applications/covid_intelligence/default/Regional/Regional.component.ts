@@ -26,8 +26,7 @@ export class RegionalComponent implements OnInit {
     @ViewChild("ewChartParent") ewChartParent: ElementRef;
     @ViewChild("rlChartParent") rlChartParent: ElementRef;
     @ViewChild("ageChartParent") ageChartParent: ElementRef;
-    @ViewChild("supportChartParent")
-        supportChartParent: ElementRef;
+    @ViewChild("supportChartParent") supportChartParent: ElementRef;
     dataLoaded = false;
     ndx: any;
     nhs_lad_code: any;
@@ -101,7 +100,7 @@ export class RegionalComponent implements OnInit {
     /* #endregion */
 
     @HostListener("window:resize", ["$event"])
-    onResize(event) {
+    onResize() {
         setTimeout(() => {
             this.drawCharts();
         }, 0);
@@ -112,6 +111,7 @@ export class RegionalComponent implements OnInit {
         const parsedUrl = window.location.href;
         this.origin = parsedUrl.replace("/population-health", "");
         if (this.origin.includes("localhost")) {
+            // TODO: use environment files for url ref
             this.origin = "https://cvi.nexusintelligencenw.nhs.uk";
         }
     }
@@ -134,7 +134,7 @@ export class RegionalComponent implements OnInit {
             },
         };
         this.all = {
-            value: (f) => {
+            value: () => {
                 return this.filteredData["all"].values;
             },
         };
@@ -144,14 +144,14 @@ export class RegionalComponent implements OnInit {
                 this.dimensionFunction("nhs_lad_code", f);
                 this.refresh(this.queryFilter);
             },
-            filterAll () {},
+            filterAll: () => {},
         };
         this.nhs_lad_codeGroup = {
             all: () => {
                 return this.filteredData["nhs_lad_code"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.received_letter = {
             filterName: () => "received_letter",
@@ -159,14 +159,14 @@ export class RegionalComponent implements OnInit {
                 this.dimensionFunction("received_letter", f);
                 this.refresh(this.queryFilter);
             },
-            filterAll () {},
+            filterAll: () => {},
         };
         this.received_letterGroup = {
             all: () => {
                 return this.filteredData["received_letter"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.medical_conditions = {
             filterName: () => "medical_conditions",
@@ -174,14 +174,14 @@ export class RegionalComponent implements OnInit {
                 this.dimensionFunction("medical_conditions", f);
                 this.refresh(this.queryFilter);
             },
-            filterAll () {},
+            filterAll: () => {},
         };
         this.medical_conditionsGroup = {
             all: () => {
                 return this.filteredData["medical_conditions"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.can_you_get_essential_supplies_delivered = {
             filterName: () => "can_you_get_essential_supplies_delivered",
@@ -189,14 +189,14 @@ export class RegionalComponent implements OnInit {
                 this.dimensionFunction("can_you_get_essential_supplies_delivered", f);
                 this.refresh(this.queryFilter);
             },
-            filterAll () {},
+            filterAll: () => {},
         };
         this.can_you_get_essential_supplies_deliveredGroup = {
             all: () => {
                 return this.filteredData["can_you_get_essential_supplies_delivered"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
     }
 
@@ -328,21 +328,19 @@ export class RegionalComponent implements OnInit {
     /* #region Header Values and Dropdown functions */
     updateSummaries() {
         const list = this.myDC.chartRegistry.list();
-        if (list.length > 0) {
-            // tslint:disable-next-line: forin
-            for (const e in list) {
-                const chart = list[e];
-                if (
-                    chart.anchorName() === "dc-data-count" ||
-                    chart.anchorName() === "TotalPopulation" ||
-                    chart.anchorName() === "CustBaseline" ||
-                    chart.anchorName() === "TotalSelected" ||
-                    chart.anchorName() === "PercentSelected"
-                ) {
-                    this.myDC.chartRegistry.deregister(chart);
-                }
+        list.forEach((e) => {
+            const chart = list[e];
+            if (
+                chart.anchorName() === "dc-data-count" ||
+                chart.anchorName() === "TotalPopulation" ||
+                chart.anchorName() === "CustBaseline" ||
+                chart.anchorName() === "TotalSelected" ||
+                chart.anchorName() === "PercentSelected"
+            ) {
+                this.myDC.chartRegistry.deregister(chart);
             }
-        }
+        });
+
         this.patientsCount = this.myDC.numberDisplay("#dc-data-count");
         this.updatePatientsCount();
         this.TotalPopulation = this.myDC.numberDisplay("#TotalPopulation");
@@ -466,7 +464,7 @@ export class RegionalComponent implements OnInit {
             brushOn: true,
             colours: ["#feedde", "#fdd0a2", "#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#8c2d04"],
             colorDomain: [0, 8000],
-            colorAccessor: (d, i) => {
+            colorAccessor: (d) => {
                 return d.value ? d.value : 0;
             },
             featureKeyAccessor: (feature) => {
@@ -474,11 +472,11 @@ export class RegionalComponent implements OnInit {
             },
             legend: leafletLegend().position("bottomright"),
             popup: (d, feature) => {
-                let output = "<h5 class=\"ttipmap\">";
+                let output = `<h5 class="ttipmap">`;
                 output += feature.properties.wd15nm;
-                output += "</h5><h5 class=\"ttipmap\">";
+                output += `</h5><h5 class="ttipmap">`;
                 output += feature.properties.lad15nm;
-                output += "</h5><p class=\"ttipmap\">Population: ";
+                output += `</h5><p class="ttipmap">Population: `;
                 output += this.numberWithCommas(d.value) + "</p>";
                 return output;
             },
@@ -493,10 +491,10 @@ export class RegionalComponent implements OnInit {
         this.ewChart.on("preRedraw", (chart) => {
             chart.colorDomain(d3.extent(chart.data(), chart.valueAccessor()));
         });
-        this.ewChart.on("renderlet", (chart, filter) => {
+        this.ewChart.on("renderlet", () => {
             this.leafletMapRenderedWard = true;
         });
-        this.ewChart.on("filtered", (chart, filter) => {
+        this.ewChart.on("filtered", () => {
             // this.filterHandled(dimension, filter);
         });
     }
@@ -628,7 +626,7 @@ export class RegionalComponent implements OnInit {
                     chart.xUnits(this.myDC.units.ordinal);
                     break;
                 default:
-                    chart.xUnits(function (xUnits) {
+                    chart.xUnits(() => {
                         return details.xUnits;
                     });
             }
@@ -661,12 +659,12 @@ export class RegionalComponent implements OnInit {
         if (details.xAxisTickFormat) {
             switch (details.xAxisTickFormat) {
                 case "prcnt":
-                    chart.xAxis().tickFormat(function (v) {
+                    chart.xAxis().tickFormat((v) => {
                         return v + "%";
                     });
                     break;
                 default:
-                    chart.xAxis().tickFormat(function (v) {
+                    chart.xAxis().tickFormat((v) => {
                         return v + "";
                     });
                     break;
@@ -691,17 +689,17 @@ export class RegionalComponent implements OnInit {
         if (details.ordering) {
             switch (details.ordering) {
                 case "descD":
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return -d.d;
                     });
                     break;
                 case "descValue":
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return -d.value;
                     });
                     break;
                 default:
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return String(d.key);
                     });
                     break;
@@ -720,7 +718,7 @@ export class RegionalComponent implements OnInit {
             chart.cap(details.cap);
         }
         chart.filterHandler((dim, filters) => this.filterHandled(dim, filters));
-        chart.commitHandler(async (err, result) => {
+        chart.commitHandler(async () => {
             await this.refresh(this.queryFilter);
         });
     }
@@ -735,8 +733,7 @@ export class RegionalComponent implements OnInit {
         const cohorturl = event.cohorturl;
         const cohortJSON = JSON.parse(event.cohorturl);
         const list = this.myDC.chartRegistry.list();
-        // tslint:disable-next-line: forin
-        for (const e in list) {
+        list.forEach((e) => {
             const chart = list[e];
             const theFilter = cohortJSON[this.convertChartToDim(chart.anchorName())];
             if (theFilter !== undefined) {
@@ -754,7 +751,7 @@ export class RegionalComponent implements OnInit {
             } else {
                 chart.filter(null);
             }
-        }
+        });
         const header = [["Authorization", "JWT " + this.store.selectSnapshot(AuthState.getToken)]];
         const options: RequestInit = {
             method: "GET",
@@ -775,7 +772,7 @@ export class RegionalComponent implements OnInit {
     }
 
     getDimensionFromName(name: string): any {
-        const strippedName = name.replace("\"", "").replace("\"", "");
+        const strippedName = name.replace(`"`, "").replace(`"`, "");
         switch (strippedName) {
             case "nhs_lad_code":
                 return this.nhs_lad_code;

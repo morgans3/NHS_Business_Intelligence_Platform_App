@@ -32,7 +32,7 @@ export class TeamsTableComponent implements OnInit {
     delete(item) {
         this.notificationService.question("Are you sure you want to delete this team?").then((confirmed) => {
             if (confirmed === true) {
-                this.apiService.deleteTeam(item).subscribe((res) => {
+                this.apiService.deleteTeam(item).subscribe(() => {
                     // Notify success
                     this.notificationService.success("Team has been removed successfully!");
 

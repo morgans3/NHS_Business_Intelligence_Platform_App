@@ -10,7 +10,7 @@ import { BarChart, LeafletMarkerChart, RowChart, PieChart, HeatMap } from "../..
 import * as crossfilter from "crossfilter2";
 import { collapseAnimations } from "../../../../shared/animations";
 import { NotificationService } from "../../../../_services/notification.service";
-import { Sort, MatSort } from "@angular/material/sort";
+import { MatSort } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { Angular2Csv } from "angular2-csv/Angular2-csv";
@@ -48,8 +48,7 @@ export class OutbreaksComponent implements OnInit {
     @ViewChild("ethnicityChartParent") ethnicityChartParent: ElementRef;
     @ViewChild("careHomeChartParent") careHomeChartParent: ElementRef;
     @ViewChild("datesAndAgeBandHeatmapParent") datesAndAgeBandHeatmapParent: ElementRef;
-    @ViewChild(MatTable)
-        table: MatTable<any>;
+    @ViewChild(MatTable) table: MatTable<any>;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     resetBtnPushed = false;
@@ -218,7 +217,7 @@ export class OutbreaksComponent implements OnInit {
     oneDay: number = 24 * 60 * 60 * 1000;
 
     @HostListener("window:resize", ["$event"])
-    onResize(event) {
+    onResize() {
         setTimeout(() => {
             if (!this.firstLoad) {
                 this.drawCharts();
@@ -237,6 +236,7 @@ export class OutbreaksComponent implements OnInit {
         const parsedUrl = window.location.href;
         this.origin = parsedUrl.replace("/outbreaks", "");
         if (this.origin.includes("localhost")) {
+            // TODO: This isn't the yellow brick road
             this.origin = "https://cvi.nexusintelligencenw.nhs.uk";
         }
         this.dataSource = new MatTableDataSource(this.exampleData);
@@ -451,9 +451,8 @@ export class OutbreaksComponent implements OnInit {
                         this.risk_poly = JSON.parse(res.body[0]);
                         const risk_arr = this.risk_poly.features;
                         if (api_method === "rate") {
-                            this.maxScore = Math.max.apply(
-                                Math,
-                                risk_arr.map((o) => {
+                            this.maxScore = Math.max(
+                                ...risk_arr.map((o) => {
                                     const rate = o.properties.crude_rate_per_thousand;
                                     if (isNaN(rate)) {
                                         return 0;
@@ -463,10 +462,7 @@ export class OutbreaksComponent implements OnInit {
                                 })
                             );
 
-                            this.maxDiff = Math.max.apply(
-                                Math,
-                                risk_arr.map((o) => Math.abs(o.properties.rate_diff))
-                            );
+                            this.maxDiff = Math.max(...risk_arr.map((o) => Math.abs(o.properties.rate_diff)));
 
                             this.n_weeks = this.weeksBetween(new Date(this.date_start), this.addDays(this.date_end, 1));
                             this.dataSource.data = this.risk_poly.features;
@@ -481,7 +477,7 @@ export class OutbreaksComponent implements OnInit {
                                     Math.round(100 * d.properties.previous_crude_rate_per_thousand) / 100;
                             });
                             this.dataSource.data.filter((d) => {
-                                d.properties.district_boundary != "black" && d.properties.lancs_pop;
+                                d.properties.district_boundary !== "black" && d.properties.lancs_pop;
                             });
                             this.dataSource.paginator = this.paginator;
                             this.dataSource.sort = this.sort;
@@ -492,10 +488,7 @@ export class OutbreaksComponent implements OnInit {
                                 });
                             }
                         } else {
-                            this.maxScore = Math.max.apply(
-                                Math,
-                                risk_arr.map((o) => o.properties.relative_score)
-                            );
+                            this.maxScore = Math.max(...risk_arr.map((o) => o.properties.relative_score));
                             this.maxDiff = 1;
                         }
                         this.polyMinOpacity = 0;
@@ -533,11 +526,15 @@ export class OutbreaksComponent implements OnInit {
         this.updateColourBar();
 
         if (api_method === "rate") {
-            document.getElementById("polyRateContainer").innerHTML =
-                "<div class=\"mapRatePoly\"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div>";
+            document.getElementById(
+                "polyRateContainer"
+            ).innerHTML = `<div class="mapRatePoly"><br><br><br><br><br><br><br><br><br><br><br><br>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div>`;
         } else {
-            document.getElementById("polyCloakContainer").innerHTML =
-                "<div class=\"mapCloakPoly\"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div>";
+            document.getElementById(
+                "polyCloakContainer"
+            ).innerHTML = `<div class="mapCloakPoly"><br><br><br><br><br><br><br><br><br><br><br><br>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div>`;
         }
         const width = document.getElementById(api_method === "rate" ? "polyRateContainer" : "polyCloakContainer").offsetWidth;
         const risk_data = crossfilter(this.risk_poly.features);
@@ -558,15 +555,17 @@ export class OutbreaksComponent implements OnInit {
                 center: this.currentCentre,
             })
             .geojson(this.risk_poly)
-            .featureStyle(
-                this.showRateChange
-                    ? this.styleRateDiff
-                    : this.polyRateLSOA || this.polyRateMSOA || this.polyRateWard
-                        ? this.styleRateNoBoundary
-                        : this.polyCloak
-                            ? this.styleCloak
-                            : this.styleRate
-            )
+            .featureStyle(function () {
+                if (this.showRateChange) {
+                    return this.styleRateDiff;
+                } else {
+                    if (this.polyRateLSOA || this.polyRateMSOA || this.polyRateWard) {
+                        return this.styleRateNoBoundary;
+                    } else {
+                        return this.polyCloak ? this.styleCloak : this.styleRate;
+                    }
+                }
+            })
             .featureKeyAccessor((d: any) => d.properties.area)
             .popup(this.polyCloak ? this.cloakKV : this.rateKV);
 
@@ -735,10 +734,7 @@ export class OutbreaksComponent implements OnInit {
                     this.loading = false;
                     this.outbreakPoly = res.body[0];
                     const outbreakArr = this.outbreakPoly.features;
-                    this.maxScore = Math.max.apply(
-                        Math,
-                        outbreakArr.map((o) => o.properties.f6)
-                    );
+                    this.maxScore = Math.max(...outbreakArr.map((o) => o.properties.f6));
                     this.outbreakPoly.features.forEach((d) => {
                         d.max_score = this.maxScore;
                         d.min_opacity = this.polyMinOpacity;
@@ -850,7 +846,8 @@ export class OutbreaksComponent implements OnInit {
         } else {
             colourBar.setAttribute("style", "background:linear-gradient(to right, #ffffff 0%, #800080 100%); height:20px");
         }
-        let colourBarUnits; let colourBarTitle;
+        let colourBarUnits;
+        let colourBarTitle;
         switch (true) {
             case this.polyIsochrones:
                 colourBarUnits = " [m<sup>-2</sup>]";
@@ -882,23 +879,23 @@ export class OutbreaksComponent implements OnInit {
         colourBar.innerHTML = "<br>";
         if (this.showRateChange) {
             colourBar.innerHTML +=
-                "<div style=\"width:33%;float:left;text-align:left\">" +
+                `<div style="width:33%;float:left;text-align:left">` +
                 -Math.round(100 * this.maxDiff) / 100 +
                 "</div>" +
-                "<div style=\"width:33%;float:left;text-align:center;\">0</div>" +
-                "<div style=\"width:33%;float:right;text-align:right;\">" +
+                `<div style="width:33%;float:left;text-align:center;">0</div>` +
+                `<div style="width:33%;float:right;text-align:right;">` +
                 Math.round(100 * this.maxDiff) / 100 +
                 "</div>";
         } else {
             colourBar.innerHTML +=
-                "<div style=\"width:33%;float:left;text-align:left\"> 0" +
+                `<div style="width:33%;float:left;text-align:left"> 0` +
                 colourBarUnits +
                 "</div>" +
-                "<div style=\"width:33%;float:left;text-align:center;\">" +
+                `<div style="width:33%;float:left;text-align:center;">` +
                 Math.round(100 * halfOpacityPoint) / 100 +
                 colourBarUnits +
                 "</div>" +
-                "<div style=\"width:33%;float:right;text-align:right;\">" +
+                `<div style="width:33%;float:right;text-align:right;">` +
                 Math.round(100 * maxOpacityPoint) / 100 +
                 colourBarUnits +
                 " - " +
@@ -1004,8 +1001,8 @@ export class OutbreaksComponent implements OnInit {
                 iconCreateFunction: (cluster) => {
                     const markers = cluster.getAllChildMarkers();
                     let n = 0;
-                    for (let i = 0; i < markers.length; i++) {
-                        n += markers[i].options.sizeValue;
+                    for (const i of markers) {
+                        n += i.options.sizeValue;
                     }
                     let c = " marker-cluster-";
                     if (n < 10) {
@@ -1030,10 +1027,10 @@ export class OutbreaksComponent implements OnInit {
         this.map.on("preRedraw", (chart) => {
             chart.circleScale(this.mapCircleScalingFactor);
         });
-        this.map.on("renderlet", (chart, filter) => {
+        this.map.on("renderlet", () => {
             this.leafletMaprendered = true;
         });
-        this.map.on("filtered", (chart, filter) => {});
+        this.map.on("filtered", () => {});
         this.map.filterHandler((dim, filters) => this.filterHandled(dim, filters));
         // this.map.commitHandler(async (err, result) => {
         //   await this.refresh(this.queryFilter);
@@ -1051,7 +1048,7 @@ export class OutbreaksComponent implements OnInit {
                 .x(d3.scaleTime().domain([this.startdate, this.enddate]))
                 .round(d3.timeDay.round)
                 .alwaysUseRounding(true)
-                .xUnits(function () {
+                .xUnits(() => {
                     return 150;
                 })
                 .elasticY(true);
@@ -1088,7 +1085,7 @@ export class OutbreaksComponent implements OnInit {
                     this.polyCloakUpdateButton = false;
                 }
             });
-            this.dateChart.commitHandler(async (err, result) => {
+            this.dateChart.commitHandler(async () => {
                 await this.refresh(this.queryFilter);
             });
             this.dateChart.render();
@@ -1117,12 +1114,6 @@ export class OutbreaksComponent implements OnInit {
         if (this.datesAndAgeBandHeatmapOpenCloseAnim === "open") {
             this.createDatesAndAgeBandHeatmap(this.AgeBandDimension, this.AgeBandDimGroup);
         }
-
-        // this.careHomeSelect = this.myDC.selectMenu("#care-home");
-        // this.careHomeSelect
-        //   .dimension(this.CareHomeDimension)
-        //   .group(this.CareHomeDimGroup)
-        //   .controlsUseVisibility(true)
 
         this.renderCharts();
         if (this.firstLoad) {
@@ -1239,7 +1230,7 @@ export class OutbreaksComponent implements OnInit {
     // This crossfilter fake group filtering ensures there's no null ages or 0 cases
     removeZeroAndNullAgeCases(groupedDimension) {
         return {
-            all() {
+            all: () => {
                 return groupedDimension.all().filter((d) => {
                     return d.value !== 0 && d.key[1] !== null;
                 });
@@ -1267,7 +1258,11 @@ export class OutbreaksComponent implements OnInit {
                 return +d.value;
             },
             titlefunction: (d) => {
-                return [`Date: ${new Date(d.key[0]).toLocaleDateString()}`, `Age range: ${d.key[1]}`, `Cases: ${d.value}`].join("\n");
+                return [
+                    `Date: ${new Date(d.key[0]).toLocaleDateString()}`,
+                    `Age range: ${d.key[1] as string}`,
+                    `Cases: ${d.value as string}`,
+                ].join("\n");
             },
             keyAccessor: (d) => {
                 return +new Date(d.key[0]);
@@ -1335,158 +1330,144 @@ export class OutbreaksComponent implements OnInit {
             },
         };
         this.all = {
-            value: (f) => {
+            value: () => {
                 return this.filteredData["all"].values;
             },
         };
         this.DateDimension = {
             filterName: () => "DateDimension",
             filter: (f) => this.dimensionFunction("date", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.DateDimGroup = {
             all: () => {
-                const response = this.filteredData["date"].values.forEach((element) => {
+                this.filteredData["date"].values.forEach((element) => {
                     element.key = new Date(element.key);
                 });
                 return this.filteredData["date"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.AgeDimension = {
             filterName: () => "AgeDimension",
             filter: (f) => this.dimensionFunction("age", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.AgeDimGroup = {
             all: () => {
                 return this.filteredData["age"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.AgeBandDimension = {
             filterName: () => "AgeBandDimension",
             filter: (f) => this.dimensionFunction("age_band", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.AgeBandDimGroup = {
             all: () => {
                 return this.filteredData["age_band"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.XDimension = {
             filterName: () => "XDimension",
             filter: (f) => this.dimensionFunction("x", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.XDimGroup = {
             all: () => {
                 return this.filteredData["x"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.YDimension = {
             filterName: () => "YDimension",
             filter: (f) => this.dimensionFunction("y", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.YDimGroup = {
             all: () => {
                 return this.filteredData["y"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.CodeDimension = {
             filterName: () => "CodeDimension",
             filter: (f) => this.dimensionFunction("code", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.CodeDimGroup = {
             all: () => {
                 return this.filteredData["code"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.EthnicityDimension = {
             filterName: () => "EthnicityDimension",
             filter: (f) => this.dimensionFunction("ethnicity", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.EthnicityDimGroup = {
             all: () => {
-                // const unknown = this.filteredData["ethnicity"].values.filter(
-                //   (x) => x.key === "Unknown"
-                // );
-                // if (unknown.length > 0) {
-                //   this.unknownNumber = this.filteredData["ethnicity"].values.filter(
-                //     (x) => x.key === "Unknown"
-                //   )[0].value;
-                // } else {
-                //   this.unknownNumber = null;
-                // }
-                // const array = this.filteredData["ethnicity"].values.filter(
-                //   (x) => x.key !== "Unknown"
-                // );
-                // return array;
                 return this.filteredData["ethnicity"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.SexDimension = {
             filterName: () => "SexDimension",
             filter: (f) => this.dimensionFunction("patient_sex", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.SexDimGroup = {
             all: () => {
                 return this.filteredData["patient_sex"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.PillarDimension = {
             filterName: () => "PillarDimension",
             filter: (f) => this.dimensionFunction("pillar", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.PillarDimGroup = {
             all: () => {
                 return this.filteredData["pillar"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.ULTADimension = {
             filterName: () => "ULTADimension",
             filter: (f) => this.dimensionFunction("utla", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.ULTADimGroup = {
             all: () => {
                 return this.filteredData["utla"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.CareHomeDimension = {
             filterName: () => "CareHomeDimension",
             filter: (f) => this.dimensionFunction("care_home", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.CareHomeDimGroup = {
             all: () => {
                 return this.filteredData["care_home"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
     }
 
@@ -1538,7 +1519,7 @@ export class OutbreaksComponent implements OnInit {
     }
 
     getDimensionFromName(name: string): any {
-        const strippedName = name.replace("\"", "").replace("\"", "");
+        const strippedName = name.replace(`"`, "").replace(`"`, "");
         switch (strippedName) {
             case "PillarDimension":
                 return this.PillarDimension;
@@ -1576,11 +1557,6 @@ export class OutbreaksComponent implements OnInit {
             this.myDC.redrawAll();
             this.resetBtnPushed = false;
             this.loadFilters = {};
-            // setTimeout(() => {
-            //   if (this.selectedPopulation !== this.totalsize) {
-            //     this.resetToWholePop();
-            //   }
-            // }, 100);
         });
     }
 
@@ -1744,7 +1720,7 @@ export class OutbreaksComponent implements OnInit {
                     chart.xUnits(this.myDC.units.ordinal);
                     break;
                 default:
-                    chart.xUnits(function (xUnits) {
+                    chart.xUnits(() => {
                         return details.xUnits;
                     });
             }
@@ -1780,12 +1756,12 @@ export class OutbreaksComponent implements OnInit {
         if (details.xAxisTickFormat) {
             switch (details.xAxisTickFormat) {
                 case "prcnt":
-                    chart.xAxis().tickFormat(function (v) {
+                    chart.xAxis().tickFormat((v) => {
                         return v + "%";
                     });
                     break;
                 default:
-                    chart.xAxis().tickFormat(function (v) {
+                    chart.xAxis().tickFormat((v) => {
                         return v + "";
                     });
                     break;
@@ -1810,17 +1786,17 @@ export class OutbreaksComponent implements OnInit {
         if (details.ordering) {
             switch (details.ordering) {
                 case "descD":
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return -d.d;
                     });
                     break;
                 case "descValue":
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return -d.value;
                     });
                     break;
                 default:
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return String(d.key);
                     });
                     break;
@@ -1859,14 +1835,8 @@ export class OutbreaksComponent implements OnInit {
         if (details.cap) {
             chart.cap(details.cap);
         }
-        // if ((details.name = "ltcChart")) {
-        //   chart.filterHandler((dim, filters) =>
-        //     this.filterHandled(this.LTCs2Dimension, filters)
-        //   );
-        // } else {
         chart.filterHandler((dim, filters) => this.filterHandled(dim, filters));
-        // }
-        chart.commitHandler(async (err, result) => {
+        chart.commitHandler(async () => {
             await this.refresh(this.queryFilter);
         });
     }
@@ -1988,7 +1958,7 @@ export class OutbreaksComponent implements OnInit {
             options = {
                 title: "Rates By Geography",
                 fieldSeparator: ",",
-                quoteStrings: "\"",
+                quoteStrings: `"`,
                 decimalseparator: ".",
                 showLabels: true,
                 showTitle: true,
@@ -2042,7 +2012,7 @@ export class OutbreaksComponent implements OnInit {
             options = {
                 title: "Rates By Geography",
                 fieldSeparator: ",",
-                quoteStrings: "\"",
+                quoteStrings: `"`,
                 decimalseparator: ".",
                 showLabels: true,
                 showTitle: true,
@@ -2097,7 +2067,7 @@ export class OutbreaksComponent implements OnInit {
             options = {
                 title: "Rates By Geography",
                 fieldSeparator: ",",
-                quoteStrings: "\"",
+                quoteStrings: `"`,
                 decimalseparator: ".",
                 showLabels: true,
                 showTitle: true,
@@ -2148,7 +2118,7 @@ export class OutbreaksComponent implements OnInit {
             options = {
                 title: "Rates By Geography",
                 fieldSeparator: ",",
-                quoteStrings: "\"",
+                quoteStrings: `"`,
                 decimalseparator: ".",
                 showLabels: true,
                 showTitle: true,
@@ -2184,7 +2154,7 @@ export class OutbreaksComponent implements OnInit {
         const options = {
             title: "COVID-19 Positive Cases By Date",
             fieldSeparator: ",",
-            quoteStrings: "\"",
+            quoteStrings: `"`,
             decimalseparator: ".",
             showLabels: true,
             showTitle: true,

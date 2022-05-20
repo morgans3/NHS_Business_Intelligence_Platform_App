@@ -11,7 +11,6 @@ export interface UserPhotoCollection {
 @Component({
     selector: "app-ReportNotes",
     templateUrl: "./ReportNotes.component.html",
-    styleUrls: ["./ReportNotes.component.scss"],
 })
 export class ReportNotesComponent implements OnInit, OnChanges {
     @ViewChild(FormGroupDirective) formDirective: FormGroupDirective;

@@ -3,12 +3,10 @@ import { AdminComponent } from "./Admin/Admin.component";
 import { LandingComponent } from "./Landing/Landing.component";
 import { DisplayReportComponent } from "./DisplayReport/DisplayReport.component";
 import { RegionalComponent } from "./Regional/Regional.component";
-import { LocalComponent } from "./Local/Local.component";
 import { ModellingComponent } from "./Modelling/Modelling.component";
 import { PatientListComponent } from "./patient-list/patient-list.component";
 import { PatientComponent } from "./patient/patient.component";
 import { PidGuard } from "../../../_guards/pid.guard";
-import { CapabilityGuard } from "../../../_guards/capability.guard";
 import { OutbreaksComponent } from "./outbreaks/outbreaks.component";
 import { NeedListComponent } from "./need-list/need-list.component";
 import { PopulationselectComponent } from "./populationselect/populationselect.component";
@@ -29,10 +27,6 @@ export const DefaultRoutes: Routes = [
     {
         path: "Regional",
         component: RegionalComponent,
-    },
-    {
-        path: "Local",
-        component: LocalComponent,
     },
     {
         path: "Modelling",

@@ -4,7 +4,6 @@ import { Crime } from "../../../../_models/police";
 @Component({
     selector: "app-crimeFunctions",
     templateUrl: "./crimeFunctions.component.html",
-    styleUrls: ["./crimeFunctions.component.scss"],
 })
 export class CrimeFunctionsComponent implements OnInit {
     @Input() Crimes?: Crime[];

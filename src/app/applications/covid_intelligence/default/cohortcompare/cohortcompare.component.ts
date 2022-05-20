@@ -38,7 +38,6 @@ export class CompResults {
 @Component({
     selector: "app-cohortcompare",
     templateUrl: "./cohortcompare.component.html",
-    styleUrls: ["./cohortcompare.component.scss"],
 })
 export class CohortcompareComponent implements OnInit {
     /* #region Global Variables */
@@ -218,12 +217,7 @@ export class CohortcompareComponent implements OnInit {
 
     /* #region Tooltip Functions */
     htmlComparatorTable(d: any) {
-        let usedCompType; let output;
-        if (typeof d.data === "undefined") {
-            usedCompType = d.key;
-        } else {
-            usedCompType = d.data.key;
-        }
+        let output;
         output = "		<div class='row'>";
         output += "			<div class='col-md-12'>";
         output += "<table class='table'>";
@@ -293,7 +287,8 @@ export class CohortcompareComponent implements OnInit {
     }
 
     htmlCompTooltip(d: any) {
-        let usedCompType; let output;
+        let usedCompType;
+        let output;
         if (typeof d.data === "undefined") {
             usedCompType = d.key;
         } else {
@@ -362,7 +357,9 @@ export class CohortcompareComponent implements OnInit {
 
     htmlMosaicTooltip(d: any) {
         const mosaic: MosaicCode = this.mosaicCodes.find((x) => x.code === d.key);
-        let usedMosaicType; let isCompGraph; let output;
+        let usedMosaicType;
+        let isCompGraph;
+        let output;
         if (typeof d.data === "undefined") {
             usedMosaicType = d.key;
             isCompGraph = true;
@@ -386,7 +383,7 @@ export class CohortcompareComponent implements OnInit {
         output += "		</div>";
         output += "			<div class='row'>";
         output += "		<div class='col-md-12'>";
-        output += "<img alt=\"image\" class=\"img-container\" src=\"assets/images/mosaic/mosaic_" + usedMosaicType + ".jpg\">";
+        output += `<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_` + usedMosaicType + `.jpg">`;
         output += "			</div>";
         output += "		</div>";
         output += "			<div class='row'>";
@@ -534,7 +531,7 @@ export class CohortcompareComponent implements OnInit {
             .attr("font-weight", "600")
             .attr("transform", "translate(" + x(axisCrossPoint) + ",0)");
         gyLeft.call(yAxisLeft);
-        const leftTicks = gyLeft.selectAll(".tick").style("display", (d) => {
+        gyLeft.selectAll(".tick").style("display", (d) => {
             const ratio = data.filter((c) => c.key === d)[0].ratio;
             if (ratio < 100.1) {
                 return "none";
@@ -548,7 +545,7 @@ export class CohortcompareComponent implements OnInit {
             .attr("font-weight", "600")
             .attr("transform", "translate(" + x(axisCrossPoint) + ",0)");
         gyRight.call(yAxisRight);
-        const rightTicks = gyRight.selectAll(".tick").style("display", (d) => {
+        gyRight.selectAll(".tick").style("display", (d) => {
             const ratio = data.filter((c) => c.key === d)[0].ratio;
             if (ratio >= 100.1) {
                 return "none";
@@ -593,10 +590,11 @@ export class CohortcompareComponent implements OnInit {
             case "neighbourhood-select-comp":
                 returnCol = "nexus-lazur";
                 break;
-            case "mosaic-chart-comp":
+            case "mosaic-chart-comp": {
                 const mosaicGroup = key.substr(0, 1);
                 returnCol = "mosaic-".concat(mosaicGroup);
                 break;
+            }
             default:
                 returnCol = "nexus-yellow";
         }
@@ -665,7 +663,7 @@ export class CohortcompareComponent implements OnInit {
         }
         this.maps[chartName] = L.map(chartName).setView([53.967752, -2.444284], 8);
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a>",
+            attribution: `Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>`,
         }).addTo(this.maps[chartName]);
         let maxCompPop = 0;
         for (const key in json.features) {
@@ -732,7 +730,7 @@ export class CohortcompareComponent implements OnInit {
                     offset: L.point(0, -20),
                 });
             },
-            pointToLayer (feature, latlng) {
+            pointToLayer: (feature, latlng) => {
                 let radToUse;
                 if (typeof feature.properties.compPop === "undefined") {
                     radToUse = 0;
@@ -776,21 +774,14 @@ export class CohortcompareComponent implements OnInit {
         }
     }
     mergeObjects(obj1, obj2) {
-        // if (!isChrome) {
-        if (true) {
-            const obj3 = {};
-            // tslint:disable-next-line: forin
-            for (const attrname in obj1) {
-                obj3[attrname] = obj1[attrname];
-            }
-            // tslint:disable-next-line: forin
-            for (const attrname in obj2) {
-                obj3[attrname] = obj2[attrname];
-            }
-            return obj3;
-        } else {
-            return Object.assign(obj1, obj2);
-        }
+        const obj3 = {};
+        obj1.forEach((attrname) => {
+            obj3[attrname] = obj1[attrname];
+        });
+        obj2.forEach((attrname) => {
+            obj3[attrname] = obj2[attrname];
+        });
+        return obj3;
     }
     /* #endregion */
 }

@@ -6,7 +6,6 @@ import { environment } from "../../../environments/environment";
 @Component({
     selector: "app-support-layout",
     templateUrl: "./support.component.html",
-    styleUrls: ["./support.component.scss"],
 })
 export class SupportLayoutComponent implements OnDestroy, OnInit {
     mobileQuery: MediaQueryList;

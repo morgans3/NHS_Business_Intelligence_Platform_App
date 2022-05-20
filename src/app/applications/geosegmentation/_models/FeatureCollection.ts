@@ -1,4 +1,4 @@
-interface FeatureCollection {
+export interface FeatureCollection {
     type: "FeatureCollection";
     name?: string;
     crs: Crs;

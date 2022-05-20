@@ -8,7 +8,6 @@ import { decodeToken } from "src/app/_pipes/functions";
 @Component({
     selector: "app-team-admin",
     templateUrl: "./team-admin.component.html",
-    styleUrls: ["./team-admin.component.scss"],
 })
 export class TeamAdminComponent implements OnInit, OnChanges {
     @Input() team: iTeam;
@@ -73,6 +72,8 @@ export class TeamAdminComponent implements OnInit, OnChanges {
     }
 
     install(event: any, type: string) {
+        console.log(event);
+        console.log(type);
         // TODO: install app
         // this.installbroker.addInstallation(
         //   event.name,
@@ -90,6 +91,7 @@ export class TeamAdminComponent implements OnInit, OnChanges {
     }
 
     remove(event: any, type: string) {
+        console.log(type);
         const install = this.teamInstallations.find((x) => x.app_name === event.name);
         if (install) {
             // TODO: remove app

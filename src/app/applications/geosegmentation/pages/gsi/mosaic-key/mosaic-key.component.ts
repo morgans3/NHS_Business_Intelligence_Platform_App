@@ -18,7 +18,6 @@ export interface GIGraphKey {
     providers: [GSIComponent],
     selector: "app-mosaic-key",
     templateUrl: "./mosaic-key.component.html",
-    styleUrls: ["./mosaic-key.component.scss"],
 })
 export class MosaicKeyComponent implements OnInit, OnChanges {
     @ViewChild("giKeyGraph") giKeyGraphDiv: ElementRef;
@@ -52,7 +51,7 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
                 sortable.push([key, obj[key]]);
             }
         }
-        sortable.sort(function (a, b) {
+        sortable.sort((a, b) => {
             const x = a[1][1];
             const y = b[1][1];
             return x < y ? -1 : x > y ? 1 : 0;
@@ -63,7 +62,7 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
     drawKey(SortedKey) {
         const totalTypes = SortedKey.length;
         const KeyBoxCutoffs = [];
-        SortedKey.forEach(function (x, i) {
+        SortedKey.forEach((x, i) => {
             if (i < totalTypes - 1) {
                 KeyBoxCutoffs.push((x[1][0] + SortedKey[i + 1][1][0]) / 2);
             } else {
@@ -73,12 +72,12 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
             }
         });
         let lastRange = KeyBoxCutoffs[0] - (KeyBoxCutoffs[1] - KeyBoxCutoffs[0]);
-        KeyBoxCutoffs.forEach(function (x, i) {
+        KeyBoxCutoffs.forEach((x, i) => {
             KeyBoxCutoffs[i] = { start: lastRange, end: x };
             lastRange = KeyBoxCutoffs[i].end;
         });
 
-        SortedKey.forEach(function (x, i) {
+        SortedKey.forEach((x, i) => {
             x.push(KeyBoxCutoffs[i]);
         });
 
@@ -113,13 +112,13 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
         const xAxis = d3.axisBottom(linearScale);
         let keyToolTip;
         if (allKeys !== undefined && allKeys["mainKey"] !== undefined) {
-            this.thematicBars = allKeys["mainKey"].selectAll(".bar.thematic").data(SortedKey, function (d) {
+            this.thematicBars = allKeys["mainKey"].selectAll(".bar.thematic").data(SortedKey, (d) => {
                 return d;
             });
-            this.mosTypeBars = allKeys["mainKey"].selectAll(".bar.mos").data(SortedKey, function (d) {
+            this.mosTypeBars = allKeys["mainKey"].selectAll(".bar.mos").data(SortedKey, (d) => {
                 return d;
             });
-            this.mosTypeLines = allKeys["mainKey"].selectAll(".line").data(SortedKey, function (d) {
+            this.mosTypeLines = allKeys["mainKey"].selectAll(".line").data(SortedKey, (d) => {
                 return d;
             });
 
@@ -144,7 +143,7 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
                 return this.tiphtml(d[0], mosaic);
             };
 
-            allKeys["mainKey"].selectAll("rect").on("mouseover", function (data) {
+            allKeys["mainKey"].selectAll("rect").on("mouseover", (data) => {
                 keyToolTip.transition().duration(200).style("opacity", 0.9);
                 keyToolTip
                     .html(getTooltipHtml(data))
@@ -152,37 +151,33 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
                     .style("top", d3.event.pageY - 50 + "px");
             });
 
-            allKeys["mainKey"].selectAll("rect").on("click", function (d, e) {
-                d3.select(this) // @ts-ignore
-                    .transition()
-                    .duration(500)
-                    .style("y", 0)
-                    .style("height", height);
+            allKeys["mainKey"].selectAll("rect").on("click", function () {
+                d3.select(this).transition().duration(500).style("y", 0).style("height", height);
             });
         }
-        function applyAxisScale(scale) {
+        const applyAxisScale = (scale) => {
             allKeys["mainKey"]
                 .selectAll(".bar")
-                .attr("x", function (d, i) {
+                .attr("x", (d) => {
                     return scale(d[2].start);
                 })
-                .attr("width", function (d, i) {
+                .attr("width", (d) => {
                     return scale(d[2].end) - scale(d[2].start);
                 });
 
             allKeys["mainKey"]
                 .selectAll(".line")
-                .attr("x1", function (d, i) {
+                .attr("x1", (d) => {
                     return scale(d[1][0]);
                 })
-                .attr("x2", function (d, i) {
+                .attr("x2", (d) => {
                     return scale(d[1][0]);
                 });
 
             xAxis.scale(scale);
 
             allKeys["mainKey"].select(".x").call(xAxis);
-        }
+        };
         if (allKeys !== undefined && allKeys["mainKey"] !== undefined) {
             allKeys["mainKey"].on("mousemove", function () {
                 xFisheye.focus(Math.min(d3.mouse(this)[0], width));
@@ -208,37 +203,37 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
                 .enter()
                 .append("rect")
                 .attr("class", "bar ".concat(usedClass))
-                .attr("x", function (d, i) {
+                .attr("x", (d) => {
                     return linearScale(d[2].start);
                 })
-                .attr("y", function (d) {
+                .attr("y", () => {
                     return ypos;
                 })
-                .style("fill", function (d) {
+                .style("fill", (d) => {
                     return colorFunction(d);
                 })
-                .attr("height", function (d) {
+                .attr("height", () => {
                     return keyBarHeight;
                 })
-                .attr("width", function (d, i) {
+                .attr("width", (d) => {
                     return linearScale(d[2].end) - linearScale(d[2].start);
                 })
                 .merge(barData)
                 .transition()
                 .duration(duration)
-                .attr("x", function (d, i) {
+                .attr("x", (d) => {
                     return linearScale(d[2].start);
                 })
-                .attr("y", function (d) {
+                .attr("y", () => {
                     return ypos;
                 })
-                .style("fill", function (d) {
+                .style("fill", (d) => {
                     return colorFunction(d);
                 })
-                .attr("height", function (d) {
+                .attr("height", () => {
                     return keyBarHeight;
                 })
-                .attr("width", function (d, i) {
+                .attr("width", (d) => {
                     return linearScale(d[2].end) - linearScale(d[2].start);
                 });
 
@@ -246,13 +241,13 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
                 .exit()
                 .transition()
                 .duration(duration)
-                .attr("y", function (d) {
+                .attr("y", () => {
                     return ypos;
                 })
-                .style("fill", function (d) {
+                .style("fill", (d) => {
                     return colorFunction(d);
                 })
-                .attr("width", function (d, i) {
+                .attr("width", (d) => {
                     return linearScale(d[2].end) - linearScale(d[2].start);
                 })
                 .remove();
@@ -266,38 +261,38 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
                 .append("line")
                 .attr("class", "line")
                 .merge(lineData)
-                .attr("x1", function (d, i) {
+                .attr("x1", (d) => {
                     return linearScale(d[1][0]);
                 })
-                .attr("y1", function (d, i) {
+                .attr("y1", () => {
                     return keyBarHeight;
                 })
-                .attr("x2", function (d, i) {
+                .attr("x2", (d) => {
                     return linearScale(d[1][0]);
                 })
-                .attr("y2", function (d, i) {
+                .attr("y2", () => {
                     return 2 * keyBarHeight;
                 })
-                .style("stroke", function (d) {
+                .style("stroke", (d) => {
                     return colorFunction(d);
                 })
                 .attr("stroke-width", 1)
                 .merge(lineData)
                 .transition()
                 .duration(duration)
-                .attr("x1", function (d, i) {
+                .attr("x1", (d) => {
                     return linearScale(d[1][0]);
                 })
-                .attr("y1", function (d, i) {
+                .attr("y1", () => {
                     return keyBarHeight;
                 })
-                .attr("x2", function (d, i) {
+                .attr("x2", (d) => {
                     return linearScale(d[1][0]);
                 })
-                .attr("y2", function (d, i) {
+                .attr("y2", () => {
                     return 2 * keyBarHeight;
                 })
-                .style("stroke", function (d) {
+                .style("stroke", (d) => {
                     return colorFunction(d);
                 });
 
@@ -305,19 +300,19 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
                 .exit()
                 .transition()
                 .duration(duration)
-                .attr("x1", function (d, i) {
+                .attr("x1", (d) => {
                     return linearScale(d[1][0]);
                 })
-                .attr("y1", function (d, i) {
+                .attr("y1", () => {
                     return keyBarHeight;
                 })
-                .attr("x2", function (d, i) {
+                .attr("x2", (d) => {
                     return linearScale(d[1][0]);
                 })
-                .attr("y2", function (d, i) {
+                .attr("y2", () => {
                     return 2 * keyBarHeight;
                 })
-                .style("stroke", function (d) {
+                .style("stroke", (d) => {
                     return colorFunction(d);
                 })
                 .remove();
@@ -343,7 +338,7 @@ export class MosaicKeyComponent implements OnInit, OnChanges {
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += "<img alt=\"image\" class=\"img-container\" src=\"assets/images/mosaic/mosaic_" + usedMosaicType + ".jpg\">";
+        output += `<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_` + usedMosaicType + `.jpg">`;
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";

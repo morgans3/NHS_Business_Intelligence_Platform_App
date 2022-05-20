@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
-import { FormGroupDirective } from "@angular/forms";
 import { APIService } from "diu-component-library";
 
 export interface OpenSourceViews {
@@ -15,7 +14,6 @@ export interface OpenSourceViews {
 @Component({
     selector: "app-Landing",
     templateUrl: "./Landing.component.html",
-    styleUrls: ["./Landing.component.scss"],
 })
 export class LandingComponent implements OnInit {
     searchResults = false;

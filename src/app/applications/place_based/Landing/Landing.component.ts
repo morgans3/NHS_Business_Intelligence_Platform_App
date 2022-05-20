@@ -40,48 +40,27 @@ export class LandingComponent implements OnInit {
     origin: any;
     selectedPopulation = 0;
 
-    @ViewChild("methodsChartParent", { static: false })
-        methodsChartParent: ElementRef;
-    @ViewChild("inquestconclusionChartParent", { static: false })
-        inquestconclusionChartParent: ElementRef;
-    @ViewChild("type_of_locationsChartParent", { static: false })
-        type_of_locationsChartParent: ElementRef;
-    @ViewChild("typesChartParent", { static: false })
-        typesChartParent: ElementRef;
-    @ViewChild("csp_districtsChartParent", { static: false })
-        csp_districtsChartParent: ElementRef;
-    @ViewChild("coroner_areasChartParent", { static: false })
-        coroner_areasChartParent: ElementRef;
-    @ViewChild("local_authoritysChartParent", { static: false })
-        local_authoritysChartParent: ElementRef;
-    @ViewChild("reported_bysChartParent", { static: false })
-        reported_bysChartParent: ElementRef;
-    @ViewChild("bereavement_offeredsChartParent", { static: false })
-        bereavement_offeredsChartParent: ElementRef;
-    @ViewChild("imd_decilesChartParent", { static: false })
-        imd_decilesChartParent: ElementRef;
-    @ViewChild("employmentsChartParent", { static: false })
-        employmentsChartParent: ElementRef;
-    @ViewChild("gendersChartParent", { static: false })
-        gendersChartParent: ElementRef;
-    @ViewChild("rts_accuratesChartParent", { static: false })
-        rts_accuratesChartParent: ElementRef;
-    @ViewChild("agesChartParent", { static: false })
-        agesChartParent: ElementRef;
-    @ViewChild("day_of_the_weeksChartParent", { static: false })
-        day_of_the_weeksChartParent: ElementRef;
-    @ViewChild("monthsChartParent", { static: false })
-        monthsChartParent: ElementRef;
-    @ViewChild("datesChartParent", { static: false })
-        datesChartParent: ElementRef;
-    @ViewChild("inquest_datesChartParent", { static: false })
-        inquest_datesChartParent: ElementRef;
-    @ViewChild("mh_services_lscft_updatesChartParent", { static: false })
-        mh_services_lscft_updatesChartParent: ElementRef;
-    @ViewChild("dasChartParent", { static: false })
-        dasChartParent: ElementRef;
-    @ViewChild("asc_lcc_updatesChartParent", { static: false })
-        asc_lcc_updatesChartParent: ElementRef;
+    @ViewChild("methodsChartParent", { static: false }) methodsChartParent: ElementRef;
+    @ViewChild("inquestconclusionChartParent", { static: false }) inquestconclusionChartParent: ElementRef;
+    @ViewChild("type_of_locationsChartParent", { static: false }) type_of_locationsChartParent: ElementRef;
+    @ViewChild("typesChartParent", { static: false }) typesChartParent: ElementRef;
+    @ViewChild("csp_districtsChartParent", { static: false }) csp_districtsChartParent: ElementRef;
+    @ViewChild("coroner_areasChartParent", { static: false }) coroner_areasChartParent: ElementRef;
+    @ViewChild("local_authoritysChartParent", { static: false }) local_authoritysChartParent: ElementRef;
+    @ViewChild("reported_bysChartParent", { static: false }) reported_bysChartParent: ElementRef;
+    @ViewChild("bereavement_offeredsChartParent", { static: false }) bereavement_offeredsChartParent: ElementRef;
+    @ViewChild("imd_decilesChartParent", { static: false }) imd_decilesChartParent: ElementRef;
+    @ViewChild("employmentsChartParent", { static: false }) employmentsChartParent: ElementRef;
+    @ViewChild("gendersChartParent", { static: false }) gendersChartParent: ElementRef;
+    @ViewChild("rts_accuratesChartParent", { static: false }) rts_accuratesChartParent: ElementRef;
+    @ViewChild("agesChartParent", { static: false }) agesChartParent: ElementRef;
+    @ViewChild("day_of_the_weeksChartParent", { static: false }) day_of_the_weeksChartParent: ElementRef;
+    @ViewChild("monthsChartParent", { static: false }) monthsChartParent: ElementRef;
+    @ViewChild("datesChartParent", { static: false }) datesChartParent: ElementRef;
+    @ViewChild("inquest_datesChartParent", { static: false }) inquest_datesChartParent: ElementRef;
+    @ViewChild("mh_services_lscft_updatesChartParent", { static: false }) mh_services_lscft_updatesChartParent: ElementRef;
+    @ViewChild("dasChartParent", { static: false }) dasChartParent: ElementRef;
+    @ViewChild("asc_lcc_updatesChartParent", { static: false }) asc_lcc_updatesChartParent: ElementRef;
     ics: any;
     ics_group: any;
     icsSelect: dc.SelectMenu;
@@ -564,7 +543,7 @@ export class LandingComponent implements OnInit {
     };
 
     @HostListener("window:resize", ["$event"])
-    onResize(event) {
+    onResize() {
         setTimeout(() => {
             this.drawCharts();
         }, 0);
@@ -598,7 +577,7 @@ export class LandingComponent implements OnInit {
 
     buildCF() {
         this.myDC = dc;
-        Object.keys(this.crossFilterData).forEach((key, index) => {
+        Object.keys(this.crossFilterData).forEach((key) => {
             if (this.crossFilterData[key].openCloseAnim) {
                 this.openCloseAnimation[this.crossFilterData[key].filterName] = "open";
             }
@@ -617,7 +596,7 @@ export class LandingComponent implements OnInit {
     }
 
     createCharts() {
-        Object.keys(this.crossFilterData).forEach((key, index) => {
+        Object.keys(this.crossFilterData).forEach((key) => {
             if (this.crossFilterData[key].chartData) {
                 this.crossFilterData[key].chartData.dim = this[key];
                 this.crossFilterData[key].chartData.group = this[this.crossFilterData[key].dimgroup];
@@ -690,7 +669,7 @@ export class LandingComponent implements OnInit {
                 const total = this.incidentsCount.dimension().size();
                 return this.numberWithCommas(total);
             });
-        Object.keys(this.crossFilterData).forEach((key, index) => {
+        Object.keys(this.crossFilterData).forEach((key) => {
             if (this.crossFilterData[key].chartData) {
                 if (this.openCloseAnimation[this.crossFilterData[key].filterName] === "open") {
                     this.resizeChart(this.crossFilterData[key].chart, this[this.crossFilterData[key].parent]);
@@ -798,18 +777,18 @@ export class LandingComponent implements OnInit {
             },
         };
         this.all = {
-            value: (f) => {
+            value: () => {
                 return this.filteredData["all"].values;
             },
         };
-        Object.keys(this.crossFilterData).forEach((key, index) => {
+        Object.keys(this.crossFilterData).forEach((key) => {
             const name = this.crossFilterData[key].filterName;
             const dimgroup = this.crossFilterData[key].dimgroup;
             const type = this.crossFilterData[key].type;
             this[key] = {
                 filterName: () => name,
                 filter: (f) => this.dimensionFunction(name, f),
-                filterAll () {},
+                filterAll: () => {},
             };
             switch (type) {
                 case "date":
@@ -821,8 +800,8 @@ export class LandingComponent implements OnInit {
                             });
                             return array;
                         },
-                        order () {},
-                        top () {},
+                        order: () => {},
+                        top: () => {},
                     };
                     break;
                 default:
@@ -830,8 +809,8 @@ export class LandingComponent implements OnInit {
                         all: () => {
                             return this.filteredData[name].values;
                         },
-                        order () {},
-                        top () {},
+                        order: () => {},
+                        top: () => {},
                     };
                     break;
             }
@@ -936,7 +915,7 @@ export class LandingComponent implements OnInit {
     }
 
     getDimensionFromName(name: string): any {
-        const strippedName = name.replace("\"", "").replace("\"", "");
+        const strippedName = name.replace(`"`, "").replace(`"`, "");
         return this[strippedName];
     }
 
@@ -945,7 +924,7 @@ export class LandingComponent implements OnInit {
             case "mosaicChart":
                 return "postcodeMosaic";
         }
-        Object.keys(this.crossFilterData).forEach((key, index) => {
+        Object.keys(this.crossFilterData).forEach((key) => {
             if (this.crossFilterData[key].chartData) {
                 if (chartname === this.crossFilterData[key].chartData.name) {
                     return this.crossFilterData[key].filterName;
@@ -1050,7 +1029,7 @@ export class LandingComponent implements OnInit {
                     chart.xUnits(this.myDC.units.ordinal);
                     break;
                 default:
-                    chart.xUnits(function (xUnits) {
+                    chart.xUnits(() => {
                         return details.xUnits;
                     });
             }
@@ -1103,12 +1082,12 @@ export class LandingComponent implements OnInit {
         if (details.xAxisTickFormat) {
             switch (details.xAxisTickFormat) {
                 case "prcnt":
-                    chart.xAxis().tickFormat(function (v) {
+                    chart.xAxis().tickFormat((v) => {
                         return v + "%";
                     });
                     break;
                 default:
-                    chart.xAxis().tickFormat(function (v) {
+                    chart.xAxis().tickFormat((v) => {
                         return v + "";
                     });
                     break;
@@ -1133,22 +1112,22 @@ export class LandingComponent implements OnInit {
         if (details.ordering) {
             switch (details.ordering) {
                 case "descD":
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return -d.d;
                     });
                     break;
                 case "descValue":
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return -d.value;
                     });
                     break;
                 case "custom":
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return details.customOrder[d.key];
                     });
                     break;
                 default:
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return String(d.key);
                     });
                     break;
@@ -1170,7 +1149,7 @@ export class LandingComponent implements OnInit {
             chart.centerBar(details.centerBar);
         }
         chart.filterHandler((dim, filters) => this.filterHandled(dim, filters));
-        chart.commitHandler(async (err, result) => {
+        chart.commitHandler(async () => {
             await this.refresh(this.queryFilter);
         });
     }
@@ -1187,7 +1166,7 @@ export class LandingComponent implements OnInit {
 
     async redrawCharts(chart: any, dimName: string) {
         if (typeof chart === "string") {
-            Object.keys(this.crossFilterData).forEach((key, index) => {
+            Object.keys(this.crossFilterData).forEach((key) => {
                 if (this.crossFilterData[key].chartData) {
                     if (chart === this.crossFilterData[key].chartData.name) {
                         this.crossFilterData[key].chart.filterAll();
@@ -1217,8 +1196,7 @@ export class LandingComponent implements OnInit {
     updateSummaries() {
         const list = this.myDC.chartRegistry.list();
         if (list.length > 0) {
-            // tslint:disable-next-line: forin
-            for (const e in list) {
+            list.forEach((e) => {
                 const chart = list[e];
                 if (
                     chart.anchorName() === "dc-data-count" ||
@@ -1228,7 +1206,7 @@ export class LandingComponent implements OnInit {
                 ) {
                     this.myDC.chartRegistry.deregister(chart);
                 }
-            }
+            });
         }
         this.patientsCount = this.myDC.numberDisplay("#dc-data-count");
         this.updatePatientsCount();
@@ -1369,15 +1347,14 @@ export class LandingComponent implements OnInit {
         };
         this.mosaicChart = this.myDC.barChart("#" + this.mosaicChartDetails.name);
         this.createChart(this.mosaicChart, this.mosaicChartDetails, this.mosaicChartParent);
-        this.mosaicChart.on("renderlet", (chart) => {
+        this.mosaicChart.on("renderlet", () => {
             const graph = d3
                 .select("#" + this.mosaicChartDetails.name)
                 .select("svg")
                 .selectAll("rect");
             graph
-                // @ts-ignore
                 .on("mouseover.something", (data, index, ar) => this.mosaicMouseEnter(data, index, ar))
-                .on("mouseout.something", (data: any) => {
+                .on("mouseout.something", () => {
                     this.keyToolTip.style("opacity", 0);
                 });
         });
@@ -1440,7 +1417,7 @@ export class LandingComponent implements OnInit {
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += "<img alt=\"image\" class=\"img-container\" src=\"assets/images/mosaic/mosaic_" + usedMosaicType + ".jpg\">";
+        output += `<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_` + usedMosaicType + `.jpg">`;
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";

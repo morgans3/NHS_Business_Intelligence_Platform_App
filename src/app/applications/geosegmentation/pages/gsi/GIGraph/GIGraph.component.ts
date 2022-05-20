@@ -22,7 +22,6 @@ export interface GIGraph {
             </mat-card-content>
         </mat-card>
     `,
-    styleUrls: [],
 })
 export class GIGraphComponent implements OnInit, OnChanges {
     @ViewChild("giGraph") giGraphDiv: ElementRef;
@@ -97,10 +96,10 @@ export class GIGraphComponent implements OnInit, OnChanges {
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         }
 
-        const barXval = function (x) {
+        const barXval = (x) => {
             return Math.min(x, barCent);
         };
-        const barWidthval = function (x) {
+        const barWidthval = (x) => {
             if (x >= barCent) {
                 return Math.min(x - barCent, barCent);
             } else {
@@ -114,15 +113,15 @@ export class GIGraphComponent implements OnInit, OnChanges {
             .scaleBand()
             .rangeRound([0, height])
             .domain(
-                data.map(function (d) {
+                data.map((d) => {
                     return d.varName;
                 })
             );
         const yAxis = d3.axisLeft(yOrdScale);
-        const barData = this.allKeys.selectAll(".bar").data(data, function (d) {
+        const barData = this.allKeys.selectAll(".bar").data(data, (d) => {
             return d;
         });
-        const labData = this.allKeys.selectAll(".label").data(data, function (d) {
+        const labData = this.allKeys.selectAll(".label").data(data, (d) => {
             return d;
         });
 
@@ -136,37 +135,37 @@ export class GIGraphComponent implements OnInit, OnChanges {
             .enter()
             .append("rect")
             .attr("class", "bar")
-            .attr("x", function (d, i) {
+            .attr("x", (d) => {
                 return linearScale(barXval(d.obsOnExp));
             })
-            .attr("y", function (d) {
+            .attr("y", (d) => {
                 return yOrdScale(d.varName);
             })
-            .style("fill", function (d) {
+            .style("fill", () => {
                 return MosaicColorCodes.find((x) => x.code === colour.substring(0, 1)).color;
             })
-            .attr("height", function (d) {
+            .attr("height", () => {
                 return barHeight;
             })
-            .attr("width", function (d, i) {
+            .attr("width", (d) => {
                 return linearScale(barWidthval(d.obsOnExp));
             })
             .merge(barData)
             .transition()
             .duration(duration)
-            .attr("x", function (d, i) {
+            .attr("x", (d) => {
                 return linearScale(barXval(d.obsOnExp));
             })
-            .attr("y", function (d) {
+            .attr("y", (d) => {
                 return yOrdScale(d.varName);
             })
-            .style("fill", function (d) {
+            .style("fill", () => {
                 return MosaicColorCodes.find((x) => x.code === colour.substring(0, 1)).color;
             })
-            .attr("height", function (d) {
+            .attr("height", () => {
                 return barHeight;
             })
-            .attr("width", function (d, i) {
+            .attr("width", (d) => {
                 return linearScale(barWidthval(d.obsOnExp));
             });
 
@@ -175,15 +174,15 @@ export class GIGraphComponent implements OnInit, OnChanges {
             .append("g")
             .attr("class", "label")
             .append("text")
-            .attr("x", function (d) {
+            .attr("x", () => {
                 return linearScale(barMax);
             })
-            .attr("y", function (d) {
+            .attr("y", (d) => {
                 return yOrdScale(d.varName) + 1;
             })
             .attr("text-anchor", "end")
             .attr("dy", "1.5em")
-            .text(function (d) {
+            .text((d) => {
                 return Math.round(d.obsOnExp);
             });
 
@@ -192,15 +191,15 @@ export class GIGraphComponent implements OnInit, OnChanges {
             .append("g")
             .attr("class", "label")
             .append("text")
-            .attr("x", function (d) {
+            .attr("x", () => {
                 return linearScale(0);
             })
-            .attr("y", function (d) {
+            .attr("y", (d) => {
                 return yOrdScale(d.varName) + 1;
             })
             .attr("text-anchor", "start")
             .attr("dy", "1.5em")
-            .text(function (d) {
+            .text((d) => {
                 return Math.round(d.acVal * 100.0) / 100.0;
             });
 
@@ -208,13 +207,13 @@ export class GIGraphComponent implements OnInit, OnChanges {
             .exit()
             .transition()
             .duration(duration)
-            .attr("y", function (d) {
+            .attr("y", (d) => {
                 return yOrdScale(d.varName);
             })
-            .style("fill", function (d) {
+            .style("fill", () => {
                 return MosaicColorCodes.find((x) => x.code === colour.substring(0, 1)).color;
             })
-            .attr("width", function (d, i) {
+            .attr("width", (d) => {
                 return linearScale(barWidthval(d.obsOnExp));
             })
             .remove();
@@ -235,7 +234,7 @@ export class GIGraphComponent implements OnInit, OnChanges {
     }
 
     average(data) {
-        const sum = data.reduce(function (sm, value) {
+        const sum = data.reduce((sm, value) => {
             return sm + value;
         }, 0);
         return sum / data.length;

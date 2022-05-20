@@ -6,7 +6,6 @@ import * as L from "leaflet";
 @Component({
     selector: "app-markeroptions",
     templateUrl: "./markeroptions.component.html",
-    styleUrls: ["./markeroptions.component.css"],
 })
 export class MarkeroptionsComponent implements OnChanges {
     @Input() data: iMarkerData[] = [];
@@ -53,7 +52,7 @@ export class MarkeroptionsComponent implements OnChanges {
         this.http.get(this.isoserverUrl + paramString).subscribe((res: any) => {
             console.log(res);
             if (this.mapreference) {
-                const geojson = L.geoJSON(res).addTo(this.mapreference);
+                L.geoJSON(res).addTo(this.mapreference);
                 // TODO: store geojson for later reference
             }
         });

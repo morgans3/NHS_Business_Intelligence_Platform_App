@@ -13,7 +13,6 @@ export interface Legend {
 @Component({
     selector: "app-crimeLegend",
     templateUrl: "./crimeLegend.component.html",
-    styleUrls: ["./crimeLegend.component.scss"],
 })
 export class CrimeLegendComponent implements OnChanges {
     @Input() Crimes: Crime[];

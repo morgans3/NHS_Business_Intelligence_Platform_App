@@ -4,7 +4,6 @@ import { PopulationManagementService } from "diu-component-library";
 @Component({
     selector: "app-heatmap",
     templateUrl: "./heatmap.component.html",
-    styleUrls: ["./heatmap.component.scss"],
 })
 export class HeatmapComponent implements OnInit {
     cfData: any;

@@ -14,7 +14,6 @@ export interface iMarkerData {
 @Component({
     selector: "app-mapfilters",
     templateUrl: "./mapfilters.component.html",
-    styleUrls: ["./mapfilters.component.css"],
 })
 export class MapfiltersComponent implements OnInit, OnChanges {
     @Input() mapreference: any;
@@ -40,9 +39,9 @@ export class MapfiltersComponent implements OnInit, OnChanges {
     ngOnInit() {
         this.range.valueChanges.subscribe(() => {
             let start = this.range.controls.start.value;
-            if (start) start = <Moment>this.range.controls.start.value.toISOString();
+            if (start) start = this.range.controls.start.value.toISOString() as Moment;
             let end = this.range.controls.end.value;
-            if (end) end = <Moment>this.range.controls.end.value.toISOString();
+            if (end) end = this.range.controls.end.value.toISOString() as Moment;
             this.filterrange = { start, end };
             this.updateFilter.emit({ type: "range", value: this.filterrange });
         });

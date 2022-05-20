@@ -12,7 +12,6 @@ interface Difference {
 @Component({
     selector: "app-datasetdifferences",
     templateUrl: "./datasetdifferences.component.html",
-    styleUrls: ["./datasetdifferences.component.scss"],
 })
 export class DatasetdifferencesComponent implements OnInit, OnChanges {
     @Input() setperson: PatientLinked;

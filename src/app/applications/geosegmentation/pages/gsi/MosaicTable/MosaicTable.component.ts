@@ -8,7 +8,6 @@ export interface MosaicTable {
 @Component({
     selector: "app-MosaicTable",
     templateUrl: "./MosaicTable.component.html",
-    styleUrls: ["./MosaicTable.component.scss"],
 })
 export class MosaicTableComponent implements OnInit {
     displayedColumns: string[];

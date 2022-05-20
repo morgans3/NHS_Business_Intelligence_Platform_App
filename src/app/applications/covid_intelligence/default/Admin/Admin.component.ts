@@ -5,7 +5,6 @@ import { NotificationService } from "../../../../_services/notification.service"
 @Component({
     selector: "app-Admin",
     templateUrl: "./Admin.component.html",
-    styleUrls: ["./Admin.component.scss"],
 })
 export class AdminComponent implements OnInit {
     myForm = new FormGroup({
@@ -14,8 +13,7 @@ export class AdminComponent implements OnInit {
         email: new FormControl(null),
         mobilenumber: new FormControl(null),
     });
-    @ViewChild(FormGroupDirective)
-        formDirective: FormGroupDirective;
+    @ViewChild(FormGroupDirective) formDirective: FormGroupDirective;
     form: any;
     constructor(private notificationService: NotificationService) {}
 

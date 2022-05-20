@@ -1,5 +1,5 @@
 import { Validators } from "@angular/forms";
-import { DTOQuestionList, DTOGlobalList } from "./DTOListItem";
+import { DTOGlobalList } from "./DTOListItem";
 import { EntityForms } from "./ModelForms";
 
 export interface Validator {

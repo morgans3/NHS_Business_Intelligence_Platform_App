@@ -34,7 +34,6 @@ declare let window: any;
 @Component({
     selector: "app-popslicer",
     templateUrl: "./popslicer.component.html",
-    styleUrls: ["./popslicer.component.scss"],
     animations: [collapseAnimations],
 })
 export class PopslicerComponent implements OnInit {
@@ -187,7 +186,7 @@ export class PopslicerComponent implements OnInit {
     /* #endregion */
 
     @HostListener("window:resize", ["$event"])
-    onResize(event) {
+    onResize() {
         setTimeout(() => {
             this.drawCharts();
         }, 0);
@@ -256,21 +255,21 @@ export class PopslicerComponent implements OnInit {
             },
         };
         this.all = {
-            value: (f) => {
+            value: () => {
                 return this.filteredData["all"].values;
             },
         };
         this.LDimension = {
             filterName: () => "LDimension",
             filter: (f) => this.dimensionFunction("LDimension", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.LDimGroup = {
             all: () => {
                 return this.filteredData["LDimension"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.WDimension = {
             filterName: () => "WDimension",
@@ -278,14 +277,14 @@ export class PopslicerComponent implements OnInit {
                 this.dimensionFunction("WDimension", f);
                 this.refresh(this.queryFilter);
             },
-            filterAll () {},
+            filterAll: () => {},
         };
         this.WDimGroup = {
             all: () => {
                 return this.filteredData["WDimension"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.GPDimension = {
             filterName: () => "GPDimension",
@@ -293,105 +292,105 @@ export class PopslicerComponent implements OnInit {
                 this.dimensionFunction("GPDimension", f);
                 this.refresh(this.queryFilter);
             },
-            filterAll () {},
+            filterAll: () => {},
         };
         this.GPDimGroup = {
             all: () => {
                 return this.filteredData["GPDimension"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.UDimension = {
             filterName: () => "UDimension",
             filter: (f) => this.dimensionFunction("UDimension", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.UDimGroup = {
             all: () => {
                 return this.filteredData["UDimension"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.CstDimension = {
             filterName: () => "CstDimension",
             filter: (f) => this.dimensionFunction("CstDimension", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.CstDimGroup = {
             all: () => {
                 return this.filteredData["CstDimension"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.totalcost = this.sumValues(this.filteredData["CstDimension"].values);
         this.customcost = "-";
         this.LTCsDimension = {
             filterName: () => "LTCsDimension",
             filter: (f) => this.dimensionFunction("LTCsDimension", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.LTCsDimGroup = {
             all: () => {
                 return this.sortedArrayList(this.filteredData["LTCs2Dimension"].values);
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.LTCs2Dimension = {
             filterName: () => "LTCs2Dimension",
             filter: (f) => this.dimensionFunction("LTCs2Dimension", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.LTCs2DimGroup = {
             all: () => {
                 return this.sortedArrayList(this.filteredData["LTCs2Dimension"].values);
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.SexDimension = {
             filterName: () => "SexDimension",
             filter: (f) => this.dimensionFunction("SexDimension", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.SexDimGroup = {
             all: () => {
                 return this.filteredData["SexDimension"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.MDimension = {
             filterName: () => "MDimension",
             filter: (f) => this.dimensionFunction("MDimension", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.MDimGroup = {
             all: () => {
                 return this.filteredData["MDimension"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.CCGDimension = {
             filterName: () => "CCGDimension",
             filter: (f) => this.dimensionFunction("CCGDimension", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.CCGDimGroup = {
             all: () => {
                 return this.filteredData["CCGDimension"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.numberSelLtc = {
             filterName: () => "numberSelLtc",
             filter: (f) => this.dimensionFunction("numberSelLtc", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.numberSelLtcs = {
             all: () => {
@@ -401,56 +400,56 @@ export class PopslicerComponent implements OnInit {
                     return null;
                 }
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.LCntDimension = {
             filterName: () => "LCntDimension",
             filter: (f) => this.dimensionFunction("LCntDimension", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.LCntDimGroup = {
             all: () => {
                 return this.filteredData["LCntDimension"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.AgeDimension = {
             filterName: () => "AgeDimension",
             filter: (f) => this.dimensionFunction("AgeDimension", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.AgeDimGroup = {
             all: () => {
                 return this.filteredData["AgeDimension"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.RskDimension = {
             filterName: () => "RskDimension",
             filter: (f) => this.dimensionFunction("RskDimension", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.RskDimGroup = {
             all: () => {
                 return this.filteredData["RskDimension"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
         this.DDimension = {
             filterName: () => "DDimension",
             filter: (f) => this.dimensionFunction("DDimension", f),
-            filterAll () {},
+            filterAll: () => {},
         };
         this.DDimGroup = {
             all: () => {
                 return this.filteredData["DDimension"].values;
             },
-            order () {},
-            top () {},
+            order: () => {},
+            top: () => {},
         };
     }
 
@@ -483,7 +482,9 @@ export class PopslicerComponent implements OnInit {
             };
             await d3
                 .json(
-                    this.origin.replace("phi", "population") + "/populations/getCrossfilter?filter=" + JSON.stringify(queryFilter),
+                    (this.origin.replace("phi", "population") as string) +
+                        "/populations/getCrossfilter?filter=" +
+                        JSON.stringify(queryFilter),
                     options
                 )
                 .then((d) => {
@@ -509,7 +510,7 @@ export class PopslicerComponent implements OnInit {
             method: "GET",
             headers: header,
         };
-        d3.json(this.origin.replace("phi", "population") + "/populations/getCrossfilter", options).then((d) => {
+        d3.json((this.origin.replace("phi", "population") as string) + "/populations/getCrossfilter", options).then((d) => {
             this.filteredData = d;
             this.myDC.filterAll();
             this.myDC.redrawAll();
@@ -573,7 +574,7 @@ export class PopslicerComponent implements OnInit {
             // .multiple(true)
             .on("renderlet", (chart) => {
                 chart.selectAll(".dc-select-option").call((t) => {
-                    t.each(function (d) {
+                    t.each(function () {
                         const self = d3.select(this);
                         const text = self.text();
                         const code = text.split(":");
@@ -620,8 +621,7 @@ export class PopslicerComponent implements OnInit {
     updateSummaries() {
         const list = this.myDC.chartRegistry.list();
         if (list.length > 0) {
-            // tslint:disable-next-line: forin
-            for (const e in list) {
+            list.forEach((e) => {
                 const chart = list[e];
                 if (
                     chart.anchorName() === "dc-data-count" ||
@@ -632,7 +632,7 @@ export class PopslicerComponent implements OnInit {
                 ) {
                     this.myDC.chartRegistry.deregister(chart);
                 }
-            }
+            });
         }
         this.patientsCount = this.myDC.numberDisplay("#dc-data-count");
         this.updatePatientsCount();
@@ -663,14 +663,14 @@ export class PopslicerComponent implements OnInit {
             .formatNumber(() => {
                 const selectedCount = this.patientsCount.group().value();
                 const total = this.patientsCount.dimension().size();
-                const percentTotal = this.humanize((100 * selectedCount) / total) + "%";
-                let percentCustom;
+                const percentTotal = (this.humanize((100 * selectedCount) / total) as string) + "%";
+                let percentCustom: string;
                 if (this.customBaseline === null || this.customBaseline === 0) {
                     percentCustom = "Not selected";
                 } else {
-                    percentCustom = this.humanize((100 * selectedCount) / this.customBaseline) + "%";
+                    percentCustom = (this.humanize((100 * selectedCount) / this.customBaseline) as string) + "%";
                 }
-                return percentTotal + " | " + percentCustom;
+                return percentTotal.toString() + " | " + percentCustom.toString();
             });
         this.TotalPopulation.render();
         this.CustBaseline.render();
@@ -682,8 +682,7 @@ export class PopslicerComponent implements OnInit {
     updateCosts() {
         const list = this.myDC.chartRegistry.list();
         if (list.length > 0) {
-            // tslint:disable-next-line: forin
-            for (const e in list) {
+            list.forEach((e) => {
                 const chart = list[e];
                 if (
                     chart.anchorName() === "TotalCost" ||
@@ -693,7 +692,7 @@ export class PopslicerComponent implements OnInit {
                 ) {
                     this.myDC.chartRegistry.deregister(chart);
                 }
-            }
+            });
         }
         this.TotalCost = this.myDC.numberDisplay("#TotalCost");
         this.TotalCost.dimension(this.ndx)
@@ -722,19 +721,20 @@ export class PopslicerComponent implements OnInit {
                 let custompercentage = "Not selected";
                 if (this.customcost !== "-") {
                     custompercentage =
-                        Math.floor((parseInt(this.sumValues(this.filteredData["CstDimension"].values)) / parseInt(this.customcost)) * 100) +
-                        "%";
+                        Math.floor(
+                            (parseInt(this.sumValues(this.filteredData["CstDimension"].values)) / parseInt(this.customcost)) * 100
+                        ).toString() + "%";
                 }
                 const selectedpercentage =
                     (parseInt(this.sumValues(this.filteredData["CstDimension"].values)) / parseInt(this.totalcost)) * 100;
-                return Math.floor(selectedpercentage) + "% | " + custompercentage;
+                return Math.floor(selectedpercentage).toString() + "% | " + custompercentage;
             });
         this.TotalCost.render();
         this.CustomCost.render();
         this.SelectedCost.render();
         this.PercentCost.render();
     }
-    numberWithCommas(x) {
+    numberWithCommas(x): string {
         if (x === null || typeof x === "undefined") {
             return "Nothing selected";
         } else {
@@ -756,16 +756,16 @@ export class PopslicerComponent implements OnInit {
                 const selectedCount = this.all.value();
                 const total = this.ndx.size();
                 if (selectedCount === total) {
-                    return "All <strong>" + total + "</strong> records shown. ";
+                    return "All <strong>" + (total as string) + "</strong> records shown. ";
                 }
                 const percent = this.humanize((100 * selectedCount) / total);
                 return (
                     "Selected <strong>" +
-                    percent +
+                    (percent as string) +
                     "%</strong> (<strong>" +
-                    selectedCount +
+                    (selectedCount as string) +
                     "</strong> out of <strong>" +
-                    total +
+                    (total as string) +
                     "</strong> records)"
                 );
             });
@@ -870,7 +870,7 @@ export class PopslicerComponent implements OnInit {
             brushOn: true,
             colours: ["#feedde", "#fdd0a2", "#fdae6b", "#fd8d3c", "#f16913", "#d94801", "#8c2d04"],
             colorDomain: [0, 8000],
-            colorAccessor: (d, i) => {
+            colorAccessor: (d) => {
                 return d.value ? d.value : 0;
             },
             featureKeyAccessor: (feature) => {
@@ -878,11 +878,11 @@ export class PopslicerComponent implements OnInit {
             },
             legend: leafletLegend().position("bottomright"),
             popup: (d, feature) => {
-                let output = "<h5 class=\"ttipmap\">";
+                let output = `<h5 class="ttipmap">`;
                 output += feature.properties.wd15nm;
-                output += "</h5><h5 class=\"ttipmap\">";
+                output += `</h5><h5 class="ttipmap">`;
                 output += feature.properties.lad15nm;
-                output += "</h5><p class=\"ttipmap\">Population: ";
+                output += `</h5><p class="ttipmap">Population: `;
                 output += this.numberWithCommas(d.value) + "</p>";
                 return output;
             },
@@ -897,10 +897,10 @@ export class PopslicerComponent implements OnInit {
         this.ewChart.on("preRedraw", (chart) => {
             chart.colorDomain(d3.extent(chart.data(), chart.valueAccessor()));
         });
-        this.ewChart.on("renderlet", (chart, filter) => {
+        this.ewChart.on("renderlet", () => {
             this.leafletMapRenderedWard = true;
         });
-        this.ewChart.on("filtered", (chart, filter) => {
+        this.ewChart.on("filtered", () => {
             // this.filterHandled(dimension, filter);
         });
     }
@@ -932,22 +932,22 @@ export class PopslicerComponent implements OnInit {
                 }
             },
             renderPopup: true,
-            popup: (d, feature) => {
+            popup: (d) => {
                 const GP = this.GPs.features.filter((x) => x.properties.Code === d.key);
                 if (GP.length > 0) {
                     return (
-                        "<h5 class=\"ttipmap\">" +
-                        GP[0].properties.Name +
+                        `<h5 class="ttipmap">` +
+                        (GP[0].properties.Name as string) +
                         "</h5>" +
-                        "<p class=\"ttipmap\">Total Population: " +
+                        `<p class="ttipmap">Total Population: ` +
                         this.numberWithCommas(d.value) +
                         "</p>"
                     );
                 } else {
                     return (
-                        "<h5 class=\"ttipmap\">" +
-                        d.key +
-                        "</h5><p class=\"ttipmap\">Total Population: " +
+                        `<h5 class="ttipmap">` +
+                        (d.key as string) +
+                        `</h5><p class="ttipmap">Total Population: ` +
                         this.numberWithCommas(d.value) +
                         "</p>"
                     );
@@ -959,10 +959,10 @@ export class PopslicerComponent implements OnInit {
         this.gpChart.on("preRedraw", (chart) => {
             chart.circleScale(this.gpCircleScalingFactor);
         });
-        this.gpChart.on("renderlet", (chart, filter) => {
+        this.gpChart.on("renderlet", () => {
             this.leafletMapRenderedGP = true;
         });
-        this.gpChart.on("filtered", (chart, filter) => {
+        this.gpChart.on("filtered", () => {
             // this.filterHandled(dimension, filter);
         });
     }
@@ -1045,14 +1045,14 @@ export class PopslicerComponent implements OnInit {
         };
         this.mosaicChart = this.myDC.barChart("#" + this.mosaicChartDetails.name);
         this.createChart(this.mosaicChart, this.mosaicChartDetails, this.mosaicChartParent);
-        this.mosaicChart.on("renderlet", (chart) => {
+        this.mosaicChart.on("renderlet", () => {
             const graph = d3
                 .select("#" + this.mosaicChartDetails.name)
                 .select("svg")
                 .selectAll("rect");
             graph
                 .on("mouseover.something", (data, index, ar) => this.mosaicMouseEnter(data, index, ar))
-                .on("mouseout.something", (data: any) => {
+                .on("mouseout.something", () => {
                     this.keyToolTip.style("opacity", 0);
                 });
         });
@@ -1072,8 +1072,8 @@ export class PopslicerComponent implements OnInit {
         this.keyToolTip.transition().duration(200).style("opacity", 0.9);
         this.keyToolTip
             .html(this.getTooltipHtml(datum.x))
-            .style("left", x + "px")
-            .style("top", drawer.scrollTop + rect.top - y + "px");
+            .style("left", x.toString() + "px")
+            .style("top", (drawer.scrollTop + rect.top - y).toString() + "px");
     }
 
     exitMosaic() {
@@ -1105,7 +1105,7 @@ export class PopslicerComponent implements OnInit {
             .multiple(true)
             .numberVisible(5)
             .filterHandler((dim, filters) => this.filterHandled(dim, filters));
-        this.ltcChart.on("filtered", (thischart) => {
+        this.ltcChart.on("filtered", () => {
             if (this.queryFilter["LTCs2Dimension"]) {
                 const newSize = this.queryFilter["LTCs2Dimension"].length;
                 if (newSize > 5) {
@@ -1236,7 +1236,7 @@ export class PopslicerComponent implements OnInit {
         }
     }
 
-    collapse(opencloseanim, chartname) {
+    collapse(opencloseanim, chartname: string) {
         if (opencloseanim === "open") {
             setTimeout(() => {
                 this.drawCharts();
@@ -1246,7 +1246,7 @@ export class PopslicerComponent implements OnInit {
         }
     }
 
-    collapseMap(opencloseanim, chartname) {
+    collapseMap(opencloseanim, chartname: string) {
         if (opencloseanim === "open") {
             setTimeout(() => {
                 d3.select("div#" + chartname).attr("style", "display:block");
@@ -1342,7 +1342,7 @@ export class PopslicerComponent implements OnInit {
                     chart.xUnits(this.myDC.units.ordinal);
                     break;
                 default:
-                    chart.xUnits(function (xUnits) {
+                    chart.xUnits(() => {
                         return details.xUnits;
                     });
             }
@@ -1375,13 +1375,13 @@ export class PopslicerComponent implements OnInit {
         if (details.xAxisTickFormat) {
             switch (details.xAxisTickFormat) {
                 case "prcnt":
-                    chart.xAxis().tickFormat(function (v) {
-                        return v + "%";
+                    chart.xAxis().tickFormat((v) => {
+                        return (v as string) + "%";
                     });
                     break;
                 default:
-                    chart.xAxis().tickFormat(function (v) {
-                        return v + "";
+                    chart.xAxis().tickFormat((v) => {
+                        return (v as string) + "";
                     });
                     break;
             }
@@ -1405,17 +1405,17 @@ export class PopslicerComponent implements OnInit {
         if (details.ordering) {
             switch (details.ordering) {
                 case "descD":
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return -d.d;
                     });
                     break;
                 case "descValue":
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return -d.value;
                     });
                     break;
                 default:
-                    chart.ordering(function (d) {
+                    chart.ordering((d) => {
                         return String(d.key);
                     });
                     break;
@@ -1440,12 +1440,12 @@ export class PopslicerComponent implements OnInit {
         // } else {
         chart.filterHandler((dim, filters) => this.filterHandled(dim, filters));
         // }
-        chart.commitHandler(async (err, result) => {
+        chart.commitHandler(async () => {
             await this.refresh(this.queryFilter);
         });
     }
 
-    tiphtml(d, mosaic) {
+    tiphtml(d: string, mosaic) {
         const usedMosaicType = d;
         let output = "";
         output = "	<div id='mosaicToolTip' class='container d3-tip mosaic-" + usedMosaicType.substr(0, 1) + "'>";
@@ -1454,28 +1454,28 @@ export class PopslicerComponent implements OnInit {
         output += "<h2>" + usedMosaicType + "</h2>";
         output += "			</div>";
         output += "			<div>";
-        output += "<h5>" + mosaic.name + "</h5>";
+        output += "<h5>" + (mosaic.name as string) + "</h5>";
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += "<h6>" + mosaic.desc + "</h6>";
+        output += "<h6>" + (mosaic.desc as string) + "</h6>";
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += "<img alt=\"image\" class=\"img-container\" src=\"assets/images/mosaic/mosaic_" + usedMosaicType + ".jpg\">";
+        output += `<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_` + usedMosaicType + `.jpg">`;
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
         output += "<ul>";
-        output += "<li>" + mosaic.Feat1 + "</li >";
-        output += "<li>" + mosaic.Feat2 + "</li >";
-        output += "<li>" + mosaic.Feat3 + "</li >";
-        output += "<li>" + mosaic.Feat4 + "</li >";
-        output += "<li>" + mosaic.Feat5 + "</li >";
-        output += "<li>" + mosaic.Feat6 + "</li >";
+        output += "<li>" + (mosaic.Feat1 as string) + "</li >";
+        output += "<li>" + (mosaic.Feat2 as string) + "</li >";
+        output += "<li>" + (mosaic.Feat3 as string) + "</li >";
+        output += "<li>" + (mosaic.Feat4 as string) + "</li >";
+        output += "<li>" + (mosaic.Feat5 as string) + "</li >";
+        output += "<li>" + (mosaic.Feat6 as string) + "</li >";
         output += "<ul>";
         output += "			</div>";
         output += "		</div>";
@@ -1494,8 +1494,7 @@ export class PopslicerComponent implements OnInit {
         const cohorturl = event.cohorturl;
         const cohortJSON = JSON.parse(event.cohorturl);
         const list = this.myDC.chartRegistry.list();
-        // tslint:disable-next-line: forin
-        for (const e in list) {
+        list.forEach((e) => {
             const chart = list[e];
             const theFilter = cohortJSON[this.convertChartToDim(chart.anchorName())];
             if (theFilter !== undefined) {
@@ -1513,7 +1512,7 @@ export class PopslicerComponent implements OnInit {
             } else {
                 chart.filter(null);
             }
-        }
+        });
         const header = [["Authorization", "JWT " + this.store.selectSnapshot(AuthState.getToken)]];
         const options: RequestInit = {
             method: "GET",
@@ -1521,7 +1520,7 @@ export class PopslicerComponent implements OnInit {
         };
         await d3
             .json(
-                this.origin.replace("phi", "population") + "/populations/getCrossfilter?filter=" + cohorturl,
+                (this.origin.replace("phi", "population") as string) + "/populations/getCrossfilter?filter=" + (cohorturl as string),
                 options
                 // {
                 //   headers: new Headers({ Authorization: "JWT " + this.token })
@@ -1542,7 +1541,7 @@ export class PopslicerComponent implements OnInit {
     }
 
     getDimensionFromName(name: string): any {
-        const strippedName = name.replace("\"", "").replace("\"", "");
+        const strippedName = name.replace(`"`, "").replace(`"`, "");
         switch (strippedName) {
             case "numberSelLtcs":
                 return this.numberSelLtcs;

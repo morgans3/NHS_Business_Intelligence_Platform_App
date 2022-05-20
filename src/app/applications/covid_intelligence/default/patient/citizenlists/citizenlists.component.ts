@@ -5,7 +5,6 @@ import { ListTypes } from "../../patient-list/listtypes";
 @Component({
     selector: "app-citizenlists",
     templateUrl: "./citizenlists.component.html",
-    styleUrls: ["./citizenlists.component.scss"],
 })
 export class CitizenlistsComponent implements OnChanges {
     @Input() setperson: PatientLinked;

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from "@angular/core";
+import { Component, ViewChild, ElementRef, OnInit } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import * as d3 from "d3-selection";
 import * as d3Scale from "d3-scale";
@@ -13,7 +13,6 @@ import { Store } from "@ngxs/store";
 import { AuthState } from "../../../../_states/auth.state";
 import { APIService } from "diu-component-library";
 import { decodeToken } from "../../../../_pipes/functions";
-import { CohortService } from "../../_services/cohort-service";
 declare let window: any;
 
 @Component({
@@ -21,14 +20,14 @@ declare let window: any;
     templateUrl: "./need-list.component.html",
     styleUrls: ["./need-list.component.scss"],
 })
-export class NeedListComponent {
+export class NeedListComponent implements OnInit {
     @ViewChild("div_template") plotareaParent: ElementRef;
     @ViewChild("diagnostic_div") logistic_roc_pr_Parent: ElementRef;
     @ViewChild("variable_importance_div") logistic_var_imp_Parent: ElementRef;
     @ViewChild("count_diagnostic_div") count_hist_Parent: ElementRef;
     @ViewChild("scatterplot_div") scatter_Parent: ElementRef;
     @ViewChild("expansion_panel") expansion_panel_Parent: ElementRef;
-    sortMethod: String;
+    sortMethod: string;
     // Array to save model JSONs
     response = [];
     count_diagnostics = [];
@@ -199,11 +198,9 @@ export class NeedListComponent {
         public http: HttpClient,
         private toastr: ToastrService,
         private apiService: APIService,
-        private cohortsService: CohortService,
         private readonly joyrideService: JoyrideService,
         private store: Store
     ) {
-        const parsedUrl = window.location.href;
         const tooltip_remove = d3.select("mat-sidenav-content").selectAll(".tooltip");
         tooltip_remove.selectAll("*").remove();
         this.response_variable.forEach((elem) => this.response_variableCopy.push(elem));
@@ -325,8 +322,8 @@ export class NeedListComponent {
 
     /**
      *
-     *  Code to use the drag/drop lists to send an API call to plumbeR.
-     *  The model is run in R and returned as a JSON, which is plotted.
+     * Code to use the drag/drop lists to send an API call to plumbeR.
+     * The model is run in R and returned as a JSON, which is plotted.
      *
      */
 
@@ -398,7 +395,7 @@ export class NeedListComponent {
             // Create cURL string
             // Add area grouping
             let flag = false;
-            this.use_area.forEach(function (d, i) {
+            this.use_area.forEach((d) => {
                 http_request = http_request + "area_level=" + d;
                 if (d === "GP Practice") {
                     flag = true;
@@ -413,13 +410,13 @@ export class NeedListComponent {
                     http_request = http_request + "&response_filter_1=" + JSON.stringify(cohort[0].cohorturl);
                 }
             } else {
-                this.use_response.forEach(function (d, i) {
+                this.use_response.forEach((d, i) => {
                     http_request = http_request + "&response_filter_" + (i + 1) + "=" + d;
                 });
             }
 
             // Add Predictor Variable(s)
-            this.use_predict.forEach(function (d, i) {
+            this.use_predict.forEach((d, i) => {
                 http_request = http_request + "&group_" + (i + 1) + "=" + d;
             });
 
@@ -486,7 +483,7 @@ export class NeedListComponent {
                             this.get_data(res.body);
                         }
                     },
-                    (error) => {
+                    () => {
                         this.hide();
                         this.server_error_toaster("Server");
                     }
@@ -496,7 +493,7 @@ export class NeedListComponent {
 
     /**
      *
-     *   Code to plot output of API call
+     * Code to plot output of API call
      *
      */
 
@@ -508,17 +505,17 @@ export class NeedListComponent {
 
         switch (sort_method) {
             case "ratio":
-                this.response.sort(function (a, b) {
+                this.response.sort((a, b) => {
                     return d3_test.ascending(a.match_ratio, b.match_ratio);
                 });
                 break;
             case "significance":
-                this.response.sort(function (a, b) {
+                this.response.sort((a, b) => {
                     return d3_test.ascending(a.significance, b.significance);
                 });
                 break;
             default:
-                this.response.sort(function (a, b) {
+                this.response.sort((a, b) => {
                     return d3_test.descending(a.area_var, b.area_var);
                 });
                 break;
@@ -539,7 +536,7 @@ export class NeedListComponent {
 
         // Remove g if browser is Internet Explorer, don't if not
         if (/msie\s|trident\//i.test(window.navigator.userAgent)) {
-            const inner_g = d3.select("g").remove();
+            d3.select("g").remove();
         }
 
         const tooltip_remove = d3.select("mat-sidenav-content").selectAll(".tooltip");
@@ -585,8 +582,8 @@ export class NeedListComponent {
             .selectAll(".tick")
             .data(this.response)
             .select("text")
-            .attr("x", (d, i) => (d.match_ratio < 1 ? 9 : -9))
-            .style("text-anchor", (d, i) => (d.match_ratio < 1 ? "start" : "end"));
+            .attr("x", (d) => (d.match_ratio < 1 ? 9 : -9))
+            .style("text-anchor", (d) => (d.match_ratio < 1 ? "start" : "end"));
 
         // x-axis
         this.g
@@ -635,9 +632,11 @@ export class NeedListComponent {
         const drawer = document.getElementsByClassName("mat-drawer-content")[0];
         this.tooltip.transition().duration(200).style("opacity", 0.9);
 
+        let html;
+
         switch (tooltip_type) {
             case "ROC_PR":
-                var html = this.htmlROCTooltip(datum);
+                html = this.htmlROCTooltip(datum);
                 break;
             default:
                 html = this.htmlTooltip(datum);
@@ -757,8 +756,8 @@ export class NeedListComponent {
     }
 
     /**
-     *  Advanced diagnostics tab for logistic regression models,
-     *  showing ROC and precision-recall curves with info
+     * Advanced diagnostics tab for logistic regression models,
+     * showing ROC and precision-recall curves with info
      */
 
     // Make the barplot, sorted by whichever method is desired
@@ -903,7 +902,7 @@ export class NeedListComponent {
 
         linear_gradient.append("stop").attr("offset", bounds[1]).attr("stop-color", "purple");
 
-        const roc_line = this.roc_pr_g
+        this.roc_pr_g
             .append("path")
             .datum(this.roc_diagnostics)
             .attr("class", "line")
@@ -928,7 +927,7 @@ export class NeedListComponent {
             .style("opacity", 0)
             .attr("width", this.roc_pr_width)
             .attr("height", this.roc_pr_height)
-            /**        .on("mouseenter.something", (d, index, array) =>
+            /** .on("mouseenter.something", (d, index, array) =>
           this.mouseEnter(d, index, array, 'ROC_PR')
         )
         .on("mouseout.something", () => this.mouseLeave()); */
@@ -998,7 +997,7 @@ export class NeedListComponent {
 
         linear_gradient.append("stop").attr("offset", bounds[1]).attr("stop-color", "purple");
 
-        const pr_line = this.roc_pr_g
+        this.roc_pr_g
             .append("path")
             .datum(this.pr_diagnostics)
             .attr("class", "line")
@@ -1151,8 +1150,8 @@ export class NeedListComponent {
     }
 
     /**
-     *  Advanced diagnostics tab for poisson regression models,
-     *  showing hisogram and scatter plot for expected vs observed
+     * Advanced diagnostics tab for poisson regression models,
+     * showing hisogram and scatter plot for expected vs observed
      */
 
     // Make the barplot, sorted by whichever method is desired
@@ -1244,7 +1243,7 @@ export class NeedListComponent {
     }
 
     private draw_hist_bar() {
-        const bars = this.hist_g
+        this.hist_g
             .selectAll(".hist_bar")
             .data(this.count_diagnostics)
             .enter()
@@ -1258,7 +1257,7 @@ export class NeedListComponent {
             .attr("height", (d) => {
                 return Math.max(this.hist_height - this.hist_y(d.count_y + 1), 0);
             })
-            .attr("width", (d) => this.hist_x(this.binwidth));
+            .attr("width", () => this.hist_x(this.binwidth));
     }
 
     private draw_hist_line() {
@@ -1275,7 +1274,7 @@ export class NeedListComponent {
             .attr("opacity", 0.3)
             .attr("stroke-width", 0.4)
             .attr("height", (d) => Math.max(0, this.hist_height - this.hist_y(d.predict_y + 1)))
-            .attr("width", (d) => this.hist_x(this.binwidth));
+            .attr("width", () => this.hist_x(this.binwidth));
     }
 
     // Initialise the SVG in which the plot is kept
@@ -1406,8 +1405,8 @@ export class NeedListComponent {
         const token = this.store.selectSnapshot(AuthState.getToken);
         if (token) {
             this.tokenDecoded = decodeToken(token);
-            this.cohortsService
-                .get({
+            this.apiService
+                .getCohortsByUsername({
                     username: this.tokenDecoded.username,
                 })
                 .subscribe((res: any[]) => {

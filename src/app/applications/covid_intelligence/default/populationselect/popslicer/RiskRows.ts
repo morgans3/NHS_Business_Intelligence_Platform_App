@@ -49,7 +49,8 @@ export const CareModelExamples = [
         color: "warning",
         key: ["Very High Risk", "No Specific Vulnerabilities"],
         interventions: [
-            "Personalised messaging on social distancing and health management for specific groups, e.g. cancer, maternity, heart failure, diabetes, etc",
+            "Personalised messaging on social distancing and health management" +
+                " for specific groups, e.g. cancer, maternity, heart failure, diabetes, etc",
             "Home visits where remote communication is not possible",
             "Virtual peer support to address long term isolation fatigue",
         ],
@@ -128,7 +129,8 @@ export const CareModelExamples = [
         interventions: [
             "Practice nurse check in",
             "Holistic care planning/care plan review",
-            "Sign posting to tele health options national/local for particular conditions, e.g. HelpDiabetes national self management web platform",
+            "Sign posting to tele health options national/local for particular conditions," +
+                " e.g. HelpDiabetes national self management web platform",
         ],
     },
 
@@ -136,7 +138,8 @@ export const CareModelExamples = [
         color: "purple",
         key: ["No Specific Risk", "MH and Social Vulnerabilities"],
         interventions: [
-            "Social prescriber assigned to conduct Wellness Call check in, social and practical prescribing including food bank access, citizens advice, and broad RVS support",
+            "Social prescriber assigned to conduct Wellness Call check in, social and practical " +
+                "prescribing including food bank access, citizens advice, and broad RVS support",
             "In partnership with link social workers",
         ],
     },
@@ -147,7 +150,8 @@ export const CareModelExamples = [
     {
         key: ["No Specific Risk", "Social Vulnerabilities"],
         interventions: [
-            "Social prescriber assigned to conduct Wellness Call’: check in, social and practical prescribing including food bank access, citizens advice, and broad RVS support",
+            "Social prescriber assigned to conduct Wellness Call’: check in, social and practical" +
+                " prescribing including food bank access, citizens advice, and broad RVS support",
             "In partnership with link social workers",
         ],
     },

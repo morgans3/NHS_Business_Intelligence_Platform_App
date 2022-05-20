@@ -6,7 +6,6 @@ import { JoyrideService } from "ngx-joyride";
 @Component({
     selector: "app-MosaicProfile",
     templateUrl: "./MosaicProfile.component.html",
-    styleUrls: ["./MosaicProfile.component.scss"],
     animations: [simpleFadeAnimation],
 })
 export class MosaicProfileComponent implements OnInit {

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { ExcelWorkBook, ExcelWorkSheet } from "../workbook/workbook.component";
+import { ExcelWorkBook } from "../workbook/workbook.component";
 import { formatDate } from "@angular/common";
 import * as XLSX from "xlsx";
 

@@ -19,7 +19,6 @@ export const actTyps = ["Inpatient", "Inpatient", "Emergency", "Emergency", "App
 @Component({
     selector: "app-theograph",
     templateUrl: "./theograph.component.html",
-    styleUrls: ["./theograph.component.scss"],
 })
 export class TheographComponent implements OnInit {
     typname: any;
@@ -55,7 +54,7 @@ export class TheographComponent implements OnInit {
     context: any;
 
     @HostListener("window:resize", ["$event"])
-    onResize(event) {
+    onResize() {
         setTimeout(() => {
             this.redrawWidths();
         }, 0);
@@ -105,7 +104,7 @@ export class TheographComponent implements OnInit {
             )
         );
         this.y.domain(
-            data.map(function (d) {
+            data.map((d) => {
                 return d.TypeCat;
             })
         );
@@ -122,7 +121,7 @@ export class TheographComponent implements OnInit {
             .data(data)
             .enter()
             .append("rect")
-            .attr("x", (d, i) => {
+            .attr("x", (d) => {
                 return this.x(new Date(this.convertDateToUS(d.EventDate)));
             })
             .attr("y", (d) => {
@@ -181,7 +180,7 @@ export class TheographComponent implements OnInit {
             .data(data)
             .enter()
             .append("circle")
-            .attr("cx", (d, i) => {
+            .attr("cx", (d) => {
                 return this.x(new Date(this.convertDateToUS(d.EventDate)));
             })
             .attr("cy", (d) => {
@@ -261,7 +260,7 @@ export class TheographComponent implements OnInit {
             .data(data)
             .enter()
             .append("rect")
-            .attr("x", (d, i) => {
+            .attr("x", (d) => {
                 return this.x2(new Date(d.EventDate));
             })
             .attr("y", (d) => {
@@ -283,7 +282,7 @@ export class TheographComponent implements OnInit {
             .data(data)
             .enter()
             .append("circle")
-            .attr("cx", (d, i) => {
+            .attr("cx", (d) => {
                 return this.x2(d.EventDate);
             })
             .attr("cy", (d) => {
@@ -327,10 +326,10 @@ export class TheographComponent implements OnInit {
         this.height = this.totalHeight - this.margin.top - this.margin.bottom;
         this.height2 = this.totalHeight - this.margin2.top - this.margin2.bottom;
 
-        (this.x = d3.scaleTime().range([0, this.width])),
-        (this.x2 = d3.scaleTime().range([0, this.width])),
-        (this.y = d3.scaleBand().rangeRound([0, this.height]).padding(1)),
-        (this.y2 = d3.scaleBand().rangeRound([0, this.height2]).padding(1));
+        this.x = d3.scaleTime().range([0, this.width]);
+        this.x2 = d3.scaleTime().range([0, this.width]);
+        this.y = d3.scaleBand().rangeRound([0, this.height]).padding(1);
+        this.y2 = d3.scaleBand().rangeRound([0, this.height2]).padding(1);
 
         this.xAxis = d3.axisBottom(this.x);
         this.xAxis2 = d3.axisBottom(this.x2);
@@ -346,7 +345,7 @@ export class TheographComponent implements OnInit {
             .enter()
             .append("rect")
             .attr("x", 20)
-            .attr("y", function (d, i) {
+            .attr("y", (d, i) => {
                 return i * 45 + 20;
             })
             .attr("width", 20)
@@ -361,7 +360,7 @@ export class TheographComponent implements OnInit {
             .enter()
             .append("text")
             .attr("x", 50)
-            .attr("y", function (d, i) {
+            .attr("y", (d, i) => {
                 return i * 45 + 25 + 20;
             })
             .attr("width", 20)
@@ -378,7 +377,7 @@ export class TheographComponent implements OnInit {
         const s = d3.event.selection || this.x2.range();
         this.x.domain(s.map(this.x2.invert, this.x2));
         this.focusBars
-            .attr("x", (d, i) => {
+            .attr("x", (d) => {
                 return this.x(new Date(this.convertDateToUS(d.EventDate)));
             })
             .attr("width", (d) => {
@@ -386,7 +385,7 @@ export class TheographComponent implements OnInit {
                 fdate.setTime(new Date(this.convertDateToUS(d.EventDate)).getTime() + d.LengthOfStay * 1000 * 60 * 60 * 24);
                 return this.x(fdate) - this.x(new Date(this.convertDateToUS(d.EventDate)));
             });
-        this.focusCircle.attr("cx", (d, i) => {
+        this.focusCircle.attr("cx", (d) => {
             return this.x(new Date(this.convertDateToUS(d.EventDate)));
         });
         this.focus.select(".x.axis").call(this.xAxis);

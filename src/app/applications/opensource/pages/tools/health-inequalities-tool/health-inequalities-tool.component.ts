@@ -9,26 +9,19 @@ import * as d3_test from "d3";
 declare let require: any;
 const icdlookup = require("../../../_data/ICDLookup.json");
 let aii = require("../../../_data/admissions_inequality.json");
-aii = JSON.parse(JSON.stringify(aii).split("\"id\":").join("\"name\":"));
-// document.write(JSON.stringify(aii));
-aii = JSON.parse(JSON.stringify(aii).split("\"sii\":").join("\"value\":"));
-// document.write(JSON.stringify(aii));
-aii = JSON.parse(JSON.stringify(aii).split("\"children\":").join("\"drilldown\":"));
-// document.write(JSON.stringify(aii));
+aii = JSON.parse(JSON.stringify(aii).split(`"id":`).join(`"name":`));
+aii = JSON.parse(JSON.stringify(aii).split(`"sii":`).join(`"value":`));
+aii = JSON.parse(JSON.stringify(aii).split(`"children":`).join(`"drilldown":`));
 let mii = require("../../../_data/mortality_inequality.json");
-mii = JSON.parse(JSON.stringify(mii).split("\"id\":").join("\"name\":"));
-// document.write(JSON.stringify(mii));
-mii = JSON.parse(JSON.stringify(mii).split("\"sii\":").join("\"value\":"));
-// document.write(JSON.stringify(mii));
-mii = JSON.parse(JSON.stringify(mii).split("\"children\":").join("\"drilldown\":"));
-// document.write(JSON.stringify(mii));
+mii = JSON.parse(JSON.stringify(mii).split(`"id":`).join(`"name":`));
+mii = JSON.parse(JSON.stringify(mii).split(`"sii":`).join(`"value":`));
+mii = JSON.parse(JSON.stringify(mii).split(`"children":`).join(`"drilldown":`));
 const a_dsr = require("../../../_data/admissions_dsr.JSON");
 const m_dsr = require("../../../_data/mortality_dsr.JSON");
 
 @Component({
     selector: "app-health-inequalities-tool",
     templateUrl: "./health-inequalities-tool.component.html",
-    styleUrls: ["./health-inequalities-tool.component.scss"],
 })
 export class HealthInequalitiesToolComponent implements OnInit {
     @ViewChild("graphMain", { static: false }) graphMain: ElementRef;
@@ -131,13 +124,7 @@ export class HealthInequalitiesToolComponent implements OnInit {
         this.y = d3Scale.scaleBand().rangeRound([this.height, 0]).padding(0.1);
         this.y.domain(data.map((d) => d.name));
         this.m_x.domain([0, d3_test.max(this.draw_mii.map((d) => d.value))]);
-        this.a_x.domain([
-            0,
-            Math.max.apply(
-                Math,
-                this.draw_aii.map((d) => d.value)
-            ),
-        ]);
+        this.a_x.domain([0, Math.max(...this.draw_aii.map((d) => d.value))]);
     }
     // Draw axes onto the plot
     draw_axis() {
@@ -149,7 +136,7 @@ export class HealthInequalitiesToolComponent implements OnInit {
             .attr("id", "y_axis")
             .call(d3Axis.axisLeft(this.y));
         // Swap y-axis label side for negative values
-        this.g.selectAll(".tick").data(aii).select("text").attr("x", "-9").style("text-anchor", "end"); // (d, i) => (d.value < 1 ? "start" : "end"));
+        this.g.selectAll(".tick").data(aii).select("text").attr("x", "-9").style("text-anchor", "end");
         // Mortality x-axis
         this.g
             .append("g")
@@ -225,7 +212,7 @@ export class HealthInequalitiesToolComponent implements OnInit {
             .attr("height", this.y.bandwidth())
             .attr("width", (d) => this.m_x(0) - this.m_x(d.value));
         right_bars
-            .on("click", (d, i) => this.one_down(d, i))
+            .on("click", (d) => this.one_down(d))
             .on("mouseover.something", (d: any) => {
                 this.showTooltip(d, "Admissions");
             })
@@ -233,7 +220,7 @@ export class HealthInequalitiesToolComponent implements OnInit {
                 // this.tooltip = null;
             });
         left_bars
-            .on("click", (d, i) => this.one_down(d, i))
+            .on("click", (d) => this.one_down(d))
             .on("mouseover.something", (d: any) => {
                 this.showTooltip(d, "Mortality");
             })
@@ -241,7 +228,7 @@ export class HealthInequalitiesToolComponent implements OnInit {
                 // this.tooltip = null;
             });
     }
-    one_down(d: any, i: any) {
+    one_down(d: any) {
         switch (this.level) {
             case 1:
                 this.a_chapter = d.name;
@@ -340,20 +327,18 @@ export class HealthInequalitiesToolComponent implements OnInit {
         this.plot_bars();
     }
     add_rank(data: any[]) {
-        const sort_rii = data.slice().sort(function (a, b) {
+        const sort_rii = data.slice().sort((a, b) => {
             return b.rii - a.rii;
         });
         const rii_rank = data.slice().map((v) => {
             return sort_rii.indexOf(v) + 1;
         });
-        const rank_transformed = rii_rank;
         data.forEach((d, i) => {
             d.rank = rii_rank[i] / d3_test.max(rii_rank);
         });
     }
     sub_item(data, name: string, type: string) {
         if (name.length === 4 && this.level > 2) {
-            this.level = this.level;
             return data;
         } else {
             if (type === "down") {
@@ -472,7 +457,7 @@ export class HealthInequalitiesToolComponent implements OnInit {
     }
     // Draw the bars onto the barplot
     draw_dsr(data: any[]) {
-        const bars = this.dsr_g
+        this.dsr_g
             .selectAll(".dot")
             .data(data)
             .enter()

@@ -5,7 +5,6 @@ import { NumberDialogComponent } from "./dialognumber";
 @Component({
     selector: "app-limitsetting",
     templateUrl: "./limitsetting.component.html",
-    styleUrls: ["./limitsetting.component.scss"],
 })
 export class LimitsettingComponent implements OnInit {
     @Input() limit: string;

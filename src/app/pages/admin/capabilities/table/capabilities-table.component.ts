@@ -46,7 +46,7 @@ export class CapabilitiesTableComponent implements OnInit {
     delete(item) {
         this.notificationService.question("Are you sure you want to delete this capability?").then((confirmed) => {
             if (confirmed === true) {
-                this.apiService.deleteCapability(item.id).subscribe((res) => {
+                this.apiService.deleteCapability(item.id).subscribe(() => {
                     // Notify success
                     this.notificationService.success("Capability has been removed successfully!");
 

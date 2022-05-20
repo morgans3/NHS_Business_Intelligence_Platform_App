@@ -36,7 +36,7 @@ export class FindMosaicComponent implements OnChanges {
                     }
                     this.outputMosType.emit(this.mosType);
                 },
-                (error) => {
+                () => {
                     this.notificationService.warning("No Mosiac Type found, default added");
                     this.mosType = "U99";
                     this.outputMosType.emit(this.mosType);

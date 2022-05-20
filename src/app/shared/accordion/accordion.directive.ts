@@ -43,7 +43,7 @@ export class AccordionDirective implements AfterContentChecked {
     }
 
     ngAfterContentChecked(): void {
-        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((e) => this.checkOpenLinks());
+        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => this.checkOpenLinks());
     }
 
     constructor(private router: Router) {

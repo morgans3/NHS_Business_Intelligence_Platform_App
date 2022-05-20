@@ -11,7 +11,6 @@ import { decodeToken } from "../../../../_pipes/functions";
 @Component({
     selector: "app-UserValidation",
     templateUrl: "./UserValidation.component.html",
-    styleUrls: ["./UserValidation.component.scss"],
 })
 export class UserValidationComponent implements OnInit {
     @Output() confirmation = new EventEmitter();
@@ -90,7 +89,7 @@ export class UserValidationComponent implements OnInit {
                     token: this.token,
                 })
             )
-            .subscribe((res: any) => {
+            .subscribe(() => {
                 this.confirmation.emit(this.tokenDecoded);
             });
     }

@@ -170,7 +170,7 @@ export class RecentreferralsComponent implements OnInit {
                 this.setData();
                 this.populateDropdowns(this.allpatients);
             },
-            (error) => {
+            () => {
                 this.dataFetched = true;
                 this.notificationService.warning(
                     "Unable to retrieve patient list. You may not have a role to view patient information. Please contact support."
@@ -298,7 +298,7 @@ export class RecentreferralsComponent implements OnInit {
         const options = {
             title: "Nexus Intelligence Recent Virtual Ward Referrals",
             fieldSeparator: ",",
-            quoteStrings: "\"",
+            quoteStrings: `"`,
             decimalseparator: ".",
             showLabels: true,
             showTitle: false,

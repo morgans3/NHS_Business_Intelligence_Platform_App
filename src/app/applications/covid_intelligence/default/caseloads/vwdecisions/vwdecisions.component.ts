@@ -186,7 +186,7 @@ export class VwdecisionsComponent implements OnInit {
                 this.setData();
                 this.populateDropdowns(this.patients, true, true);
             },
-            (error) => {
+            () => {
                 this.dataFetched = true;
                 this.notificationService.warning(
                     "Unable to retrieve patient list. You may not have a role to view patient information. Please contact support."
@@ -442,7 +442,7 @@ export class VwdecisionsComponent implements OnInit {
     moreInfo(row) {
         this.apiService.getPatientDemographics(row.nhs_number).subscribe((res: any) => {
             if (res) {
-                const dialogRef = this.dialog.open(UserDialogComponent, {
+                this.dialog.open(UserDialogComponent, {
                     width: "350px",
                     data: res,
                 });
@@ -453,7 +453,7 @@ export class VwdecisionsComponent implements OnInit {
     }
 
     editContact(row) {
-        const dialogContact = this.dialog
+        this.dialog
             .open(ContactDialogComponent, {
                 width: "90%",
                 data: row,
@@ -485,7 +485,7 @@ export class VwdecisionsComponent implements OnInit {
     }
 
     editNotes(row) {
-        const dialogContact = this.dialog
+        this.dialog
             .open(NotesDialogComponent, {
                 width: "90%",
                 data: row,

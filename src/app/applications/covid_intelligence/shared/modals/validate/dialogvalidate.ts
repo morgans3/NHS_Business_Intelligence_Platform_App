@@ -40,7 +40,7 @@ export class ValidateDialogComponent {
                             token: data.token,
                         })
                     )
-                    .subscribe((res: any) => {
+                    .subscribe(() => {
                         this.dialogRef.close(data.token);
                     });
             } else {

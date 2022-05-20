@@ -18,7 +18,6 @@ interface CovidTest {
 @Component({
     selector: "app-covidtests",
     templateUrl: "./covidtests.component.html",
-    styleUrls: ["./covidtests.component.scss"],
 })
 export class CovidtestsComponent implements OnChanges {
     @Input() nhsnumber: string;

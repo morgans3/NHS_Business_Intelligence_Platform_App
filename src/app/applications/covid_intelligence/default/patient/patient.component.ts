@@ -11,7 +11,6 @@ import { faNotesMedical, faProcedures } from "@fortawesome/free-solid-svg-icons"
 @Component({
     selector: "app-patient",
     templateUrl: "./patient.component.html",
-    styleUrls: ["./patient.component.scss"],
 })
 export class PatientComponent implements OnInit {
     Procedures = faProcedures;
@@ -49,7 +48,7 @@ export class PatientComponent implements OnInit {
                 this.dataFetched = true;
                 this.person = res;
             },
-            (err) => {
+            () => {
                 this.notificationService.warning("Unable to find patient details.");
                 this.person = null;
                 this.dataFetched = true;

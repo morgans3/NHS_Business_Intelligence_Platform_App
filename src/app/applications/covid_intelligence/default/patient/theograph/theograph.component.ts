@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Component, OnInit, HostListener, Input, AfterViewInit } from "@angular/core";
 import { dummydata } from "./DummyPatient";
 import * as d3 from "d3";
@@ -18,7 +17,6 @@ export const actTyps = ["Inpatient", "Inpatient", "Emergency", "Emergency", "App
 @Component({
     selector: "app-theograph",
     templateUrl: "./theograph.component.html",
-    styleUrls: ["./theograph.component.scss"],
 })
 export class TheographComponent implements OnInit, AfterViewInit {
     @Input() person: any;
@@ -56,7 +54,7 @@ export class TheographComponent implements OnInit, AfterViewInit {
     showTheograph = false;
 
     @HostListener("window:resize", ["$event"])
-    onResize(event) {
+    onResize() {
         setTimeout(() => {
             this.redrawWidths();
         }, 0);
@@ -139,7 +137,7 @@ export class TheographComponent implements OnInit, AfterViewInit {
             )
         );
         this.y.domain(
-            data.map(function (d) {
+            data.map((d) => {
                 return d.TypeCat;
             })
         );
@@ -157,7 +155,7 @@ export class TheographComponent implements OnInit, AfterViewInit {
             .data(data)
             .enter()
             .append("rect")
-            .attr("x", (d, i) => {
+            .attr("x", (d) => {
                 return this.x(d.EventDate);
             })
             .attr("y", (d) => {
@@ -184,10 +182,8 @@ export class TheographComponent implements OnInit, AfterViewInit {
                 this.addHtmlDetailsAndTooltip(this.div, d);
 
                 this.div
-                    // @ts-ignore
                     .style("left", d3.event.pageX + "px")
                     .style("background", this.color(d.Type))
-                    // @ts-ignore
                     .style("top", d3.event.pageY + "px")
                     .style("width", this.toolTipInitialSize[1])
                     .style("height", this.toolTipInitialSize[2]);
@@ -205,12 +201,11 @@ export class TheographComponent implements OnInit, AfterViewInit {
             ])
             .on("start", () => this.x2.domain())
             .on("brush", () => {
-                // @ts-ignore
                 const s = d3.event.selection; // || this.x2.range();
                 this.x2.domain();
                 this.x.domain(s.map(this.x2.invert, this.x2));
                 this.focusBars
-                    .attr("x", (d, i) => {
+                    .attr("x", (d) => {
                         return this.x(d.EventDate);
                     })
                     .attr("width", (d) => {
@@ -218,7 +213,7 @@ export class TheographComponent implements OnInit, AfterViewInit {
                         fdate.setTime(d.EventDate.getTime() + d.LengthOfStay * 1000 * 60 * 60 * 24);
                         return this.x(fdate) - this.x(d.EventDate);
                     });
-                this.focusCircle.attr("cx", (d, i) => {
+                this.focusCircle.attr("cx", (d) => {
                     return this.x(d.EventDate);
                 });
                 this.focus.select(".x.axis").call(this.xAxis);
@@ -228,7 +223,7 @@ export class TheographComponent implements OnInit, AfterViewInit {
             .data(data)
             .enter()
             .append("circle")
-            .attr("cx", (d, i) => {
+            .attr("cx", (d) => {
                 return this.x(d.EventDate);
             })
             .attr("cy", (d) => {
@@ -257,10 +252,8 @@ export class TheographComponent implements OnInit, AfterViewInit {
                 this.addHtmlDetailsAndTooltip(this.div, d);
 
                 this.div
-                    // @ts-ignore
                     .style("left", d3.event.pageX + "px")
                     .style("background", this.color(d.Type))
-                    // @ts-ignore
                     .style("top", d3.event.pageY + "px")
                     .style("width", this.toolTipInitialSize[1])
                     .style("height", this.toolTipInitialSize[2]);
@@ -273,8 +266,8 @@ export class TheographComponent implements OnInit, AfterViewInit {
                 const bodyRect = document.body.getBoundingClientRect();
                 const elemRect = document.getElementById("admissionDetails").getBoundingClientRect();
 
-                const ttipTop = elemRect.top - bodyRect.top;
-                const ttipLeft = elemRect.left - bodyRect.left;
+                elemRect.top - bodyRect.top;
+                elemRect.left - bodyRect.left;
 
                 d3.select(t1[me])
                     .transition()
@@ -310,7 +303,7 @@ export class TheographComponent implements OnInit, AfterViewInit {
             .data(data)
             .enter()
             .append("rect")
-            .attr("x", (d, i) => {
+            .attr("x", (d) => {
                 return this.x2(d.EventDate);
             })
             .attr("y", (d) => {
@@ -332,7 +325,7 @@ export class TheographComponent implements OnInit, AfterViewInit {
             .data(data)
             .enter()
             .append("circle")
-            .attr("cx", (d, i) => {
+            .attr("cx", (d) => {
                 return this.x2(d.EventDate);
             })
             .attr("cy", (d) => {
@@ -379,7 +372,7 @@ export class TheographComponent implements OnInit, AfterViewInit {
             .enter()
             .append("rect")
             .attr("x", 20)
-            .attr("y", function (d, i) {
+            .attr("y", (d, i) => {
                 return i * 45 + 20;
             })
             .attr("width", 20)
@@ -394,7 +387,7 @@ export class TheographComponent implements OnInit, AfterViewInit {
             .enter()
             .append("text")
             .attr("x", 50)
-            .attr("y", function (d, i) {
+            .attr("y", (d, i) => {
                 return i * 45 + 25 + 20;
             })
             .attr("width", 20)

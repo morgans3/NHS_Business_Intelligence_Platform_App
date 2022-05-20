@@ -17,7 +17,7 @@ import { generateID, decodeToken } from "../../../../../_pipes/functions";
 export class CohortAllComponent implements OnInit, OnChanges {
     @ViewChild(MatSelectionList) cohorts: MatSelectionList;
     @Input() cohort: any;
-    @Output() change = new EventEmitter<any>();
+    @Output() changeEvent = new EventEmitter<any>();
     allcohorts: Cohort[] = [];
     tokenDecoded: any;
     shownCohort: any;
@@ -37,8 +37,8 @@ export class CohortAllComponent implements OnInit, OnChanges {
     ) {
         let token = this.store.selectSnapshot(AuthState.getToken);
         if (!token) {
-            const _token = localStorage.getItem("@@token");
-            if (_token && _token["stateauth"]) {
+            const localtoken = localStorage.getItem("@@token");
+            if (localtoken && localtoken["stateauth"]) {
                 token = localStorage.getItem("@@token")["stateauth"].token;
             }
         }
@@ -46,7 +46,7 @@ export class CohortAllComponent implements OnInit, OnChanges {
             this.tokenDecoded = decodeToken(token);
             this.teamcodes = this.tokenDecoded["memberships"];
             this.apiService
-                .getCohorts({
+                .getCohortsByUsername({
                     username: this.tokenDecoded.username,
                 })
                 .subscribe((res: Cohort[]) => {
@@ -77,10 +77,10 @@ export class CohortAllComponent implements OnInit, OnChanges {
         this.cohorts.selectionChange.subscribe((s: MatSelectionListChange) => {
             this.cohorts.deselectAll();
             s.option.selected = true;
-            const savedCohort = this.allcohorts.find((x) => x._id === s.option.value);
+            const savedCohort = this.allcohorts.find((x) => x["_id"] === s.option.value);
             if (savedCohort) {
                 this.selectedCohort = savedCohort;
-                this.change.emit(this.selectedCohort);
+                this.changeEvent.emit(this.selectedCohort);
             }
         });
         this.apiService.getTeams().subscribe((res: iTeam[]) => {
@@ -108,7 +108,7 @@ export class CohortAllComponent implements OnInit, OnChanges {
     resetCohort() {
         this.cohorts.deselectAll();
         this.selectedCohort = new Cohort();
-        this.change.emit(null);
+        this.changeEvent.emit(null);
     }
 
     saveNew() {
@@ -161,9 +161,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
             newCohort.teamcode = response.teamcode;
         }
         this.selectedCohort = newCohort;
-        this.apiService.createCohort(this.selectedCohort).subscribe((data) => {
+        this.apiService.createCohort(this.selectedCohort).subscribe(() => {
             this.apiService
-                .getCohorts({
+                .getCohortsByUsername({
                     username: this.tokenDecoded.username,
                 })
                 .subscribe((res: Cohort[]) => {
@@ -196,9 +196,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
 
     confirmUpdate() {
         this.selectedCohort.cohorturl = JSON.stringify(this.cohort);
-        this.apiService.updateCohort(this.selectedCohort).subscribe((data) => {
+        this.apiService.updateCohort(this.selectedCohort).subscribe(() => {
             this.apiService
-                .getCohorts({
+                .getCohortsByUsername({
                     username: this.tokenDecoded.username,
                 })
                 .subscribe((res: Cohort[]) => {
@@ -224,9 +224,9 @@ export class CohortAllComponent implements OnInit, OnChanges {
             ])
             .then((confirmed) => {
                 if (confirmed === true) {
-                    this.apiService.deleteCohort(this.selectedCohort).subscribe((data) => {
+                    this.apiService.deleteCohort(this.selectedCohort).subscribe(() => {
                         this.apiService
-                            .getCohort({
+                            .getCohortsByUsername({
                                 username: this.tokenDecoded.username,
                             })
                             .subscribe((res: Cohort[]) => {

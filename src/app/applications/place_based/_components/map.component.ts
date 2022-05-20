@@ -1,5 +1,6 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, Input, Output, EventEmitter, AfterViewChecked, ChangeDetectorRef, OnInit, OnChanges } from "@angular/core";
-import { latLng, tileLayer, circle, TileLayer, LatLng } from "leaflet";
+import { latLng, tileLayer, TileLayer, LatLng } from "leaflet";
 import * as L from "leaflet";
 
 export class MapData {

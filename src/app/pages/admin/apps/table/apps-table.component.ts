@@ -64,7 +64,7 @@ export class AppsTableComponent implements OnInit {
     delete(app) {
         this.notificationService.question("Are you sure you want to delete this app?").then((confirmed) => {
             if (confirmed === true) {
-                this.apiService.archiveApp(app).subscribe((res) => {
+                this.apiService.archiveApp(app).subscribe(() => {
                     // Notify success
                     this.notificationService.success("App has been removed successfully!");
 

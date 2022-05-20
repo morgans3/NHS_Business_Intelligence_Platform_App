@@ -19,7 +19,7 @@ import { CviCohortService } from "../../../_services/cvicohort-service";
 export class CohortAllComponent implements OnInit, OnChanges {
     @ViewChild(MatSelectionList) cohorts: MatSelectionList;
     @Input() cohort: any;
-    @Output() change = new EventEmitter<any>();
+    @Output() changeEvent = new EventEmitter<any>();
     allcohorts: CVICohort[] = [];
     tokenDecoded: any;
     shownCohort: any;
@@ -39,8 +39,8 @@ export class CohortAllComponent implements OnInit, OnChanges {
     ) {
         let token = this.store.selectSnapshot(AuthState.getToken);
         if (!token) {
-            const _token = localStorage.getItem("@@token");
-            if (_token && _token["stateauth"]) {
+            const localtoken = localStorage.getItem("@@token");
+            if (localtoken && localtoken["stateauth"]) {
                 token = localStorage.getItem("@@token")["stateauth"].token;
             }
         }
@@ -78,7 +78,7 @@ export class CohortAllComponent implements OnInit, OnChanges {
             const savedCohort = this.allcohorts.find((x) => x.cohortName === s.option.value);
             if (savedCohort) {
                 this.selectedCohort = savedCohort;
-                this.change.emit(this.selectedCohort);
+                this.changeEvent.emit(this.selectedCohort);
             }
         });
         this.apiService.getTeams().subscribe((res: iTeam[]) => {
@@ -109,7 +109,7 @@ export class CohortAllComponent implements OnInit, OnChanges {
     resetCohort() {
         this.cohorts.deselectAll();
         this.selectedCohort = new CVICohort();
-        this.change.emit(null);
+        this.changeEvent.emit(null);
     }
 
     saveNew() {
@@ -221,7 +221,7 @@ export class CohortAllComponent implements OnInit, OnChanges {
     }
 
     no_duplicates(inputArray) {
-        return inputArray.filter(function (item, pos, self) {
+        return inputArray.filter((item, pos, self) => {
             return self.indexOf(item) === pos;
         });
     }

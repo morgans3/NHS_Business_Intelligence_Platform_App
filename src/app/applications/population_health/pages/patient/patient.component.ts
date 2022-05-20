@@ -9,7 +9,6 @@ import { AuthState } from "../../../../_states/auth.state";
 @Component({
     selector: "app-patient",
     templateUrl: "./patient.component.html",
-    styleUrls: ["./patient.component.scss"],
 })
 export class PatientComponent implements OnInit {
     dataFetched = true; // false; change when plugged into datasource
@@ -60,7 +59,7 @@ export class PatientComponent implements OnInit {
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += "<img alt=\"image\" class=\"img-container\" src=\"assets/images/mosaic/mosaic_" + usedMosaicType + ".jpg\">";
+        output += `<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_` + usedMosaicType + `.jpg">`;
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";

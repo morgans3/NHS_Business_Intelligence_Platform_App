@@ -201,6 +201,7 @@ module.exports = {
         "no-invalid-this": "off",
         "no-multiple-empty-lines": "off",
         "no-new-wrappers": "error",
+        "no-prototype-builtins": "off",
         "no-restricted-imports": ["error", "rxjs/Rx"],
         "no-shadow": "off",
         "no-throw-literal": "error",
@@ -220,6 +221,7 @@ module.exports = {
         quotes: ["error", "double", { allowTemplateLiterals: true }],
         "@typescript-eslint/quotes": ["error", "double", { allowTemplateLiterals: true }],
         radix: "off",
+        "@typescript-eslint/restrict-plus-operands": "off",
         "spaced-comment": [
             "error",
             "always",

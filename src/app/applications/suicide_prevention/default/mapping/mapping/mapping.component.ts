@@ -84,7 +84,7 @@ export class MappingComponent implements OnInit {
     Upload() {
         this.workbook = { name: this.file.name, worksheets: [] };
         const fileReader = new FileReader();
-        fileReader.onload = (e) => {
+        fileReader.onload = () => {
             this.arrayBuffer = fileReader.result;
             const data = new Uint8Array(this.arrayBuffer);
             const arr = [];

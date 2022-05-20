@@ -9,7 +9,6 @@ import { APIService } from "diu-component-library";
 @Component({
     selector: "app-lpresviewer",
     templateUrl: "./lpresviewer.component.html",
-    styleUrls: ["./lpresviewer.component.scss"],
 })
 export class LpresviewerComponent implements OnInit {
     @Input() nhsnumber: string;
@@ -54,7 +53,7 @@ export class LpresviewerComponent implements OnInit {
     }
 
     onSubmit() {
-        const theForm: HTMLFormElement = <HTMLFormElement>document.getElementById("theForm");
+        const theForm: HTMLFormElement = document.getElementById("theForm") as HTMLFormElement;
         this.hideLPRES = false;
         this.notificationService.info("Loading Shared Care Record, this may take a few seconds to display.");
         theForm.submit();

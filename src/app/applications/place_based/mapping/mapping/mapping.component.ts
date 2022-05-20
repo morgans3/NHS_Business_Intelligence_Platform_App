@@ -101,10 +101,10 @@ export class MappingComponent implements OnInit {
 
     createPopup(item) {
         let popup = `<div>`;
-        popup += `<h4>${item.name}</h4>`;
+        popup += `<h4>${item.name as string}</h4>`;
         Object.keys(item).forEach((key) => {
             if (key !== "name" && key !== "latitude" && key !== "longitude") {
-                popup += `<p>${key}: ${item[key]}</p>`;
+                popup += `<p>${key}: ${item[key] as string}</p>`;
             }
         });
         popup += `</div>`;
@@ -134,7 +134,7 @@ export class MappingComponent implements OnInit {
         const layerControlParentLayer = L.control({
             position: "topleft",
         });
-        layerControlParentLayer.onAdd = (map) => {
+        layerControlParentLayer.onAdd = () => {
             const parentDiv = L.DomUtil.create("div");
             parentDiv.setAttribute("id", "layer-control-parent-id");
             parentDiv.setAttribute("style", "background-color: white; border-radius: 10px;");
@@ -164,7 +164,7 @@ export class MappingComponent implements OnInit {
         const position = panel.position || "top";
         const panelContent = {
             id: panel.id,
-            tab: `<i class="${panel.icon}" title="${panel.title}"></i>`,
+            tab: `<i class="${panel.icon as string}" title="${panel.title as string}"></i>`,
             // pane: `<p>${panel.title}</p>`,
             // title: panel.title,
             position,
@@ -173,7 +173,8 @@ export class MappingComponent implements OnInit {
     }
 
     filterData(event) {
-        // console.log(event);
+        // TODO: ???
+        console.log(event);
     }
 
     changeTileLayer(label: string) {

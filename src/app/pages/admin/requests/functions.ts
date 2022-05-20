@@ -1,7 +1,7 @@
 export const getValueByKey = (key, item) => {
     key = key.split("|");
     if (key[1]) {
-        return helper.fn(key[0], item);
+        return helper.fn(key[0]);
     } else {
         return ((s, o) => {
             s = s.replace(/\[(\w+)\]/g, ".$1"); // convert indexes to properties
@@ -21,7 +21,7 @@ export const getValueByKey = (key, item) => {
 };
 
 class helper {
-    static fn = (key, item) => {
+    static fn = (key) => {
         return "`" + (key as string) + "`";
     };
 }

@@ -13,7 +13,6 @@ import { decodeToken } from "../../../../_pipes/functions";
 @Component({
     selector: "app-patient-list",
     templateUrl: "./patient-list.component.html",
-    styleUrls: ["./patient-list.component.scss"],
 })
 export class PatientListComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = ["fullname", "nhsnumber", "age", "sex", "rsk", "ccg", "gp", "actions"];
@@ -90,7 +89,6 @@ export class PatientListComponent implements OnInit, AfterViewInit {
 
     getData() {
         this.dataFetched = false;
-        const criteria = {};
         const data = this.addTestPatients();
         // this.service
         //   .getPopulationList(criteria)
@@ -142,6 +140,8 @@ export class PatientListComponent implements OnInit, AfterViewInit {
     }
 
     personSelected(row) {
+        console.log(row);
+        // TODO: does something need to happen here with row to get to the right person?
         this.router.navigate(["/person"]);
     }
 

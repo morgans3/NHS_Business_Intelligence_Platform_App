@@ -543,7 +543,7 @@ export class LandingComponent implements OnInit {
     };
 
     @HostListener("window:resize", ["$event"])
-    onResize(event) {
+    onResize() {
         setTimeout(() => {
             this.drawCharts();
         }, 0);
@@ -577,7 +577,7 @@ export class LandingComponent implements OnInit {
 
     buildCF() {
         this.myDC = dc;
-        Object.keys(this.crossFilterData).forEach((key, index) => {
+        Object.keys(this.crossFilterData).forEach((key) => {
             if (this.crossFilterData[key].openCloseAnim) {
                 this.openCloseAnimation[this.crossFilterData[key].filterName] = "open";
             }
@@ -596,7 +596,7 @@ export class LandingComponent implements OnInit {
     }
 
     createCharts() {
-        Object.keys(this.crossFilterData).forEach((key, index) => {
+        Object.keys(this.crossFilterData).forEach((key) => {
             if (this.crossFilterData[key].chartData) {
                 this.crossFilterData[key].chartData.dim = this[key];
                 this.crossFilterData[key].chartData.group = this[this.crossFilterData[key].dimgroup];
@@ -669,7 +669,7 @@ export class LandingComponent implements OnInit {
                 const total = this.incidentsCount.dimension().size();
                 return this.numberWithCommas(total);
             });
-        Object.keys(this.crossFilterData).forEach((key, index) => {
+        Object.keys(this.crossFilterData).forEach((key) => {
             if (this.crossFilterData[key].chartData) {
                 if (this.openCloseAnimation[this.crossFilterData[key].filterName] === "open") {
                     this.resizeChart(this.crossFilterData[key].chart, this[this.crossFilterData[key].parent]);
@@ -777,11 +777,11 @@ export class LandingComponent implements OnInit {
             },
         };
         this.all = {
-            value: (f) => {
+            value: () => {
                 return this.filteredData["all"].values;
             },
         };
-        Object.keys(this.crossFilterData).forEach((key, index) => {
+        Object.keys(this.crossFilterData).forEach((key) => {
             const name = this.crossFilterData[key].filterName;
             const dimgroup = this.crossFilterData[key].dimgroup;
             const type = this.crossFilterData[key].type;
@@ -924,7 +924,7 @@ export class LandingComponent implements OnInit {
             case "mosaicChart":
                 return "postcodeMosaic";
         }
-        Object.keys(this.crossFilterData).forEach((key, index) => {
+        Object.keys(this.crossFilterData).forEach((key) => {
             if (this.crossFilterData[key].chartData) {
                 if (chartname === this.crossFilterData[key].chartData.name) {
                     return this.crossFilterData[key].filterName;
@@ -1029,7 +1029,7 @@ export class LandingComponent implements OnInit {
                     chart.xUnits(this.myDC.units.ordinal);
                     break;
                 default:
-                    chart.xUnits((xUnits) => {
+                    chart.xUnits(() => {
                         return details.xUnits;
                     });
             }
@@ -1149,7 +1149,7 @@ export class LandingComponent implements OnInit {
             chart.centerBar(details.centerBar);
         }
         chart.filterHandler((dim, filters) => this.filterHandled(dim, filters));
-        chart.commitHandler(async (err, result) => {
+        chart.commitHandler(async () => {
             await this.refresh(this.queryFilter);
         });
     }
@@ -1166,7 +1166,7 @@ export class LandingComponent implements OnInit {
 
     async redrawCharts(chart: any, dimName: string) {
         if (typeof chart === "string") {
-            Object.keys(this.crossFilterData).forEach((key, index) => {
+            Object.keys(this.crossFilterData).forEach((key) => {
                 if (this.crossFilterData[key].chartData) {
                     if (chart === this.crossFilterData[key].chartData.name) {
                         this.crossFilterData[key].chart.filterAll();
@@ -1347,14 +1347,14 @@ export class LandingComponent implements OnInit {
         };
         this.mosaicChart = this.myDC.barChart("#" + this.mosaicChartDetails.name);
         this.createChart(this.mosaicChart, this.mosaicChartDetails, this.mosaicChartParent);
-        this.mosaicChart.on("renderlet", (chart) => {
+        this.mosaicChart.on("renderlet", () => {
             const graph = d3
                 .select("#" + this.mosaicChartDetails.name)
                 .select("svg")
                 .selectAll("rect");
             graph
                 .on("mouseover.something", (data, index, ar) => this.mosaicMouseEnter(data, index, ar))
-                .on("mouseout.something", (data: any) => {
+                .on("mouseout.something", () => {
                     this.keyToolTip.style("opacity", 0);
                 });
         });

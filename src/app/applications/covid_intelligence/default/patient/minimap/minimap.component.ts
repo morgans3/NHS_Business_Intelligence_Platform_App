@@ -6,7 +6,6 @@ import { PostcodeService } from "../../../../../_services/postcodes.service";
 @Component({
     selector: "app-minimap",
     templateUrl: "./minimap.component.html",
-    styleUrls: ["./minimap.component.scss"],
 })
 export class MinimapComponent implements OnChanges {
     @Input() setperson: PatientLinked;
@@ -35,7 +34,7 @@ export class MinimapComponent implements OnChanges {
         }
         this.map = L.map(chartName).setView([53.967752, -2.444284], 8);
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a>",
+            attribution: `Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>`,
         }).addTo(this.map);
         this.addMarkers();
     }

@@ -3,7 +3,6 @@ import { Component, Input, Output, EventEmitter } from "@angular/core";
 @Component({
     selector: "app-polygonList",
     templateUrl: "./polygonList.component.html",
-    styleUrls: ["./polygonList.component.scss"],
 })
 export class PolygonListComponent {
     @Input() inputArray: any;

@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, OnInit } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { HttpClient } from "@angular/common/http";
+import { FormControl, Validators } from "@angular/forms";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -9,13 +9,10 @@ import { Cohort, NiceResponse, APIService } from "diu-component-library";
 import { AuthState } from "../../../../_states/auth.state";
 import { decodeToken } from "../../../../_pipes/functions";
 import { Store } from "@ngxs/store";
-import { CohortService } from "../../_services/cohort-service";
-declare let window: any;
 
 @Component({
     selector: "app-intervention-assistant",
     templateUrl: "./intervention-assistant.component.html",
-    styleUrls: ["./intervention-assistant.component.scss"],
 })
 export class InterventionAssistantComponent implements OnInit {
     @ViewChild("expansion_panel") expansion_panel_Parent: ElementRef;
@@ -74,16 +71,14 @@ export class InterventionAssistantComponent implements OnInit {
     nice_secondary_columns: string[] = ["Title", "Abstract", "EvidenceTypes", "SourceName"];
     nice_primary_columns: string[] = ["Title"];
     // this.selected_type && this.selected_type.name === 'primary'
-    constructor(public http: HttpClient, private store: Store, private cohortsService: CohortService, private apiService: APIService) {
-        const parsedUrl = new URL(window.location.href);
-    }
+    constructor(public http: HttpClient, private store: Store, private apiService: APIService) {}
 
     ngOnInit() {
         const token = this.store.selectSnapshot(AuthState.getToken);
         if (token) {
             this.tokenDecoded = decodeToken(token);
-            this.cohortsService
-                .get({
+            this.apiService
+                .getCohortsByUsername({
                     username: this.tokenDecoded.username,
                 })
                 .subscribe((res: Cohort[]) => {
@@ -142,7 +137,7 @@ export class InterventionAssistantComponent implements OnInit {
     // Send API call to plumbeR
     send_api() {
         switch (this.selected_type.name) {
-            case "secondary":
+            case "secondary": {
                 const cohort = this.cohort_array.find((x) => x.cohortName === this.selected_cohort);
                 let phase_request = "";
                 this.selected_phase.forEach((d) => {
@@ -163,7 +158,8 @@ export class InterventionAssistantComponent implements OnInit {
                     this.get_data(res);
                 });
                 break;
-            default:
+            }
+            default: {
                 this.nice_div = true;
                 let nice_query = "";
                 // check for conditions (LTCs2Dimension)
@@ -198,6 +194,7 @@ export class InterventionAssistantComponent implements OnInit {
                         this.get_data(search_results);
                     });
                 }
+            }
         }
     }
 }
