@@ -1,0 +1,59 @@
+<mat-card *ngIf="thisReport">
+    <mat-card-header fxLayoutAlign="center center">
+        <mat-card-title>{{ thisReport.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content *ngIf="thisReport">
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100"><strong>Description:</strong> {{ thisReport.description }}</div>
+
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100"><strong>Published by:</strong> {{ thisReport.publisher }}</div>
+        </div>
+        <br />
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <iframe [cachedSrc]="thisReport.reportUrl" style="width: 100%; height: 70vh"></iframe>
+            </div>
+        </div>
+    </mat-card-content>
+
+    <mat-card-content *ngIf="!reportID">
+        <p>
+            No report selected. Please select a report from the Navigation menu on the left or go to the Report Store to request a report.
+        </p>
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="reportID">
+    <mat-card-content>
+        <mat-tab-group color="primary" backgroundColor="primary">
+            <mat-tab label="My Notes">
+                <app-ReportNotes [reportID]="reportID" [username]="username"></app-ReportNotes>
+            </mat-tab>
+            <mat-tab label="Team Notes" *ngIf="thisReport.teamcode">
+                <app-ReportNotes [reportID]="reportID" [username]="username" [teamcode]="thisReport.teamcode"></app-ReportNotes>
+            </mat-tab>
+            <mat-tab label="Publishers Notes">
+                <div fxLayout="row wrap" style="padding: 10px 0px">
+                    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                        <app-PublisherNotes [reportID]="reportID" [report]="thisReport"></app-PublisherNotes>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Data Scientist Analysis" *ngIf="thisReport.analysis">
+                <div fxLayout="row wrap" style="padding: 10px 0px">
+                    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                        <app-ReportAnalysis [reportID]="reportID" [report]="thisReport"> </app-ReportAnalysis>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Settings">
+                <div fxLayout="row wrap" style="padding: 10px 0px">
+                    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                        <app-ReportSettings [reportID]="reportID" [report]="thisReport" [teamcode]="thisReport.teamcode">
+                        </app-ReportSettings>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+</mat-card>

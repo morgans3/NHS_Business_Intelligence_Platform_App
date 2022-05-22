@@ -1,0 +1,15 @@
+.gp-chart {
+    .controls {
+        bottom: 30px !important;
+        z-index: 1000;
+        background: #fff;
+        top: unset;
+        left: 30px;
+        transform: unset;
+        border-radius: 5px;
+        padding: 0px 10px;
+    }
+    mat-slide-toggle {
+        vertical-align: middle;
+    }
+}

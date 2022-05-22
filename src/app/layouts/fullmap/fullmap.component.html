@@ -1,4 +1,8 @@
 <div class="fullpage">
-  <router-outlet><app-spinner></app-spinner></router-outlet>
+    <router-outlet><app-spinner></app-spinner></router-outlet>
 </div>
-<lib-diu-angular-speed-dial [token]="jwtToken" (errorMessage)="showErrors($event)" (newMFAToken)="updateToken($event)"></lib-diu-angular-speed-dial>
+<lib-diu-angular-speed-dial
+    [token]="jwtToken"
+    (errorMessage)="showErrors($event)"
+    (newMFAToken)="updateToken($event)"
+></lib-diu-angular-speed-dial>

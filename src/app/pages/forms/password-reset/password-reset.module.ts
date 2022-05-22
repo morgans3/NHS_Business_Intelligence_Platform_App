@@ -5,22 +5,24 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { DemoMaterialModule } from "../../../demo-material-module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
-import { PasswordComponentsModule } from './password-components.module';
-import { PasswordResetLayoutComponent } from './password-reset.component';
+import { PasswordComponentsModule } from "./password-components.module";
+import { PasswordResetLayoutComponent } from "./password-reset.component";
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild([{
-            path: "",
-            component: PasswordResetLayoutComponent
-        }]),
+        RouterModule.forChild([
+            {
+                path: "",
+                component: PasswordResetLayoutComponent,
+            },
+        ]),
         FormsModule,
         FlexLayoutModule,
         DemoMaterialModule,
         ReactiveFormsModule,
-        PasswordComponentsModule
+        PasswordComponentsModule,
     ],
-    declarations: [PasswordResetLayoutComponent]
+    declarations: [PasswordResetLayoutComponent],
 })
-export class PasswordResetModule { }
+export class PasswordResetModule {}

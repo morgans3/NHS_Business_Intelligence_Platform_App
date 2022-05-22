@@ -9,7 +9,9 @@
             <mat-option *ngFor="let org of organisations" [value]="org">{{ org.name }}</mat-option>
         </mat-select>
     </mat-form-field>
-    <p style="text-align: left; margin-block-start: -1rem;"><small>If your organisation is not listed please contact your IT support team.</small></p>
+    <p style="text-align: left; margin-block-start: -1rem">
+        <small>If your organisation is not listed please contact your IT support team.</small>
+    </p>
 
     <button mat-raised-button color="primary" style="width: 100%" type="submit">Send reset code</button>
 </form>

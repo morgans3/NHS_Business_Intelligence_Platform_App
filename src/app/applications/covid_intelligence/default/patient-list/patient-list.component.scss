@@ -1,0 +1,10 @@
+mat-cell:nth-child(5),
+mat-header-cell:nth-child(5) {
+    flex: 0 0 40%;
+}
+#row-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}

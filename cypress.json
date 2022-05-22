@@ -1,4 +1,4 @@
 {
-  "projectId": "nexus_intelligence",
-  "experimentalSessionSupport": true
+    "projectId": "nexus_intelligence",
+    "experimentalSessionAndOrigin": true
 }

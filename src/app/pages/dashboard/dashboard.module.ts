@@ -7,7 +7,7 @@ import { DashboardComponent } from "./dashboard.component";
 import { DashboardRoutes } from "./dashboard.routing";
 
 @NgModule({
-  imports: [CommonModule, DemoMaterialModule, FlexLayoutModule, RouterModule.forChild(DashboardRoutes)],
-  declarations: [DashboardComponent],
+    imports: [CommonModule, DemoMaterialModule, FlexLayoutModule, RouterModule.forChild(DashboardRoutes)],
+    declarations: [DashboardComponent],
 })
 export class DashboardModule {}

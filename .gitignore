@@ -45,3 +45,4 @@ Thumbs.db
 # Excess test data (videos, screenshots)
 cypress/videos/*
 cypress/screenshots/*
+cypress/fixtures/*

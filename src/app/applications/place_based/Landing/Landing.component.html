@@ -1,793 +1,1078 @@
 <div *ngIf="!dataLoaded" fxLayout="row wrap">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card fxLayoutAlign="center center">
-      <mat-spinner></mat-spinner>
-    </mat-card>
-  </div>
-</div>
-
-<div fxLayout="row wrap">
-  <div fxFlex.gt-md="25" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <app-statcard [data]="totalIncidents"></app-statcard>
-  </div>
-  <div fxFlex.gt-md="25" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <app-statcard [data]="selectedPop"></app-statcard>
-  </div>
-  <div fxFlex.gt-md="25" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <app-statcard [data]="selected"></app-statcard>
-  </div>
-  <div fxFlex.gt-md="25" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card [ngClass]="'bg-danger'" style="margin-top: 0px; margin-bottom: 0px">
-      <mat-card-content>
-        <div class="d-flex no-block align-items-center">
-          <div class="mr-auto text-white icon-2x">
-            <mat-icon [inline]="true">group</mat-icon>
-          </div>
-          <div class="stats" style="text-align: right">
-            <h5 class="text-white m-0">Average Age</h5>
-            <h3 class="text-white m-0">
-              &nbsp;
-              <span [id]="averageAge">
-                <span>{{ averageAge }}</span>
-              </span>
-            </h3>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
-
-<div fxLayout="row wrap">
-  <div fxFlex.gt-md="20" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> ICS </mat-card-title>
-        </mat-card-title-group>
-      </mat-card-header>
-      <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
-        <div id="ics-select" class="nexusselect"></div>
-        <button mat-icon-button color="warn" (click)="redrawCharts(icsSelect, 'ics')" title="Reset">
-          <mat-icon>indeterminate_check_box</mat-icon>
-        </button>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex.gt-md="20" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> BCU </mat-card-title>
-        </mat-card-title-group>
-      </mat-card-header>
-      <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
-        <div id="bcu-select" class="nexusselect"></div>
-        <button mat-icon-button color="warn" (click)="redrawCharts(bcuSelect, 'bcu')" title="Reset">
-          <mat-icon>indeterminate_check_box</mat-icon>
-        </button>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex.gt-md="20" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> CCG </mat-card-title>
-        </mat-card-title-group>
-      </mat-card-header>
-      <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
-        <div id="ccg-select" class="nexusselect"></div>
-        <button mat-icon-button color="warn" (click)="redrawCharts(ccgSelect, 'ccg')" title="Reset">
-          <mat-icon>indeterminate_check_box</mat-icon>
-        </button>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex.gt-md="20" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Lancs 12 </mat-card-title>
-        </mat-card-title-group>
-      </mat-card-header>
-      <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
-        <div id="lancs12-select" class="nexusselect"></div>
-        <button mat-icon-button color="warn" (click)="redrawCharts(lancs12Select, 'lancs12')" title="Reset">
-          <mat-icon>indeterminate_check_box</mat-icon>
-        </button>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex.gt-md="20" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Remove filters </mat-card-title>
-        </mat-card-title-group>
-      </mat-card-header>
-      <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
-        <button mat-raised-button color="warn" (click)="resetToWholePop()">Reset</button>
-        <button mat-icon-button color="accent" *ngIf="false">
-          <mat-icon>info</mat-icon>
-        </button>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
-
-<div fxLayout="row wrap">
-  <div fxFlex.gt-md="80" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Incident Timeline </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['date']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <mat-chip-list *ngIf="queryFilter['date']">
-            <mat-chip color="primary" selected (click)="showRange(queryFilter['date'].toString().split(',').join(' , '))">
-              {{ shortenText(queryFilter["date"].toString().split(",").join(" , ")) }}
-            </mat-chip>
-          </mat-chip-list>
-          <button *ngIf="queryFilter && queryFilter['date']" mat-icon-button color="warn" (click)="redrawCharts('datesChart', 'date')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('datesChart', 'date')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #datesChartParent class="chartspace-half" [@expandCollapse]="OpenCloseAnim('date')">
-        <div id="datesChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <div fxFlex.gt-md="20" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Type </mat-card-title>
-        </mat-card-title-group>
-      </mat-card-header>
-      <mat-card-content class="slimCard" style="min-height: 126px" fxLayoutAlign="center center">
-        <div id="type-select" class="nexusselect"></div>
-        <button mat-icon-button color="warn" (click)="redrawCharts(typeSelect, 'type')" title="Reset">
-          <mat-icon>indeterminate_check_box</mat-icon>
-        </button>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
-
-<div fxLayout="row wrap">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> {{ mode ? "Residence" : "Incident" }} Map </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <span *ngIf="mode" style="padding-right: 10px"><mat-icon color="accent">home</mat-icon></span>
-        <span *ngIf="!mode" style="padding-left: 10px"><mat-icon>add_location</mat-icon></span>
-        <mat-slide-toggle [(ngModel)]="mode" (change)="drawMap()"></mat-slide-toggle>
-      </mat-card-header>
-      <mat-card-content>
-        <div #mapGraph [ngStyle]="mapHeight" *ngIf="blnShowMap">
-          <app-map [hidden]="!MapData && mapStyle.display !== 'block'" [MapData]="MapData" MapName="MapName" [MapZoom]="MapZoom" [MapCenter]="MapCenter" [rerender]="mapRender"></app-map>
-        </div>
-        <app-incidentLegend [input]="mapLegend"></app-incidentLegend>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
-
-<div fxLayout="row wrap">
-  <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #day_of_the_weekholder>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Day of the week </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['day_of_the_week']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <mat-chip-list *ngIf="queryFilter['day_of_the_week']">
-            <mat-chip color="primary" selected (click)="showRange(queryFilter['day_of_the_week'].toString().split(',').join(' , '))">
-              {{ shortenText(queryFilter["day_of_the_week"].toString().split(",").join(" , ")) }}
-            </mat-chip>
-          </mat-chip-list>
-          <button *ngIf="queryFilter && queryFilter['day_of_the_week']" mat-icon-button color="warn" (click)="redrawCharts('day_of_the_weeksChart', 'day_of_the_week')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('day_of_the_weeksChart', 'day_of_the_week')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #day_of_the_weeksChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('day_of_the_week')">
-        <div id="day_of_the_weeksChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #monthholder>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Month </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['month']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <mat-chip-list *ngIf="queryFilter['month']">
-            <mat-chip color="primary" selected (click)="showRange(queryFilter['month'].toString().split(',').join(' , '))">
-              {{ shortenText(queryFilter["month"].toString().split(",").join(" , ")) }}
-            </mat-chip>
-          </mat-chip-list>
-          <button *ngIf="queryFilter && queryFilter['month']" mat-icon-button color="warn" (click)="redrawCharts('monthsChart', 'month')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('monthsChart', 'month')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #monthsChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('month')">
-        <div id="monthsChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
-
-<div fxLayout="row wrap">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card-title style="margin-left: 20px; font-size: 1em"> Incident Administration </mat-card-title>
-    <hr />
-  </div>
-  <div fxFlex.gt-md="33" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #csp_districtsholder>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> CSP / District </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['csp_district']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <mat-chip-list *ngIf="queryFilter['csp_district']">
-            <mat-chip color="primary" selected (click)="showRange(queryFilter['csp_district'].toString().split(',').join(' , '))">
-              {{ shortenText(queryFilter["csp_district"].toString().split(",").join(" , ")) }}
-            </mat-chip>
-          </mat-chip-list>
-          <button *ngIf="queryFilter && queryFilter['csp_district']" mat-icon-button color="warn" (click)="redrawCharts('csp_districtsChart', 'csp_district')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('csp_districtsChart', 'csp_district')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #csp_districtsChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('csp_district')">
-        <div id="csp_districtsChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex.gt-md="34" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #coroner_areasholder>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> CC / Coroner Area </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['coroner_area']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <mat-chip-list *ngIf="queryFilter['coroner_area']">
-            <mat-chip color="primary" selected (click)="showRange(queryFilter['coroner_area'].toString().split(',').join(' , '))">
-              {{ shortenText(queryFilter["coroner_area"].toString().split(",").join(" , ")) }}
-            </mat-chip>
-          </mat-chip-list>
-          <button *ngIf="queryFilter && queryFilter['coroner_area']" mat-icon-button color="warn" (click)="redrawCharts('coroner_areasChart', 'coroner_area')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('coroner_areasChart', 'coroner_area')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #coroner_areasChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('coroner_area')">
-        <div id="coroner_areasChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex.gt-md="33" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #local_authoritysholder>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Local Authority </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['local_authority']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <mat-chip-list *ngIf="queryFilter['local_authority']">
-            <mat-chip color="primary" selected (click)="showRange(queryFilter['local_authority'].toString().split(',').join(' , '))">
-              {{ shortenText(queryFilter["local_authority"].toString().split(",").join(" , ")) }}
-            </mat-chip>
-          </mat-chip-list>
-          <button *ngIf="queryFilter && queryFilter['local_authority']" mat-icon-button color="warn" (click)="redrawCharts('local_authoritysChart', 'local_authority')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('local_authoritysChart', 'local_authority')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #local_authoritysChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('local_authority')">
-        <div id="local_authoritysChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
-
-<div fxLayout="row wrap">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card-title style="margin-left: 20px; font-size: 1em"> Incident details </mat-card-title>
-    <hr />
-  </div>
-  <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #type_of_locationsholder>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Type of Location </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['type_of_location']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <mat-chip-list *ngIf="queryFilter['type_of_location']">
-            <mat-chip color="primary" selected (click)="showRange(queryFilter['type_of_location'].toString().split(',').join(' , '))">
-              {{ shortenText(queryFilter["type_of_location"].toString().split(",").join(" , ")) }}
-            </mat-chip>
-          </mat-chip-list>
-          <button *ngIf="queryFilter && queryFilter['type_of_location']" mat-icon-button color="warn" (click)="redrawCharts('type_of_locationsChart', 'type_of_location')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('type_of_locationsChart', 'type_of_location')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #type_of_locationsChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('type_of_location')">
-        <div id="type_of_locationsChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #methodsholder>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Methods </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['method']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <mat-chip-list *ngIf="queryFilter['method']">
-            <mat-chip color="primary" selected (click)="showRange(queryFilter['method'].toString().split(',').join(' , '))">
-              {{ shortenText(queryFilter["method"].toString().split(",").join(" , ")) }}
-            </mat-chip>
-          </mat-chip-list>
-          <button *ngIf="queryFilter && queryFilter['method']" mat-icon-button color="warn" (click)="redrawCharts('methodsChart', 'method')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('methodsChart', 'method')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #methodsChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('method')">
-        <div id="methodsChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
-
-<div fxLayout="row wrap">
-  <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #reported_byholder>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Reported By </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['reported_by']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <mat-chip-list *ngIf="queryFilter['reported_by']">
-            <mat-chip color="primary" selected (click)="showRange(queryFilter['reported_by'].toString().split(',').join(' , '))">
-              {{ shortenText(queryFilter["reported_by"].toString().split(",").join(" , ")) }}
-            </mat-chip>
-          </mat-chip-list>
-          <button *ngIf="queryFilter && queryFilter['reported_by']" mat-icon-button color="warn" (click)="redrawCharts('reported_bysChart', 'reported_by')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('reported_bysChart', 'reported_by')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #reported_bysChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('reported_by')">
-        <div id="reported_bysChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #bereavementholder>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title style="padding-top: 2px"> Bereavement Offered </mat-card-title>
-        </mat-card-title-group>
-        <div fxFlex></div>
-        <div fxLayoutAlign="center center">
-          <mat-progress-bar *ngIf="loadFilters['bereavement_offered']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-          <mat-chip-list *ngIf="queryFilter['bereavement_offered']">
-            <mat-chip color="primary" selected (click)="showRange(queryFilter['bereavement_offered'].toString().split(',').join(' , '))">
-              {{ shortenText(queryFilter["bereavement_offered"].toString().split(",").join(" , ")) }}
-            </mat-chip>
-          </mat-chip-list>
-          <button *ngIf="queryFilter && queryFilter['bereavement_offered']" mat-icon-button color="warn" (click)="redrawCharts('bereavement_offeredsChart', 'bereavement_offered')" title="Reset">
-            <mat-icon>indeterminate_check_box</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="onChartCollapse('bereavement_offeredsChart', 'bereavement_offered')" title="Collapse">
-            <mat-icon>swap_vertical_circle</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content #bereavement_offeredsChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('bereavement_offered')">
-        <div id="bereavement_offeredsChart"></div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
-
-<div fxLayout="row wrap">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card-title style="margin-left: 20px; font-size: 1em"> Citizen Information </mat-card-title>
-    <hr />
-
-    <div fxLayout="row wrap">
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title-group>
-              <mat-card-title style="padding-top: 2px"> Age </mat-card-title>
-            </mat-card-title-group>
-            <div fxFlex></div>
-            <div fxLayoutAlign="center center">
-              <mat-progress-bar *ngIf="loadFilters['age']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-              <mat-chip-list *ngIf="queryFilter['age']">
-                <mat-chip color="primary" selected (click)="showRange(queryFilter['age'].toString().split(',').join(' , '))">
-                  {{ shortenText(queryFilter["age"].toString().split(",").join(" , ")) }}
-                </mat-chip>
-              </mat-chip-list>
-              <button *ngIf="queryFilter && queryFilter['age']" mat-icon-button color="warn" (click)="redrawCharts('agesChart', 'age')" title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" (click)="onChartCollapse('agesChart', 'age')" title="Collapse">
-                <mat-icon>swap_vertical_circle</mat-icon>
-              </button>
-            </div>
-          </mat-card-header>
-          <mat-card-content #agesChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('age')">
-            <div id="agesChart"></div>
-          </mat-card-content>
-          <mat-card-footer style="padding-bottom: 12px">
-            <div fxFlex>
-              <div fxLayoutAlign="space-evenly center">
-                <button mat-raised-button color="accent" (click)="predefinedFilter('age', [20, 30])">20-30</button>
-                <button mat-raised-button color="accent" (click)="predefinedFilter('age', [30, 40])">30-40</button>
-                <button mat-raised-button color="accent" (click)="predefinedFilter('age', [40, 50])">40-50</button>
-                <button mat-raised-button color="accent" (click)="predefinedFilter('age', [50, 60])">50-60</button>
-              </div>
-            </div>
-          </mat-card-footer>
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card fxLayoutAlign="center center">
+            <mat-spinner></mat-spinner>
         </mat-card>
-      </div>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex.gt-md="25" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <app-statcard [data]="totalIncidents"></app-statcard>
+    </div>
+    <div fxFlex.gt-md="25" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <app-statcard [data]="selectedPop"></app-statcard>
+    </div>
+    <div fxFlex.gt-md="25" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <app-statcard [data]="selected"></app-statcard>
+    </div>
+    <div fxFlex.gt-md="25" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card [ngClass]="'bg-danger'" style="margin-top: 0px; margin-bottom: 0px">
+            <mat-card-content>
+                <div class="d-flex no-block align-items-center">
+                    <div class="mr-auto text-white icon-2x">
+                        <mat-icon [inline]="true">group</mat-icon>
+                    </div>
+                    <div class="stats" style="text-align: right">
+                        <h5 class="text-white m-0">Average Age</h5>
+                        <h3 class="text-white m-0">
+                            &nbsp;
+                            <span [id]="averageAge">
+                                <span>{{ averageAge }}</span>
+                            </span>
+                        </h3>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex.gt-md="20" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> ICS </mat-card-title>
+                </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
+                <div id="ics-select" class="nexusselect"></div>
+                <button mat-icon-button color="warn" (click)="redrawCharts(icsSelect, 'ics')" title="Reset">
+                    <mat-icon>indeterminate_check_box</mat-icon>
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-md="20" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> BCU </mat-card-title>
+                </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
+                <div id="bcu-select" class="nexusselect"></div>
+                <button mat-icon-button color="warn" (click)="redrawCharts(bcuSelect, 'bcu')" title="Reset">
+                    <mat-icon>indeterminate_check_box</mat-icon>
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-md="20" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> CCG </mat-card-title>
+                </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
+                <div id="ccg-select" class="nexusselect"></div>
+                <button mat-icon-button color="warn" (click)="redrawCharts(ccgSelect, 'ccg')" title="Reset">
+                    <mat-icon>indeterminate_check_box</mat-icon>
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-md="20" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Lancs 12 </mat-card-title>
+                </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
+                <div id="lancs12-select" class="nexusselect"></div>
+                <button mat-icon-button color="warn" (click)="redrawCharts(lancs12Select, 'lancs12')" title="Reset">
+                    <mat-icon>indeterminate_check_box</mat-icon>
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-md="20" fxFlex.gt-sm="100" fxFlex.gt-xs="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Remove filters </mat-card-title>
+                </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
+                <button mat-raised-button color="warn" (click)="resetToWholePop()">Reset</button>
+                <button mat-icon-button color="accent" *ngIf="false">
+                    <mat-icon>info</mat-icon>
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex.gt-md="80" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Incident Timeline </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['date']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
+                    <mat-chip-list *ngIf="queryFilter['date']">
+                        <mat-chip color="primary" selected (click)="showRange(queryFilter['date'].toString().split(',').join(' , '))">
+                            {{ shortenText(queryFilter["date"].toString().split(",").join(" , ")) }}
+                        </mat-chip>
+                    </mat-chip-list>
+                    <button
+                        *ngIf="queryFilter && queryFilter['date']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts('datesChart', 'date')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('datesChart', 'date')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #datesChartParent class="chartspace-half" [@expandCollapse]="OpenCloseAnim('date')">
+                <div id="datesChart"></div>
+            </mat-card-content>
+        </mat-card>
     </div>
 
-    <div fxLayout="row wrap">
-      <div fxFlex.gt-md="33" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #imddecileholder>
+    <div fxFlex.gt-md="20" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card>
-          <mat-card-header>
-            <mat-card-title-group>
-              <mat-card-title style="padding-top: 2px"> IMD Decile </mat-card-title>
-            </mat-card-title-group>
-            <div fxFlex></div>
-            <div fxLayoutAlign="center center">
-              <mat-progress-bar *ngIf="loadFilters['imd_decile']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-              <mat-chip-list *ngIf="queryFilter['imd_decile']">
-                <mat-chip color="primary" selected (click)="showRange(queryFilter['imd_decile'].toString().split(',').join(' , '))">
-                  {{ shortenText(queryFilter["imd_decile"].toString().split(",").join(" , ")) }}
-                </mat-chip>
-              </mat-chip-list>
-              <button *ngIf="queryFilter && queryFilter['imd_decile']" mat-icon-button color="warn" (click)="redrawCharts('imd_decilesChart', 'imd_decile')" title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" (click)="onChartCollapse('imd_decilesChart', 'imd_decile')" title="Collapse">
-                <mat-icon>swap_vertical_circle</mat-icon>
-              </button>
-            </div>
-          </mat-card-header>
-          <mat-card-content #imd_decilesChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('imd_decile')">
-            <div id="imd_decilesChart"></div>
-          </mat-card-content>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Type </mat-card-title>
+                </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content class="slimCard" style="min-height: 126px" fxLayoutAlign="center center">
+                <div id="type-select" class="nexusselect"></div>
+                <button mat-icon-button color="warn" (click)="redrawCharts(typeSelect, 'type')" title="Reset">
+                    <mat-icon>indeterminate_check_box</mat-icon>
+                </button>
+            </mat-card-content>
         </mat-card>
-      </div>
-
-      <div fxFlex.gt-md="34" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #employmentholder>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title-group>
-              <mat-card-title style="padding-top: 2px"> Employment </mat-card-title>
-            </mat-card-title-group>
-            <div fxFlex></div>
-            <div fxLayoutAlign="center center">
-              <mat-progress-bar *ngIf="loadFilters['employment']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-              <mat-chip-list *ngIf="queryFilter['employment']">
-                <mat-chip color="primary" selected (click)="showRange(queryFilter['employment'].toString().split(',').join(' , '))">
-                  {{ shortenText(queryFilter["employment"].toString().split(",").join(" , ")) }}
-                </mat-chip>
-              </mat-chip-list>
-              <button *ngIf="queryFilter && queryFilter['employment']" mat-icon-button color="warn" (click)="redrawCharts('employmentsChart', 'employment')" title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" (click)="onChartCollapse('employmentsChart', 'employment')" title="Collapse">
-                <mat-icon>swap_vertical_circle</mat-icon>
-              </button>
-            </div>
-          </mat-card-header>
-          <mat-card-content #employmentsChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('employment')">
-            <div id="employmentsChart"></div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-
-      <div fxFlex.gt-md="33" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #genderholder>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title-group>
-              <mat-card-title style="padding-top: 2px"> Gender </mat-card-title>
-            </mat-card-title-group>
-            <div fxFlex></div>
-            <div fxLayoutAlign="center center">
-              <mat-progress-bar *ngIf="loadFilters['gender']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-              <mat-chip-list *ngIf="queryFilter['gender']">
-                <mat-chip color="primary" selected (click)="showRange(queryFilter['gender'].toString().split(',').join(' , '))">
-                  {{ shortenText(queryFilter["gender"].toString().split(",").join(" , ")) }}
-                </mat-chip>
-              </mat-chip-list>
-              <button *ngIf="queryFilter && queryFilter['gender']" mat-icon-button color="warn" (click)="redrawCharts('gendersChart', 'gender')" title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" (click)="onChartCollapse('gendersChart', 'gender')" title="Collapse">
-                <mat-icon>swap_vertical_circle</mat-icon>
-              </button>
-            </div>
-          </mat-card-header>
-          <mat-card-content #gendersChartParent class="chartspace noimage" [@expandCollapse]="OpenCloseAnim('gender')">
-            <div id="gendersChart"></div>
-          </mat-card-content>
-        </mat-card>
-      </div>
     </div>
-
-    <div fxLayout="row wrap">
-      <div fxFlex.gt-md="33" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #mh_services_lscft_updateholder>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title-group>
-              <mat-card-title style="padding-top: 2px"> LSCFT Mental Health Services </mat-card-title>
-            </mat-card-title-group>
-            <div fxFlex></div>
-            <div fxLayoutAlign="center center">
-              <mat-progress-bar *ngIf="loadFilters['mh_services_lscft_update']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-              <mat-chip-list *ngIf="queryFilter['mh_services_lscft_update']">
-                <mat-chip color="primary" selected (click)="showRange(queryFilter['mh_services_lscft_update'].toString().split(',').join(' , '))">
-                  {{ shortenText(queryFilter["mh_services_lscft_update"].toString().split(",").join(" , ")) }}
-                </mat-chip>
-              </mat-chip-list>
-              <button *ngIf="queryFilter && queryFilter['mh_services_lscft_update']" mat-icon-button color="warn" (click)="redrawCharts('mh_services_lscft_updatesChart', 'mh_services_lscft_update')" title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" (click)="onChartCollapse('mh_services_lscft_updatesChart', 'mh_services_lscft_update')" title="Collapse">
-                <mat-icon>swap_vertical_circle</mat-icon>
-              </button>
-            </div>
-          </mat-card-header>
-          <mat-card-content #mh_services_lscft_updatesChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('mh_services_lscft_update')">
-            <div id="mh_services_lscft_updatesChart"></div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-
-      <div fxFlex.gt-md="34" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #daholder>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title-group>
-              <mat-card-title style="padding-top: 2px"> Domestic Abuse </mat-card-title>
-            </mat-card-title-group>
-            <div fxFlex></div>
-            <div fxLayoutAlign="center center">
-              <mat-progress-bar *ngIf="loadFilters['da']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-              <mat-chip-list *ngIf="queryFilter['da']">
-                <mat-chip color="primary" selected (click)="showRange(queryFilter['da'].toString().split(',').join(' , '))">
-                  {{ shortenText(queryFilter["da"].toString().split(",").join(" , ")) }}
-                </mat-chip>
-              </mat-chip-list>
-              <button *ngIf="queryFilter && queryFilter['da']" mat-icon-button color="warn" (click)="redrawCharts('dasChart', 'da')" title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" (click)="onChartCollapse('dasChart', 'da')" title="Collapse">
-                <mat-icon>swap_vertical_circle</mat-icon>
-              </button>
-            </div>
-          </mat-card-header>
-          <mat-card-content #dasChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('da')">
-            <div id="dasChart"></div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-
-      <div fxFlex.gt-md="33" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #asc_lcc_updateholder>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title-group>
-              <mat-card-title style="padding-top: 2px"> Adult Social Care </mat-card-title>
-            </mat-card-title-group>
-            <div fxFlex></div>
-            <div fxLayoutAlign="center center">
-              <mat-progress-bar *ngIf="loadFilters['asc_lcc_update']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-              <mat-chip-list *ngIf="queryFilter['asc_lcc_update']">
-                <mat-chip color="primary" selected (click)="showRange(queryFilter['asc_lcc_update'].toString().split(',').join(' , '))">
-                  {{ shortenText(queryFilter["asc_lcc_update"].toString().split(",").join(" , ")) }}
-                </mat-chip>
-              </mat-chip-list>
-              <button *ngIf="queryFilter && queryFilter['asc_lcc_update']" mat-icon-button color="warn" (click)="redrawCharts('asc_lcc_updatesChart', 'asc_lcc_update')" title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" (click)="onChartCollapse('asc_lcc_updatesChart', 'asc_lcc_update')" title="Collapse">
-                <mat-icon>swap_vertical_circle</mat-icon>
-              </button>
-            </div>
-          </mat-card-header>
-          <mat-card-content #asc_lcc_updatesChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('asc_lcc_update')">
-            <div id="asc_lcc_updatesChart"></div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-
-    <div fxLayout="row wrap">
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #mosaicholder>
-        <mat-card (mouseleave)="exitMosaic()">
-          <mat-card-header>
-            <mat-card-title-group>
-              <mat-card-title style="padding-top: 2px"> Residence Mosaic Chart </mat-card-title>
-            </mat-card-title-group>
-            <div fxFlex></div>
-            <div fxLayoutAlign="center center">
-              <mat-progress-bar *ngIf="loadFilters['mosType']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-              <mat-chip-list *ngIf="queryFilter['mosType']">
-                <mat-chip color="primary" selected (click)="showRange(queryFilter['mosType'].toString().split(',').join(' , '))">
-                  {{ shortenText(queryFilter["mosType"].toString().split(",").join(" , ")) }}
-                </mat-chip>
-              </mat-chip-list>
-              <button *ngIf="queryFilter && queryFilter['mosType']" mat-icon-button color="warn" (click)="redrawCharts(mosaicChart, 'postcodeMosaicTypeDimGroup')" title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" (click)="onChartCollapse('mosaicChart', '')" title="Collapse">
-                <mat-icon>swap_vertical_circle</mat-icon>
-              </button>
-            </div>
-          </mat-card-header>
-          <mat-card-content #mosaicChartParent class="chartspace" [@expandCollapse]="mosaicChartOpenCloseAnim">
-            <div id="mosaicChart"></div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div fxLayout="row wrap">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-    <mat-card-title style="margin-left: 20px; font-size: 1em"> Inquest Information </mat-card-title>
-    <hr />
-
-    <div fxLayout="row wrap">
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card>
-          <mat-card-header>
-            <mat-card-title-group>
-              <mat-card-title style="padding-top: 2px"> Inquest Dates </mat-card-title>
-            </mat-card-title-group>
-            <div fxFlex></div>
-            <div fxLayoutAlign="center center">
-              <mat-progress-bar *ngIf="loadFilters['inquest_date']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-              <mat-chip-list *ngIf="queryFilter['inquest_date']">
-                <mat-chip color="primary" selected (click)="showRange(queryFilter['inquest_date'].toString().split(',').join(' , '))">
-                  {{ shortenText(queryFilter["inquest_date"].toString().split(",").join(" , ")) }}
-                </mat-chip>
-              </mat-chip-list>
-              <button *ngIf="queryFilter && queryFilter['inquest_date']" mat-icon-button color="warn" (click)="redrawCharts('inquest_datesChart', 'inquest_date')" title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" (click)="onChartCollapse('inquest_datesChart', 'inquest_date')" title="Collapse">
-                <mat-icon>swap_vertical_circle</mat-icon>
-              </button>
-            </div>
-          </mat-card-header>
-          <mat-card-content #inquest_datesChartParent class="chartspace-half" [@expandCollapse]="OpenCloseAnim('inquest_date')">
-            <div id="inquest_datesChart"></div>
-          </mat-card-content>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> {{ mode ? "Residence" : "Incident" }} Map </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <span *ngIf="mode" style="padding-right: 10px"><mat-icon color="accent">home</mat-icon></span>
+                <span *ngIf="!mode" style="padding-left: 10px"><mat-icon>add_location</mat-icon></span>
+                <mat-slide-toggle [(ngModel)]="mode" (change)="drawMap()"></mat-slide-toggle>
+            </mat-card-header>
+            <mat-card-content>
+                <div #mapGraph [ngStyle]="mapHeight" *ngIf="blnShowMap">
+                    <app-sharedmap
+                        [hidden]="!MapData && mapStyle.display !== 'block'"
+                        [MapData]="MapData"
+                        MapName="MapName"
+                        [MapZoom]="MapZoom"
+                        [MapCenter]="MapCenter"
+                        [rerender]="mapRender"
+                    ></app-sharedmap>
+                </div>
+                <app-incidentLegend [input]="mapLegend"></app-incidentLegend>
+            </mat-card-content>
         </mat-card>
-      </div>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #day_of_the_weekholder>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Day of the week </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['day_of_the_week']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                    >&nbsp;
+                    <mat-chip-list *ngIf="queryFilter['day_of_the_week']">
+                        <mat-chip
+                            color="primary"
+                            selected
+                            (click)="showRange(queryFilter['day_of_the_week'].toString().split(',').join(' , '))"
+                        >
+                            {{ shortenText(queryFilter["day_of_the_week"].toString().split(",").join(" , ")) }}
+                        </mat-chip>
+                    </mat-chip-list>
+                    <button
+                        *ngIf="queryFilter && queryFilter['day_of_the_week']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts('day_of_the_weeksChart', 'day_of_the_week')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button
+                        mat-icon-button
+                        color="accent"
+                        (click)="onChartCollapse('day_of_the_weeksChart', 'day_of_the_week')"
+                        title="Collapse"
+                    >
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #day_of_the_weeksChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('day_of_the_week')">
+                <div id="day_of_the_weeksChart"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #monthholder>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Month </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['month']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
+                    <mat-chip-list *ngIf="queryFilter['month']">
+                        <mat-chip color="primary" selected (click)="showRange(queryFilter['month'].toString().split(',').join(' , '))">
+                            {{ shortenText(queryFilter["month"].toString().split(",").join(" , ")) }}
+                        </mat-chip>
+                    </mat-chip-list>
+                    <button
+                        *ngIf="queryFilter && queryFilter['month']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts('monthsChart', 'month')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('monthsChart', 'month')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #monthsChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('month')">
+                <div id="monthsChart"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card-title style="margin-left: 20px; font-size: 1em"> Incident Administration </mat-card-title>
+        <hr />
+    </div>
+    <div fxFlex.gt-md="33" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #csp_districtsholder>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> CSP / District </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['csp_district']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                    >&nbsp;
+                    <mat-chip-list *ngIf="queryFilter['csp_district']">
+                        <mat-chip
+                            color="primary"
+                            selected
+                            (click)="showRange(queryFilter['csp_district'].toString().split(',').join(' , '))"
+                        >
+                            {{ shortenText(queryFilter["csp_district"].toString().split(",").join(" , ")) }}
+                        </mat-chip>
+                    </mat-chip-list>
+                    <button
+                        *ngIf="queryFilter && queryFilter['csp_district']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts('csp_districtsChart', 'csp_district')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('csp_districtsChart', 'csp_district')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #csp_districtsChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('csp_district')">
+                <div id="csp_districtsChart"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-md="34" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #coroner_areasholder>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> CC / Coroner Area </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['coroner_area']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                    >&nbsp;
+                    <mat-chip-list *ngIf="queryFilter['coroner_area']">
+                        <mat-chip
+                            color="primary"
+                            selected
+                            (click)="showRange(queryFilter['coroner_area'].toString().split(',').join(' , '))"
+                        >
+                            {{ shortenText(queryFilter["coroner_area"].toString().split(",").join(" , ")) }}
+                        </mat-chip>
+                    </mat-chip-list>
+                    <button
+                        *ngIf="queryFilter && queryFilter['coroner_area']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts('coroner_areasChart', 'coroner_area')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('coroner_areasChart', 'coroner_area')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #coroner_areasChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('coroner_area')">
+                <div id="coroner_areasChart"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-md="33" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #local_authoritysholder>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Local Authority </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['local_authority']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                    >&nbsp;
+                    <mat-chip-list *ngIf="queryFilter['local_authority']">
+                        <mat-chip
+                            color="primary"
+                            selected
+                            (click)="showRange(queryFilter['local_authority'].toString().split(',').join(' , '))"
+                        >
+                            {{ shortenText(queryFilter["local_authority"].toString().split(",").join(" , ")) }}
+                        </mat-chip>
+                    </mat-chip-list>
+                    <button
+                        *ngIf="queryFilter && queryFilter['local_authority']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts('local_authoritysChart', 'local_authority')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button
+                        mat-icon-button
+                        color="accent"
+                        (click)="onChartCollapse('local_authoritysChart', 'local_authority')"
+                        title="Collapse"
+                    >
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #local_authoritysChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('local_authority')">
+                <div id="local_authoritysChart"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card-title style="margin-left: 20px; font-size: 1em"> Incident details </mat-card-title>
+        <hr />
+    </div>
+    <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #type_of_locationsholder>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Type of Location </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['type_of_location']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                    >&nbsp;
+                    <mat-chip-list *ngIf="queryFilter['type_of_location']">
+                        <mat-chip
+                            color="primary"
+                            selected
+                            (click)="showRange(queryFilter['type_of_location'].toString().split(',').join(' , '))"
+                        >
+                            {{ shortenText(queryFilter["type_of_location"].toString().split(",").join(" , ")) }}
+                        </mat-chip>
+                    </mat-chip-list>
+                    <button
+                        *ngIf="queryFilter && queryFilter['type_of_location']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts('type_of_locationsChart', 'type_of_location')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button
+                        mat-icon-button
+                        color="accent"
+                        (click)="onChartCollapse('type_of_locationsChart', 'type_of_location')"
+                        title="Collapse"
+                    >
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #type_of_locationsChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('type_of_location')">
+                <div id="type_of_locationsChart"></div>
+            </mat-card-content>
+        </mat-card>
     </div>
 
-    <div fxLayout="row wrap">
-      <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #inquestholder>
+    <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #methodsholder>
         <mat-card>
-          <mat-card-header>
-            <mat-card-title-group>
-              <mat-card-title style="padding-top: 2px"> Inquest Conclusions </mat-card-title>
-            </mat-card-title-group>
-            <div fxFlex></div>
-            <div fxLayoutAlign="center center">
-              <mat-progress-bar *ngIf="loadFilters['inquest_conclusion']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-              <mat-chip-list *ngIf="queryFilter['inquest_conclusion']">
-                <mat-chip color="primary" selected (click)="showRange(queryFilter['inquest_conclusion'].toString().split(',').join(' , '))">
-                  {{ shortenText(queryFilter["inquest_conclusion"].toString().split(",").join(" , ")) }}
-                </mat-chip>
-              </mat-chip-list>
-              <button *ngIf="queryFilter && queryFilter['inquest_conclusion']" mat-icon-button color="warn" (click)="redrawCharts('inquestconclusionChart', 'inquest_conclusion')" title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" (click)="onChartCollapse('inquestconclusionChart', 'inquest_conclusion')" title="Collapse">
-                <mat-icon>swap_vertical_circle</mat-icon>
-              </button>
-            </div>
-          </mat-card-header>
-          <mat-card-content #inquestconclusionChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('inquest_conclusion')">
-            <div id="inquestconclusionChart"></div>
-          </mat-card-content>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Methods </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['method']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
+                    <mat-chip-list *ngIf="queryFilter['method']">
+                        <mat-chip color="primary" selected (click)="showRange(queryFilter['method'].toString().split(',').join(' , '))">
+                            {{ shortenText(queryFilter["method"].toString().split(",").join(" , ")) }}
+                        </mat-chip>
+                    </mat-chip-list>
+                    <button
+                        *ngIf="queryFilter && queryFilter['method']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts('methodsChart', 'method')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('methodsChart', 'method')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #methodsChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('method')">
+                <div id="methodsChart"></div>
+            </mat-card-content>
         </mat-card>
-      </div>
-
-      <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #rtsaccurateholder>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title-group>
-              <mat-card-title style="padding-top: 2px"> RTS Accurate </mat-card-title>
-            </mat-card-title-group>
-            <div fxFlex></div>
-            <div fxLayoutAlign="center center">
-              <mat-progress-bar *ngIf="loadFilters['rts_accurate']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
-              <mat-chip-list *ngIf="queryFilter['rts_accurate']">
-                <mat-chip color="primary" selected (click)="showRange(queryFilter['rts_accurate'].toString().split(',').join(' , '))">
-                  {{ shortenText(queryFilter["rts_accurate"].toString().split(",").join(" , ")) }}
-                </mat-chip>
-              </mat-chip-list>
-              <button *ngIf="queryFilter && queryFilter['rts_accurate']" mat-icon-button color="warn" (click)="redrawCharts('rts_accuratesChart', 'rts_accurate')" title="Reset">
-                <mat-icon>indeterminate_check_box</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" (click)="onChartCollapse('rts_accuratesChart', 'rts_accurate')" title="Collapse">
-                <mat-icon>swap_vertical_circle</mat-icon>
-              </button>
-            </div>
-          </mat-card-header>
-          <mat-card-content #rts_accuratesChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('rts_accurate')">
-            <div id="rts_accuratesChart"></div>
-          </mat-card-content>
-        </mat-card>
-      </div>
     </div>
-  </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #reported_byholder>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Reported By </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['reported_by']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
+                    <mat-chip-list *ngIf="queryFilter['reported_by']">
+                        <mat-chip
+                            color="primary"
+                            selected
+                            (click)="showRange(queryFilter['reported_by'].toString().split(',').join(' , '))"
+                        >
+                            {{ shortenText(queryFilter["reported_by"].toString().split(",").join(" , ")) }}
+                        </mat-chip>
+                    </mat-chip-list>
+                    <button
+                        *ngIf="queryFilter && queryFilter['reported_by']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts('reported_bysChart', 'reported_by')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="onChartCollapse('reported_bysChart', 'reported_by')" title="Collapse">
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #reported_bysChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('reported_by')">
+                <div id="reported_bysChart"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #bereavementholder>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px"> Bereavement Offered </mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <div fxLayoutAlign="center center">
+                    <mat-progress-bar *ngIf="loadFilters['bereavement_offered']" mode="indeterminate" style="width: 50px">
+                    </mat-progress-bar
+                    >&nbsp;
+                    <mat-chip-list *ngIf="queryFilter['bereavement_offered']">
+                        <mat-chip
+                            color="primary"
+                            selected
+                            (click)="showRange(queryFilter['bereavement_offered'].toString().split(',').join(' , '))"
+                        >
+                            {{ shortenText(queryFilter["bereavement_offered"].toString().split(",").join(" , ")) }}
+                        </mat-chip>
+                    </mat-chip-list>
+                    <button
+                        *ngIf="queryFilter && queryFilter['bereavement_offered']"
+                        mat-icon-button
+                        color="warn"
+                        (click)="redrawCharts('bereavement_offeredsChart', 'bereavement_offered')"
+                        title="Reset"
+                    >
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                    <button
+                        mat-icon-button
+                        color="accent"
+                        (click)="onChartCollapse('bereavement_offeredsChart', 'bereavement_offered')"
+                        title="Collapse"
+                    >
+                        <mat-icon>swap_vertical_circle</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content #bereavement_offeredsChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('bereavement_offered')">
+                <div id="bereavement_offeredsChart"></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card-title style="margin-left: 20px; font-size: 1em"> Citizen Information </mat-card-title>
+        <hr />
+
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title-group>
+                            <mat-card-title style="padding-top: 2px"> Age </mat-card-title>
+                        </mat-card-title-group>
+                        <div fxFlex></div>
+                        <div fxLayoutAlign="center center">
+                            <mat-progress-bar *ngIf="loadFilters['age']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
+                            <mat-chip-list *ngIf="queryFilter['age']">
+                                <mat-chip
+                                    color="primary"
+                                    selected
+                                    (click)="showRange(queryFilter['age'].toString().split(',').join(' , '))"
+                                >
+                                    {{ shortenText(queryFilter["age"].toString().split(",").join(" , ")) }}
+                                </mat-chip>
+                            </mat-chip-list>
+                            <button
+                                *ngIf="queryFilter && queryFilter['age']"
+                                mat-icon-button
+                                color="warn"
+                                (click)="redrawCharts('agesChart', 'age')"
+                                title="Reset"
+                            >
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                            <button mat-icon-button color="accent" (click)="onChartCollapse('agesChart', 'age')" title="Collapse">
+                                <mat-icon>swap_vertical_circle</mat-icon>
+                            </button>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content #agesChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('age')">
+                        <div id="agesChart"></div>
+                    </mat-card-content>
+                    <mat-card-footer style="padding-bottom: 12px">
+                        <div fxFlex>
+                            <div fxLayoutAlign="space-evenly center">
+                                <button mat-raised-button color="accent" (click)="predefinedFilter('age', [20, 30])">20-30</button>
+                                <button mat-raised-button color="accent" (click)="predefinedFilter('age', [30, 40])">30-40</button>
+                                <button mat-raised-button color="accent" (click)="predefinedFilter('age', [40, 50])">40-50</button>
+                                <button mat-raised-button color="accent" (click)="predefinedFilter('age', [50, 60])">50-60</button>
+                            </div>
+                        </div>
+                    </mat-card-footer>
+                </mat-card>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-md="33" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #imddecileholder>
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title-group>
+                            <mat-card-title style="padding-top: 2px"> IMD Decile </mat-card-title>
+                        </mat-card-title-group>
+                        <div fxFlex></div>
+                        <div fxLayoutAlign="center center">
+                            <mat-progress-bar *ngIf="loadFilters['imd_decile']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                            >&nbsp;
+                            <mat-chip-list *ngIf="queryFilter['imd_decile']">
+                                <mat-chip
+                                    color="primary"
+                                    selected
+                                    (click)="showRange(queryFilter['imd_decile'].toString().split(',').join(' , '))"
+                                >
+                                    {{ shortenText(queryFilter["imd_decile"].toString().split(",").join(" , ")) }}
+                                </mat-chip>
+                            </mat-chip-list>
+                            <button
+                                *ngIf="queryFilter && queryFilter['imd_decile']"
+                                mat-icon-button
+                                color="warn"
+                                (click)="redrawCharts('imd_decilesChart', 'imd_decile')"
+                                title="Reset"
+                            >
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="accent"
+                                (click)="onChartCollapse('imd_decilesChart', 'imd_decile')"
+                                title="Collapse"
+                            >
+                                <mat-icon>swap_vertical_circle</mat-icon>
+                            </button>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content #imd_decilesChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('imd_decile')">
+                        <div id="imd_decilesChart"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div fxFlex.gt-md="34" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #employmentholder>
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title-group>
+                            <mat-card-title style="padding-top: 2px"> Employment </mat-card-title>
+                        </mat-card-title-group>
+                        <div fxFlex></div>
+                        <div fxLayoutAlign="center center">
+                            <mat-progress-bar *ngIf="loadFilters['employment']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                            >&nbsp;
+                            <mat-chip-list *ngIf="queryFilter['employment']">
+                                <mat-chip
+                                    color="primary"
+                                    selected
+                                    (click)="showRange(queryFilter['employment'].toString().split(',').join(' , '))"
+                                >
+                                    {{ shortenText(queryFilter["employment"].toString().split(",").join(" , ")) }}
+                                </mat-chip>
+                            </mat-chip-list>
+                            <button
+                                *ngIf="queryFilter && queryFilter['employment']"
+                                mat-icon-button
+                                color="warn"
+                                (click)="redrawCharts('employmentsChart', 'employment')"
+                                title="Reset"
+                            >
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="accent"
+                                (click)="onChartCollapse('employmentsChart', 'employment')"
+                                title="Collapse"
+                            >
+                                <mat-icon>swap_vertical_circle</mat-icon>
+                            </button>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content #employmentsChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('employment')">
+                        <div id="employmentsChart"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div fxFlex.gt-md="33" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #genderholder>
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title-group>
+                            <mat-card-title style="padding-top: 2px"> Gender </mat-card-title>
+                        </mat-card-title-group>
+                        <div fxFlex></div>
+                        <div fxLayoutAlign="center center">
+                            <mat-progress-bar *ngIf="loadFilters['gender']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                            >&nbsp;
+                            <mat-chip-list *ngIf="queryFilter['gender']">
+                                <mat-chip
+                                    color="primary"
+                                    selected
+                                    (click)="showRange(queryFilter['gender'].toString().split(',').join(' , '))"
+                                >
+                                    {{ shortenText(queryFilter["gender"].toString().split(",").join(" , ")) }}
+                                </mat-chip>
+                            </mat-chip-list>
+                            <button
+                                *ngIf="queryFilter && queryFilter['gender']"
+                                mat-icon-button
+                                color="warn"
+                                (click)="redrawCharts('gendersChart', 'gender')"
+                                title="Reset"
+                            >
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                            <button mat-icon-button color="accent" (click)="onChartCollapse('gendersChart', 'gender')" title="Collapse">
+                                <mat-icon>swap_vertical_circle</mat-icon>
+                            </button>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content #gendersChartParent class="chartspace noimage" [@expandCollapse]="OpenCloseAnim('gender')">
+                        <div id="gendersChart"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-md="33" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #mh_services_lscft_updateholder>
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title-group>
+                            <mat-card-title style="padding-top: 2px"> LSCFT Mental Health Services </mat-card-title>
+                        </mat-card-title-group>
+                        <div fxFlex></div>
+                        <div fxLayoutAlign="center center">
+                            <mat-progress-bar *ngIf="loadFilters['mh_services_lscft_update']" mode="indeterminate" style="width: 50px">
+                            </mat-progress-bar
+                            >&nbsp;
+                            <mat-chip-list *ngIf="queryFilter['mh_services_lscft_update']">
+                                <mat-chip
+                                    color="primary"
+                                    selected
+                                    (click)="showRange(queryFilter['mh_services_lscft_update'].toString().split(',').join(' , '))"
+                                >
+                                    {{ shortenText(queryFilter["mh_services_lscft_update"].toString().split(",").join(" , ")) }}
+                                </mat-chip>
+                            </mat-chip-list>
+                            <button
+                                *ngIf="queryFilter && queryFilter['mh_services_lscft_update']"
+                                mat-icon-button
+                                color="warn"
+                                (click)="redrawCharts('mh_services_lscft_updatesChart', 'mh_services_lscft_update')"
+                                title="Reset"
+                            >
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="accent"
+                                (click)="onChartCollapse('mh_services_lscft_updatesChart', 'mh_services_lscft_update')"
+                                title="Collapse"
+                            >
+                                <mat-icon>swap_vertical_circle</mat-icon>
+                            </button>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content
+                        #mh_services_lscft_updatesChartParent
+                        class="chartspace"
+                        [@expandCollapse]="OpenCloseAnim('mh_services_lscft_update')"
+                    >
+                        <div id="mh_services_lscft_updatesChart"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div fxFlex.gt-md="34" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #daholder>
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title-group>
+                            <mat-card-title style="padding-top: 2px"> Domestic Abuse </mat-card-title>
+                        </mat-card-title-group>
+                        <div fxFlex></div>
+                        <div fxLayoutAlign="center center">
+                            <mat-progress-bar *ngIf="loadFilters['da']" mode="indeterminate" style="width: 50px"> </mat-progress-bar>&nbsp;
+                            <mat-chip-list *ngIf="queryFilter['da']">
+                                <mat-chip color="primary" selected (click)="showRange(queryFilter['da'].toString().split(',').join(' , '))">
+                                    {{ shortenText(queryFilter["da"].toString().split(",").join(" , ")) }}
+                                </mat-chip>
+                            </mat-chip-list>
+                            <button
+                                *ngIf="queryFilter && queryFilter['da']"
+                                mat-icon-button
+                                color="warn"
+                                (click)="redrawCharts('dasChart', 'da')"
+                                title="Reset"
+                            >
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                            <button mat-icon-button color="accent" (click)="onChartCollapse('dasChart', 'da')" title="Collapse">
+                                <mat-icon>swap_vertical_circle</mat-icon>
+                            </button>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content #dasChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('da')">
+                        <div id="dasChart"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div fxFlex.gt-md="33" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #asc_lcc_updateholder>
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title-group>
+                            <mat-card-title style="padding-top: 2px"> Adult Social Care </mat-card-title>
+                        </mat-card-title-group>
+                        <div fxFlex></div>
+                        <div fxLayoutAlign="center center">
+                            <mat-progress-bar *ngIf="loadFilters['asc_lcc_update']" mode="indeterminate" style="width: 50px">
+                            </mat-progress-bar
+                            >&nbsp;
+                            <mat-chip-list *ngIf="queryFilter['asc_lcc_update']">
+                                <mat-chip
+                                    color="primary"
+                                    selected
+                                    (click)="showRange(queryFilter['asc_lcc_update'].toString().split(',').join(' , '))"
+                                >
+                                    {{ shortenText(queryFilter["asc_lcc_update"].toString().split(",").join(" , ")) }}
+                                </mat-chip>
+                            </mat-chip-list>
+                            <button
+                                *ngIf="queryFilter && queryFilter['asc_lcc_update']"
+                                mat-icon-button
+                                color="warn"
+                                (click)="redrawCharts('asc_lcc_updatesChart', 'asc_lcc_update')"
+                                title="Reset"
+                            >
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="accent"
+                                (click)="onChartCollapse('asc_lcc_updatesChart', 'asc_lcc_update')"
+                                title="Collapse"
+                            >
+                                <mat-icon>swap_vertical_circle</mat-icon>
+                            </button>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content #asc_lcc_updatesChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('asc_lcc_update')">
+                        <div id="asc_lcc_updatesChart"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #mosaicholder>
+                <mat-card (mouseleave)="exitMosaic()">
+                    <mat-card-header>
+                        <mat-card-title-group>
+                            <mat-card-title style="padding-top: 2px"> Residence Mosaic Chart </mat-card-title>
+                        </mat-card-title-group>
+                        <div fxFlex></div>
+                        <div fxLayoutAlign="center center">
+                            <mat-progress-bar *ngIf="loadFilters['mosType']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
+                            >&nbsp;
+                            <mat-chip-list *ngIf="queryFilter['mosType']">
+                                <mat-chip
+                                    color="primary"
+                                    selected
+                                    (click)="showRange(queryFilter['mosType'].toString().split(',').join(' , '))"
+                                >
+                                    {{ shortenText(queryFilter["mosType"].toString().split(",").join(" , ")) }}
+                                </mat-chip>
+                            </mat-chip-list>
+                            <button
+                                *ngIf="queryFilter && queryFilter['mosType']"
+                                mat-icon-button
+                                color="warn"
+                                (click)="redrawCharts(mosaicChart, 'postcodeMosaicTypeDimGroup')"
+                                title="Reset"
+                            >
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                            <button mat-icon-button color="accent" (click)="onChartCollapse('mosaicChart', '')" title="Collapse">
+                                <mat-icon>swap_vertical_circle</mat-icon>
+                            </button>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content #mosaicChartParent class="chartspace" [@expandCollapse]="mosaicChartOpenCloseAnim">
+                        <div id="mosaicChart"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card-title style="margin-left: 20px; font-size: 1em"> Inquest Information </mat-card-title>
+        <hr />
+
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title-group>
+                            <mat-card-title style="padding-top: 2px"> Inquest Dates </mat-card-title>
+                        </mat-card-title-group>
+                        <div fxFlex></div>
+                        <div fxLayoutAlign="center center">
+                            <mat-progress-bar *ngIf="loadFilters['inquest_date']" mode="indeterminate" style="width: 50px">
+                            </mat-progress-bar
+                            >&nbsp;
+                            <mat-chip-list *ngIf="queryFilter['inquest_date']">
+                                <mat-chip
+                                    color="primary"
+                                    selected
+                                    (click)="showRange(queryFilter['inquest_date'].toString().split(',').join(' , '))"
+                                >
+                                    {{ shortenText(queryFilter["inquest_date"].toString().split(",").join(" , ")) }}
+                                </mat-chip>
+                            </mat-chip-list>
+                            <button
+                                *ngIf="queryFilter && queryFilter['inquest_date']"
+                                mat-icon-button
+                                color="warn"
+                                (click)="redrawCharts('inquest_datesChart', 'inquest_date')"
+                                title="Reset"
+                            >
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="accent"
+                                (click)="onChartCollapse('inquest_datesChart', 'inquest_date')"
+                                title="Collapse"
+                            >
+                                <mat-icon>swap_vertical_circle</mat-icon>
+                            </button>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content #inquest_datesChartParent class="chartspace-half" [@expandCollapse]="OpenCloseAnim('inquest_date')">
+                        <div id="inquest_datesChart"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #inquestholder>
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title-group>
+                            <mat-card-title style="padding-top: 2px"> Inquest Conclusions </mat-card-title>
+                        </mat-card-title-group>
+                        <div fxFlex></div>
+                        <div fxLayoutAlign="center center">
+                            <mat-progress-bar *ngIf="loadFilters['inquest_conclusion']" mode="indeterminate" style="width: 50px">
+                            </mat-progress-bar
+                            >&nbsp;
+                            <mat-chip-list *ngIf="queryFilter['inquest_conclusion']">
+                                <mat-chip
+                                    color="primary"
+                                    selected
+                                    (click)="showRange(queryFilter['inquest_conclusion'].toString().split(',').join(' , '))"
+                                >
+                                    {{ shortenText(queryFilter["inquest_conclusion"].toString().split(",").join(" , ")) }}
+                                </mat-chip>
+                            </mat-chip-list>
+                            <button
+                                *ngIf="queryFilter && queryFilter['inquest_conclusion']"
+                                mat-icon-button
+                                color="warn"
+                                (click)="redrawCharts('inquestconclusionChart', 'inquest_conclusion')"
+                                title="Reset"
+                            >
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="accent"
+                                (click)="onChartCollapse('inquestconclusionChart', 'inquest_conclusion')"
+                                title="Collapse"
+                            >
+                                <mat-icon>swap_vertical_circle</mat-icon>
+                            </button>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content
+                        #inquestconclusionChartParent
+                        class="chartspace"
+                        [@expandCollapse]="OpenCloseAnim('inquest_conclusion')"
+                    >
+                        <div id="inquestconclusionChart"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" #rtsaccurateholder>
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title-group>
+                            <mat-card-title style="padding-top: 2px"> RTS Accurate </mat-card-title>
+                        </mat-card-title-group>
+                        <div fxFlex></div>
+                        <div fxLayoutAlign="center center">
+                            <mat-progress-bar *ngIf="loadFilters['rts_accurate']" mode="indeterminate" style="width: 50px">
+                            </mat-progress-bar
+                            >&nbsp;
+                            <mat-chip-list *ngIf="queryFilter['rts_accurate']">
+                                <mat-chip
+                                    color="primary"
+                                    selected
+                                    (click)="showRange(queryFilter['rts_accurate'].toString().split(',').join(' , '))"
+                                >
+                                    {{ shortenText(queryFilter["rts_accurate"].toString().split(",").join(" , ")) }}
+                                </mat-chip>
+                            </mat-chip-list>
+                            <button
+                                *ngIf="queryFilter && queryFilter['rts_accurate']"
+                                mat-icon-button
+                                color="warn"
+                                (click)="redrawCharts('rts_accuratesChart', 'rts_accurate')"
+                                title="Reset"
+                            >
+                                <mat-icon>indeterminate_check_box</mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                color="accent"
+                                (click)="onChartCollapse('rts_accuratesChart', 'rts_accurate')"
+                                title="Collapse"
+                            >
+                                <mat-icon>swap_vertical_circle</mat-icon>
+                            </button>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content #rts_accuratesChartParent class="chartspace" [@expandCollapse]="OpenCloseAnim('rts_accurate')">
+                        <div id="rts_accuratesChart"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
 </div>

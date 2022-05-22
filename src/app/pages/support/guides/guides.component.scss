@@ -24,15 +24,17 @@ mat-card-header {
 .content ::ng-deep {
     max-width: 800px;
     margin: auto;
-    h1, h2 {
+    h1,
+    h2 {
         font-size: 1.4rem;
         font-weight: 500;
     }
-    h3, h4 {
+    h3,
+    h4 {
         font-size: 1.2rem;
         font-weight: 500;
     }
-     h5 {
+    h5 {
         font-size: 1.1rem;
         font-weight: 500;
     }
@@ -52,7 +54,8 @@ mat-card-header {
     table {
         border-spacing: 0px;
         border: 1px solid #dfe6eb;
-        td, th {
+        td,
+        th {
             border: 1px solid #dfe6eb;
             p {
                 padding: 6px;

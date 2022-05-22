@@ -3,49 +3,49 @@ import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
 
 @Injectable({
-  providedIn: "root",
+    providedIn: "root",
 })
 export class StorageService {
-  base = "storage";
-  baseUrl: string;
+    base = "storage";
+    baseUrl: string;
 
-  constructor(private http: HttpClient) {
-    const parsedUrl = window.location.origin;
-    const origin = parsedUrl;
-    this.baseUrl = this.combineURL(origin.replace("spi", ""), this.base);
-  }
-
-  private combineURL(origin: string, subd: string) {
-    const domain = origin.split("//")[1].split("/")[0].replace("www", "");
-    if (domain.includes("localhost")) {
-      return "https://" + subd + ".dev." + environment.websiteURL + "/";
-    } else if (domain.includes("dev") || domain.includes("demo")) {
-      return "https://" + subd + domain + "/";
+    constructor(private http: HttpClient) {
+        const parsedUrl = window.location.origin;
+        const origin = parsedUrl;
+        this.baseUrl = this.combineURL(origin.replace("spi", ""), this.base);
     }
-    return "https://" + subd + domain + "/";
-  }
 
-  public getIncidents() {
-    return this.http.get(this.baseUrl + "spindex/getAll/");
-  }
+    private combineURL(origin: string, subd: string) {
+        const domain = origin.split("//")[1].split("/")[0].replace("www", "");
+        if (domain.includes("localhost")) {
+            return "https://" + subd + ".dev." + environment.websiteURL + "/";
+        } else if (domain.includes("dev") || domain.includes("demo")) {
+            return "https://" + subd + domain + "/";
+        }
+        return "https://" + subd + domain + "/";
+    }
 
-  public getIncidentByIndex(index) {
-    return this.http.get(this.baseUrl + "spindex/getByIndex?index=" + index);
-  }
+    public getIncidents() {
+        return this.http.get(this.baseUrl + "spindex/getAll/");
+    }
 
-  public getCrossfilter(filter) {
-    return this.http.get(this.baseUrl + "spindex/getCrossfilter?filter=" + filter);
-  }
+    public getIncidentByIndex(index: string) {
+        return this.http.get(this.baseUrl + "spindex/getByIndex?index=" + index);
+    }
 
-  public addIncident(payload) {
-    return this.http.post(this.baseUrl + "spindex/register/", payload);
-  }
+    public getCrossfilter(filter: string) {
+        return this.http.get(this.baseUrl + "spindex/getCrossfilter?filter=" + filter);
+    }
 
-  public updateIncident(payload) {
-    return this.http.post(this.baseUrl + "spindex/update/", payload);
-  }
+    public addIncident(payload) {
+        return this.http.post(this.baseUrl + "spindex/register/", payload);
+    }
 
-  public removeIncident(payload) {
-    return this.http.post(this.baseUrl + "spindex/remove/", payload);
-  }
+    public updateIncident(payload) {
+        return this.http.post(this.baseUrl + "spindex/update/", payload);
+    }
+
+    public removeIncident(payload) {
+        return this.http.post(this.baseUrl + "spindex/remove/", payload);
+    }
 }

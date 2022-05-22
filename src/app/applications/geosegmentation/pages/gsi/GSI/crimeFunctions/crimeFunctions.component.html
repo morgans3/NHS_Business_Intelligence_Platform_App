@@ -1,0 +1,14 @@
+<p *ngIf="!Crimes">No Crimes retrieved</p>
+<button *ngIf="!Crimes" type="button" mat-raised-button color="primary">Fetch Crimes for this Area</button>
+
+<div *ngIf="Crimes" style="padding: 5px">
+    <p>Police Data Options</p>
+    <p>
+        Current # of Crimes on Map: <strong>{{ Crimes.length }}</strong>
+    </p>
+    <ul>
+        <li>Filter by Category</li>
+        <li>Fetch Recent Crimes for this Area</li>
+        <li>Fetch by Time Period</li>
+    </ul>
+</div>

@@ -1,31 +1,27 @@
 import { Component, Inject } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
     selector: "app-question-modal",
     templateUrl: "./question.modal.html",
 })
 export class QuestionModalComponent {
-
     message;
     buttons = [
         {
             title: "Okay",
             value: true,
-            color: "primary"
+            color: "primary",
         },
         {
             title: "Cancel",
             value: false,
-            color: "warn"
-        }
-    ]
+            color: "warn",
+        },
+    ];
 
-    constructor(
-        @Inject(MAT_DIALOG_DATA) public data,
-        public dialogRef: MatDialogRef<QuestionModalComponent>
-    ) {
-        if(this.data.message) {
+    constructor(@Inject(MAT_DIALOG_DATA) public data, public dialogRef: MatDialogRef<QuestionModalComponent>) {
+        if (this.data.message) {
             this.message = this.data.message;
         }
 
@@ -33,7 +29,6 @@ export class QuestionModalComponent {
             this.buttons = this.data.buttons;
         }
     }
-
 }
 
 import { NgModule } from "@angular/core";
@@ -44,4 +39,4 @@ import { SharedModule } from "../../shared/shared.module";
     imports: [CommonModule, SharedModule],
     declarations: [QuestionModalComponent],
 })
-export class QuestionModalModule { }
+export class QuestionModalModule {}

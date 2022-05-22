@@ -4,13 +4,13 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  name: "Development",
-  version: "1.0.0",
-  production: false,
-  userNameDev: "Demo.User@nhs.net",
-  homepage: "dashboard",
-  appName: "Nexus Intelligence",
-  isDemo: true,
-  admins: ["stewart.morgan@nhs.net"],
-  websiteURL: "nhs-bi-platform.co.uk",
+    name: "Development",
+    version: "1.0.0",
+    production: false,
+    userNameDev: "Demo.User@nhs.net",
+    homepage: "dashboard",
+    appName: "Nexus Intelligence",
+    isDemo: true,
+    admins: ["stewart.morgan@nhs.net"],
+    websiteURL: "nhs-bi-platform.co.uk",
 };

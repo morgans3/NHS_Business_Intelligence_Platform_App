@@ -1,0 +1,17 @@
+<div *ngIf="results && results.length > 0">
+    <table>
+        <thead>
+            <th style="border-bottom: 1px solid darkslategrey">Observation Time</th>
+            <th style="border-bottom: 1px solid darkslategrey">Observation Value</th>
+        </thead>
+        <tr *ngFor="let res of results">
+            <td style="padding: 0 5px; border-right: 1px solid darkslategrey">
+                {{ res.ObservationDateTime | date: "dd/MM/yyyy HH:mm:SS" }}
+            </td>
+            <td style="padding: 0 5px">{{ res.ObservationValue }}</td>
+        </tr>
+    </table>
+</div>
+
+<p *ngIf="results && results.length === 0">No tests recorded for this Citizen.</p>
+<p *ngIf="!nhsnumber">No NHS Number</p>

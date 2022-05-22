@@ -12,10 +12,15 @@ import { CapabilitiesTableComponent } from "./table/capabilities-table.component
 import { CapabilityComponent } from "./capability/capability.component";
 
 @NgModule({
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, DemoMaterialModule, FlexLayoutModule, RouterModule.forChild(Routes), DiuComponentLibraryModule],
-    declarations: [
-        CapabilitiesTableComponent,
-        CapabilityComponent
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        RouterModule.forChild(Routes),
+        DiuComponentLibraryModule,
     ],
+    declarations: [CapabilitiesTableComponent, CapabilityComponent],
 })
-export class CapabilitiesAdminModule { }
+export class CapabilitiesAdminModule {}

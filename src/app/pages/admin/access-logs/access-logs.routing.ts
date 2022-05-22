@@ -5,5 +5,5 @@ export const Routes: RouteInterface = [
     {
         path: "",
         component: AccessLogComponent,
-    }
+    },
 ];

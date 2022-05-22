@@ -1,0 +1,23 @@
+<div style="padding: 5px">
+    <p *ngIf="inputTitle">{{ inputTitle }} Options</p>
+    <mat-list *ngIf="inputArray">
+        <mat-list-item *ngFor="let elem of inputArray">
+            <h4 mat-line>{{ elem.name }}</h4>
+            <span style="float: right; display: inline-flex">
+                <mat-checkbox
+                    [(ngModel)]="elem.selectedPrimary"
+                    color="primary"
+                    (click)="checkClicked(elem.name, elem.selectedPrimary, 'primary')"
+                >
+                </mat-checkbox>
+                &nbsp;&nbsp;
+                <mat-checkbox
+                    *ngIf="secondary"
+                    color="accent"
+                    [(ngModel)]="elem.selectedSecondary"
+                    (click)="checkClicked(elem.name, elem.selectedSecondary, 'secondary')"
+                ></mat-checkbox>
+            </span>
+        </mat-list-item>
+    </mat-list>
+</div>

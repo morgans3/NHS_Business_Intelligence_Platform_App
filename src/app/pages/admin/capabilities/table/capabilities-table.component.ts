@@ -4,62 +4,68 @@ import { MatTable } from "@angular/material/table";
 import { NotificationService } from "../../../../_services/notification.service";
 
 @Component({
-  selector: "app-capabilities-table",
-  templateUrl: "./capabilities-table.component.html",
+    selector: "app-capabilities-table",
+    templateUrl: "./capabilities-table.component.html",
 })
 export class CapabilitiesTableComponent implements OnInit {
-  @ViewChild(MatTable) table: MatTable<any>;
+    @ViewChild(MatTable) table: MatTable<any>;
 
-  capabilities = { all: [], filtered: [] };
-  filters = { name: "", tags: [] };
+    capabilities = { all: [], filtered: [] };
+    filters = { name: "", tags: [] };
 
-  constructor(private apiService: APIService, private notificationService: NotificationService) {}
+    constructor(private apiService: APIService, private notificationService: NotificationService) {}
 
-  ngOnInit() {
-    this.apiService.getCapabilities().subscribe((capabilities: any) => {
-      this.capabilities = { all: capabilities, filtered: capabilities };
-    });
-  }
-
-  search() {
-    if (this.filters.tags.length == 0) {
-      //Search by name only
-      this.capabilities.filtered = this.capabilities.all.filter((item) => {
-        return (item.name.toLowerCase() + item.description.toLowerCase()).includes(this.filters.name.toLowerCase());
-      });
-    } else {
-      //Search by name and tag
-      this.apiService.getAllCapabilitiesByTag(this.filters.tags.join(',')).subscribe((capabilities: any) => {
-        this.capabilities.filtered = (capabilities instanceof Array ? capabilities : []).filter((item) => {
-          return (item.name.toLowerCase() + item.description.toLowerCase()).includes(this.filters.name.toLowerCase());
+    ngOnInit() {
+        this.apiService.getCapabilities().subscribe((capabilities: any) => {
+            this.capabilities = { all: capabilities, filtered: capabilities };
         });
-      });
     }
-  }
 
-  delete(item) {
-    this.notificationService.question("Are you sure you want to delete this capability?").then((confirmed) => {
-      if (confirmed == true) {
-        this.apiService.deleteCapability(item.id).subscribe((res) => {
-          //Notify success
-          this.notificationService.success("Capability has been removed successfully!");
+    search() {
+        if (this.filters.tags.length === 0) {
+            // Search by name only
+            this.capabilities.filtered = this.capabilities.all.filter((item) => {
+                const name = item.name.toLowerCase() as string;
+                const description = item.description.toLowerCase() as string;
+                const fullItem = name + description;
+                return fullItem.includes(this.filters.name.toLowerCase());
+            });
+        } else {
+            // Search by name and tag
+            this.apiService.getAllCapabilitiesByTag(this.filters.tags.join(",")).subscribe((capabilities: any) => {
+                this.capabilities.filtered = (capabilities instanceof Array ? capabilities : []).filter((item) => {
+                    const name = item.name.toLowerCase() as string;
+                    const description = item.description.toLowerCase() as string;
+                    const fullItem = name + description;
+                    return fullItem.includes(this.filters.name.toLowerCase());
+                });
+            });
+        }
+    }
 
-          //Change item at index
-          this.capabilities.all.splice(
-            this.capabilities.all.findIndex((listedItem) => listedItem.id == item.id),
-            1
-          );
+    delete(item) {
+        this.notificationService.question("Are you sure you want to delete this capability?").then((confirmed) => {
+            if (confirmed === true) {
+                this.apiService.deleteCapability(item.id).subscribe(() => {
+                    // Notify success
+                    this.notificationService.success("Capability has been removed successfully!");
 
-          //Change item in filtered list
-          let filteredListIndex = this.capabilities.filtered.findIndex((listedItem) => listedItem.id == item.id);
-          if (filteredListIndex >= 0) {
-            this.capabilities.filtered.splice(filteredListIndex, 1);
-          }
+                    // Change item at index
+                    this.capabilities.all.splice(
+                        this.capabilities.all.findIndex((listedItem) => listedItem.id === item.id),
+                        1
+                    );
 
-          //Trigger material table
-          this.table.renderRows();
+                    // Change item in filtered list
+                    const filteredListIndex = this.capabilities.filtered.findIndex((listedItem) => listedItem.id === item.id);
+                    if (filteredListIndex >= 0) {
+                        this.capabilities.filtered.splice(filteredListIndex, 1);
+                    }
+
+                    // Trigger material table
+                    this.table.renderRows();
+                });
+            }
         });
-      }
-    });
-  }
+    }
 }

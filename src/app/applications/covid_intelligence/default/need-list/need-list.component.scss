@@ -1,0 +1,209 @@
+.list-container {
+    width: 200px;
+    max-width: 100%;
+    margin: 0 15px 25px 0;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.wide-container {
+    width: 700px;
+    padding: 10px 0px;
+    max-width: 100%;
+    margin: 25px 25px 25px 25px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.tall-container {
+    width: 700px;
+    padding: 10px 0px;
+    max-width: 100%;
+    margin: 25px 25px 25px 25px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.drag-drop-list {
+    border: dashed 1px #ccc;
+    min-height: 30px;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    display: block;
+    margin: 5px;
+}
+
+#div_template {
+    height: 80vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 3px rgb(145, 145, 145);
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(22, 108, 247, 0.8);
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(22, 108, 247, 0.6);
+}
+
+.drag-drop-list:hover {
+    border: dashed 1px;
+}
+
+mat-expansion-panel-header {
+    border-bottom: 2px solid;
+}
+
+.bg-purpleborder {
+    border-color: purple !important;
+}
+
+.bg-purplehover:hover {
+    border-color: purple;
+}
+
+.bg-blueborder {
+    border-color: blue !important;
+}
+
+.bg-bluehover:hover {
+    border-color: blue;
+}
+
+.bg-greenborder {
+    border-color: green !important;
+}
+
+.bg-greenhover:hover {
+    border-color: green;
+}
+
+.borderbottom {
+    border-bottom: 2px solid;
+}
+
+.box {
+    padding: 10px 10px;
+    border-bottom: solid 1px #ccc;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    cursor: move;
+    background: white;
+    font-size: 14px;
+}
+
+.cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.box:last-child {
+    border: none;
+}
+
+.drag-drop-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.mat-panel-title {
+    font-family: Lato;
+}
+
+.overlay {
+    position: fixed;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(74, 74, 74, 0.8);
+    z-index: 99999;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    font-size: 70px;
+    color: white;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+.over {
+    fill: none;
+    pointer-events: all;
+}
+
+.focus circle {
+    fill: #f1f3f3;
+    stroke: #6f257f;
+    stroke-width: 5px;
+}
+
+.hover-line {
+    stroke: #6f257f;
+    stroke-width: 2px;
+    stroke-dasharray: 3, 3;
+}
+
+.spinner-message {
+    text-align: center;
+}
+
+.d3-tip {
+    position: absolute;
+    text-align: center;
+    width: 60px;
+    height: 28px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.chart-tooltip {
+    position: absolute;
+    color: black;
+    text-align: center;
+    width: 60px;
+    height: 12px;
+    padding: 8px;
+    margin-top: -20px;
+    font: 10px sans-serif;
+    background: #ddd;
+    pointer-events: none;
+}

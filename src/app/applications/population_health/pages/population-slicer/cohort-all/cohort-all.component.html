@@ -1,0 +1,208 @@
+<div fxLayout="row wrap">
+    <div
+        fxFlex.gt-sm="67"
+        fxFlex.gt-xs="100"
+        fxFlex="100"
+        joyrideStep="phi6"
+        title="Displayed Cohort"
+        text="All of the current filters applied to the population are displayed in this section. You can save the current selected cohort for reviewing at a later date."
+    >
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px">Cohort Details</mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+                <button
+                    type="button"
+                    *ngIf="tokenDecoded && popListAllow.indexOf(tokenDecoded.username) > -1"
+                    mat-raised-button
+                    color="primary"
+                    (click)="goToPopList()"
+                >
+                    View selected Population
+                </button>
+            </mat-card-header>
+
+            <mat-card-content *ngIf="cohort">
+                <table class="cohorttable" *ngIf="cohort">
+                    <thead>
+                        <th>Filter</th>
+                        <th>Selected</th>
+                    </thead>
+                    <tr>
+                        <td>Age</td>
+                        <td>
+                            <span *ngIf="cohort['AgeDimension']">
+                                {{ cohort["AgeDimension"].toString().replace(",", " - ") }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Commissioner</td>
+                        <td>
+                            <span *ngIf="cohort['CCGDimension']">
+                                {{ cohort["CCGDimension"].toString().split(",").join(" , ") }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Count of LTCs</td>
+                        <td>
+                            <span *ngIf="cohort['LCntDimension']">
+                                {{ cohort["LCntDimension"].toString().split(",").join(" , ") }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Count of Selected LTCs</td>
+                        <td>
+                            <span *ngIf="cohort['numberSelLtc']">
+                                {{ cohort["numberSelLtc"].toString().split(",").join(" , ") }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Deprivation Decile</td>
+                        <td>
+                            <span *ngIf="cohort['DDimension']">
+                                {{ cohort["DDimension"].toString().split(",").join(" , ") }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Electoral Ward</td>
+                        <td>
+                            <span *ngIf="cohort['WDimension']">
+                                {{ cohort["WDimension"].toString().split(",").join(" , ") }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>GP Practice</td>
+                        <td>
+                            <span *ngIf="cohort['GPDimension']">
+                                {{ cohort["GPDimension"].toString().split(",").join(" , ") }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Long Term Conditions</td>
+                        <td>
+                            <span *ngIf="cohort['LTCs2Dimension']">
+                                {{ cohort["LTCs2Dimension"].toString().split(",").join(" , ") }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mosaic Type</td>
+                        <td>
+                            <span *ngIf="cohort['MDimension']">
+                                {{ cohort["MDimension"].toString().split(",").join(" , ") }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Neighbourhood</td>
+                        <td>
+                            <span *ngIf="cohort['LDimension']">
+                                {{ cohort["LDimension"].toString().split(",").join(" , ") }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Risk Score</td>
+                        <td>
+                            <span *ngIf="cohort['RskDimension']">
+                                {{ cohort["RskDimension"].toString().replace(",", " - ") }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sex</td>
+                        <td>
+                            <span *ngIf="cohort['SexDimension']">
+                                {{ cohort["SexDimension"].toString().split(",").join(" , ") }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Cost Group</td>
+                        <td>
+                            <span *ngIf="cohort['UDimension']">
+                                {{ cohort["UDimension"].toString().split(",").join(" , ") }}
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div
+        fxFlex.gt-sm="33"
+        fxFlex.gt-xs="100"
+        fxFlex="100"
+        joyrideStep="phi7"
+        title="Save or Load Cohorts"
+        text="Here shows a list of pre-made Cohorts along with any that you have already saved. You can load these cohorts by selecting them from from here."
+    >
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title style="padding-top: 2px">Load a Cohort</mat-card-title>
+                </mat-card-title-group>
+                <div fxFlex></div>
+
+                <div fxLayoutAlign="center center">
+                    <button *ngIf="!selectedCohort._id" mat-icon-button color="primary" (click)="saveNew()" title="Save New Cohort">
+                        <mat-icon>save</mat-icon>
+                    </button>
+                    <button
+                        *ngIf="selectedCohort._id && selectedCohort.user !== 'Global'"
+                        mat-icon-button
+                        color="accent"
+                        (click)="saveUpdate()"
+                        title="Update Cohort"
+                    >
+                        <mat-icon>person_add</mat-icon>
+                    </button>
+                    &nbsp;
+                    <button *ngIf="selectedCohort._id" mat-icon-button color="primary" (click)="saveAsNew()" title="Save As New">
+                        <mat-icon>save</mat-icon>
+                    </button>
+                    &nbsp;
+                    <button
+                        *ngIf="selectedCohort._id && selectedCohort.user !== 'Global'"
+                        mat-icon-button
+                        color="warn"
+                        title="Remove Saved Cohort"
+                        (click)="removeCohort()"
+                    >
+                        <mat-icon>clear</mat-icon>
+                    </button>
+                </div>
+                <div fxLayoutAlign="center center">
+                    <button mat-icon-button color="warn" (click)="resetCohort()" title="Clear Cohort">
+                        <mat-icon>indeterminate_check_box</mat-icon>
+                    </button>
+                </div>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-selection-list #cohorts>
+                    <mat-list-option *ngFor="let cohort of allcohorts" [value]="cohort._id">
+                        <span class="mat-list-text-icon" *ngIf="cohort.user === 'Global'">
+                            <mat-icon>public</mat-icon>
+                        </span>
+                        <span class="mat-list-text-icon" *ngIf="cohort.user !== 'Global' && !cohort.teamcode">
+                            <mat-icon>person</mat-icon>
+                        </span>
+                        <span class="mat-list-text-icon" *ngIf="cohort.user !== 'Global' && cohort.teamcode">
+                            <mat-icon>people</mat-icon>
+                        </span>
+                        {{ cohort.cohortName }}
+                    </mat-list-option>
+                </mat-selection-list>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

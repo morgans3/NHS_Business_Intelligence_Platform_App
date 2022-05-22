@@ -1,0 +1,30 @@
+<div *ngIf="legend" class="row wrap" title="Crime Legend">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-content>
+                <div
+                    style="
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        justify-content: space-evenly;
+                        align-items: center;
+                        align-content: center;
+                    "
+                >
+                    <div style="display: inline-flex; float: left">
+                        <strong>Crime Legend:&nbsp;</strong>
+                    </div>
+                    <div style="display: inline-flex; padding: 10px" *ngFor="let leg of legend">
+                        <img
+                            [src]="'../../../../assets/images/marker-icon-2x-' + leg.marker + '.png'"
+                            height="32px"
+                            style="padding-right: 10px"
+                        />
+                        {{ leg.displayName }} ({{ leg.total }})
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

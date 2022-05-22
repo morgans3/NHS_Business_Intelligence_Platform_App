@@ -1,0 +1,259 @@
+<mat-card>
+    <mat-card-content>
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
+                <mat-card-title>Population List</mat-card-title>
+            </div>
+        </div>
+
+        <hr />
+
+        <div fxLayout="row wrap" *ngIf="!dataFetched">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
+                <mat-spinner [diameter]="60"></mat-spinner>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap" *ngIf="noAccess">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
+                <mat-card class="slim-top bg-warning" style="padding-bottom: 10px; width: 100%">
+                    <mat-card-content class="text-white" style="padding-top: 0px; padding-bottom: 0px">
+                        <div fxLayoutAlign="center center">
+                            <mat-icon>warning</mat-icon>
+                            <p style="margin-left: 5px; text-align: center">
+                                No Access to this Information. You need to be added to a Security Group to view Patient Information
+                            </p>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap" *ngIf="noResults">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
+                <mat-card class="slim-top bg-info" style="padding-bottom: 10px; width: 100%">
+                    <mat-card-content class="text-white" style="padding-top: 0px; padding-bottom: 0px">
+                        <div fxLayoutAlign="center center">
+                            <mat-icon>warning</mat-icon>
+                            <p style="margin-left: 5px; text-align: center">
+                                No Citizens match the criteria selected, that you have access to view.
+                            </p>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap" *ngIf="dataFetched && !noAccess">
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+                <div>
+                    Filter Lists:
+                    <button
+                        *ngFor="let cat of list_types"
+                        mat-icon-button
+                        [title]="cat.title"
+                        (click)="filterList(cat.value)"
+                        [color]="selectedlisttypes.indexOf(cat.value) > -1 ? 'primary' : 'default'"
+                    >
+                        <mat-icon>{{ cat.icon }}</mat-icon>
+                    </button>
+                    ||
+                    <button
+                        mat-icon-button
+                        title="Bookmarked Citizens"
+                        [color]="filterBookmark ? 'primary' : 'default'"
+                        (click)="filterBookmark = !filterBookmark; filterBookmarked()"
+                    >
+                        <mat-icon>bookmarks</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+                <div>
+                    Last Refresh - {{ refreshDT | date: "dd/MM/yyyy" }}
+                    <!-- <mat-chip-list style="display: inline-flex;">
+            <mat-chip color="primary" selected>
+              New &nbsp;<span class="chipLabel">0</span>
+            </mat-chip>
+            <mat-chip color="primary" selected>
+              Updated &nbsp;<span class="chipLabel">0</span>
+            </mat-chip>
+            <mat-chip color="primary" selected>
+              Removed &nbsp;<span class="chipLabel">0</span>
+            </mat-chip>
+          </mat-chip-list> -->
+                </div>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap" *ngIf="dataFetched && !noAccess">
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" style="padding: 0 5px">
+                <mat-form-field class="demo-full-width margin-top" [formGroup]="group">
+                    <mat-select placeholder="Population Cohort..." formControlName="cohort" (selectionChange)="changeCohort($event.value)">
+                        <mat-option *ngFor="let item of allcohorts" [value]="item">{{ item.cohortName }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex.gt-sm="40" fxFlex.gt-xs="90" fxFlex="90" style="padding: 0 5px">
+                <mat-form-field class="demo-full-width margin-top" [formGroup]="group">
+                    <mat-select placeholder="Patient Group..." formControlName="patientgroup">
+                        <mat-option *ngFor="let item of allpatientgroups" [value]="item">{{ item.groupName }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" fxLayoutAlign="left center">
+                <button
+                    *ngIf="!selectedcaseload"
+                    mat-icon-button
+                    color="primary"
+                    (click)="saveNewCaseload()"
+                    title="Save New Caseload"
+                    [disabled]="bookmarks.length === 0"
+                >
+                    <mat-icon>save</mat-icon>
+                </button>
+                <button
+                    *ngIf="selectedcaseload && selectedcaseload.username !== 'Global'"
+                    mat-icon-button
+                    color="accent"
+                    (click)="saveUpdatedCaseload()"
+                    title="Update Caseload"
+                >
+                    <mat-icon>person_add</mat-icon>
+                </button>
+                &nbsp;
+                <button *ngIf="selectedcaseload" mat-icon-button color="primary" (click)="saveAsNewCaseload()" title="Save As New">
+                    <mat-icon>save</mat-icon>
+                </button>
+                &nbsp;
+                <button
+                    *ngIf="selectedcaseload && selectedcaseload.username !== 'Global'"
+                    mat-icon-button
+                    color="warn"
+                    title="Remove Saved Caseload"
+                    (click)="removeCaseload()"
+                >
+                    <mat-icon>clear</mat-icon>
+                </button>
+                &nbsp;
+                <button *ngIf="selectedcaseload" mat-icon-button color="warn" (click)="resetCaseload()" title="Clear Caseload">
+                    <mat-icon>indeterminate_check_box</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap" [hidden]="dataFetched">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <app-UserValidation (confirmation)="updatePID($event)"></app-UserValidation>
+
+                <app-limitsetting *ngIf="limit" [limit]="limit" (changelimit)="changeLimit($event)" style="width: 98%"> </app-limitsetting>
+
+                <div class="bg-light p-10 p-r-20 p-l-20">
+                    <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" />
+                    </mat-form-field>
+                </div>
+                <div class="responsive-table">
+                    <mat-table #Table [dataSource]="dataSource" matSort>
+                        <ng-container matColumnDef="fullname">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Full Name </mat-header-cell>
+                            <mat-cell *matCellDef="let task">
+                                <span *ngIf="task.new" class="label label-info" style="margin-right: 5px">NEW</span>
+                                <span *ngIf="task.updated" class="label label-megna" style="margin-right: 5px">UPDATED</span>
+                                <span *ngIf="sensitiveData">{{ task.forename }} {{ task.surname }}</span>
+                                <span *ngIf="!sensitiveData">########</span>
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="nhsnumber">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> NHS Number </mat-header-cell>
+                            <mat-cell *matCellDef="let task">
+                                <span *ngIf="sensitiveData">{{ task.nhs_number }} </span>
+                                <span *ngIf="!sensitiveData">########</span>
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="age">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Age </mat-header-cell>
+                            <mat-cell *matCellDef="let task">
+                                <span *ngIf="sensitiveData">{{ task.age }}</span
+                                ><span *ngIf="!sensitiveData">########</span></mat-cell
+                            >
+                        </ng-container>
+
+                        <ng-container matColumnDef="sex">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Gender </mat-header-cell>
+                            <mat-cell *matCellDef="let task"> {{ task.sex }} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="flags">
+                            <mat-header-cell *matHeaderCellDef class="text-center-header-cell"> Flags </mat-header-cell>
+                            <mat-cell *matCellDef="let task; let i = index" class="text-center-header-cell">
+                                <button
+                                    *ngFor="let cat of list_types"
+                                    mat-icon-button
+                                    color="primary"
+                                    [title]="cat.title"
+                                    (click)="filterList(cat.value)"
+                                    [disabled]="task[cat.value] === cat.default ? false : true"
+                                >
+                                    <mat-icon>{{ cat.icon }}</mat-icon>
+                                </button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+                        <ng-container matColumnDef="actions">
+                            <mat-header-cell *matHeaderCellDef class="text-center-header-cell"> Actions </mat-header-cell>
+                            <mat-cell *matCellDef="let row; let i = index" class="text-center-header-cell">
+                                <button (click)="personSelected(row)" mat-icon-button color="primary" title="More Information">
+                                    <mat-icon>account_circle</mat-icon>
+                                </button>
+                                <button
+                                    (click)="personBookmarked(row)"
+                                    *ngIf="bookmarks.indexOf(row.nhs_number) === -1"
+                                    mat-icon-button
+                                    color="default"
+                                    title="Bookmark Person"
+                                >
+                                    <mat-icon>bookmarks</mat-icon>
+                                </button>
+                                <button
+                                    (click)="personBookmarked(row)"
+                                    *ngIf="bookmarks.indexOf(row.nhs_number) !== -1"
+                                    mat-icon-button
+                                    color="primary"
+                                    title="Remove Bookmark"
+                                >
+                                    <mat-icon>bookmark_border</mat-icon>
+                                </button>
+                            </mat-cell>
+                        </ng-container>
+                    </mat-table>
+
+                    <div id="row-container">
+                        <div>
+                            <button
+                                mat-icon-button
+                                color="accent"
+                                title="Export Citizen Addresses"
+                                (click)="exportContactDetails(sensitiveData)"
+                            >
+                                <mat-icon>cloud_download</mat-icon>
+                            </button>
+                        </div>
+                        <div>
+                            <mat-paginator #paginator [pageSize]="25" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons>
+                            </mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

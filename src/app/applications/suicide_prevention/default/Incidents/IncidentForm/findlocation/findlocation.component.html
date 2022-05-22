@@ -1,28 +1,32 @@
 <form [formGroup]="locationForm">
-  <div fxLayout="row wrap">
-    <div fxFlex.gt-sm="70" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-form-field class="example-full-width">
-        <input autocomplete="off" matInput placeholder="Post Code" type="text" formControlName="postcode" />
-      </mat-form-field>
+    <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="70" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-form-field class="example-full-width">
+                <input autocomplete="off" matInput placeholder="Post Code" type="text" formControlName="postcode" />
+            </mat-form-field>
+        </div>
+        <div fxFlex.gt-sm="30" fxFlex.gt-xs="100" fxFlex="100">
+            <button type="button" *ngIf="!location" mat-raised-button style="width: 100%" color="accent" (click)="findLocation()">
+                Find Location
+            </button>
+            <button type="button" *ngIf="location" mat-raised-button style="width: 100%" color="warn" (click)="clearLocation()">
+                Clear
+            </button>
+        </div>
     </div>
-    <div fxFlex.gt-sm="30" fxFlex.gt-xs="100" fxFlex="100">
-      <button type="button" *ngIf="!location" mat-raised-button style="width: 100%" color="accent"
-        (click)="findLocation()">
-        Find Location
-      </button>
-      <button type="button" *ngIf="location" mat-raised-button style="width: 100%" color="warn"
-        (click)="clearLocation()">
-        Clear
-      </button>
-    </div>
-  </div>
 
-  <div fxLayout="row wrap">
-    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-      <div #mapGraph [ngStyle]="mapHeight">
-        <app-map [hidden]="!MapData && mapStyle.display !== 'block'" [MapData]="MapData" MapName="MapName"
-          [MapZoom]="MapZoom" [MapCenter]="MapCenter" [rerender]="mapRender"></app-map>
-      </div>
+    <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <div #mapGraph [ngStyle]="mapHeight">
+                <app-sharedmap
+                    [hidden]="!MapData && mapStyle.display !== 'block'"
+                    [MapData]="MapData"
+                    MapName="MapName"
+                    [MapZoom]="MapZoom"
+                    [MapCenter]="MapCenter"
+                    [rerender]="mapRender"
+                ></app-sharedmap>
+            </div>
+        </div>
     </div>
-  </div>
 </form>

@@ -1,22 +1,58 @@
 <mat-list>
-  <mat-list-item *ngFor="let person of profiles; let i = index" style="margin: 5px; background: transparent">
-    <img *ngIf="!person.photobase64" width="40" src="../../../../assets/images/login.png" style="background-color: white" />
-    <img *ngIf="person.photobase64" width="40" [src]="person.photobase64" style="background-color: white" />
-    <div class="mat-list-text" style="margin-left: 5px">
-      <h3 class="mat-line">{{ person.name }} ({{ person.email }})</h3>
-      <p *ngIf="person.contactnumber" class="mat-line text-muted">{{ person.contactnumber }}</p>
-    </div>
-    <button mat-icon-button type="button" color="accent" title="Make Admin" *ngIf="isAdmin && blnShowAdminButton" class="margin-left-right" (click)="addAdmin(person)" style="float: right">
-      <mat-icon>stars</mat-icon>
-    </button>
-    <button mat-icon-button type="button" color="accent" title="Add to Group" *ngIf="outstanding && isAdmin && blnShowAddToTeamButton" class="margin-left-right" (click)="addUserToTeam(person)" style="float: right">
-      <mat-icon>verified_user</mat-icon>
-    </button>
-    <button mat-icon-button type="button" color="warn" title="Remove from Group" *ngIf="isAdmin && blnShowRemoveFromTeamButton" class="margin-left-right" (click)="removeUserFromTeam(person)" style="float: right">
-      <mat-icon>cancel</mat-icon>
-    </button>
-    <button mat-icon-button type="button" color="warn" title="Remove from Admin" *ngIf="isAdmin && blnShowRemoveAdminButton" class="margin-left-right" (click)="removeUserFromTeamAdmin(person)" style="float: right">
-      <mat-icon>cancel</mat-icon>
-    </button>
-  </mat-list-item>
+    <mat-list-item *ngFor="let person of profiles; let i = index" style="margin: 5px; background: transparent">
+        <img *ngIf="!person.photobase64" width="40" src="../../../../assets/images/login.png" style="background-color: white" />
+        <img *ngIf="person.photobase64" width="40" [src]="person.photobase64" style="background-color: white" />
+        <div class="mat-list-text" style="margin-left: 5px">
+            <h3 class="mat-line">{{ person.name }} ({{ person.email }})</h3>
+            <p *ngIf="person.contactnumber" class="mat-line text-muted">{{ person.contactnumber }}</p>
+        </div>
+        <button
+            mat-icon-button
+            type="button"
+            color="accent"
+            title="Make Admin"
+            *ngIf="isAdmin && blnShowAdminButton"
+            class="margin-left-right"
+            (click)="addAdmin(person)"
+            style="float: right"
+        >
+            <mat-icon>stars</mat-icon>
+        </button>
+        <button
+            mat-icon-button
+            type="button"
+            color="accent"
+            title="Add to Group"
+            *ngIf="outstanding && isAdmin && blnShowAddToTeamButton"
+            class="margin-left-right"
+            (click)="addUserToTeam(person)"
+            style="float: right"
+        >
+            <mat-icon>verified_user</mat-icon>
+        </button>
+        <button
+            mat-icon-button
+            type="button"
+            color="warn"
+            title="Remove from Group"
+            *ngIf="isAdmin && blnShowRemoveFromTeamButton"
+            class="margin-left-right"
+            (click)="removeUserFromTeam(person)"
+            style="float: right"
+        >
+            <mat-icon>cancel</mat-icon>
+        </button>
+        <button
+            mat-icon-button
+            type="button"
+            color="warn"
+            title="Remove from Admin"
+            *ngIf="isAdmin && blnShowRemoveAdminButton"
+            class="margin-left-right"
+            (click)="removeUserFromTeamAdmin(person)"
+            style="float: right"
+        >
+            <mat-icon>cancel</mat-icon>
+        </button>
+    </mat-list-item>
 </mat-list>

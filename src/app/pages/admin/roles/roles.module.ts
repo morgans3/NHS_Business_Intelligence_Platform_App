@@ -12,10 +12,15 @@ import { RolesTableComponent } from "./table/roles-table.component";
 import { RoleComponent } from "./role/role.component";
 
 @NgModule({
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, DemoMaterialModule, FlexLayoutModule, RouterModule.forChild(Routes), DiuComponentLibraryModule],
-    declarations: [
-        RolesTableComponent,
-        RoleComponent
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        RouterModule.forChild(Routes),
+        DiuComponentLibraryModule,
     ],
+    declarations: [RolesTableComponent, RoleComponent],
 })
-export class RolesAdminModule { }
+export class RolesAdminModule {}

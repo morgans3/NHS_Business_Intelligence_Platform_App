@@ -4,15 +4,14 @@ import { AfterViewInit, Component, ViewEncapsulation } from "@angular/core";
     selector: "app-form-layout",
     templateUrl: "./form.component.html",
     styleUrls: ["./form.component.scss"],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class FormLayoutComponent implements AfterViewInit {
-
     constructor() {}
 
     ngAfterViewInit() {
         const video: any = document.getElementById("the-background");
-        video.oncanplaythrough = function () {
+        video.oncanplaythrough = () => {
             video.muted = true;
             video.play();
         };

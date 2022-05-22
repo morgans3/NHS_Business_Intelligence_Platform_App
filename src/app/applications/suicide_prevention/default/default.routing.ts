@@ -5,25 +5,24 @@ import { IncidentsComponent } from "./Incidents/Incidents.component";
 import { IncidentFormComponent } from "./Incidents/IncidentForm/IncidentForm.component";
 
 export const DefaultRoutes: Routes = [
-  {
-    path: "",
-    children: [
-      {
+    {
         path: "main",
         component: LandingComponent,
-      },
-      {
+    },
+    {
         path: "admin",
         component: AdminComponent,
-      },
-      {
+    },
+    {
         path: "incidents",
         component: IncidentsComponent,
-      },
-      {
+    },
+    {
         path: "incidentform",
         component: IncidentFormComponent,
-      },
-    ],
-  },
+    },
+    {
+        path: "mapping",
+        loadChildren: () => import("./mapping/mapping.module").then((m) => m.MappingModule),
+    },
 ];

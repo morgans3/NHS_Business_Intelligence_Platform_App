@@ -1,58 +1,82 @@
 <mat-card>
-  <div style="width: 100%; overflow: none; padding: 20px 10px 10px">
-    <div fxLayout="row wrap">
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
-        <mat-card-title>Create a New Team</mat-card-title>
-      </div>
+    <div style="width: 100%; overflow: none; padding: 20px 10px 10px">
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
+                <mat-card-title>Create a New Team</mat-card-title>
+            </div>
+        </div>
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
+                <mat-card-subtitle>"Team work makes the dream work" ~ John Maxwell</mat-card-subtitle>
+            </div>
+        </div>
+
+        <hr style="margin-bottom: 15px" />
+
+        <div class="row wrap">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="padding: 20px">
+                <form class="m-t-20" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                    <mat-form-field class="example-full-width">
+                        <input autocomplete="off" matInput placeholder="Display Name" type="text" formControlName="name" />
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <input
+                            autocomplete="off"
+                            matInput
+                            placeholder="Team Code"
+                            type="text"
+                            formControlName="code"
+                            (keyup)="checkagainstTeams($event.target.value)"
+                        />
+                    </mat-form-field>
+                    <p *ngIf="!codevalid" style="color: red">Code in use, please type another code.</p>
+
+                    <mat-form-field class="example-full-width">
+                        <input autocomplete="off" matInput placeholder="Description" type="text" formControlName="description" />
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Organisation Code" formControlName="organisationcode">
+                            <mat-option *ngFor="let org of organisations" [value]="org.code">{{ org.name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <p *ngIf="responsiblepeople.length > 0">Responsible People:</p>
+                    <ul *ngIf="responsiblepeople.length > 0" style="list-style: none">
+                        <li *ngFor="let person of responsiblepeople">
+                            <button mat-icon-button color="warn" class="margin-right-left" (click)="removePerson(person)">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                            {{ person }}
+                        </li>
+                    </ul>
+                    <p *ngIf="responsiblepeople.length === 0">No administrators added.</p>
+
+                    <button
+                        mat-raised-button
+                        type="button"
+                        color="accent"
+                        (click)="findPeople()"
+                        style="width: 100%"
+                        [disabled]="!myForm.controls.name.valid"
+                    >
+                        Add Administrators
+                    </button>
+
+                    <mat-card-actions style="display: flex">
+                        <button
+                            mat-raised-button
+                            color="primary"
+                            type="submit"
+                            style="width: 100%"
+                            [disabled]="!myForm.valid || responsiblepeople.length === 0 || !codevalid"
+                        >
+                            Submit
+                        </button>
+                    </mat-card-actions>
+                </form>
+            </div>
+        </div>
     </div>
-    <div fxLayout="row wrap">
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center">
-        <mat-card-subtitle>"Team work makes the dream work" ~ John Maxwell</mat-card-subtitle>
-      </div>
-    </div>
-
-    <hr style="margin-bottom: 15px" />
-
-    <div class="row wrap">
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="padding: 20px">
-        <form class="m-t-20" [formGroup]="myForm" (ngSubmit)="onSubmit()">
-          <mat-form-field class="example-full-width">
-            <input autocomplete="off" matInput placeholder="Display Name" type="text" formControlName="name" />
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <input autocomplete="off" matInput placeholder="Team Code" type="text" formControlName="code" (keyup)="checkagainstTeams($event.target.value)" />
-          </mat-form-field>
-          <p *ngIf="!codevalid" style="color: red">Code in use, please type another code.</p>
-
-          <mat-form-field class="example-full-width">
-            <input autocomplete="off" matInput placeholder="Description" type="text" formControlName="description" />
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <mat-select placeholder="Organisation Code" formControlName="organisationcode">
-              <mat-option *ngFor="let org of organisations" [value]="org.code">{{ org.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <p *ngIf="responsiblepeople.length > 0">Responsible People:</p>
-          <ul *ngIf="responsiblepeople.length > 0" style="list-style: none">
-            <li *ngFor="let person of responsiblepeople">
-              <button mat-icon-button color="warn" class="margin-right-left" (click)="removePerson(person)">
-                <mat-icon>cancel</mat-icon>
-              </button>
-              {{ person }}
-            </li>
-          </ul>
-          <p *ngIf="responsiblepeople.length === 0">No administrators added.</p>
-
-          <button mat-raised-button type="button" color="accent" (click)="findPeople()" style="width: 100%" [disabled]="!myForm.controls.name.valid">Add Administrators</button>
-
-          <mat-card-actions style="display: flex">
-            <button mat-raised-button color="primary" type="submit" style="width: 100%" [disabled]="!myForm.valid || responsiblepeople.length === 0 || !codevalid">Submit</button>
-          </mat-card-actions>
-        </form>
-      </div>
-    </div>
-  </div>
 </mat-card>

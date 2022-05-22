@@ -6,41 +6,41 @@
 <hr style="background-color: rgba(255, 255, 255, 0)" />
 
 <div fxLayout="row wrap">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center" style="padding: 0px 50px 10px">
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-      <mat-form-field class="demo-full-width" [formGroup]="loginForm">
-        <input matInput formControlName="username" placeholder="Username or Email" type="text" autocomplete="false" />
-      </mat-form-field>
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center" style="padding: 0px 50px 10px">
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <mat-form-field class="demo-full-width" [formGroup]="loginForm">
+                <input matInput formControlName="username" placeholder="Username or Email" type="text" autocomplete="false" />
+            </mat-form-field>
 
-      <mat-form-field class="demo-full-width" [formGroup]="loginForm">
-        <input matInput formControlName="password" placeholder="Password" type="password" autocomplete="false" />
-        <mat-hint align="end">
-          <a routerLink="/password-reset"><b>Forgot password?</b></a>
-        </mat-hint>
-      </mat-form-field>
+            <mat-form-field class="demo-full-width" [formGroup]="loginForm">
+                <input matInput formControlName="password" placeholder="Password" type="password" autocomplete="false" />
+                <mat-hint align="end">
+                    <a routerLink="/password-reset"><b>Forgot password?</b></a>
+                </mat-hint>
+            </mat-form-field>
 
-      <mat-form-field class="demo-full-width" [formGroup]="loginForm">
-        <mat-select formControlName="organisation" placeholder="Organisation">
-          <mat-option *ngFor="let org of organisations" [value]="org">{{ org.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+            <mat-form-field class="demo-full-width" [formGroup]="loginForm">
+                <mat-select formControlName="organisation" placeholder="Organisation">
+                    <mat-option *ngFor="let org of organisations" [value]="org">{{ org.name }}</mat-option>
+                </mat-select>
+            </mat-form-field>
 
-      <button mat-raised-button color="primary" style="width: 100%" type="submit">Login</button>
-    </form>
-  </div>
+            <button mat-raised-button color="primary" style="width: 100%" type="submit">Login</button>
+        </form>
+    </div>
 </div>
 
 <div fxLayout="row wrap" style="padding: 0px 50px 0px">
-  <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50" fxLayoutAlign="center center" style="margin-bottom: 5px; padding: 5px 0px 10px">
-    <img src="../../../assets/images/developedbynhs.png" style="vertical-align: middle" width="100px" alt="NHS" />
-  </div>
-  <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50" fxLayoutAlign="center center" style="margin-bottom: 5px; padding: 5px 0px 10px">
-    <img src="../../../assets/images/aws.png" style="vertical-align: middle" width="100px" alt="AWS" />
-  </div>
+    <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50" fxLayoutAlign="center center" style="margin-bottom: 5px; padding: 5px 0px 10px">
+        <img src="../../../assets/images/developedbynhs.png" style="vertical-align: middle" width="100px" alt="NHS" />
+    </div>
+    <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50" fxLayoutAlign="center center" style="margin-bottom: 5px; padding: 5px 0px 10px">
+        <img src="../../../assets/images/aws.png" style="vertical-align: middle" width="100px" alt="AWS" />
+    </div>
 </div>
 
 <div fxLayout="row wrap" style="padding: 0px 50px 0px">
-  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center" style="margin-bottom: 5px; padding: 5px 0px 10px">
-    <a routerLink="/support/guides" style="font-size: 0.9em">Click here for assistance</a>
-  </div>
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="center center" style="margin-bottom: 5px; padding: 5px 0px 10px">
+        <a routerLink="/support/guides" style="font-size: 0.9em">Click here for assistance</a>
+    </div>
 </div>

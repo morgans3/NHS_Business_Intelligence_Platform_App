@@ -1,9 +1,9 @@
 export interface iExcelWorkBook {
-  name: string;
-  worksheets: iExcelWorkSheet[];
+    name: string;
+    worksheets: iExcelWorkSheet[];
 }
 
 export interface iExcelWorkSheet {
-  name: string;
-  data: any[];
+    name: string;
+    data: any[];
 }

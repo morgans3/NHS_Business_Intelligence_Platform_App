@@ -13,10 +13,21 @@ import { ProfilePictureUploadComponent } from "./details/picture-upload/picture-
 import { ProfileTeamsComponent } from "./teams/teams.component";
 import { DiuComponentLibraryModule } from "diu-component-library";
 import { PasswordComponentsModule } from "../forms/password-reset/password-components.module";
-import { RoleCapabilityListModule } from "./details/rolecapabilitylist/rolecapabilitylist.component"
+import { RoleCapabilityListModule } from "./details/rolecapabilitylist/rolecapabilitylist.component";
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DemoMaterialModule, FlexLayoutModule, ImageUploaderModule, PasswordComponentsModule, RouterModule.forChild(ProfileRoutes), RoleCapabilityListModule, DiuComponentLibraryModule],
-  declarations: [ProfileComponent, ProfileDetailsComponent, ProfilePictureUploadComponent, ProfileTeamsComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DemoMaterialModule,
+        FlexLayoutModule,
+        ImageUploaderModule,
+        PasswordComponentsModule,
+        RouterModule.forChild(ProfileRoutes),
+        RoleCapabilityListModule,
+        DiuComponentLibraryModule,
+    ],
+    declarations: [ProfileComponent, ProfileDetailsComponent, ProfilePictureUploadComponent, ProfileTeamsComponent],
 })
 export class ProfileModule {}

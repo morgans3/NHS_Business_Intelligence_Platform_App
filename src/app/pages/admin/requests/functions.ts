@@ -1,14 +1,14 @@
-export function getValueByKey(key, item) {
-    key = key.split('|');
+export const getValueByKey = (key, item) => {
+    key = key.split("|");
     if (key[1]) {
-        return new Function('return `' + key[0] + '`').call({ item: item });
+        return helper.fn(key[0]);
     } else {
         return ((s, o) => {
-            s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-            s = s.replace(/^\./, '');           // strip a leading dot
-            var a = s.split('.');
-            for (var i = 0, n = a.length; i < n; ++i) {
-                var k = a[i];
+            s = s.replace(/\[(\w+)\]/g, ".$1"); // convert indexes to properties
+            s = s.replace(/^\./, ""); // strip a leading dot
+            const a = s.split(".");
+            for (let i = 0, n = a.length; i < n; ++i) {
+                const k = a[i];
                 if (k in o) {
                     o = o[k];
                 } else {
@@ -18,4 +18,10 @@ export function getValueByKey(key, item) {
             return o;
         })(key[0], item);
     }
+};
+
+class helper {
+    static fn = (key) => {
+        return "`" + (key as string) + "`";
+    };
 }

@@ -17,23 +17,24 @@ export const AdminRoutes: Routes = [
             },
             {
                 path: "requests",
-                component: RequestsTableComponent
+                component: RequestsTableComponent,
+                data: { awsTrackable: true },
             },
             {
                 path: "requests/:id",
-                component: RequestComponent
+                component: RequestComponent,
             },
             {
                 path: "apps",
-                component: AppsTableComponent
+                component: AppsTableComponent,
             },
             {
                 path: "organisations",
-                component: OrganisationsTableComponent
+                component: OrganisationsTableComponent,
             },
             {
                 path: "dashboards",
-                component: DashboardsTableComponent
+                component: DashboardsTableComponent,
             },
             {
                 path: "capabilities",
@@ -54,13 +55,13 @@ export const AdminRoutes: Routes = [
             {
                 path: "",
                 pathMatch: "full",
-                redirectTo: "/admin/users"
+                redirectTo: "/admin/users",
             },
             {
                 path: "**",
                 loadChildren: () => import("../dynamic/dynamic.module").then((m) => m.DynamicPageModule),
                 pathMatch: "full",
             },
-        ]
-    }
+        ],
+    },
 ];

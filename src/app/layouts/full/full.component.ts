@@ -1,145 +1,154 @@
 import { MediaMatcher } from "@angular/cdk/layout";
-import { ChangeDetectorRef, Component, OnDestroy, AfterViewInit, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { MENUITEMS } from "../../shared/menu-items/menu-items";
-import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { Title } from "@angular/platform-browser";
 import { APIService, iSystemAlerts } from "diu-component-library";
 import { iMenu } from "diu-component-library/lib/_models/menu-items.interface";
 import { Store } from "@ngxs/store";
 import { AuthState, ManualSetAuthTokens } from "src/app/_states/auth.state";
-import jwt_decode from "jwt-decode";
 import { AlertState, AlertStateModel, UpdateAlerts } from "src/app/_states/alert.state";
 import { NotificationService } from "src/app/_services/notification.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
+import { decodeToken } from "src/app/_pipes/functions";
 
 export interface iAppConfig {
-  name: string;
-  landingpage: string;
-  menuitems: iMenu[];
+    name: string;
+    landingpage: string;
+    menuitems: iMenu[];
 }
 
 export interface iPageConfig {
-  id: string;
-  type: string;
-  config: any;
-  children: any[];
+    id: string;
+    type: string;
+    config: any;
+    children: any[];
 }
 
 /** @title Responsive sidenav */
 @Component({
-  selector: "app-full-layout",
-  templateUrl: "full.component.html",
-  styleUrls: [],
+    selector: "app-full-layout",
+    templateUrl: "full.component.html",
 })
-export class FullComponent implements OnDestroy, AfterViewInit, OnInit {
-  mobileQuery: MediaQueryList;
-  isIE = /msie\s|trident\//i.test(window.navigator.userAgent);
-  appName = environment.appName;
-  home = environment.homepage;
-  faExclamation = faExclamationCircle;
-  minisidebar: boolean = false;
-  username: string = "";
-  myAlerts: iSystemAlerts[] = [];
-  tokenDecoded: any;
-  shownMenuItems: iMenu[] = [];
-  jwtToken: any;
-  sidebarOpened = true;
+export class FullComponent implements OnDestroy, OnInit {
+    user: any;
+    userToken: any;
+    sidebarOpened = true;
+    mobileQuery: MediaQueryList;
+    isIE = /msie\s|trident\//i.test(window.navigator.userAgent);
+    myAlerts: iSystemAlerts[] = [];
+    config: iAppConfig = {
+        name: environment.appName,
+        landingpage: environment.homepage,
+        menuitems: MENUITEMS,
+    };
+    minisidebar = false;
 
-  private _mobileQueryListener: () => void;
+    constructor(
+        public store: Store,
+        private titleService: Title,
+        private apiService: APIService,
+        private activatedRoute: ActivatedRoute,
+        private notificationService: NotificationService,
+        changeDetectorRef: ChangeDetectorRef,
+        media: MediaMatcher
+    ) {
+        // Check for mobile device
+        this.mobileQuery = media.matchMedia("(min-width: 768px)");
+        this.mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addListener(this.mobileQueryListener);
 
-  constructor(private router: Router, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private titleService: Title, public store: Store, private apiService: APIService, private notificationService: NotificationService) {
-    this.mobileQuery = media.matchMedia("(min-width: 768px)");
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
-    this.jwtToken = this.store.selectSnapshot(AuthState.getToken);
-    if (this.jwtToken) {
-      this.tokenDecoded = jwt_decode(this.jwtToken);
-      this.username = this.tokenDecoded.username;
-      this.store.dispatch(new UpdateAlerts());
+        // Get user details
+        this.userToken = this.store.selectSnapshot(AuthState.getToken);
+        if (this.userToken) {
+            this.user = decodeToken(this.userToken);
+            this.store.dispatch(new UpdateAlerts());
+        }
+
+        // Initialise config
+        this.activatedRoute.data.subscribe((data) => {
+            this.getConfiguration(data?.layout_config?.id || "Nexus_Intelligence");
+        });
     }
-    this.constructApp();
-  }
 
-  ngOnInit() {
-    this.titleService.setTitle(this.appName);
-    this.store.select(AlertState.getAlerts).subscribe((state: AlertStateModel) => {
-      if (state.myAlerts && state.myAlerts.length > 0) {
-        this.myAlerts = state.myAlerts;
-      }
-    });
-  }
+    private mobileQueryListener: () => void;
 
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
-  }
-
-  ngAfterViewInit() {}
-
-  toggleSidebar(event: any) {
-    this.minisidebar = !this.minisidebar;
-    setTimeout(() => {
-      window.dispatchEvent(new Event("resize"));
-    }, 400);
-  }
-
-  logout() {
-    this.apiService.logout("www." + environment.websiteURL);
-  }
-
-  showErrors(event: any) {
-    if (event) {
-      this.notificationService.warning(event.toString());
+    ngOnInit() {
+        this.store.select(AlertState.getAlerts).subscribe((state: AlertStateModel) => {
+            if (state.myAlerts && state.myAlerts.length > 0) {
+                this.myAlerts = state.myAlerts;
+            }
+        });
     }
-  }
 
-  updateToken(newToken: any) {
-    if (newToken) {
-      this.jwtToken = newToken;
-      this.tokenDecoded = jwt_decode(this.jwtToken);
-      this.store.dispatch(
-        new ManualSetAuthTokens({
-          success: true,
-          token: newToken,
-        })
-      );
+    ngOnDestroy(): void {
+        this.mobileQuery.removeListener(this.mobileQueryListener);
     }
-  }
 
-  constructApp() {
-    // Load basic landing page
-    this.shownMenuItems = MENUITEMS;
-    localStorage.removeItem("@AppConfig");
-    // Call in App Settings and MenuItems
-    this.apiService.getPayloadById("Nexus_Intelligence").subscribe((data: any) => {
-      if (data && data.length > 0) {
-        const thisApp = data[0];
-        this.loadAppConfiguration(JSON.parse(thisApp.config));
-      }
-    });
-  }
+    getConfiguration(id) {
+        // Load basic landing page
+        localStorage.removeItem("@AppConfig");
 
-  loadAppConfiguration(appconfig: iAppConfig) {
-    this.appName = appconfig.name;
-    this.home = appconfig.landingpage;
-    this.shownMenuItems = [];
-    appconfig.menuitems.forEach((menu: iMenu) => {
-      if (menu.role) {
-        if (this.checkRole(menu.role)) this.shownMenuItems.push(menu);
-      } else {
-        this.shownMenuItems.push(menu);
-      }
-    });
-    localStorage.setItem("@AppConfig", JSON.stringify(appconfig));
-    //this.router.navigate(["/" + this.home]);
-  }
+        // Call in App Settings and MenuItems
+        this.apiService.getPayloadById(id).subscribe((payload: any) => {
+            if (payload) {
+                // Get & set new config
+                const appConfig = JSON.parse(payload?.config);
+                localStorage.setItem("@AppConfig", JSON.stringify(appConfig));
 
-  checkRole(role: any) {
-    if (!role) return true;
-    const tokenDecoded = this.tokenDecoded;
-    if (tokenDecoded && tokenDecoded.roles && tokenDecoded.roles.filter((x: any) => x[role] && x[role] !== "deny").length > 0) {
-      return true;
+                // Get user capability array
+                const userCapabilities = this.user.capabilities.map((item) => Object.keys(item)[0]);
+
+                // Set new config
+                this.config = {
+                    name: appConfig.name,
+                    landingpage: appConfig.landingpage,
+                    menuitems: appConfig.menuitems.filter((menu: iMenu) => {
+                        if (menu.role) {
+                            // Check for role
+                            const userHasRole = this.user && userCapabilities && userCapabilities.includes(menu.role);
+
+                            // Return
+                            return userHasRole ? true : false;
+                        } else {
+                            return true;
+                        }
+                    }),
+                };
+
+                // Set page title
+                this.titleService.setTitle(appConfig.name);
+            }
+        });
     }
-    return false;
-  }
+
+    toggleSidebar() {
+        this.minisidebar = !this.minisidebar;
+        setTimeout(() => {
+            window.dispatchEvent(new Event("resize"));
+        }, 400);
+    }
+
+    logout() {
+        this.apiService.logout("www." + environment.websiteURL);
+    }
+
+    showErrors(event: any) {
+        if (event) {
+            this.notificationService.warning(event.toString());
+        }
+    }
+
+    updateToken(newToken: any) {
+        if (newToken) {
+            this.userToken = newToken;
+            this.user = decodeToken(newToken);
+            this.store.dispatch(
+                new ManualSetAuthTokens({
+                    success: true,
+                    token: newToken,
+                })
+            );
+        }
+    }
 }

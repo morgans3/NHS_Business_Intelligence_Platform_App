@@ -1,0 +1,242 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <app-statcard [data]="totalStats"></app-statcard>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <app-statcard [data]="monitorStats"></app-statcard>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <app-statcard [data]="reviewStats"></app-statcard>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <app-statcard [data]="dischargeStats"></app-statcard>
+  </div>
+</div>
+
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
+        <mat-form-field class="example-full-width" [formGroup]="group">
+          <mat-select placeholder="Filter by CCG..." (selectionChange)="filterCCG()" formControlName="ccg_ddl">
+            <mat-option [value]="null">Select All...</mat-option>
+            <mat-option *ngFor="let opt of ccgoptions" [value]="opt.code">{{ opt.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center" fxLayout="column">
+        <mat-spinner *ngIf="gpLoading" [diameter]="30"></mat-spinner>
+        <mat-form-field class="example-full-width" [formGroup]="group">
+          <mat-select placeholder="Filter by GP..." (selectionChange)="filterGP()" formControlName="gp_ddl">
+            <mat-option [value]="null">Select All...</mat-option>
+            <mat-option *ngFor="let opt of gpoptions" [value]="opt.code">{{ opt.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
+        <mat-form-field class="example-full-width" [formGroup]="group">
+          <mat-select placeholder="Filter by Recommendation..." (selectionChange)="setData()" formControlName="recommendation_ddl">
+            <mat-option [value]="null">Select All...</mat-option>
+            <mat-option *ngFor="let opt of recommendationlist" [value]="opt">{{ opt }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
+        <button type="button" mat-raised-button color="warn" (click)="clearFilters()" style="width: 100%">Reset</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>
+          <mat-spinner [diameter]="30" *ngIf="!dataFetched"></mat-spinner>
+        </mat-card-title>
+
+        <app-UserValidation (confirmation)="updatePID($event)"></app-UserValidation>
+
+        <section fxLayout="row" fxLayoutAlign="space-between center" class="example-section" style="margin-bottom: 10px; overflow-x: auto">
+          Filter Lists:
+          <mat-slide-toggle [(ngModel)]="isChecked" color="primary" (change)="setData()">{{ isChecked ? "OR" : "AND" }}</mat-slide-toggle>
+          <button *ngFor="let cat of list_types" mat-icon-button [matTooltipClass]="'mytooltip'" [matTooltip]="cat.title" (click)="filterList(cat.value)" [color]="selectedlisttypes.indexOf(cat.value) > -1 ? (cat.color ? cat.color : 'primary') : 'default'">
+            <mat-icon *ngIf="!cat.icon.includes('fa-')">{{ cat.icon }}</mat-icon>
+            <i *ngIf="cat.icon.includes('fa-')" style="font-size: x-large" [class]="cat.icon"></i>
+          </button>
+        </section>
+
+        <section fxLayout="row" class="example-section" style="margin-bottom: 10px; overflow-x: auto">
+          <mat-checkbox [(ngModel)]="agehide" (change)="toggleAgeHide()" class="example-margin">Hide Under 18s</mat-checkbox>
+        </section>
+
+        <div class="bg-light p-10 p-r-20 p-l-20">
+          <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" />
+          </mat-form-field>
+        </div>
+
+        <section fxLayout="row wrap">
+          <span fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+            <button *ngIf="bulkActionList.length > 0" mat-raised-button style="width: 98%; margin: 0 5px; background-color: #00897b" color="primary" (click)="bulkAction('Refer - Self-Management')" [disabled]="!sensitiveData">Refer Selected to Self Management ({{ bulkActionList.length }})</button>
+          </span>
+          <span fxFlex.gt-sm="34" fxFlex.gt-xs="100" fxFlex="100">
+            <button *ngIf="bulkActionList.length > 0" mat-raised-button style="width: 98%; margin: 0 5px" color="accent" (click)="bulkAction('Refer - Virtual Ward')" [disabled]="!sensitiveData">Refer Selected to VW Ward ({{ bulkActionList.length }})</button>
+          </span>
+          <span fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+            <button *ngIf="bulkActionList.length > 0" mat-raised-button style="width: 98%; margin: 0 5px" color="warn" (click)="bulkAction('Refer - Hospital')" [disabled]="!sensitiveData">Refer Selected to Hospital ({{ bulkActionList.length }})</button>
+          </span>
+        </section>
+
+        <div class="responsive-table" [hidden]="dataFetched">
+          <mat-table #Table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="selector">
+              <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox [checked]="allSelected" (change)="selectAll($event.checked)"></mat-checkbox>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let task">
+                <mat-checkbox [checked]="task.selected" (change)="selectItem(task)"></mat-checkbox>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="extra">
+              <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+              <mat-cell *matCellDef="let task">
+                <button mat-button class="slim" color="primary" matTooltip="More Information" (click)="moreInfo(task)" [disabled]="!sensitiveData">
+                  <i class="fas fa-search-plus" style="font-size: x-large"></i>
+                </button>
+                <button mat-button class="slim" color="primary" matTooltip="Edit Contact Information" (click)="editContact(task)" [disabled]="!sensitiveData">
+                  <i class="fas fa-phone" style="font-size: x-large"></i>
+                </button>
+                <button mat-button class="slim" color="primary" matTooltip="Edit Notes" (click)="editNotes(task)" [disabled]="!sensitiveData">
+                  <i class="fas fa-comment-medical" style="font-size: x-large"></i>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="fullname">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Full Name </mat-header-cell>
+              <mat-cell *matCellDef="let task">
+                <span *ngIf="sensitiveData"
+                  ><span *ngIf="task.forename">{{ task.forename }} {{ task.surname }}</span></span
+                >
+                <span *ngIf="!sensitiveData">########</span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="nhs_number">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> NHS Number </mat-header-cell>
+              <mat-cell *matCellDef="let task">
+                <span *ngIf="sensitiveData">
+                  <span *ngIf="task.notes" [matTooltip]="task.notes">
+                    <i class="fas fa-comment-plus" style="font-size: x-large; color: #e91e63; margin-right: 5px"></i>
+                  </span>
+                  {{ task.nhs_number }}
+                </span>
+                <span *ngIf="!sensitiveData">########</span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="age_in_years">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Age (in years)</mat-header-cell>
+              <mat-cell *matCellDef="let task">
+                <span *ngIf="task.home_type && task.home_type === 'CareHome'" matTooltip="Registered to a Care Home">
+                  <i style="color: #1e88e5; font-size: x-large; margin-right: 5px" class="fas fa-hospital-alt"></i>
+                </span>
+                {{ task.age_in_years }}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="phone_number">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Contact </mat-header-cell>
+              <mat-cell *matCellDef="let task">
+                <span *ngIf="sensitiveData" fxLayout="column" fxLayoutAlign="space-around center">
+                  {{ task.newcontact || task.phone_number }}
+                </span>
+                <span *ngIf="!sensitiveData">########</span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="specimen_date">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Specimen Date</mat-header-cell>
+              <mat-cell *matCellDef="let task"> {{ task.specimen_date }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="loaded_date">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Loaded Date</mat-header-cell>
+              <mat-cell *matCellDef="let task"> {{ task.loaded_date }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="risk_score">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Risk Score</mat-header-cell>
+              <mat-cell *matCellDef="let task"> {{ task.risk_score }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="rs_frailty_index">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Frailty Index</mat-header-cell>
+              <mat-cell *matCellDef="let task">
+                <span *ngIf="task.rs_frailty_index">{{ task.rs_frailty_index }}</span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="recommendation">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Category </mat-header-cell>
+              <mat-cell *matCellDef="let task">
+                <span [class]="getLabelClass(task.recommendation)" *ngIf="task.recommendation">{{ task.recommendation }}</span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="flags">
+              <mat-header-cell *matHeaderCellDef class="text-center-header-cell"> Long Term Conditions </mat-header-cell>
+              <mat-cell *matCellDef="let task; let i = index" class="text-center-header-cell">
+                <section fxLayout="row" fxLayoutAlign="space-between center" class="example-section" style="margin-bottom: 10px; overflow-x: auto">
+                  <span *ngFor="let cat of list_types">
+                    <button *ngIf="task[cat.value] === cat.default ? true : false" mat-icon-button [color]="cat.color ? cat.color : 'primary'" [matTooltip]="cat.title" (click)="filterList(cat.value)" [disabled]="task[cat.value] === cat.default ? false : true">
+                      <mat-icon *ngIf="!cat.icon.includes('fa-')">{{ cat.icon }}</mat-icon>
+                      <i *ngIf="cat.icon.includes('fa-')" style="font-size: x-large" [class]="cat.icon"></i>
+                    </button>
+                  </span>
+                </section>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <section fxLayout="row" fxLayoutAlign="space-between center" class="example-section" style="margin-bottom: 10px; overflow-x: auto">
+                  <button mat-button class="green-button" matTooltip="Refer: Self-Management" (click)="logReason(row)" [disabled]="!sensitiveData">
+                    <i class="fas fa-user" style="font-size: x-large"></i>
+                  </button>
+                  <button mat-button color="accent" matTooltip="Refer to Virtual Ward" (click)="submitReferral('Refer - Virtual Ward', row)" [disabled]="!sensitiveData">
+                    <i class="fas fa-clinic-medical" style="font-size: x-large"></i>
+                  </button>
+                  <button mat-button color="warn" matTooltip="Refer to Hospital" (click)="submitReferral('Refer - Hospital', row)" [disabled]="!sensitiveData">
+                    <i class="fas fa-hospital-user" style="font-size: x-large"></i>
+                  </button>
+                </section>
+              </mat-cell>
+            </ng-container>
+          </mat-table>
+
+          <mat-paginator #paginator [pageSize]="25" [pageSizeOptions]="[10, 25, 50, 100]"> </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
