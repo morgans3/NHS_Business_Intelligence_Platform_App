@@ -15,6 +15,7 @@ import { MatTable, MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { Angular2Csv } from "angular2-csv/Angular2-csv";
 import { APIService, PopulationManagementService } from "diu-component-library";
+import { environment } from "src/environments/environment";
 declare let leafletMarkerChartBubble: any;
 declare let leafletChoroplethChart: any;
 declare let window: any;
@@ -236,8 +237,7 @@ export class OutbreaksComponent implements OnInit {
         const parsedUrl = window.location.href;
         this.origin = parsedUrl.replace("/outbreaks", "");
         if (this.origin.includes("localhost")) {
-            // TODO: This isn't the yellow brick road
-            this.origin = "https://cvi.nexusintelligencenw.nhs.uk";
+            this.origin = "https://www." + environment.websiteURL;
         }
         this.dataSource = new MatTableDataSource(this.exampleData);
         this.dataSource.sort = this.sort;
@@ -411,8 +411,11 @@ export class OutbreaksComponent implements OnInit {
         this.loading = true;
         document.getElementById("mapContainer").style.display = "none";
 
+        // TODO: what has the smtp subdomain become in the new mapping
         http_request =
-            "https://smtp.nexusintelligencenw.nhs.uk/" +
+            "https://smtp." +
+            environment.websiteURL +
+            "/" +
             (api_method === "rate" ? "covid_crude_rate?" : "cloak?") +
             "date_start=" +
             this.formatDate(this.date_start) +
@@ -719,7 +722,7 @@ export class OutbreaksComponent implements OnInit {
 
         document.getElementById("mapContainer").style.display = "none";
 
-        const http_request = "https://sqlapi.nexusintelligencenw.nhs.uk/" + "outbreak/mapinfo";
+        const http_request = "https://api." + environment.websiteURL + "/outbreak/mapinfo";
         this.http
             .get(http_request, {
                 headers: new HttpHeaders({

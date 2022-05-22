@@ -23,6 +23,7 @@ import { CrimeCategoryColors } from "./colorlists";
 import { Crime } from "../../../_models/police";
 import { APIService, FeatureCollection } from "diu-component-library";
 import { MapData } from "src/app/applications/covid_intelligence/default/patient/minimap/map.component.js";
+import { environment } from "src/environments/environment.js";
 
 @Component({
     selector: "app-GSI",
@@ -400,8 +401,7 @@ export class GSIComponent implements OnInit, OnDestroy {
                 window.dispatchEvent(new Event("resize"));
             });
 
-        // TODO: Why? Why is this trying to connect to the local HSCN network and not the one in the cloud?
-        this.HHTile = new betterWMS.betterWMS("http://nexusintelligence.xfyldecoast.nhs.uk:8600/geoserver/ows?", {
+        this.HHTile = new betterWMS.betterWMS("https://geoserver." + environment.websiteURL + "/geoserver/ows?", {
             layers: "MosaicHousehold:mosaichousehold",
             format: "image/png",
             transparent: true,

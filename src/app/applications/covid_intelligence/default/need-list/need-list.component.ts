@@ -14,6 +14,7 @@ import { AuthState } from "../../../../_states/auth.state";
 import { APIService } from "diu-component-library";
 import { decodeToken } from "../../../../_pipes/functions";
 import { CviCohortService } from "../../_services/cvicohort-service";
+import { environment } from "src/environments/environment";
 declare let window: any;
 
 @Component({
@@ -327,7 +328,7 @@ export class NeedListComponent implements OnInit {
     }
 
     get_pcn() {
-        const http_request = "https://need.nexusintelligencenw.nhs.uk/get_ccg_pcn_list";
+        const http_request = "https://need." + environment.websiteURL + "/get_ccg_pcn_list";
 
         // http_request = "'" +
         //   http_request +
@@ -364,7 +365,7 @@ export class NeedListComponent implements OnInit {
     }
 
     get_ccgs() {
-        const http_request = "https://need.nexusintelligencenw.nhs.uk/get_ccg_list";
+        const http_request = "https://need." + environment.websiteURL + "/get_ccg_list";
 
         // Send API call and save/plot returned data
         this.http
@@ -394,7 +395,7 @@ export class NeedListComponent implements OnInit {
     // Send API call to plumbeR
     send_api() {
         // let http_request = this.origin + "modelledneed/logistic_model_api?";
-        let http_request = "https://need.nexusintelligencenw.nhs.uk/modelled_needs_api?";
+        let http_request = "https://need." + environment.websiteURL + "/modelled_needs_api?";
 
         // Check at least one item is in each box before sending call
         if (this.use_response[0] === null) {

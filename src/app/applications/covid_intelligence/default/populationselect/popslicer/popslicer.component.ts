@@ -31,6 +31,7 @@ declare let dc: any;
 declare let window: any;
 declare let L: any;
 import { RiskRows, RiskCols, CareModelExamples } from "./RiskRows";
+import { environment } from "src/environments/environment";
 
 export class StatCardData {
     title: string;
@@ -230,7 +231,7 @@ export class PopslicerComponent implements OnInit {
         const parsedUrl = window.location.href;
         this.origin = parsedUrl.replace("/populationselect", "");
         if (this.origin.includes("localhost")) {
-            this.origin = "https://cvi.dev.nexusintelligencenw.nhs.uk";
+            this.origin = "https://www.dev." + environment.websiteURL;
         }
     }
 
