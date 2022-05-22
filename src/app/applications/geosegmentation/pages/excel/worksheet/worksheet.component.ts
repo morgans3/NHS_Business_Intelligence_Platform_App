@@ -6,7 +6,6 @@ import { MatSort } from "@angular/material/sort";
 @Component({
     selector: "app-worksheet",
     templateUrl: "worksheet.component.html",
-    styleUrls: ["worksheet.component.css"],
 })
 export class WorksheetComponent implements OnInit {
     @Input() sheet: any;

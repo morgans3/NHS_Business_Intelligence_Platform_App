@@ -9,7 +9,7 @@ import { Store } from "@ngxs/store";
 import { AuthState, ManualSetAuthTokens } from "src/app/_states/auth.state";
 import { AlertState, AlertStateModel, UpdateAlerts } from "src/app/_states/alert.state";
 import { NotificationService } from "src/app/_services/notification.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { decodeToken } from "src/app/_pipes/functions";
 
 export interface iAppConfig {
@@ -49,6 +49,7 @@ export class FullComponent implements OnDestroy, OnInit {
         private titleService: Title,
         private apiService: APIService,
         private activatedRoute: ActivatedRoute,
+        private router: Router,
         private notificationService: NotificationService,
         changeDetectorRef: ChangeDetectorRef,
         media: MediaMatcher
@@ -118,6 +119,9 @@ export class FullComponent implements OnDestroy, OnInit {
 
                 // Set page title
                 this.titleService.setTitle(appConfig.name);
+
+                // Navigate to App Landing page
+                this.router.navigate([appConfig.landingpage]);
             }
         });
     }

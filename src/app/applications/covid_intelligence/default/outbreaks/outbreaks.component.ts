@@ -37,7 +37,6 @@ export const DeprivationColors = [
 @Component({
     selector: "app-outbreaks",
     templateUrl: "./outbreaks.component.html",
-    styleUrls: ["./outbreaks.component.scss"],
     animations: [collapseAnimations],
 })
 export class OutbreaksComponent implements OnInit {

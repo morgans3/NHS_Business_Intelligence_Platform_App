@@ -13,7 +13,6 @@ import { Moment } from "moment-timezone";
 @Component({
     selector: "app-mapping",
     templateUrl: "./mapping.component.html",
-    styleUrls: ["./mapping.component.css"],
 })
 export class MappingComponent implements OnInit {
     arrayBuffer: any;
