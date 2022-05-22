@@ -21,9 +21,10 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../../../shared/shared.module";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { DemoMaterialModule } from "src/app/demo-material-module";
 
 @NgModule({
-    imports: [CommonModule, SharedModule, FlexLayoutModule],
+    imports: [CommonModule, SharedModule, FlexLayoutModule, DemoMaterialModule],
     declarations: [AccessLogModalComponent],
 })
 export class AccessLogModalModule {}

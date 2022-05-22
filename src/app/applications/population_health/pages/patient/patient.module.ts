@@ -5,10 +5,10 @@ import { DemoMaterialModule } from "../../../../demo-material-module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { SharedModule } from "../../shared/shared.module";
 import { CrimeInformationComponent } from "./crime-information/crime-information.component";
 import { TheographComponent } from "./theograph/theograph.component";
 import { PatientComponent } from "./patient.component";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @NgModule({
     imports: [

@@ -31,14 +31,14 @@
         <mat-card-title>Map</mat-card-title>
 
         <div #mapGraph [ngStyle]="mapHeight">
-            <app-map
+            <app-sharedmap
                 [hidden]="!MapData && mapStyle.display !== 'block'"
                 [MapData]="MapData"
                 MapName="MapName"
                 [MapZoom]="MapZoom"
                 [MapCenter]="MapCenter"
                 [rerender]="mapRender"
-            ></app-map>
+            ></app-sharedmap>
         </div>
         <app-incidentLegend [input]="mapLegend"></app-incidentLegend>
     </mat-card-content>

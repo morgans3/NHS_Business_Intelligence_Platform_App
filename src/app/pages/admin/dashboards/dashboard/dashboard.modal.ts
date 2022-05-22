@@ -53,9 +53,10 @@ export class DashboardModalComponent implements OnInit {
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../../../shared/shared.module";
+import { DemoMaterialModule } from "src/app/demo-material-module";
 
 @NgModule({
-    imports: [CommonModule, SharedModule],
+    imports: [CommonModule, SharedModule, DemoMaterialModule],
     declarations: [DashboardModalComponent],
 })
 export class DashboardModalModule {}

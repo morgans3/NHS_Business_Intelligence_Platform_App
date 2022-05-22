@@ -182,14 +182,14 @@
             </mat-card-header>
             <mat-card-content>
                 <div #mapGraph [ngStyle]="mapHeight" *ngIf="blnShowMap">
-                    <app-map
+                    <app-sharedmap
                         [hidden]="!MapData && mapStyle.display !== 'block'"
                         [MapData]="MapData"
                         MapName="MapName"
                         [MapZoom]="MapZoom"
                         [MapCenter]="MapCenter"
                         [rerender]="mapRender"
-                    ></app-map>
+                    ></app-sharedmap>
                 </div>
                 <app-incidentLegend [input]="mapLegend"></app-incidentLegend>
             </mat-card-content>

@@ -18,14 +18,14 @@
     <div fxLayout="row wrap">
         <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <div #mapGraph [ngStyle]="mapHeight">
-                <app-map
+                <app-sharedmap
                     [hidden]="!MapData && mapStyle.display !== 'block'"
                     [MapData]="MapData"
                     MapName="MapName"
                     [MapZoom]="MapZoom"
                     [MapCenter]="MapCenter"
                     [rerender]="mapRender"
-                ></app-map>
+                ></app-sharedmap>
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <div #mapGraph [ngStyle]="mapHeight">
-    <app-map
+    <app-sharedmap
         [hidden]="!MapData && mapStyle.display !== 'block'"
         [MapData]="MapData"
         MapName="MapName"
@@ -7,7 +7,7 @@
         [MapCenter]="MapCenter"
         [rerender]="mapRender"
         (mapObject)="setMapObject($event)"
-    ></app-map>
+    ></app-sharedmap>
 </div>
 
 <div id="sidebar" class="leaflet-sidebar collapsed">

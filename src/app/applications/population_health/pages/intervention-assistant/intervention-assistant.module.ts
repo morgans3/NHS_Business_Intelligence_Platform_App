@@ -5,8 +5,8 @@ import { DemoMaterialModule } from "../../../../demo-material-module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { SharedModule } from "../../shared/shared.module";
 import { InterventionAssistantComponent } from "./intervention-assistant.component";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @NgModule({
     imports: [

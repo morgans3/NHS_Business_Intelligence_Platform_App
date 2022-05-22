@@ -5,7 +5,6 @@ import { latLng, tileLayer } from "leaflet";
 import * as L from "leaflet";
 import { legendColors } from "./colorlist";
 import { FormControl, FormGroup } from "@angular/forms";
-import { NotificationService } from "src/app/_services/notification.service";
 import { MapData } from "../../Incidents/IncidentForm/findlocation/findlocation.component";
 import { iExcelWorkBook } from "src/app/_models/excel.interface";
 import { iMappingDashboard } from "src/app/_models/mapping.interface";
@@ -57,7 +56,7 @@ export class MappingComponent implements OnInit {
         datasets: [],
     };
 
-    constructor(private notificationService: NotificationService) {}
+    constructor() {}
 
     ngOnInit() {
         this.range.valueChanges.subscribe(() => {

@@ -12,6 +12,7 @@ import { MappingComponent } from "./mapping/mapping.component";
 import { WorksheetComponent } from "./mapping/worksheet/worksheet.component";
 import { MaterialModule } from "diu-component-library";
 import { MainPipe } from "src/app/_pipes/main-pipe.module";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import { MainPipe } from "src/app/_pipes/main-pipe.module";
         LeafletModule,
         LeafletDrawModule,
         DefaultModule,
+        SharedModule,
     ],
     declarations: [MappingComponent, WorksheetComponent],
     entryComponents: [],

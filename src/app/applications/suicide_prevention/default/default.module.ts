@@ -17,10 +17,9 @@ import { IncidentLegendComponent } from "./Landing/incidentLegend/incidentLegend
 import { FindMosaicComponent } from "./Incidents/IncidentForm/findMosaic/findMosaic.component";
 import { ExpandTextDialogComponent } from "./modals/dialogexpand";
 import { MainPipe } from "src/app/_pipes/main-pipe.module";
-import { MapComponent } from "../_components/map.component";
-import { StatCardComponent } from "../_components/stat-card.component";
 import { MaterialComponentsModule } from "src/app/material-component/material.module";
 import { MaterialModule } from "diu-component-library";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @NgModule({
     imports: [
@@ -34,6 +33,7 @@ import { MaterialModule } from "diu-component-library";
         MainPipe,
         LeafletModule,
         LeafletDrawModule,
+        SharedModule,
     ],
     declarations: [
         LandingComponent,
@@ -46,10 +46,8 @@ import { MaterialModule } from "diu-component-library";
         IncidentLegendComponent,
         ExpandTextDialogComponent,
         FindMosaicComponent,
-        MapComponent,
-        StatCardComponent,
     ],
     entryComponents: [AddMedicationDialogComponent, ExpandTextDialogComponent],
-    exports: [IncidentLegendComponent, MapComponent],
+    exports: [IncidentLegendComponent],
 })
 export class DefaultModule {}

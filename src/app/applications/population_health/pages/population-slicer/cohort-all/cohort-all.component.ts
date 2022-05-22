@@ -5,7 +5,7 @@ import { Cohort, APIService, iTeam } from "diu-component-library";
 import { Store } from "@ngxs/store";
 import { AuthState } from "../../../../../_states/auth.state";
 import { NotificationService } from "../../../../../_services/notification.service";
-import { ConfirmText, ConfirmTextDialogComponent } from "../../../shared/modals/textconfirm/dialogtextconfirm";
+import { ConfirmText, ConfirmTextDialogComponent } from "../../../../../shared/modals/textconfirm/dialogtextconfirm";
 import { Router } from "@angular/router";
 import { generateID, decodeToken } from "../../../../../_pipes/functions";
 

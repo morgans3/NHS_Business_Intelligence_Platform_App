@@ -5,13 +5,13 @@ import { DemoMaterialModule } from "../../../../demo-material-module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { SharedModule } from "../../shared/shared.module";
 import { JoyrideModule } from "ngx-joyride";
 import { CohortAllComponent } from "./cohort-all/cohort-all.component";
 import { VerifiyDialogComponent } from "./UserValidation/dialogverifiy";
 import { ValidateDialogComponent } from "./UserValidation/dialogvalidate";
 import { UserValidationComponent } from "./UserValidation/UserValidation.component";
 import { PopslicerComponent } from "./popslicer.component";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @NgModule({
     imports: [

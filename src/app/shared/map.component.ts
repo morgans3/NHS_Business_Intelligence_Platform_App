@@ -2,7 +2,6 @@
 import { Component, Input, Output, EventEmitter, AfterViewChecked, ChangeDetectorRef, OnInit, OnChanges } from "@angular/core";
 import { latLng, tileLayer, TileLayer, LatLng } from "leaflet";
 import * as L from "leaflet";
-import "leaflet-draw";
 
 export class MapData {
     layers?: any;
@@ -11,28 +10,29 @@ export class MapData {
 }
 
 export class MapDataOptions {
-    layers?: TileLayer[];
+    layers: TileLayer[];
     zoom: number;
     center: LatLng;
 }
 
 @Component({
-    selector: "app-map",
-    template: `
-        <div
-            [id]="MapName"
-            class="leafletmap"
-            leaflet
-            leafletDraw
-            [leafletLayers]="inMapData.layers || null"
-            [(leafletZoom)]="zoom"
-            [(leafletCenter)]="center"
-            (leafletMapZoomEnd)="handleMapZoomEnd($event)"
-            (leafletMapMoveEnd)="handleMapCenterEnd($event)"
-            (leafletMapReady)="onMapReady($event)"
-            (leafletDrawStop)="drawStopped($event)"
-        ></div>
-    `,
+    selector: "app-sharedmap",
+    template: `<div
+        *ngIf="MapData"
+        [id]="MapName"
+        class="leafletmap"
+        leaflet
+        leafletDraw
+        [leafletOptions]="defaultoptions"
+        [leafletDrawOptions]="drawOptions"
+        [leafletLayers]="inMapData.layers || null"
+        [(leafletZoom)]="zoom"
+        [(leafletCenter)]="center"
+        (leafletMapZoomEnd)="handleMapZoomEnd($event)"
+        (leafletMapMoveEnd)="handleMapCenterEnd($event)"
+        (leafletMapReady)="onMapReady($event)"
+        (leafletDrawStop)="drawStopped($event)"
+    ></div> `,
     styles: [],
 })
 export class MapComponent implements OnInit, OnChanges, AfterViewChecked {
@@ -53,7 +53,6 @@ export class MapComponent implements OnInit, OnChanges, AfterViewChecked {
     mapreference: any;
     inMapData: MapData;
     drawOptions = {
-        position: "none",
         draw: {
             marker: {
                 icon: L.icon({
@@ -71,22 +70,19 @@ export class MapComponent implements OnInit, OnChanges, AfterViewChecked {
             },
         },
     };
+    @Output() mapObject = new EventEmitter();
 
-    get defaultoptions() {
-        return (
-            this.inMapData.options || {
-                layers: [
-                    tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                        maxZoom: 12,
-                        minZoom: 8,
-                        attribution: "...",
-                    }),
-                ],
-                zoom: 10,
-                center: latLng(53.789995, -3.024889),
-            }
-        );
-    }
+    defaultoptions = {
+        layers: [
+            tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                maxZoom: 12,
+                minZoom: 8,
+                attribution: "...",
+            }),
+        ],
+        zoom: 10,
+        center: latLng(53.789995, -3.024889),
+    };
 
     constructor(private changeDetector: ChangeDetectorRef) {}
 
@@ -104,6 +100,10 @@ export class MapComponent implements OnInit, OnChanges, AfterViewChecked {
     ngOnChanges() {
         if (this.MapData && this.MapData !== this.inMapData) {
             this.inMapData = this.MapData;
+            if (this.MapData.options && this.defaultoptions !== this.MapData.options) {
+                this.defaultoptions = this.MapData.options;
+                this.changeTileLayer();
+            }
             this.changeDetector.detectChanges();
         }
         if (this.oldzoom !== this.MapZoom) {
@@ -128,6 +128,20 @@ export class MapComponent implements OnInit, OnChanges, AfterViewChecked {
 
     ngAfterViewChecked() {
         this.changeDetector.detectChanges();
+    }
+
+    changeTileLayer() {
+        if (this.mapreference) {
+            this.mapreference.eachLayer((layer) => {
+                if (layer.options && layer.options.attribution) {
+                    this.mapreference.removeLayer(layer);
+                }
+            });
+            this.mapreference.addLayer(this.defaultoptions.layers[0]);
+            setTimeout(() => {
+                this.mapreference.invalidateSize();
+            }, 200);
+        }
     }
 
     handleMapZoomEnd(map: L.Map): void {
@@ -188,6 +202,7 @@ export class MapComponent implements OnInit, OnChanges, AfterViewChecked {
 
     onMapReady(map) {
         this.mapreference = map;
+        this.mapObject.emit(map);
     }
 
     updateZoom() {
@@ -202,6 +217,5 @@ export class MapComponent implements OnInit, OnChanges, AfterViewChecked {
 
     drawStopped(event) {
         console.log(event);
-        // TODO: handle draw event
     }
 }

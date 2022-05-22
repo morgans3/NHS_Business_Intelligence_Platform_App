@@ -78,7 +78,7 @@
         <mat-card style="margin: 1px">
             <mat-card-content style="padding: 0px">
                 <div #mapGraph [ngStyle]="mapHeight">
-                    <app-map
+                    <app-sharedmap
                         *ngIf="MosaicMap"
                         [MapData]="MosaicMap"
                         (ZoomChange)="zoomChange($event, 'primary')"
@@ -86,7 +86,7 @@
                         MapName="MapOne"
                         [MapZoom]="MapOneZoom"
                         [MapCenter]="MapOneCenter"
-                    ></app-map>
+                    ></app-sharedmap>
                 </div>
 
                 <div fxLayout="row wrap">
@@ -132,7 +132,7 @@
         <mat-card style="margin: 1px">
             <mat-card-content style="padding: 0px">
                 <div #mapGraph [ngStyle]="mapHeight">
-                    <app-map
+                    <app-sharedmap
                         [hidden]="!MosaicMapTwo && mapTwoStyle.display !== 'block'"
                         [MapData]="MosaicMapTwo"
                         (ZoomChange)="zoomChange($event, 'secondary')"
@@ -141,7 +141,7 @@
                         [MapZoom]="MapTwoZoom"
                         [MapCenter]="MapTwoCenter"
                         [rerender]="mapTwoRender"
-                    ></app-map>
+                    ></app-sharedmap>
                 </div>
 
                 <div fxLayout="row wrap">

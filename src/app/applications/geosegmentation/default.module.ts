@@ -12,6 +12,7 @@ import { ComponentsModule } from "./shared/components/components.module";
 
 import { HomeComponent } from "./pages/home/home.component";
 import { AdminComponent } from "./pages/admin/admin.component";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @NgModule({
     imports: [
@@ -24,6 +25,7 @@ import { AdminComponent } from "./pages/admin/admin.component";
         MainPipe,
         ExcelModule,
         ComponentsModule,
+        SharedModule,
     ],
     declarations: [HomeComponent, AdminComponent],
 })

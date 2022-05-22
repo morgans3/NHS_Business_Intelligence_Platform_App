@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NotificationService } from "../../../../../_services/notification.service";
-import { StatCardData } from "../../../shared/components/stat-card/stat-card.component";
+import { StatCardData } from "../../../../../shared/stat-card.component";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";

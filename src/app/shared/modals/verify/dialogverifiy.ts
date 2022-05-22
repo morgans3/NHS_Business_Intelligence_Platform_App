@@ -3,8 +3,8 @@ import { Component, Inject } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Store } from "@ngxs/store";
 import { APIService } from "diu-component-library";
-import { NotificationService } from "../../../../../_services/notification.service";
-import { ManualSetAuthTokens } from "../../../../../_states/auth.state";
+import { NotificationService } from "src/app/_services/notification.service";
+import { ManualSetAuthTokens } from "src/app/_states/auth.state";
 
 @Component({
     selector: "dialog-verifiy",

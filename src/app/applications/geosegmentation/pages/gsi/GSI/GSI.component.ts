@@ -22,8 +22,8 @@ import { PoliceService } from "../../../_services/police.service";
 import { CrimeCategoryColors } from "./colorlists";
 import { Crime } from "../../../_models/police";
 import { APIService, FeatureCollection } from "diu-component-library";
-import { MapData } from "src/app/applications/covid_intelligence/default/patient/minimap/map.component.js";
-import { environment } from "src/environments/environment.js";
+import { MapData } from "src/app/shared/map.component";
+import { environment } from "src/environments/environment";
 
 @Component({
     selector: "app-GSI",

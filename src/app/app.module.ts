@@ -48,6 +48,7 @@ import { StorageService } from "./_services/storage.service";
 import { RequestInterceptor } from "./_services/requestinterceptor.service";
 import { environment } from "src/environments/environment";
 import { CwrErrorHandler } from "./cwr-error-handler";
+import { DemoMaterialModule } from "./demo-material-module";
 
 @NgModule({
     declarations: [
@@ -90,6 +91,7 @@ import { CwrErrorHandler } from "./cwr-error-handler";
             disabled: true,
         }),
         MaterialModule,
+        DemoMaterialModule,
         MatDatepickerModule,
         MatMomentDateModule,
         MatDatetimepickerModule,

@@ -44,10 +44,10 @@ import { NSSSComponent } from "./nsss/nsss.component";
 import { NeedListComponent } from "./need-list/need-list.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { MinimapComponent } from "./patient/minimap/minimap.component";
-import { MapComponent } from "./patient/minimap/map.component";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { CviCohortService } from "../_services/cvicohort-service";
-import { SharedModule } from "../shared/shared.module";
+import { MaterialModule } from "diu-component-library";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @NgModule({
     imports: [
@@ -57,6 +57,7 @@ import { SharedModule } from "../shared/shared.module";
         ReactiveFormsModule,
         FormsModule,
         DemoMaterialModule,
+        MaterialModule,
         FlexLayoutModule,
         MainPipe,
         JoyrideModule.forRoot(),
@@ -100,10 +101,8 @@ import { SharedModule } from "../shared/shared.module";
         HeatmapComponent,
         NSSSComponent,
         MinimapComponent,
-        MapComponent,
     ],
-    entryComponents: [ExpandTextDialogComponent, ConfirmDialogComponent, ConfirmTextDialogComponent, NumberDialogComponent, MapComponent],
-    exports: [MapComponent],
+    entryComponents: [ExpandTextDialogComponent, ConfirmDialogComponent, ConfirmTextDialogComponent, NumberDialogComponent],
     providers: [CviCohortService],
 })
 export class DefaultModule {}

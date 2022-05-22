@@ -8,7 +8,6 @@ import { DemoMaterialModule } from "../../demo-material-module";
 import { MainPipe } from "../../_pipes/main-pipe.module";
 
 import { DefaultRoutes } from "./default.routing";
-import { SharedModule } from "./shared/shared.module";
 import { SettingsComponent } from "./pages/settings/settings.component";
 
 @NgModule({
@@ -20,7 +19,6 @@ import { SettingsComponent } from "./pages/settings/settings.component";
         DemoMaterialModule,
         FlexLayoutModule,
         MainPipe,
-        SharedModule,
     ],
     declarations: [SettingsComponent],
 })

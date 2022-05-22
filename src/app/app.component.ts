@@ -26,8 +26,8 @@ export class AppComponent implements OnInit {
                 mergeMap((route) => route.data)
             )
             .subscribe((routeData) => {
+                // TODO: review need for console logs
                 const awsTrackable = routeData["awsTrackable"] || null;
-                console.log(awsTrackable, routeData);
                 if (awsTrackable && awsTrackable === true) {
                     cwr("recordPageView", this.router.url);
                     console.log("Page view recorded");

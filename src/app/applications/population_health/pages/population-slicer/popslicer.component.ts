@@ -22,10 +22,10 @@ import * as d3 from "d3";
 import { Store } from "@ngxs/store";
 import { AuthState } from "../../../../_states/auth.state";
 import { collapseAnimations } from "../../../../shared/animations";
-import { ExpandTextDialogComponent } from "../../shared/modals/expand/dialogexpand";
+import { ExpandTextDialogComponent } from "../../../../shared/modals/expand/dialogexpand";
 import { NotificationService } from "../../../../_services/notification.service";
-import { StatCardData } from "../../shared/components/stat-card/stat-card.component";
 import { environment } from "src/environments/environment";
+import { StatCardData } from "src/app/shared/stat-card.component";
 
 declare let leafletChoroplethChart: any;
 declare let leafletLegend: any;

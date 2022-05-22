@@ -4,10 +4,10 @@ import { APIService, Cohort, MosaicCode, FeatureCollection, PopulationManagement
 import { Store } from "@ngxs/store";
 import { AuthState } from "../../../../_states/auth.state";
 import { NotificationService } from "../../../../_services/notification.service";
-import { StatCardData } from "../../shared/components/stat-card/stat-card.component";
 import { decodeToken } from "../../../../_pipes/functions";
 import * as d3 from "d3";
 import * as L from "leaflet";
+import { StatCardData } from "src/app/shared/stat-card.component";
 
 export class CompTableItem {
     chart: string;

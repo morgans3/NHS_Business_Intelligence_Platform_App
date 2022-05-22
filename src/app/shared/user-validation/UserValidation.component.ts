@@ -1,12 +1,12 @@
 import { Component, Output, EventEmitter, OnInit } from "@angular/core";
 import { Store } from "@ngxs/store";
 import { MatDialog } from "@angular/material/dialog";
-import { ValidateDialogComponent } from "../../modals/validate/dialogvalidate";
-import { VerifiyDialogComponent } from "../../modals/verify/dialogverifiy";
 import { APIService } from "diu-component-library";
-import { NotificationService } from "../../../../../_services/notification.service";
-import { AuthState, ManualSetAuthTokens } from "../../../../../_states/auth.state";
-import { decodeToken } from "../../../../../_pipes/functions";
+import { NotificationService } from "src/app/_services/notification.service";
+import { AuthState, ManualSetAuthTokens } from "src/app/_states/auth.state";
+import { decodeToken } from "src/app/_pipes/functions";
+import { ValidateDialogComponent } from "../modals/validate/dialogvalidate";
+import { VerifiyDialogComponent } from "../modals/verify/dialogverifiy";
 
 @Component({
     selector: "app-UserValidation",

@@ -14,7 +14,7 @@ import { StatCardData } from "src/app/_models/SPI_Lookups";
 import { MosaicColours, MosaicDomain } from "src/app/_models/mosaiccode";
 import { StorageService } from "src/app/_services/storage.service";
 import { APIService } from "diu-component-library";
-import { MapData } from "../_components/map.component";
+import { MapData } from "../../../shared/map.component";
 import { ExpandTextDialogComponent } from "../../covid_intelligence/_modals/dialogexpand";
 import { environment } from "src/environments/environment";
 declare let window: any;

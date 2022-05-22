@@ -19,6 +19,7 @@ import { PolygonListComponent } from "./GSI/polygonList/polygonList.component";
 import { SavingViewsComponent } from "./GSI/savingViews/savingViews.component";
 import { CrimeFunctionsComponent } from "./GSI/crimeFunctions/crimeFunctions.component";
 import { CrimeLegendComponent } from "./GSI/crimeLegend/crimeLegend.component";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @NgModule({
     imports: [
@@ -32,6 +33,7 @@ import { CrimeLegendComponent } from "./GSI/crimeLegend/crimeLegend.component";
         ChartistModule,
         JoyrideModule.forRoot(),
         ComponentsModule,
+        SharedModule,
     ],
     declarations: [
         GSIComponent,
