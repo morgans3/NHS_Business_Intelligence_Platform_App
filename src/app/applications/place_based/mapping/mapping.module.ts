@@ -19,6 +19,7 @@ import { MapfiltersComponent } from "./mapping/panels/mapfilters/mapfilters.comp
 import { SavedviewsComponent } from "./mapping/panels/savedviews/savedviews.component";
 import { MarkeroptionsComponent } from "./mapping/panels/mapfilters/markeroptions/markeroptions.component";
 import { SharedModule } from "src/app/shared/shared.module";
+import { DemoMaterialModule } from "src/app/demo-material-module";
 
 @NgModule({
     imports: [
@@ -27,6 +28,7 @@ import { SharedModule } from "src/app/shared/shared.module";
         ReactiveFormsModule,
         FormsModule,
         MaterialModule,
+        DemoMaterialModule,
         FlexLayoutModule,
         MainPipe,
         LeafletModule,

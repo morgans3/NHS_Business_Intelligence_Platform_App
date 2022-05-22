@@ -32,6 +32,7 @@ export class MapsettingsComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         this.loadDefault();
+        console.log(this.mapTypes);
     }
 
     setCenter() {

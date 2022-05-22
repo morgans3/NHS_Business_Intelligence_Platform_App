@@ -15,4 +15,4 @@ Contains text:
 
 <h6 class="margin-block-none">Markers on Map</h6>
 
-<app-markeroptions [data]="markerData" [mapreference]="mapreference"></app-markeroptions>
+<app-markeroptions *ngIf="mapreference" [data]="markerData" [mapreference]="mapreference"></app-markeroptions>
