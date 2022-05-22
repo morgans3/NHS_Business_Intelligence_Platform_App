@@ -80,7 +80,7 @@ export class TeamMembersComponent implements OnInit, OnChanges {
             const user = this.outstanding.filter((x) => x.username === person.username);
             const index = this.outstanding.indexOf(user[0]);
             if (user) {
-                const payload = user[0]["_id"];
+                const payload = user[0];
                 this.apiService.archiveTeamRequest(payload).subscribe((res: any) => {
                     if (res.success) {
                         this.outstanding.splice(index, 1);

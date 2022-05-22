@@ -18,7 +18,6 @@ declare let window: any;
 @Component({
     selector: "app-Regional",
     templateUrl: "./Regional.component.html",
-    styleUrls: ["./Regional.component.scss"],
     animations: [collapseAnimations],
 })
 export class RegionalComponent implements OnInit {

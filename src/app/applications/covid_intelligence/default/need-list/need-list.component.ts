@@ -8,12 +8,10 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/dr
 import { ToastrService } from "ngx-toastr";
 import { JoyrideService } from "ngx-joyride";
 import { Subject } from "rxjs";
-import { Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { AuthState } from "../../../../_states/auth.state";
 import { APIService } from "diu-component-library";
 import { decodeToken } from "../../../../_pipes/functions";
-import { CviCohortService } from "../../_services/cvicohort-service";
 import { environment } from "src/environments/environment";
 declare let window: any;
 
@@ -111,47 +109,17 @@ export class NeedListComponent implements OnInit {
     private height: number;
     private width: number;
     private x: any;
-    private x1: any;
-    private x2: any;
     private y: any;
     private svg: any;
     private g: any;
-    private line: any;
     private tooltip: any;
-    private roc_pr_height: number;
-    private roc_pr_width: number;
     public roc_pr_x: any;
     public roc_pr_y: any;
-    private roc_pr_svg: any;
-    private roc_pr_g: any;
-    private roc_pr_line: any;
-    private focus: any;
-    private var_imp_x: any;
-    private var_imp_y: any;
-    private var_imp_svg: any;
-    private var_imp_g: any;
-    private var_imp_bar: any;
-    private var_imp_width: any;
-    private var_imp_height: any;
-    private hist_margin = { top: 20, right: 20, bottom: 40, left: 80 };
-    private hist_height: number;
-    private hist_width: number;
     public hist_x: any;
     public hist_y: any;
-    private hist_svg: any;
-    private hist_g: any;
-    private hist_bar: any;
-    private hist_line: any;
-    private scatter_x: any;
-    private scatter_y: any;
-    private scatter_svg: any;
-    private scatter_g: any;
-    private scatter_point: any;
-    private scatter_width: any;
-    private scatter_height: any;
-    private binwidth = 2;
     private tokenDecoded: any;
     private practiceList: [];
+    line: any;
     selected_ccg = this.ccg_list;
     selected_training = this.training_groups["area"];
     minData = true;
@@ -160,8 +128,6 @@ export class NeedListComponent implements OnInit {
     constructor(
         public http: HttpClient,
         private toastr: ToastrService,
-        private router: Router,
-        private cviCohortsService: CviCohortService,
         private readonly joyrideService: JoyrideService,
         private apiService: APIService,
         private store: Store
@@ -329,11 +295,6 @@ export class NeedListComponent implements OnInit {
 
     get_pcn() {
         const http_request = "https://need." + environment.websiteURL + "/get_ccg_pcn_list";
-
-        // http_request = "'" +
-        //   http_request +
-        //   this.ccg_list.join("','") +
-        //   "'";
 
         // Send API call and save/plot returned data
         this.http
@@ -805,7 +766,7 @@ export class NeedListComponent implements OnInit {
         const token = this.store.selectSnapshot(AuthState.getToken);
         if (token) {
             this.tokenDecoded = decodeToken(token);
-            this.cviCohortsService.get({ username: this.tokenDecoded.username }).subscribe((res: any[]) => {
+            this.apiService.getCVICohortsByUsername(this.tokenDecoded.username).subscribe((res: any[]) => {
                 this.cohort_array = res;
                 this.cohort_array.forEach((d) => {
                     this.cohort_names.push("Cohort " + (d.cohortName as string));
