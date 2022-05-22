@@ -26,7 +26,6 @@ import { OutbreaksComponent } from "./outbreaks/outbreaks.component";
 import { LimitsettingComponent } from "./patient-list/limitsetting/limitsetting.component";
 import { NumberDialogComponent } from "./patient-list/limitsetting/dialognumber";
 import { PopulationselectComponent } from "./populationselect/populationselect.component";
-import { CovidtestsComponent } from "./patient/covidtests/covidtests.component";
 import { ConditionsComponent } from "./patient/conditions/conditions.component";
 import { CitizenlistsComponent } from "./patient/citizenlists/citizenlists.component";
 import { LpresviewerComponent } from "./patient/lpresviewer/lpresviewer.component";
@@ -45,7 +44,6 @@ import { NeedListComponent } from "./need-list/need-list.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { MinimapComponent } from "./patient/minimap/minimap.component";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
-import { CviCohortService } from "../_services/cvicohort-service";
 import { MaterialModule } from "diu-component-library";
 import { SharedModule } from "src/app/shared/shared.module";
 
@@ -87,7 +85,6 @@ import { SharedModule } from "src/app/shared/shared.module";
         LimitsettingComponent,
         NumberDialogComponent,
         PopulationselectComponent,
-        CovidtestsComponent,
         ConditionsComponent,
         CitizenlistsComponent,
         LpresviewerComponent,
@@ -103,6 +100,6 @@ import { SharedModule } from "src/app/shared/shared.module";
         MinimapComponent,
     ],
     entryComponents: [ExpandTextDialogComponent, ConfirmDialogComponent, ConfirmTextDialogComponent, NumberDialogComponent],
-    providers: [CviCohortService],
+    providers: [],
 })
 export class DefaultModule {}

@@ -166,7 +166,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
         if (this.invitees.includes(person)) {
             const request = this.teamrequests.filter((x) => x.username === person.username);
             if (request) {
-                const payload = request[0]["_id"];
+                const payload = request[0];
                 // request[0].isArchived = true;
                 this.apiService.archiveTeamRequest(payload).subscribe((res: any) => {
                     if (res.success) {

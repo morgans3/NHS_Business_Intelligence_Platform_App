@@ -28,20 +28,20 @@ export class PasswordResetVerifyComponent implements OnInit {
     }
 
     verify() {
-        this.apiService.verifyResetPasswordCode(this.user.username, this.user.organisation.authmethod, this.form.value.code).subscribe(
-            (res: any) => {
-                if (res && res.success === false) {
-                    this.notificationService.error(res.msg);
-                } else {
-                    this.user.code = this.form.value.code;
-                    this.passwordResetService.userSource.next(this.user);
-
-                    this.passwordResetService.nextStep();
-                }
-            },
-            (error) => {
-                this.notificationService.error(error);
-            }
-        );
+        // TODO: This needs a new API call
+        // this.apiService.verifyResetPasswordCode(this.user.username, this.user.organisation.authmethod, this.form.value.code).subscribe(
+        //     (res: any) => {
+        //         if (res && res.success === false) {
+        //             this.notificationService.error(res.msg);
+        //         } else {
+        //             this.user.code = this.form.value.code;
+        //             this.passwordResetService.userSource.next(this.user);
+        //             this.passwordResetService.nextStep();
+        //         }
+        //     },
+        //     (error) => {
+        //         this.notificationService.error(error);
+        //     }
+        // );
     }
 }

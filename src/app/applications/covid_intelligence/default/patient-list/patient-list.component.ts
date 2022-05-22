@@ -11,7 +11,6 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { decodeToken } from "../../../../_pipes/functions";
-import { CviCohortService } from "../../_services/cvicohort-service";
 
 @Component({
     selector: "app-patient-list",
@@ -46,7 +45,6 @@ export class PatientListComponent implements OnInit {
     cohorturl: string;
 
     constructor(
-        private cviCohortsService: CviCohortService,
         private apiService: APIService,
         private router: Router,
         public store: Store,
@@ -55,7 +53,7 @@ export class PatientListComponent implements OnInit {
         const token = this.store.selectSnapshot(AuthState.getToken);
         if (token) {
             this.tokenDecoded = decodeToken(token);
-            this.cviCohortsService.get({ username: this.tokenDecoded.username }).subscribe((res: Cohort[]) => {
+            this.apiService.getCVICohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
                 res.forEach((item) => {
                     if (item.cohorturl.length < 3) {
                         item.cohorturl = "{}";
@@ -69,17 +67,6 @@ export class PatientListComponent implements OnInit {
                     }
                 });
                 this.allcohorts = res.sort();
-            });
-            this.cviCohortsService.get({ username: this.tokenDecoded.username }).subscribe((res: Caseload[]) => {
-                this.mycaseloads = res.sort((a, b) => {
-                    if (a.caseloadName < b.caseloadName) {
-                        return -1;
-                    }
-                    if (a.caseloadName > b.caseloadName) {
-                        return 1;
-                    }
-                    return 0;
-                });
             });
         }
     }

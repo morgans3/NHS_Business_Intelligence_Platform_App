@@ -31,20 +31,20 @@ export class PasswordResetRequestComponent implements OnInit {
     }
 
     submit() {
-        this.apiService.requestResetPasswordCode(this.form.value.username, this.form.value.organisation.authmethod).subscribe(
-            () => {
-                this.passwordResetService.userSource.next({
-                    username: this.form.value.username,
-                    organisation: this.form.value.organisation,
-                    code: null,
-                });
-
-                this.passwordResetService.nextStep();
-            },
-            (error) => {
-                this.notificationService.error(error);
-            }
-        );
+        // TODO: This needs a new API call
+        // this.apiService.requestResetPasswordCode(this.form.value.username, this.form.value.organisation.authmethod).subscribe(
+        //     () => {
+        //         this.passwordResetService.userSource.next({
+        //             username: this.form.value.username,
+        //             organisation: this.form.value.organisation,
+        //             code: null,
+        //         });
+        //         this.passwordResetService.nextStep();
+        //     },
+        //     (error) => {
+        //         this.notificationService.error(error);
+        //     }
+        // );
     }
 
     getOrganisations() {

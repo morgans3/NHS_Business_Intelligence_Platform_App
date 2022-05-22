@@ -8,7 +8,6 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { AuthState } from "../../../../_states/auth.state";
 import { decodeToken } from "../../../../_pipes/functions";
-import { CviCohortService } from "../../_services/cvicohort-service";
 
 @Component({
     selector: "app-intervention-assistant",
@@ -71,18 +70,13 @@ export class InterventionAssistantComponent implements OnInit {
     nice_secondary_columns: string[] = ["Title", "Abstract", "EvidenceTypes", "SourceName"];
     nice_primary_columns: string[] = ["Title"];
     // this.selected_type && this.selected_type.name === 'primary'
-    constructor(
-        public http: HttpClient,
-        private store: Store,
-        private apiService: APIService,
-        private cviCohortsService: CviCohortService
-    ) {}
+    constructor(public http: HttpClient, private store: Store, private apiService: APIService) {}
 
     ngOnInit() {
         const token = this.store.selectSnapshot(AuthState.getToken);
         if (token) {
             this.tokenDecoded = decodeToken(token);
-            this.cviCohortsService.get({ username: this.tokenDecoded.username }).subscribe((res: Cohort[]) => {
+            this.apiService.getCVICohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
                 this.cohort_array = res;
             });
         }

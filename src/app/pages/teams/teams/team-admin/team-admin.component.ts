@@ -41,19 +41,20 @@ export class TeamAdminComponent implements OnInit, OnChanges {
     }
 
     getTeamRoles() {
-        this.apiService.getRolesByTeamcode(this.team.code).subscribe((res: any) => {
-            this.roles = [];
-            if (res) {
-                res.forEach((role) => {
-                    const currentRole = role;
-                    Object.keys(currentRole.role).forEach((key) => {
-                        currentRole.name = key;
-                        currentRole.status = currentRole.role[key];
-                    });
-                    this.roles.push(currentRole);
-                });
-            }
-        });
+        // TODO: switch to new roles
+        // this.apiService.getRolesByTeamcode(this.team.code).subscribe((res: any) => {
+        //     this.roles = [];
+        //     if (res) {
+        //         res.forEach((role) => {
+        //             const currentRole = role;
+        //             Object.keys(currentRole.role).forEach((key) => {
+        //                 currentRole.name = key;
+        //                 currentRole.status = currentRole.role[key];
+        //             });
+        //             this.roles.push(currentRole);
+        //         });
+        //     }
+        // });
     }
 
     getInstallations() {
@@ -109,14 +110,8 @@ export class TeamAdminComponent implements OnInit, OnChanges {
         }
     }
     removeTeamRole(role) {
-        this.apiService.removeTeamRole(role).subscribe((res: any) => {
-            if (res.success) {
-                this.notificationService.success(res.msg);
-            } else {
-                this.notificationService.warning(res.msg);
-            }
-            this.getTeamRoles();
-        });
+        console.log(role);
+        // TODO: Handle remove role from team
     }
 
     addTeamRole(role) {

@@ -12,7 +12,6 @@ import { APIService } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
 import { AuthState } from "../../../../_states/auth.state";
 import { StatCardData } from "../Regional/stat-card.component";
-import { CviCohortService } from "../../_services/cvicohort-service";
 
 export class CompTableItem {
     chart: string;
@@ -88,13 +87,12 @@ export class CohortcompareComponent implements OnInit {
         private store: Store,
         private notificationService: NotificationService,
         private populationManagementService: PopulationManagementService,
-        private cviCohortsService: CviCohortService,
         private apiService: APIService
     ) {
         const token = this.store.selectSnapshot(AuthState.getToken);
         if (token) {
             this.tokenDecoded = decodeToken(token);
-            this.cviCohortsService.get({ username: this.tokenDecoded.username }).subscribe((res: Cohort[]) => {
+            this.apiService.getCVICohortsByUsername(this.tokenDecoded.username).subscribe((res: Cohort[]) => {
                 res.forEach((item) => {
                     if (item.cohorturl.length < 3) {
                         item.cohorturl = "{}";
