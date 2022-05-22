@@ -15,6 +15,7 @@ import { ConfirmTextDialogComponent } from "./modals/textconfirm/dialogtextconfi
 import { UserValidationComponent } from "./user-validation/UserValidation.component";
 import { VerifiyDialogComponent } from "./modals/verify/dialogverifiy";
 import { ValidateDialogComponent } from "./modals/validate/dialogvalidate";
+import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 
 @NgModule({
     declarations: [
@@ -37,6 +38,7 @@ import { ValidateDialogComponent } from "./modals/validate/dialogvalidate";
         DemoMaterialModule,
         RouterModule,
         MainPipe,
+        LeafletModule,
     ],
     exports: [
         DemoMaterialModule,

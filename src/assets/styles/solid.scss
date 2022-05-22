@@ -1,5 +1,6 @@
 // Variables
 // --------------------------
+@use "sass:math";
 
 $fa-font-path: "" !default;
 $fa-font-size-base: 16px !default;
@@ -9,22 +10,23 @@ $fa-version: "5.15.4" !default;
 $fa-border-color: #eee !default;
 $fa-inverse: #fff !default;
 $fa-li-width: 2em !default;
-$fa-fw-width: (20em / 16);
+$fa-fw-width: math.div(20em, 16);
 $fa-primary-opacity: 1 !default;
 $fa-secondary-opacity: 0.4 !default;
 
 @font-face {
-  font-family: "Font Awesome 5 Pro";
-  font-style: normal;
-  font-weight: 900;
-  font-display: $fa-font-display;
-  src: url("#{$fa-font-path}/fa-solid-900.eot");
-  src: url("#{$fa-font-path}/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("#{$fa-font-path}/fa-solid-900.woff2") format("woff2"), url("#{$fa-font-path}/fa-solid-900.woff") format("woff"), url("#{$fa-font-path}/fa-solid-900.ttf") format("truetype"),
-    url("#{$fa-font-path}/fa-solid-900.svg#fontawesome") format("svg");
+    font-family: "Font Awesome 5 Pro";
+    font-style: normal;
+    font-weight: 900;
+    font-display: $fa-font-display;
+    src: url("#{$fa-font-path}/fa-solid-900.eot");
+    src: url("#{$fa-font-path}/fa-solid-900.eot?#iefix") format("embedded-opentype"),
+        url("#{$fa-font-path}/fa-solid-900.woff2") format("woff2"), url("#{$fa-font-path}/fa-solid-900.woff") format("woff"),
+        url("#{$fa-font-path}/fa-solid-900.ttf") format("truetype"), url("#{$fa-font-path}/fa-solid-900.svg#fontawesome") format("svg");
 }
 
 .fa,
 .fas {
-  font-family: "Font Awesome 5 Pro";
-  font-weight: 900;
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 900;
 }

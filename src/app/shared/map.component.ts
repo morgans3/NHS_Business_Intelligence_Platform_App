@@ -38,12 +38,25 @@ export class MapDataOptions {
 export class MapComponent implements OnInit, OnChanges, AfterViewChecked {
     @Input() rerender?: boolean;
     rerendertrigger = false;
-    @Input() MapData?: MapData;
-    @Input() MapName: string;
-    @Input() MapZoom: number;
+    @Input() MapData: MapData = {
+        options: {
+            layers: [
+                tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                    maxZoom: 18,
+                    minZoom: 8,
+                    attribution: "...",
+                }),
+            ],
+            zoom: 9,
+            center: latLng(53.838759, -2.909497),
+        },
+        layers: [],
+    };
+    @Input() MapName = "Map";
+    @Input() MapZoom = 9;
     zoom: number;
     oldzoom: number;
-    @Input() MapCenter: any;
+    @Input() MapCenter = latLng(53.838759, -2.909497);
     center: any;
     oldcenter: any;
     fitBounds: any;
@@ -206,13 +219,13 @@ export class MapComponent implements OnInit, OnChanges, AfterViewChecked {
     }
 
     updateZoom() {
-        if (this.mapreference._zoom !== this.MapZoom) {
+        if (this.mapreference && this.mapreference._zoom !== this.MapZoom) {
             this.zoom = this.MapZoom;
         }
     }
 
     updateCenter() {
-        this.mapreference.panTo(this.MapCenter);
+        if (this.mapreference) this.mapreference.panTo(this.MapCenter);
     }
 
     drawStopped(event) {

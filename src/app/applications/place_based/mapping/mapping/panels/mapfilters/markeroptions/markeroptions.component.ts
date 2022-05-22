@@ -20,7 +20,6 @@ export class MarkeroptionsComponent implements OnChanges {
 
     ngOnChanges() {
         this.tableData = this.data;
-        console.log(this.tableData);
     }
 
     selectInfo(data: string) {
