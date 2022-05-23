@@ -11,7 +11,7 @@ import { NotificationService } from "../../../../_services/notification.service"
 import { decodeToken } from "../../../../_pipes/functions";
 
 @Component({
-    selector: "app-patient-list",
+    selector: "app-ph-patient-list",
     templateUrl: "./patient-list.component.html",
 })
 export class PatientListComponent implements OnInit, AfterViewInit {

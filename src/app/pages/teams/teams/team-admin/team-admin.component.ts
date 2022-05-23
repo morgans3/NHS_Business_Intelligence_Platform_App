@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, OnChanges } from "@angular/core";
 import { Store } from "@ngxs/store";
-import { NotificationService } from "src/app/_services/notification.service";
-import { AuthState } from "src/app/_states/auth.state";
+import { NotificationService } from "../../../../_services/notification.service";
+import { AuthState } from "../../../../_states/auth.state";
 import { iApplication, iInstallation, iTeam, iDisplayList, APIService } from "diu-component-library";
-import { decodeToken } from "src/app/_pipes/functions";
+import { decodeToken } from "../../../..//_pipes/functions";
 
 @Component({
     selector: "app-team-admin",

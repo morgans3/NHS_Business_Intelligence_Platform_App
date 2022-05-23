@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, OnChanges } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
-import { AuthState } from "src/app/_states/auth.state";
-import { UpdateTeams } from "src/app/_states/reference.state";
-import { NotificationService } from "src/app/_services/notification.service";
-import { decodeToken } from "src/app/_pipes/functions";
+import { AuthState } from "../../../../_states/auth.state";
+import { UpdateTeams } from "../../../../_states/reference.state";
+import { NotificationService } from "../../../../_services/notification.service";
+import { decodeToken } from "../../../../_pipes/functions";
 import { APIService, UserSearchDialogComponent } from "diu-component-library";
 import { iFullUser, iTeam, iTeamRequest, iTeamMembers } from "diu-component-library";
 

@@ -44,7 +44,7 @@ export class StatCardData {
 }
 
 @Component({
-    selector: "app-popslicer",
+    selector: "app-covid-popslicer",
     templateUrl: "./popslicer.component.html",
     styleUrls: ["./popslicer.component.scss"],
     animations: [collapseAnimations],

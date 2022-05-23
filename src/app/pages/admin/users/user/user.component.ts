@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { APIService } from "diu-component-library";
 import { MatTable } from "@angular/material/table";
-import { NotificationService } from "src/app/_services/notification.service";
+import { NotificationService } from "../../../../_services/notification.service";
 
 @Component({
     selector: "app-user",

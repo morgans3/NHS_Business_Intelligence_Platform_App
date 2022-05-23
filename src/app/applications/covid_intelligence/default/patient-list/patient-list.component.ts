@@ -13,7 +13,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { decodeToken } from "../../../../_pipes/functions";
 
 @Component({
-    selector: "app-patient-list",
+    selector: "app-covid-patient-list",
     templateUrl: "./patient-list.component.html",
     styleUrls: ["./patient-list.component.scss"],
 })

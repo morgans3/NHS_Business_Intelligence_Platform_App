@@ -35,7 +35,7 @@ export class CompResults {
 }
 
 @Component({
-    selector: "app-cohortcompare",
+    selector: "app-covid-cohortcompare",
     templateUrl: "./cohortcompare.component.html",
 })
 export class CohortcompareComponent implements OnInit {

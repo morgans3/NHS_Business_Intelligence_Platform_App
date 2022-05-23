@@ -10,7 +10,7 @@ import { AuthState } from "../../../../_states/auth.state";
 import { decodeToken } from "../../../../_pipes/functions";
 
 @Component({
-    selector: "app-intervention-assistant",
+    selector: "app-covid-intervention-assistant",
     templateUrl: "./intervention-assistant.component.html",
 })
 export class InterventionAssistantComponent implements OnInit {

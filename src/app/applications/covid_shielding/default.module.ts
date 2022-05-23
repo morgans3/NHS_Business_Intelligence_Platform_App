@@ -9,7 +9,7 @@ import { RouterModule } from "@angular/router";
 import { MainPipe } from "../../_pipes/main-pipe.module";
 import { JoyrideModule } from "ngx-joyride";
 import { MaterialModule } from "diu-component-library";
-import { SharedModule } from "src/app/shared/shared.module";
+import { SharedModule } from "../../shared/shared.module";
 import { NSSSComponent } from "./pages/nsss/nsss.component";
 
 @NgModule({

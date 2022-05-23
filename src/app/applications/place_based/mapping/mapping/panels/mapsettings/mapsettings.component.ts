@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { NotificationService } from "src/app/_services/notification.service";
+import { NotificationService } from "../../../../../../_services/notification.service";
 import { tilelayerOptions } from "../../tilelayeroptions";
 import * as L from "leaflet";
-import { PostcodeService } from "src/app/_services/postcodes.service";
+import { PostcodeService } from "../../../../../../_services/postcodes.service";
 
 @Component({
     selector: "app-mapsettings",

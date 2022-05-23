@@ -6,11 +6,11 @@ import { Title } from "@angular/platform-browser";
 import { APIService, iSystemAlerts } from "diu-component-library";
 import { iMenu } from "diu-component-library/lib/_models/menu-items.interface";
 import { Store } from "@ngxs/store";
-import { AuthState, ManualSetAuthTokens } from "src/app/_states/auth.state";
-import { AlertState, AlertStateModel, UpdateAlerts } from "src/app/_states/alert.state";
-import { NotificationService } from "src/app/_services/notification.service";
+import { AuthState, ManualSetAuthTokens } from "../../_states/auth.state";
+import { AlertState, AlertStateModel, UpdateAlerts } from "../../_states/alert.state";
+import { NotificationService } from "../../_services/notification.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { decodeToken } from "src/app/_pipes/functions";
+import { decodeToken } from "../../_pipes/functions";
 
 export interface iAppConfig {
     name: string;

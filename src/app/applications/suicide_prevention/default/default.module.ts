@@ -15,10 +15,10 @@ import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { IncidentLegendComponent } from "./Landing/incidentLegend/incidentLegend.component";
 import { FindMosaicComponent } from "./Incidents/IncidentForm/findMosaic/findMosaic.component";
-import { MainPipe } from "src/app/_pipes/main-pipe.module";
-import { MaterialComponentsModule } from "src/app/material-component/material.module";
+import { MainPipe } from "../../../_pipes/main-pipe.module";
+import { MaterialComponentsModule } from "../../../material-component/material.module";
 import { MaterialModule } from "diu-component-library";
-import { SharedModule } from "src/app/shared/shared.module";
+import { SharedModule } from "../../../shared/shared.module";
 
 @NgModule({
     imports: [

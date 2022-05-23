@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { NeedListComponent } from "./need-list.component";
 import { JoyrideModule } from "ngx-joyride";
-import { SharedModule } from "src/app/shared/shared.module";
+import { SharedModule } from "../../../../shared/shared.module";
 
 @NgModule({
     imports: [

@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators, FormGroupDirective } from "@angular
 import { NotificationService } from "../../../../_services/notification.service";
 
 @Component({
-    selector: "app-Admin",
+    selector: "app-covid-admin",
     templateUrl: "./Admin.component.html",
 })
 export class AdminComponent implements OnInit {

@@ -12,7 +12,7 @@ export interface OpenSourceViews {
 }
 
 @Component({
-    selector: "app-Landing",
+    selector: "app-opensource-landing",
     templateUrl: "./Landing.component.html",
 })
 export class LandingComponent implements OnInit {

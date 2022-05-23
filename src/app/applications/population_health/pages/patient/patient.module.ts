@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CrimeInformationComponent } from "./crime-information/crime-information.component";
 import { TheographComponent } from "./theograph/theograph.component";
 import { PatientComponent } from "./patient.component";
-import { SharedModule } from "src/app/shared/shared.module";
+import { SharedModule } from "../../../../shared/shared.module";
 
 @NgModule({
     imports: [

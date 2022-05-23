@@ -24,8 +24,8 @@ import { AuthState } from "../../../../_states/auth.state";
 import { collapseAnimations } from "../../../../shared/animations";
 import { ModalService } from "../../../../_services/modal.service";
 import { NotificationService } from "../../../../_services/notification.service";
-import { environment } from "src/environments/environment";
-import { StatCardData } from "src/app/shared/stat-card.component";
+import { environment } from "../../../../../environments/environment";
+import { StatCardData } from "../../../../shared/stat-card.component";
 
 declare let leafletChoroplethChart: any;
 declare let leafletLegend: any;
@@ -33,7 +33,7 @@ declare let leafletMarkerChartBubble: any;
 declare let window: any;
 
 @Component({
-    selector: "app-popslicer",
+    selector: "app-ph-popslicer",
     templateUrl: "./popslicer.component.html",
     animations: [collapseAnimations],
 })

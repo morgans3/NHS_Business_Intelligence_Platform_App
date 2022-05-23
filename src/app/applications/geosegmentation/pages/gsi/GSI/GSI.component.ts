@@ -22,7 +22,7 @@ import { PoliceService } from "../../../_services/police.service";
 import { CrimeCategoryColors } from "./colorlists";
 import { Crime } from "../../../_models/police";
 import { APIService, FeatureCollection } from "diu-component-library";
-import { MapData } from "src/app/shared/map.component";
+import { MapData } from "../../../../../shared/map.component";
 import { environment } from "src/environments/environment";
 
 @Component({

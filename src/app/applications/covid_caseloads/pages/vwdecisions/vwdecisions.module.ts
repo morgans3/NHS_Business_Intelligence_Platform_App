@@ -9,7 +9,7 @@ import { NotesDialogComponent } from "./dialognotes";
 import { UserDialogComponent } from "./dialogprofile";
 import { ReasonDialogComponent } from "./dialogreason";
 import { VwdecisionsComponent } from "./vwdecisions.component";
-import { SharedModule } from "src/app/shared/shared.module";
+import { SharedModule } from "../../../../shared/shared.module";
 
 @NgModule({
     imports: [

@@ -11,8 +11,8 @@ import { DefaultModule } from "../default.module";
 import { MappingComponent } from "./mapping/mapping.component";
 import { WorksheetComponent } from "./mapping/worksheet/worksheet.component";
 import { MaterialModule } from "diu-component-library";
-import { MainPipe } from "src/app/_pipes/main-pipe.module";
-import { SharedModule } from "src/app/shared/shared.module";
+import { MainPipe } from "../../../../_pipes/main-pipe.module";
+import { SharedModule } from "../../../../shared/shared.module";
 
 @NgModule({
     imports: [

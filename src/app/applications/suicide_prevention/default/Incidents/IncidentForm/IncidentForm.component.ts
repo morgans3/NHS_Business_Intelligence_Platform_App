@@ -3,9 +3,9 @@ import { FormGroup, FormControl, Validators, FormGroupDirective } from "@angular
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { APIService } from "diu-component-library";
-import { iLocation, Incident, IncidentMethods } from "src/app/_models/SPI_Lookups";
-import { NotificationService } from "src/app/_services/notification.service";
-import { StorageService } from "src/app/_services/storage.service";
+import { iLocation, Incident, IncidentMethods } from "../../../../../_models/SPI_Lookups";
+import { NotificationService } from "../../../../../_services/notification.service";
+import { StorageService } from "../../../../../_services/storage.service";
 
 @Component({
     selector: "app-IncidentForm",

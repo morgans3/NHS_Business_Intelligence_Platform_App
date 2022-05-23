@@ -19,7 +19,6 @@ import { ModellingComponent } from "./Modelling/Modelling.component";
 import { PatientListComponent } from "./patient-list/patient-list.component";
 import { PatientComponent } from "./patient/patient.component";
 import { CohortAllComponent } from "./Regional/cohort-all/cohort-all.component";
-import { ConfirmTextDialogComponent } from "./Regional/dialogtextconfirm";
 import { OutbreaksComponent } from "./outbreaks/outbreaks.component";
 import { LimitsettingComponent } from "./patient-list/limitsetting/limitsetting.component";
 import { NumberDialogComponent } from "./patient-list/limitsetting/dialognumber";
@@ -66,7 +65,6 @@ import { SharedModule } from "../../../shared/shared.module";
         PatientListComponent,
         PatientComponent,
         CohortAllComponent,
-        ConfirmTextDialogComponent,
         OutbreaksComponent,
         LimitsettingComponent,
         NumberDialogComponent,
@@ -77,6 +75,6 @@ import { SharedModule } from "../../../shared/shared.module";
         NeedListComponent,
         HeatmapComponent,
     ],
-    entryComponents: [ConfirmTextDialogComponent, NumberDialogComponent],
+    entryComponents: [NumberDialogComponent],
 })
 export class DefaultModule {}

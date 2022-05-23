@@ -2,10 +2,10 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from "@angu
 import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
 import { APIService } from "diu-component-library";
-import { NotificationService } from "src/app/_services/notification.service";
-import { AuthState } from "src/app/_states/auth.state";
+import { NotificationService } from "../../../../_services/notification.service";
+import { AuthState } from "../../../../_states/auth.state";
 import { iFullUser, iTeamRequest, iTeamMembers } from "diu-component-library";
-import { generateID, decodeToken } from "src/app/_pipes/functions";
+import { generateID, decodeToken } from "../../../../_pipes/functions";
 
 @Component({
     selector: "app-team-members",

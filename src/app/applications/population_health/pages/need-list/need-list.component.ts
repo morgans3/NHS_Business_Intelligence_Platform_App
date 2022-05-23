@@ -17,7 +17,7 @@ import { environment } from "src/environments/environment";
 declare let window: any;
 
 @Component({
-    selector: "app-need-list",
+    selector: "app-ph-need-list",
     templateUrl: "./need-list.component.html",
     styleUrls: ["./need-list.component.scss"],
 })

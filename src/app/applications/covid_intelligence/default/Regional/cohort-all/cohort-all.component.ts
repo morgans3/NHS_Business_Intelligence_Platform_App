@@ -6,11 +6,11 @@ import { AuthState } from "../../../../../_states/auth.state";
 import { NotificationService } from "../../../../../_services/notification.service";
 import { Router } from "@angular/router";
 import { iTeam, CVICohort, APIService } from "diu-component-library";
-import { ConfirmText, ConfirmTextDialogComponent } from "../dialogtextconfirm";
+import { ConfirmText, ConfirmTextDialogComponent } from "../../../../../shared/modals/textconfirm/dialogtextconfirm";
 import { decodeToken } from "../../../../../_pipes/functions";
 
 @Component({
-    selector: "app-cohort-all",
+    selector: "app-covid-cohort-all",
     templateUrl: "./cohort-all.component.html",
     styleUrls: ["./cohort-all.component.scss"],
 })

@@ -5,21 +5,21 @@ import { Store } from "@ngxs/store";
 import { latLng, tileLayer } from "leaflet";
 import * as L from "leaflet";
 import { CategoryColors } from "./incidentLegend/colorlist";
-import { collapseAnimations } from "src/app/shared/animations";
-import { colorbrewer, DeprivationColors } from "src/app/_models/chart_colour_ranges";
+import { collapseAnimations } from "../../../../shared/animations";
+import { colorbrewer, DeprivationColors } from "../../../../_models/chart_colour_ranges";
 import { MatDialog } from "@angular/material/dialog";
-import { AuthState } from "src/app/_states/auth.state";
+import { AuthState } from "../../../../_states/auth.state";
 import { MapData } from "../Incidents/IncidentForm/findlocation/findlocation.component";
-import { BarChart } from "src/app/_models/chart";
-import { StatCardData } from "src/app/_models/SPI_Lookups";
-import { StorageService } from "src/app/_services/storage.service";
+import { BarChart } from "../../../../_models/chart";
+import { StatCardData } from "../../../../_models/SPI_Lookups";
+import { StorageService } from "../../../../_services/storage.service";
 import { APIService, MosaicColours, MosaicDomain } from "diu-component-library";
-import { environment } from "src/environments/environment";
+import { environment } from "../../../../../environments/environment";
 import { ModalService } from "../../../../_services/modal.service";
 declare let window: any;
 
 @Component({
-    selector: "app-Landing",
+    selector: "app-spi-landing",
     templateUrl: "./Landing.component.html",
     animations: [collapseAnimations],
 })
