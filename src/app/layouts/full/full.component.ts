@@ -11,6 +11,8 @@ import { AlertState, AlertStateModel, UpdateAlerts } from "../../_states/alert.s
 import { NotificationService } from "../../_services/notification.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { decodeToken } from "../../_pipes/functions";
+import { distinctUntilKeyChanged } from "rxjs/operators";
+import { pipe } from "rxjs";
 
 export interface iAppConfig {
     name: string;
@@ -67,7 +69,9 @@ export class FullComponent implements OnDestroy, OnInit {
         }
 
         // Initialise config
-        this.activatedRoute.data.subscribe((data) => {
+        this.activatedRoute.data.pipe(
+            distinctUntilKeyChanged("data")
+        ).subscribe((data) => {
             this.getConfiguration(data?.layout_config?.id || "Nexus_Intelligence");
         });
     }
