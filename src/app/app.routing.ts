@@ -50,6 +50,18 @@ export const AppRoutes: Routes = [
                 loadChildren: () => import("./applications/covid_intelligence/default/default.module").then((m) => m.DefaultModule),
             },
             {
+                path: "covid19-shielding",
+                component: FullComponent,
+                data: { layout_config: { id: "Covid19_Information" } },
+                loadChildren: () => import("./applications/covid_shielding/default.module").then((m) => m.DefaultModule),
+            },
+            {
+                path: "covid19-caseloads",
+                component: FullComponent,
+                data: { layout_config: { id: "Covid19_Information" } },
+                loadChildren: () => import("./applications/covid_caseloads/default.module").then((m) => m.DefaultModule),
+            },
+            {
                 path: "population-health",
                 component: FullComponent,
                 data: { layout_config: { id: "Population_Health" } },

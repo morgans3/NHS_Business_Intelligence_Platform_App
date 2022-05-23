@@ -1,21 +1,20 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { APIService, VirtualWardPatient } from "diu-component-library";
-import { NotificationService } from "../../../../../_services/notification.service";
-import { StatCardData } from "../../Regional/stat-card.component";
+import { NotificationService } from "../../../../_services/notification.service";
+import { StatCardData } from "../../../../shared/stat-card.component";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { ConditionTypes } from "./conditiontypes";
 import { Store } from "@ngxs/store";
-import { AuthState } from "../../../../../_states/auth.state";
+import { AuthState } from "../../../../_states/auth.state";
 import { FormGroup, FormControl } from "@angular/forms";
-import { ConfirmDialogComponent } from "../../Regional/dialogconfirm";
 import { ContactDialogComponent } from "./dialogcontact";
 import { NotesDialogComponent } from "./dialognotes";
 import { ReasonDialogComponent } from "./dialogreason";
 import { UserDialogComponent } from "./dialogprofile";
-import { decodeToken } from "../../../../../_pipes/functions";
+import { decodeToken } from "../../../../_pipes/functions";
 
 export const recommendations = ["RS Lower Risk", "RS Greater Risk", "National SOP", "Local SOP"];
 
@@ -402,12 +401,8 @@ export class VwdecisionsComponent implements OnInit {
 
     bulkAction(actiontype: string) {
         if (this.bulkActionList.length > 10) {
-            const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-                width: "350px",
-                data: null,
-            });
-            dialogRef.afterClosed().subscribe((result) => {
-                if (result) {
+            this.notificationService.question("Are you sure you wish to proceed with this action?").then((confirmed) => {
+                if (confirmed === true) {
                     this.carryOutBulkAction(actiontype);
                 }
             });

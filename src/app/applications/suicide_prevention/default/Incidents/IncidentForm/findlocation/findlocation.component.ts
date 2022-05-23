@@ -4,7 +4,8 @@ import { latLng, tileLayer, TileLayer, LatLng } from "leaflet";
 import * as L from "leaflet";
 import { NotificationService } from "src/app/_services/notification.service";
 import { iLocation } from "src/app/_models/SPI_Lookups";
-import { Postcodes, PostcodeService } from "src/app/_services/postcodes.service";
+import { PostcodeService } from "src/app/_services/postcodes.service";
+import { Postcodes } from "diu-component-library";
 
 export class MapData {
     layers?: any;

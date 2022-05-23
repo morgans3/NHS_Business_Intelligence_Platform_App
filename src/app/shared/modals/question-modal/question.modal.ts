@@ -9,12 +9,12 @@ export class QuestionModalComponent {
     message;
     buttons = [
         {
-            title: "Okay",
+            title: "Yes",
             value: true,
             color: "primary",
         },
         {
-            title: "Cancel",
+            title: "No",
             value: false,
             color: "warn",
         },
@@ -33,7 +33,7 @@ export class QuestionModalComponent {
 
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SharedModule } from "../../shared/shared.module";
+import { SharedModule } from "../../shared.module";
 
 @NgModule({
     imports: [CommonModule, SharedModule],

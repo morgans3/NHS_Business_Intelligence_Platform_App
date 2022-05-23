@@ -7,7 +7,7 @@ import { Store } from "@ngxs/store";
 import { decodeToken } from "../../../../_pipes/functions";
 import { NotificationService } from "../../../../_services/notification.service";
 import { AuthState } from "../../../../_states/auth.state";
-import { StatCardData } from "../Regional/stat-card.component";
+import { StatCardData } from "../../../../shared/stat-card.component";
 import { Angular2Csv } from "angular2-csv/Angular2-csv";
 import { ShieldingServices } from "./shielding.services";
 import { APIService } from "diu-component-library";

@@ -3,7 +3,7 @@ export const environment = {
     version: "1.0.0",
     production: true,
     userNameDev: "Demo.User@nhs.net",
-    homepage: "dashboard",
+    homepage: "landing",
     appName: "Nexus Intelligence",
     isDemo: true,
     admins: ["stewart.morgan@nhs.net"],

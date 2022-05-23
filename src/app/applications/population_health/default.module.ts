@@ -4,6 +4,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
+import { SharedModule } from "../../shared/shared.module";
 import { DemoMaterialModule } from "../../demo-material-module";
 import { MainPipe } from "../../_pipes/main-pipe.module";
 
@@ -19,6 +20,7 @@ import { SettingsComponent } from "./pages/settings/settings.component";
         DemoMaterialModule,
         FlexLayoutModule,
         MainPipe,
+        SharedModule
     ],
     declarations: [SettingsComponent],
 })

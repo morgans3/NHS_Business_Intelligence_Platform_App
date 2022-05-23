@@ -7,7 +7,6 @@ import { NotificationService } from "../../../../../_services/notification.servi
 import { Router } from "@angular/router";
 import { iTeam, CVICohort, APIService } from "diu-component-library";
 import { ConfirmText, ConfirmTextDialogComponent } from "../dialogtextconfirm";
-import { ConfirmDialogComponent } from "../dialogconfirm";
 import { decodeToken } from "../../../../../_pipes/functions";
 
 @Component({
@@ -172,12 +171,8 @@ export class CohortAllComponent implements OnInit, OnChanges {
     }
 
     saveUpdate() {
-        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-            width: "350px",
-            data: null,
-        });
-        dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
+        this.notificationService.question("Are you sure you wish to proceed with this action?").then((confirmed) => {
+            if (confirmed === true) {
                 this.confirmUpdate();
             }
         });
@@ -198,12 +193,8 @@ export class CohortAllComponent implements OnInit, OnChanges {
     }
 
     removeCohort() {
-        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-            width: "350px",
-            data: null,
-        });
-        dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
+        this.notificationService.question("Are you sure you wish to proceed with this action?").then((confirmed) => {
+            if (confirmed === true) {
                 this.apiService.deleteCVICohort(this.selectedCohort).subscribe((data: any) => {
                     if (data.success) {
                         this.apiService.getCVICohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {

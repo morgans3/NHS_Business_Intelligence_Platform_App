@@ -1,19 +1,19 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { NotificationService } from "../../../../../_services/notification.service";
-import { StatCardData } from "../../../../../shared/stat-card.component";
+import { NotificationService } from "../../../../_services/notification.service";
+import { StatCardData } from "../../../../shared/stat-card.component";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { Store } from "@ngxs/store";
-import { AuthState } from "../../../../../_states/auth.state";
+import { AuthState } from "../../../../_states/auth.state";
 import { Angular2Csv } from "angular2-csv/Angular2-csv";
 import { FormGroup, FormControl } from "@angular/forms";
 import { ConditionTypes } from "../vwdecisions/conditiontypes";
 import { recommendations } from "../vwdecisions/vwdecisions.component";
 import { APIService, VirtualWardPatient } from "diu-component-library";
 import { CCGs } from "../vwdecisions/vwdecisions.component";
-import { decodeToken } from "../../../../../_pipes/functions";
+import { decodeToken } from "../../../../_pipes/functions";
 
 export const Actions = ["Refer - Self-Management", "Refer - Hospital", "Refer - Virtual Ward"];
 

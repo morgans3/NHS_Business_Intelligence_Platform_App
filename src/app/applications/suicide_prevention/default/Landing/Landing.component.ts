@@ -11,12 +11,11 @@ import { MatDialog } from "@angular/material/dialog";
 import { AuthState } from "src/app/_states/auth.state";
 import { MapData } from "../Incidents/IncidentForm/findlocation/findlocation.component";
 import { BarChart } from "src/app/_models/chart";
-import { ExpandTextDialogComponent } from "../modals/dialogexpand";
 import { StatCardData } from "src/app/_models/SPI_Lookups";
-import { MosaicColours, MosaicDomain } from "src/app/_models/mosaiccode";
 import { StorageService } from "src/app/_services/storage.service";
-import { APIService } from "diu-component-library";
+import { APIService, MosaicColours, MosaicDomain } from "diu-component-library";
 import { environment } from "src/environments/environment";
+import { ModalService } from "../../../../_services/modal.service";
 declare let window: any;
 
 @Component({
@@ -554,7 +553,8 @@ export class LandingComponent implements OnInit {
         public store: Store,
         private storageService: StorageService,
         public dialog: MatDialog,
-        private referenceService: APIService
+        private referenceService: APIService,
+        private modalService: ModalService
     ) {
         this.token = this.store.selectSnapshot(AuthState.getToken);
         const parsedUrl = window.location.href;
@@ -1188,10 +1188,7 @@ export class LandingComponent implements OnInit {
     }
 
     showRange(text) {
-        this.dialog.open(ExpandTextDialogComponent, {
-            width: "350px",
-            data: text,
-        });
+        this.modalService.expandText(text);
     }
 
     updateSummaries() {

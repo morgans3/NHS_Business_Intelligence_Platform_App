@@ -38,7 +38,6 @@ export class StatCardData {
             </mat-card-content>
         </mat-card>
     `,
-    styles: [],
 })
 export class StatCardComponent {
     @Input() data: StatCardData;

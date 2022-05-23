@@ -16,7 +16,7 @@ export class NotificationService {
 
     question(message, buttons = null): Promise<any> {
         return new Promise((resolve) => {
-            import("../shared/question-modal/question.modal").then((c) => {
+            import("../shared/modals/question-modal/question.modal").then((c) => {
                 // Open modal with data
                 const questionModal = this.dialog.open(c.QuestionModalComponent, {
                     data: { message, buttons },

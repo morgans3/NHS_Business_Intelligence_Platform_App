@@ -1,4 +1,4 @@
-import { Component, OnChanges } from "@angular/core";
+import { Component, OnChanges, SimpleChanges } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { APIService } from "diu-component-library";
 import { iAppConfig, iPageConfig } from "../../layouts/full/full.component";
@@ -17,6 +17,7 @@ export class DynamicComponent implements OnChanges {
         // Track pages with AWS RUM
         this.router.events.subscribe((event: any) => {
             if (event instanceof NavigationEnd) {
+                // Record RUM view
                 cwr("recordPageView", this.router.url);
                 this.location = this.getLocation();
 
@@ -24,12 +25,14 @@ export class DynamicComponent implements OnChanges {
                     const urlWithoutLeadingUnderline = event.urlAfterRedirects.substr(1, event.urlAfterRedirects.length);
                     this.location = urlWithoutLeadingUnderline.replace("/", "_");
                 }
+
+                // Get page
                 this.getPage(this.location);
             }
         });
     }
 
-    ngOnChanges() {
+    ngOnChanges(changes: SimpleChanges): void {
         const currPage = this.getLocation();
         if (this.location !== currPage) {
             this.location = currPage;

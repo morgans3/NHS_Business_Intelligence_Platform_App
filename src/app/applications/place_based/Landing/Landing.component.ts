@@ -15,8 +15,8 @@ import { MosaicColours, MosaicDomain } from "src/app/_models/mosaiccode";
 import { StorageService } from "src/app/_services/storage.service";
 import { APIService } from "diu-component-library";
 import { MapData } from "../../../shared/map.component";
-import { ExpandTextDialogComponent } from "../../covid_intelligence/_modals/dialogexpand";
 import { environment } from "src/environments/environment";
+import { ModalService } from "../../../_services/modal.service";
 declare let window: any;
 
 @Component({
@@ -554,7 +554,8 @@ export class LandingComponent implements OnInit {
         public store: Store,
         private storageService: StorageService,
         public dialog: MatDialog,
-        private referenceService: APIService
+        private referenceService: APIService,
+        private modalService: ModalService
     ) {
         this.token = this.store.selectSnapshot(AuthState.getToken);
         const parsedUrl = window.location.href;
@@ -1188,10 +1189,7 @@ export class LandingComponent implements OnInit {
     }
 
     showRange(text) {
-        this.dialog.open(ExpandTextDialogComponent, {
-            width: "350px",
-            data: text,
-        });
+        this.modalService.expandText(text);
     }
 
     updateSummaries() {

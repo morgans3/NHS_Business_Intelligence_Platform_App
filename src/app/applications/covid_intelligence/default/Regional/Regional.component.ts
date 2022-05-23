@@ -4,10 +4,10 @@ import * as dcFull from "dc";
 import * as d3 from "d3";
 import { Store } from "@ngxs/store";
 import { MatDialog } from "@angular/material/dialog";
-import { StatCardData } from "./stat-card.component";
+import { StatCardData } from "../../../../shared/stat-card.component";
 import { LeafletChoroplethChart, BarChart, RowChart, FeatureCollection, APIService } from "diu-component-library";
 import { AuthState } from "../../../../_states/auth.state";
-import { ExpandTextDialogComponent } from "../../_modals/dialogexpand";
+import { ModalService } from "../../../../_services/modal.service";
 import { environment } from "src/environments/environment";
 declare let leafletChoroplethChart: any;
 declare let leafletLegend: any;
@@ -108,7 +108,12 @@ export class RegionalComponent implements OnInit {
         }, 0);
     }
 
-    constructor(public store: Store, public dialog: MatDialog, private sqlService: APIService) {
+    constructor(
+        public store: Store,
+        public dialog: MatDialog,
+        private sqlService: APIService,
+        private modalService: ModalService
+    ) {
         this.token = this.store.selectSnapshot(AuthState.getToken);
         const parsedUrl = window.location.href;
         this.origin = parsedUrl.replace("/population-health", "");
@@ -798,10 +803,7 @@ export class RegionalComponent implements OnInit {
 
     /* #region Filter Display Functions */
     showRange(text) {
-        this.dialog.open(ExpandTextDialogComponent, {
-            width: "350px",
-            data: text,
-        });
+        this.modalService.expandText(text);
     }
 
     shortenText(text: string): string {

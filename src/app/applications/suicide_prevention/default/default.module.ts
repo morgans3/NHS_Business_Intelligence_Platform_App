@@ -15,7 +15,6 @@ import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { IncidentLegendComponent } from "./Landing/incidentLegend/incidentLegend.component";
 import { FindMosaicComponent } from "./Incidents/IncidentForm/findMosaic/findMosaic.component";
-import { ExpandTextDialogComponent } from "./modals/dialogexpand";
 import { MainPipe } from "src/app/_pipes/main-pipe.module";
 import { MaterialComponentsModule } from "src/app/material-component/material.module";
 import { MaterialModule } from "diu-component-library";
@@ -44,10 +43,9 @@ import { SharedModule } from "src/app/shared/shared.module";
         AddMedicationDialogComponent,
         FindlocationComponent,
         IncidentLegendComponent,
-        ExpandTextDialogComponent,
         FindMosaicComponent,
     ],
-    entryComponents: [AddMedicationDialogComponent, ExpandTextDialogComponent],
+    entryComponents: [AddMedicationDialogComponent],
     exports: [IncidentLegendComponent],
 })
 export class DefaultModule {}

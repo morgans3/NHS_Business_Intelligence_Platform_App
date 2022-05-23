@@ -13,7 +13,6 @@ import { PopulationselectComponent } from "./populationselect/populationselect.c
 import { CohortcompareComponent } from "./cohortcompare/cohortcompare.component";
 import { InterventionAssistantComponent } from "./intervention-assistant/intervention-assistant.component";
 import { HeatmapComponent } from "./heatmap/heatmap.component";
-import { NSSSComponent } from "./nsss/nsss.component";
 
 export const DefaultRoutes: Routes = [
     {
@@ -67,19 +66,5 @@ export const DefaultRoutes: Routes = [
     {
         path: "need-list",
         component: NeedListComponent,
-    },
-    {
-        path: "nsss",
-        component: NSSSComponent,
-        // canActivate: [CapabilityGuard],
-        data: { capabilities: ["cvi_shielding"] },
-    },
-    {
-        path: "virtualwards_decisions",
-        loadChildren: () => import("./caseloads/vwdecisions/vwdecisions.module").then((m) => m.VWDecisionsModule),
-    },
-    {
-        path: "recent_referrals",
-        loadChildren: () => import("./caseloads/recentreferrals/recentreferrals.module").then((m) => m.RecentReferralsModule),
     },
 ];

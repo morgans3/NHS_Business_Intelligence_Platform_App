@@ -119,9 +119,6 @@ export class FullComponent implements OnDestroy, OnInit {
 
                 // Set page title
                 this.titleService.setTitle(appConfig.name);
-
-                // Navigate to App Landing page
-                this.router.navigate([appConfig.landingpage]);
             }
         });
     }

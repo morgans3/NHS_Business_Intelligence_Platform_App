@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, HostListener } from "@angular
 import * as dcFull from "dc";
 import * as d3 from "d3";
 import * as L from "leaflet";
-import { StatCardData } from "../Regional/stat-card.component";
+import { StatCardData } from "../../../../shared/stat-card.component";
 import { AuthState } from "../../../../_states/auth.state";
 import { Store } from "@ngxs/store";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
