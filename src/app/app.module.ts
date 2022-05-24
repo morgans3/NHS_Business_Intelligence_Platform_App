@@ -40,6 +40,7 @@ import { AccordionLinkModule } from "./shared/accordion/accordionLinkModule";
 import { SpinnerComponent } from "./shared/spinner.component";
 import { AlertState } from "./_states/alert.state";
 import { AuthState } from "./_states/auth.state";
+import { DynamicConfigState } from "./_states/dynamic-config.state";
 import { ReferenceState } from "./_states/reference.state";
 import { SharedModule } from "./shared/shared.module";
 import { NotificationService } from "./_services/notification.service";
@@ -76,7 +77,7 @@ import { DemoMaterialModule } from "./demo-material-module";
             preventDuplicates: true,
         }),
         SharedModule,
-        NgxsModule.forRoot([AuthState, AlertState, ReferenceState], {
+        NgxsModule.forRoot([AuthState, AlertState, DynamicConfigState, ReferenceState], {
             developmentMode: !true,
         }),
         NgxsStoragePluginModule.forRoot({

@@ -22,8 +22,6 @@ export class RequestInterceptor implements HttpInterceptor {
             this.lastRequest = request;
             return next.handle(this.addTokenToRequest(request, this.store.selectSnapshot(AuthState.getToken) || "")).pipe(
                 catchError((err: any) => {
-                    if (err.error instanceof ErrorEvent) {
-                    }
                     if (err instanceof HttpErrorResponse) {
                         if (err.status === 403) {
                             this.notificationService.error("Insufficent privileges");
