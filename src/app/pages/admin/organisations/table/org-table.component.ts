@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { APIService } from "diu-component-library";
 import { MatDialog } from "@angular/material/dialog";
 import { MatTable } from "@angular/material/table";
+import { NotificationService } from "../../../../_services/notification.service";
 
 @Component({
     selector: "app-org-table",
@@ -11,7 +12,11 @@ export class OrganisationsTableComponent implements OnInit {
     orgs = { all: [], filtered: [] };
     @ViewChild(MatTable) table: MatTable<any>;
 
-    constructor(private dialog: MatDialog, private apiService: APIService) {}
+    constructor(
+        private dialog: MatDialog,
+        private apiService: APIService,
+        private notificationService: NotificationService
+    ) {}
 
     ngOnInit() {
         this.apiService.getOrganisations().subscribe((orgs: any) => {
@@ -54,6 +59,29 @@ export class OrganisationsTableComponent implements OnInit {
                     this.table.renderRows();
                 }
             });
+        });
+    }
+
+    delete(organisation) {
+        this.notificationService.question("Are you sure you want to delete this organisation?").then((confirmed) => {
+            if (confirmed === true) {
+                this.apiService.removeOrganisation(organisation).subscribe((res) => {
+                    // Notify success
+                    this.notificationService.success("Organisation has been removed successfully!");
+
+                    // Change item at index
+                    this.orgs.all.splice(this.orgs.all.findIndex((item) => item.name === organisation.name), 1);
+
+                    // Change item in filtered list
+                    const filteredListIndex = this.orgs.filtered.findIndex((item) => item.name === organisation.name);
+                    if (filteredListIndex >= 0) {
+                        this.orgs.filtered.splice(filteredListIndex, 1);
+                    }
+
+                    // Trigger material table
+                    this.table.renderRows();
+                });
+            }
         });
     }
 }
