@@ -1,18 +1,13 @@
 import { Injectable } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
 import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar, MatSnackBarRef } from "@angular/material/snack-bar";
 
 @Injectable()
 export class NotificationService {
-    private toastr: any;
-
-    constructor(private dialog: MatDialog, toastrService: ToastrService) {
-        // Set defaults
-        this.toastr = toastrService as any;
-        this.toastr.options = {
-            positionClass: "toast-bottom-right",
-        };
-    }
+    constructor(
+        private dialog: MatDialog,
+        private snackBar: MatSnackBar,
+    ) { }
 
     question(message, buttons = null): Promise<any> {
         return new Promise((resolve) => {
@@ -30,42 +25,55 @@ export class NotificationService {
         });
     }
 
-    success(message?: string) {
-        this.displayToast(message || "Success!", "success");
+    notify({ message = "", actions = null, status = "success" }): Promise<MatSnackBarRef<any>> {
+        return new Promise((resolve) => {
+            import("../shared/notification-snackbar/notification-snackbar").then((c => {
+                // Open snackbar
+                const snackBar = this.snackBar.openFromComponent(
+                    c.NotificationSnackbarComponent,
+                    {
+                        duration: 5000,
+                        horizontalPosition: "start",
+                        panelClass: ["notification", status]
+                    }
+                );
+
+                // Configure settings
+                snackBar.instance.message = message;
+                snackBar.instance.status = status;
+                if(actions) { snackBar.instance.actions = actions; }
+
+                // Return instance
+                resolve(snackBar);
+            }));
+        });
     }
 
-    error(message?: string) {
-        this.displayToast(message || "Error!", "error");
+    success(message): Promise<MatSnackBarRef<any>> {
+        return this.notify({
+            message: (message || "Success!"),
+            status: "success"
+        });
     }
 
-    info(message?: string) {
-        this.displayToast(message || "Info", "info");
+    error(message?: string): Promise<MatSnackBarRef<any>> {
+        return this.notify({
+            message: (message || "Error!"),
+            status: "error"
+        });
     }
 
-    warning(message: string) {
-        this.displayToast(message, "warning");
+    info(message?: string): Promise<MatSnackBarRef<any>> {
+        return this.notify({
+            message: (message || "Info"),
+            status: "info"
+        });
     }
 
-    private displayToast(message: string, type: string) {
-        switch (type) {
-            case "default":
-                this.toastr.default(message);
-                break;
-            case "info":
-                this.toastr.info(message);
-                break;
-            case "success":
-                this.toastr.success(message);
-                break;
-            case "wait":
-                this.toastr.wait(message);
-                break;
-            case "error":
-                this.toastr.error(message);
-                break;
-            case "warning":
-                this.toastr.warning(message);
-                break;
-        }
+    warning(message: string): Promise<MatSnackBarRef<any>> {
+        return this.notify({
+            message,
+            status: "warning"
+        });
     }
 }

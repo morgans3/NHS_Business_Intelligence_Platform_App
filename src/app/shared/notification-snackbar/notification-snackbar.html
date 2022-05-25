@@ -1,0 +1,6 @@
+<div class="message">
+    {{ message}}
+    <div style="display: block;margin-top: 10px;">
+        <button *ngFor="let action of actions" class="m-r-15" mat-stroked-button (click)="dismissWithAction(action.id)">{{ action.name }}</button>
+    </div>
+</div>

@@ -18,7 +18,6 @@ import { FullmapComponent } from "./layouts/fullmap/fullmap.component";
 // Libraries
 import { NgxsModule } from "@ngxs/store";
 import { NgxsResetPluginModule } from "ngxs-reset-plugin";
-import { ToastrModule } from "ngx-toastr";
 import { NgxsStoragePluginModule, StorageOption } from "@ngxs/storage-plugin";
 import { NgxsEmitPluginModule } from "@ngxs-labs/emitter";
 import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
@@ -71,11 +70,6 @@ import { DemoMaterialModule } from "./demo-material-module";
         RouterModule.forRoot(AppRoutes),
         DiuAngularNavigationModule,
         DiuHeaderModule,
-        ToastrModule.forRoot({
-            timeOut: 4000,
-            positionClass: "toast-bottom-full-width",
-            preventDuplicates: true,
-        }),
         SharedModule,
         NgxsModule.forRoot([AuthState, AlertState, DynamicConfigState, ReferenceState], {
             developmentMode: !true,

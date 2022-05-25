@@ -749,7 +749,7 @@ export class OutbreaksComponent implements OnInit {
                 },
                 (error) => {
                     this.loading = false;
-                    this.notificationService.warning("Error: " + error.toString());
+                    this.notificationService.warning("Error: " + error.message);
                 }
             );
     }

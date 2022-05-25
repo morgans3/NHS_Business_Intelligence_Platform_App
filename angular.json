@@ -26,7 +26,12 @@
                             "node_modules/animate.css/animate.css",
                             "src/assets/fonts/material-icons/iconfont/material-icons.css"
                         ],
-                        "scripts": [],
+                        "scripts": [
+                            "node_modules/crossfilter/crossfilter.js",
+                            "node_modules/d3/dist/d3.js",
+                            "node_modules/dc/dc.js",
+                            "src/assets/js/leaflet-extract.js"
+                        ],
                         "vendorChunk": true,
                         "extractLicenses": false,
                         "buildOptimizer": true,
@@ -85,7 +90,9 @@
                         "karmaConfig": "./karma.conf.js",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.spec.json",
-                        "scripts": [],
+                        "scripts": [
+                            "src/assets/js/leaflet-extract.js"
+                        ],
                         "styles": [
                             "node_modules/chartist/dist/chartist.css",
                             "src/styles.scss",

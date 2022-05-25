@@ -60,6 +60,38 @@ export const requestTypes = {
                 key: "created_at",
             },
         ],
-        actions: [],
+        actions: [
+            {
+                name: "View",
+                type: "link",
+                link: "/admin/requests/${this.item.id}| html",
+            }
+        ],
+    },
+    HelpRequest: {
+        columns: [
+            {
+                def: "user_email",
+                name: "User's email",
+                key: "data.email",
+            },
+            {
+                def: "message",
+                name: "Message",
+                key: "data.message",
+            },
+            {
+                def: "submitted",
+                name: "Submitted",
+                key: "created_at",
+            },
+        ],
+        actions: [
+            {
+                name: "View",
+                type: "link",
+                link: "/admin/requests/${this.item.id}| html",
+            },
+        ],
     },
 };

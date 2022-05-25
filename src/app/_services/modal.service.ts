@@ -1,17 +1,22 @@
 import { Injectable } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
 import { MatDialog } from "@angular/material/dialog";
 
 @Injectable()
 export class ModalService {
-    private toastr: any;
 
-    constructor(private dialog: MatDialog, toastrService: ToastrService) {
-        // Set defaults
-        this.toastr = toastrService as any;
-        this.toastr.options = {
-            positionClass: "toast-bottom-right",
-        };
+    constructor(private dialog: MatDialog) {}
+
+    requestHelp(request) {
+        return new Promise((resolve) => {
+            import("../shared/modals/request-help/request-help.modal").then((c) => {
+                // Open modal with data
+                resolve(
+                    this.dialog.open(c.RequestHelpModalComponent, {
+                        data: request,
+                    })
+                )
+            });
+        });
     }
 
     expandText({ text = "" }) {

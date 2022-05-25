@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges } from "@angular/core";
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges, AfterViewInit } from "@angular/core";
 import { MatSelectionList, MatSelectionListChange } from "@angular/material/list";
 import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
@@ -14,7 +14,7 @@ import { decodeToken } from "../../../../../_pipes/functions";
     templateUrl: "./cohort-all.component.html",
     styleUrls: ["./cohort-all.component.scss"],
 })
-export class CohortAllComponent implements OnInit, OnChanges {
+export class CohortAllComponent implements AfterViewInit, OnChanges {
     @ViewChild(MatSelectionList) cohorts: MatSelectionList;
     @Input() cohort: any;
     @Output() changeEvent = new EventEmitter<any>();
@@ -68,7 +68,7 @@ export class CohortAllComponent implements OnInit, OnChanges {
         return Object.keys(obj).length === 0;
     }
 
-    ngOnInit() {
+    ngAfterViewInit() {
         this.cohorts.selectionChange.subscribe((s: MatSelectionListChange) => {
             this.cohorts.deselectAll();
             s.option.selected = true;
