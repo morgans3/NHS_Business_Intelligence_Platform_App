@@ -72,6 +72,33 @@ export class RequestInterceptor implements HttpInterceptor {
                                 });
                         }
 
+                        // Handle 404 error
+                        if(err.status === 404) {
+                            this.notificationService
+                                .notify({
+                                    status: "error",
+                                    message: err.error.msg || "Item not found",
+                                    actions: [
+                                        { id: "close", name: "Close" },
+                                        { id: "report", name: "Report issue" }
+                                    ]
+                                })
+                                .then((snackbar) => {
+                                    snackbar.instance.dismissed.subscribe((action) => {
+                                        if(action === "report") {
+                                            this.modalService.requestHelp({
+                                                message: "I'm experiencing a 404 error on the page at " + location.href,
+                                                attributes: {
+                                                    error_status: err.status,
+                                                    error_message: err.message,
+                                                    error_url: err.url
+                                                }
+                                            });
+                                        }
+                                    })
+                                });
+                        }
+
                         // Handle application error
                         const applicationError = err.headers.get("Application-Error");
                         if (applicationError) {

@@ -5,7 +5,7 @@ import { NotificationService } from "../../../_services/notification.service";
 import { APIService } from "diu-component-library";
 
 const isValidPartnerEmail = (email) => {
-    return email.match(/@nhs.net|@nhs.uk|@gov.uk|@ac.uk/);
+    return email.match(/@nhs.net|@nhs.uk|@gov.uk|@ac.uk|.org|derianhouse.co.uk/);
 };
 
 @Component({
@@ -15,7 +15,6 @@ const isValidPartnerEmail = (email) => {
 })
 export class AccessRequestFormComponent implements OnInit {
     apps = [];
-
     formComplete = false;
     form: FormGroup = new FormGroup(
         {

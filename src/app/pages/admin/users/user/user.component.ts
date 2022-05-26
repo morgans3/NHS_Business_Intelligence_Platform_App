@@ -13,6 +13,7 @@ export class UserComponent implements OnInit {
     @ViewChild("rolesTable") rolesTable: MatTable<any>;
     @ViewChild("capabilitiesTable") capabilitiesTable: MatTable<any>;
     @ViewChild("teamsTable") teamsTable: MatTable<any>;
+    @ViewChild("accessLogsTable") accessLogsTable: MatTable<any>;
 
     user;
     accessLogs = [];
@@ -33,7 +34,8 @@ export class UserComponent implements OnInit {
 
                 // Init access logs
                 this.apiService.getAllAccessLogsByUser({ user: params.id }).subscribe((data: any) => {
-                    this.accessLogs = data.Items.slice(0, 5);
+                    this.accessLogs = data.slice(0, 5);
+                    this.accessLogsTable.renderRows();
                 });
 
                 // Get team capabilities
