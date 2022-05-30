@@ -13,3 +13,14 @@
         vertical-align: middle;
     }
 }
+
+.chartspace {
+    min-height: 300px;
+    &>div {
+        margin: 0;
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}

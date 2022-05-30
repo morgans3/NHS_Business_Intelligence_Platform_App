@@ -14,7 +14,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { Angular2Csv } from "angular2-csv/Angular2-csv";
-import { APIService, PopulationManagementService } from "diu-component-library";
+import { APIService, OutbreakService } from "diu-component-library";
 import { environment } from "src/environments/environment";
 declare let leafletMarkerChartBubble: any;
 declare let leafletChoroplethChart: any;
@@ -38,6 +38,7 @@ export const DeprivationColors = [
     selector: "app-outbreaks",
     templateUrl: "./outbreaks.component.html",
     animations: [collapseAnimations],
+    styleUrls: ["./outbreaks.component.scss"]
 })
 export class OutbreaksComponent implements OnInit {
     @ViewChild("ageChartParent") ageChartParent: ElementRef;
@@ -230,14 +231,15 @@ export class OutbreaksComponent implements OnInit {
         public http: HttpClient,
         private apiService: APIService,
         private notificationService: NotificationService,
-        private populationManagementService: PopulationManagementService
+        private outbreakService: OutbreakService
     ) {
+        // Set JWT
         this.token = this.store.selectSnapshot(AuthState.getToken);
-        const parsedUrl = window.location.href;
-        this.origin = parsedUrl.replace("/outbreaks", "");
-        if (this.origin.includes("localhost")) {
-            this.origin = "https://www." + environment.websiteURL;
-        }
+
+        // Set API origin
+        this.origin = "https://outbreak." + environment.websiteURL;
+
+        // Set table data
         this.dataSource = new MatTableDataSource(this.exampleData);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
@@ -257,7 +259,7 @@ export class OutbreaksComponent implements OnInit {
 
     buildCF() {
         this.myDC = dcFull;
-        this.populationManagementService.getCFServer().subscribe((res: any) => {
+        this.outbreakService.getCFServer().subscribe((res: any) => {
             this.dataLoaded = true;
             this.filteredData = res;
             this.totalsize = this.filteredData["all"].values;
@@ -992,7 +994,7 @@ export class OutbreaksComponent implements OnInit {
                 },
             })
             .circleScale(this.mapCircleScalingFactor)
-            .locationAccessor((d) => this.postcodelookup[d.key])
+            .locationAccessor((d) => this.postcodelookup[d.key] || [0, 0])
             .cluster(true)
             .clusterOptions({
                 spiderfyOnMaxZoom: true,
@@ -1501,7 +1503,7 @@ export class OutbreaksComponent implements OnInit {
                 headers: header,
             };
             await d3
-                .json(this.origin.replace("cvi", "results") + "/tpindex/getCrossfilter?filter=" + JSON.stringify(queryFilter), options)
+                .json(this.origin + "/dataset/getCrossfilter?filter=" + JSON.stringify(queryFilter), options)
                 .then((d: any) => {
                     if (this.filteredData !== d) {
                         this.filteredData = d;
@@ -1553,7 +1555,7 @@ export class OutbreaksComponent implements OnInit {
             method: "GET",
             headers: header,
         };
-        d3.json(this.origin.replace("cvi", "results") + "/tpindex/getCrossfilter", options).then((d: any) => {
+        d3.json(this.origin + "/dataset/getCrossfilter", options).then((d: any) => {
             this.filteredData = d;
             this.myDC.filterAll();
             this.myDC.redrawAll();
