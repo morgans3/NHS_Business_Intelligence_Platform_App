@@ -20,7 +20,13 @@
                                             autocomplete="false"
                                         />
                                     </mat-form-field>
-
+                                </div>
+                                <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
+                                    <mat-form-field class="m-b-10">
+                                        <input matInput formControlName="surname" placeholder="Surname" type="text" autocomplete="false" />
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
                                     <mat-form-field class="m-b-10">
                                         <input
                                             matInput
@@ -31,7 +37,20 @@
                                         />
                                         <mat-hint>E.g. Clinician/Social Worker/Community Nurse</mat-hint>
                                     </mat-form-field>
-
+                                </div>
+                                <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
+                                    <mat-form-field class="m-b-10">
+                                        <input
+                                            matInput
+                                            formControlName="professional_number"
+                                            placeholder="Professional registration number"
+                                            type="text"
+                                            autocomplete="false"
+                                        />
+                                        <mat-hint>If relevant</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
                                     <mat-form-field class="m-b-10">
                                         <input
                                             matInput
@@ -43,21 +62,6 @@
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
-                                    <mat-form-field class="m-b-10">
-                                        <input matInput formControlName="surname" placeholder="Surname" type="text" autocomplete="false" />
-                                    </mat-form-field>
-
-                                    <mat-form-field class="m-b-10">
-                                        <input
-                                            matInput
-                                            formControlName="professional_number"
-                                            placeholder="Professional registration number"
-                                            type="text"
-                                            autocomplete="false"
-                                        />
-                                        <mat-hint>If relevant</mat-hint>
-                                    </mat-form-field>
-
                                     <mat-form-field class="m-b-10">
                                         <input
                                             matInput
@@ -87,7 +91,12 @@
                                 </mat-error>
                             </mat-form-field>
 
-                            <p class="m-b-0"><small>* Your work email address should end with your employer's website name, i.e. john.appleseed@gov.uk, millie.smith@nhs.net</small></p>
+                            <p class="m-b-0">
+                                <small
+                                    >* Your work email address should end with your employer's website name, i.e. john.appleseed@gov.uk,
+                                    millie.smith@nhs.net</small
+                                >
+                            </p>
                         </mat-step>
                         <mat-step formGroupName="pid_access">
                             <ng-template matStepLabel>PID access - Relevant legitimate relationship</ng-template>
@@ -105,7 +114,8 @@
                                         formControlName="patient_gps"
                                         placeholder="Patient's registered GP practice"
                                     ></gp-select>
-
+                                </div>
+                                <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
                                     <mat-form-field class="m-b-10">
                                         <input
                                             matInput
@@ -128,7 +138,8 @@
                                         />
                                         <mat-hint>Enter service code</mat-hint>
                                     </mat-form-field>
-
+                                </div>
+                                <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
                                     <mat-form-field class="m-b-10">
                                         <input
                                             matInput

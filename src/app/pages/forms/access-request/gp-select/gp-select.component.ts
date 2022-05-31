@@ -40,7 +40,7 @@ export class GPSelectComponent implements ControlValueAccessor {
     async getGps() {
         if (this.gps.all.length === 0) {
             this.gps.all = (
-                (await this.http.get("https://sqlapi.dev." + environment.websiteURL + "/gppractices/getAll").toPromise()) as Array<any>
+                (await this.http.get("https://api." + environment.websiteURL + "/gppractices/").toPromise()) as Array<any>
             )[0].features
                 .map((gp) => gp.properties)
                 .sort((a, b) => {
