@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges, AfterViewInit } from "@angular/core";
+import { Component, ViewChild, Input, Output, EventEmitter, OnChanges, AfterViewInit } from "@angular/core";
 import { MatSelectionList, MatSelectionListChange } from "@angular/material/list";
 import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";

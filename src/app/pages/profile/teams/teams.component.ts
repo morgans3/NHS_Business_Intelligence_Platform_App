@@ -100,6 +100,7 @@ export class ProfileTeamsComponent implements OnInit {
             this.apiService
                 .addTeamRequest({
                     username: this.user.username,
+                    organisation: this.user.organisation,
                     teamcode: team.code,
                     requestdate: new Date(),
                     requestor: this.user.username,

@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnDestroy, SimpleChanges } from "@angular/core";
+import { Component, OnChanges, OnDestroy } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { APIService } from "diu-component-library";
 import { iPageConfig } from "../../layouts/full/full.component";
@@ -16,11 +16,7 @@ export class DynamicComponent implements OnChanges, OnDestroy {
     routerEventsSubscription;
     location = "";
 
-    constructor(
-        private store: Store,
-        private router: Router,
-        private apiService: APIService
-    ) {
+    constructor(private store: Store, private router: Router, private apiService: APIService) {
         // Track pages with AWS RUM
         this.routerEventsSubscription = this.router.events.subscribe((event: any) => {
             if (event instanceof NavigationEnd) {
@@ -66,9 +62,9 @@ export class DynamicComponent implements OnChanges, OnDestroy {
             this.store.dispatch(new GetConfigByID(id)).subscribe(() => {
                 this.store.select(DynamicConfigState.getConfigById(id)).subscribe((payload) => {
                     resolve(payload);
-                })
+                });
             });
-        })
+        });
     }
 
     getPage(currentpage: string) {

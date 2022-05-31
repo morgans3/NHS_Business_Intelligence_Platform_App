@@ -108,6 +108,7 @@ export class TeamMembersComponent implements OnInit, OnChanges {
                 if (res.success) {
                     const newTeamMember: iTeamMembers = {
                         username: person.username,
+                        organisation: person.organisation,
                         teamcode: request[0].teamcode,
                         joindate: new Date(),
                         _id: generateID(),

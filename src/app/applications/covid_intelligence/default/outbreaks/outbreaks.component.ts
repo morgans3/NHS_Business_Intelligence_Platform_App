@@ -18,7 +18,6 @@ import { APIService, OutbreakService } from "diu-component-library";
 import { environment } from "src/environments/environment";
 declare let leafletMarkerChartBubble: any;
 declare let leafletChoroplethChart: any;
-declare let window: any;
 
 export const DeprivationColors = [
     "#000000",
@@ -38,7 +37,7 @@ export const DeprivationColors = [
     selector: "app-outbreaks",
     templateUrl: "./outbreaks.component.html",
     animations: [collapseAnimations],
-    styleUrls: ["./outbreaks.component.scss"]
+    styleUrls: ["./outbreaks.component.scss"],
 })
 export class OutbreaksComponent implements OnInit {
     @ViewChild("ageChartParent") ageChartParent: ElementRef;
@@ -1502,16 +1501,14 @@ export class OutbreaksComponent implements OnInit {
                 method: "GET",
                 headers: header,
             };
-            await d3
-                .json(this.origin + "/dataset/getCrossfilter?filter=" + JSON.stringify(queryFilter), options)
-                .then((d: any) => {
-                    if (this.filteredData !== d) {
-                        this.filteredData = d;
-                        this.loadFilters = {};
-                        this.myDC.redrawAll();
-                        this.map.redraw();
-                    }
-                });
+            await d3.json(this.origin + "/dataset/getCrossfilter?filter=" + JSON.stringify(queryFilter), options).then((d: any) => {
+                if (this.filteredData !== d) {
+                    this.filteredData = d;
+                    this.loadFilters = {};
+                    this.myDC.redrawAll();
+                    this.map.redraw();
+                }
+            });
         }
         return null;
     }

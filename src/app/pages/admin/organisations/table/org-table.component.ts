@@ -12,11 +12,7 @@ export class OrganisationsTableComponent implements OnInit {
     orgs = { all: [], filtered: [] };
     @ViewChild(MatTable) table: MatTable<any>;
 
-    constructor(
-        private dialog: MatDialog,
-        private apiService: APIService,
-        private notificationService: NotificationService
-    ) {}
+    constructor(private dialog: MatDialog, private apiService: APIService, private notificationService: NotificationService) {}
 
     ngOnInit() {
         this.apiService.getOrganisations().subscribe((orgs: any) => {
@@ -65,12 +61,15 @@ export class OrganisationsTableComponent implements OnInit {
     delete(organisation) {
         this.notificationService.question("Are you sure you want to delete this organisation?").then((confirmed) => {
             if (confirmed === true) {
-                this.apiService.removeOrganisation(organisation).subscribe((res) => {
+                this.apiService.removeOrganisation(organisation).subscribe(() => {
                     // Notify success
                     this.notificationService.success("Organisation has been removed successfully!");
 
                     // Change item at index
-                    this.orgs.all.splice(this.orgs.all.findIndex((item) => item.name === organisation.name), 1);
+                    this.orgs.all.splice(
+                        this.orgs.all.findIndex((item) => item.name === organisation.name),
+                        1
+                    );
 
                     // Change item in filtered list
                     const filteredListIndex = this.orgs.filtered.findIndex((item) => item.name === organisation.name);

@@ -211,23 +211,25 @@ export class NeedListComponent implements OnInit {
 
     // Warning pop-up if there's an error in the request (e.g. a 503 response)
     server_error_toaster(error_status: string) {
-        this.notificationService.notify({
-            status: "error",
-            message: "An error has occurred, please wait a few seconds and try again. If this issue persists click to report it...",
-            actions: [
-                { id: "close", name: "Close" },
-                { id: "report", name: "Report issue" }
-            ]
-        }).then((snackbar) => {
-            // Listen for report
-            snackbar.instance.dismissed.subscribe((action) => {
-                if(action === "report") {
-                    this.modalService.requestHelp({
-                        message: "I'm experiencing a system error on the page at " + location.href,
-                    });
-                }
+        this.notificationService
+            .notify({
+                status: error_status || "error",
+                message: "An error has occurred, please wait a few seconds and try again. If this issue persists click to report it...",
+                actions: [
+                    { id: "close", name: "Close" },
+                    { id: "report", name: "Report issue" },
+                ],
             })
-        });
+            .then((snackbar) => {
+                // Listen for report
+                snackbar.instance.dismissed.subscribe((action) => {
+                    if (action === "report") {
+                        this.modalService.requestHelp({
+                            message: "I'm experiencing a system error on the page at " + location.href,
+                        });
+                    }
+                });
+            });
     }
 
     // Drag/drop into a box which can have all items within it

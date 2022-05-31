@@ -8,9 +8,9 @@ import { environment } from "src/environments/environment";
 import { Store } from "@ngxs/store";
 
 interface Request {
-    email: string,
-    message: string,
-    attributes: any
+    email: string;
+    message: string;
+    attributes: any;
 }
 
 @Component({
@@ -35,33 +35,40 @@ export class RequestHelpModalComponent {
         const userEmail = this.store.selectSnapshot(AuthState.getEmail);
 
         // Set form data
-        this.request.patchValue(Object.assign(
-            {}, this.data, { email: userEmail }
-        ));
+        this.request.patchValue(Object.assign({}, this.data, { email: userEmail }));
     }
 
     submit() {
         const request: Request = this.request.value;
-        this.apiService.sendHelpRequest(request).subscribe((data: any) => {
-            if(data && data.success) {
-                // Notify user
-                this.notifcationService.success("Thank you! Your message has been sent, we'll try and fix the problem promptly.");
-            } else {
-                // Send via email
+        this.apiService.sendHelpRequest(request).subscribe(
+            (data: any) => {
+                if (data && data.success) {
+                    // Notify user
+                    this.notifcationService.success("Thank you! Your message has been sent, we'll try and fix the problem promptly.");
+                } else {
+                    // Send via email
+                    this.submitViaEmail(request);
+                }
+            },
+            () => {
                 this.submitViaEmail(request);
             }
-        }, (error) => { this.submitViaEmail(request); });
+        );
     }
 
     submitViaEmail(request: Request) {
         this.dialogRef.close();
         window.open(
-            "https://outlook.office.com/mail/deeplink/compose?to=" + environment.admins[0] +
-            "&subject=Help+Request&body=" + encodeURIComponent(`
+            "https://outlook.office.com/mail/deeplink/compose?to=" +
+                environment.admins[0] +
+                "&subject=Help+Request&body=" +
+                encodeURIComponent(`
                 Message: ${request.message} \n
                 Email: ${request.email} \n
                 Attributes: ${JSON.stringify(request.attributes)}
-        `), "_blank");
+        `),
+            "_blank"
+        );
     }
 }
 

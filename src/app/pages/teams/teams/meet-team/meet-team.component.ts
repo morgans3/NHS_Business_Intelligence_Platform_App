@@ -223,6 +223,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
             if (result) {
                 const request: iTeamRequest = {
                     username: result.username,
+                    organisation: result.organisation,
                     teamcode: this.selectedTeam.code,
                     // isArchived: false,
                     requestdate: new Date(),
@@ -244,8 +245,8 @@ export class MeetTeamComponent implements OnInit, OnChanges {
     requestAccess() {
         const newRequest: iTeamRequest = {
             username: this.tokenDecoded.username,
+            organisation: this.tokenDecoded.organisation,
             teamcode: this.selectedTeam.code,
-            // isArchived: false,
             requestdate: new Date(),
             requestor: this.tokenDecoded.username,
         };
