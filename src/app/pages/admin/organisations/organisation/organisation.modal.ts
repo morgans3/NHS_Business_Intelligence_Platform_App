@@ -9,6 +9,7 @@ import { NotificationService } from "../../../../_services/notification.service"
     templateUrl: "./organisation.modal.html",
 })
 export class OrgModalComponent implements OnInit {
+    newOrg = false;
     org = new FormGroup({
         code: new FormControl({ value: "", disabled: true }),
         name: new FormControl(""),
@@ -26,20 +27,34 @@ export class OrgModalComponent implements OnInit {
     ngOnInit() {
         // Set values from opener
         if (this.data.org) {
+            this.newOrg = false;
             this.org.patchValue(this.data.org);
+        } else {
+            this.newOrg = true;
         }
     }
 
     save() {
         // Update app with new values
-        this.apiService.updateOrganisation(this.org.value).subscribe((res: any) => {
-            if (res.success === true) {
-                this.notificationService.success("Organisation updated successfully");
-                this.dialogRef.close(this.org.value);
-            } else {
-                this.notificationService.error("An error occurred updating the organisation!");
-            }
-        });
+        if (this.newOrg) {
+            this.apiService.addOrganisation(this.org.getRawValue()).subscribe((res: any) => {
+                if (res.success === true) {
+                    this.notificationService.success("Organisation updated successfully");
+                    this.dialogRef.close(this.org.value);
+                } else {
+                    this.notificationService.error("An error occurred updating the organisation!");
+                }
+            });
+        } else {
+            this.apiService.updateOrganisation(this.org.value).subscribe((res: any) => {
+                if (res.success === true) {
+                    this.notificationService.success("Organisation updated successfully");
+                    this.dialogRef.close(this.org.value);
+                } else {
+                    this.notificationService.error("An error occurred updating the organisation!");
+                }
+            });
+        }
     }
 }
 

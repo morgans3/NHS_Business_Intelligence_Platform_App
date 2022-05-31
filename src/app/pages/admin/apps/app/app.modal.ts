@@ -9,6 +9,7 @@ import { NotificationService } from "../../../../_services/notification.service"
     templateUrl: "./app.modal.html",
 })
 export class AppModalComponent implements OnInit {
+    newApp = false;
     app = new FormGroup({
         name: new FormControl(""),
         description: new FormControl(""),
@@ -31,21 +32,35 @@ export class AppModalComponent implements OnInit {
     ngOnInit() {
         // Set values from opener
         if (this.data.app) {
+            this.newApp = false;
             this.app.patchValue(this.data.app);
             this.app.get("name").disable();
+        } else {
+            this.newApp = true;
         }
     }
 
     save() {
         // Update app with new values
-        this.apiService.updateApp(this.app.getRawValue()).subscribe((res: any) => {
-            if (res.success === true) {
-                this.notificationService.success("App updated successfully");
-                this.dialogRef.close(this.app.getRawValue());
-            } else {
-                this.notificationService.error("An error occurred updating the app!");
-            }
-        });
+        if (this.newApp) {
+            this.apiService.addApp(this.app.getRawValue()).subscribe((res: any) => {
+                if (res.success === true) {
+                    this.notificationService.success("App updated successfully");
+                    this.dialogRef.close(this.app.getRawValue());
+                } else {
+                    this.notificationService.error("An error occurred updating the app!");
+                }
+            });
+        } else {
+            this.apiService.updateApp(this.app.getRawValue()).subscribe((res: any) => {
+                if (res.success === true) {
+                    this.notificationService.success("App updated successfully");
+                    this.dialogRef.close(this.app.getRawValue());
+                } else {
+                    this.notificationService.error("An error occurred updating the app!");
+                }
+            });
+        }
     }
 }
 
