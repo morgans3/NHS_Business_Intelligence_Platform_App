@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormGroup, FormControl, Validators, FormGroupDirective } from "@angular/forms";
 import { iFullUser, iOrganisation, iTeam, APIService, UserSearchDialogComponent } from "diu-component-library";
 import { Store } from "@ngxs/store";
-import { NotificationService } from "src/app/_services/notification.service";
+import { NotificationService } from "../../../../_services/notification.service";
 import { MatDialog } from "@angular/material/dialog";
-import { ReferenceState, UpdateTeams } from "src/app/_states/reference.state";
+import { ReferenceState, UpdateTeams } from "../../../../_states/reference.state";
 
 @Component({
     selector: "app-create-team",

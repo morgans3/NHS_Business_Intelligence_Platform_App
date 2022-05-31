@@ -11,7 +11,7 @@ import { decodeToken } from "../../../../_pipes/functions";
 import { Store } from "@ngxs/store";
 
 @Component({
-    selector: "app-intervention-assistant",
+    selector: "app-ph-intervention-assistant",
     templateUrl: "./intervention-assistant.component.html",
 })
 export class InterventionAssistantComponent implements OnInit {

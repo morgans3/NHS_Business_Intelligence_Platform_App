@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 import { Store } from "@ngxs/store";
-import { AuthState, ManualSetAuthTokens } from "src/app/_states/auth.state";
-import { NotificationService } from "src/app/_services/notification.service";
-import { decodeToken } from "src/app/_pipes/functions";
+import { AuthState, ManualSetAuthTokens } from "../../_states/auth.state";
+import { NotificationService } from "../../_services/notification.service";
+import { decodeToken } from "../../_pipes/functions";
 
 /** @title Responsive sidenav */
 @Component({

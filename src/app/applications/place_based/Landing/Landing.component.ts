@@ -5,22 +5,22 @@ import { Store } from "@ngxs/store";
 import { latLng, tileLayer } from "leaflet";
 import * as L from "leaflet";
 import { CategoryColors } from "./incidentLegend/colorlist";
-import { collapseAnimations } from "src/app/shared/animations";
-import { colorbrewer, DeprivationColors } from "src/app/_models/chart_colour_ranges";
+import { collapseAnimations } from "../../../shared/animations";
+import { colorbrewer, DeprivationColors } from "../../../_models/chart_colour_ranges";
 import { MatDialog } from "@angular/material/dialog";
-import { AuthState } from "src/app/_states/auth.state";
-import { BarChart } from "src/app/_models/chart";
-import { StatCardData } from "src/app/_models/SPI_Lookups";
-import { MosaicColours, MosaicDomain } from "src/app/_models/mosaiccode";
-import { StorageService } from "src/app/_services/storage.service";
+import { AuthState } from "../../../_states/auth.state";
+import { BarChart } from "../../../_models/chart";
+import { StatCardData } from "../../../_models/SPI_Lookups";
+import { MosaicColours, MosaicDomain } from "diu-component-library";
+import { StorageService } from "../../../_services/storage.service";
 import { APIService } from "diu-component-library";
 import { MapData } from "../../../shared/map.component";
-import { ExpandTextDialogComponent } from "../../covid_intelligence/_modals/dialogexpand";
-import { environment } from "src/environments/environment";
+import { environment } from "../../../../environments/environment";
+import { ModalService } from "../../../_services/modal.service";
 declare let window: any;
 
 @Component({
-    selector: "app-Landing",
+    selector: "app-pb-landing",
     templateUrl: "./Landing.component.html",
     animations: [collapseAnimations],
 })
@@ -554,7 +554,8 @@ export class LandingComponent implements OnInit {
         public store: Store,
         private storageService: StorageService,
         public dialog: MatDialog,
-        private referenceService: APIService
+        private referenceService: APIService,
+        private modalService: ModalService
     ) {
         this.token = this.store.selectSnapshot(AuthState.getToken);
         const parsedUrl = window.location.href;
@@ -1188,10 +1189,7 @@ export class LandingComponent implements OnInit {
     }
 
     showRange(text) {
-        this.dialog.open(ExpandTextDialogComponent, {
-            width: "350px",
-            data: text,
-        });
+        this.modalService.expandText(text);
     }
 
     updateSummaries() {

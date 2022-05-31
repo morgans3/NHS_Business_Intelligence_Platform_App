@@ -7,7 +7,7 @@ import { decodeToken } from "../../../../_pipes/functions";
 import { AuthState } from "../../../../_states/auth.state";
 
 @Component({
-    selector: "app-patient",
+    selector: "app-ph-patient",
     templateUrl: "./patient.component.html",
 })
 export class PatientComponent implements OnInit {

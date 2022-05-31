@@ -2,12 +2,12 @@ import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { latLng, tileLayer } from "leaflet";
 import * as L from "leaflet";
 import { legendColors } from "./colorlist";
-import { iMapData, iMappingDashboard } from "src/app/_models/mapping.interface";
+import { iMapData, iMappingDashboard } from "../../../../_models/mapping.interface";
 import "node_modules/leaflet-sidebar-v2/js/leaflet-sidebar.min.js";
 import { getTileLayer } from "./tilelayeroptions";
 
 @Component({
-    selector: "app-mapping",
+    selector: "app-pb-mapping",
     templateUrl: "./mapping.component.html",
     styleUrls: ["./mapping.component.scss"],
     encapsulation: ViewEncapsulation.None,

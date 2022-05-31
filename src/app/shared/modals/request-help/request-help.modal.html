@@ -1,0 +1,13 @@
+<div mat-dialog-content>
+    <form [formGroup]="request">
+        <mat-form-field appearance="fill">
+          <mat-label>Please explain the problem...</mat-label>
+          <textarea matInput formControlName="message" placeholder="Ex. The page is loading without any data..."></textarea>
+        </mat-form-field>
+        <p class="m-t-0 m-b-0"><small>Note: You do not need to include your details, these will be sent automatically.</small></p>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button (click)="submit()" mat-raised-button color="primary">Submit</button>
+    <button (click)="dialogRef.close()" mat-button color="warn">Cancel</button>
+</div>

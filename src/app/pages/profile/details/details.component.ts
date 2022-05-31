@@ -6,8 +6,8 @@ import { Store } from "@ngxs/store";
 import { MatDialog } from "@angular/material/dialog";
 
 import { iFullUser, iOrganisation, APIService } from "diu-component-library";
-import { NotificationService } from "src/app/_services/notification.service";
-import { ReferenceState } from "src/app/_states/reference.state";
+import { NotificationService } from "../../../_services/notification.service";
+import { ReferenceState } from "../../../_states/reference.state";
 import { iDisplayList, iInstallation } from "diu-component-library";
 import { PasswordResetService } from "../../forms/password-reset/password-reset.service";
 

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
 import { APIService } from "diu-component-library";
-import { NotificationService } from "src/app/_services/notification.service";
+import { NotificationService } from "../../../../../../_services/notification.service";
 
 @Component({
     selector: "app-findMosaic",

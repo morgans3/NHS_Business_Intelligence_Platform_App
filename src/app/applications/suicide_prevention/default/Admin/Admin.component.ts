@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { APIService } from "diu-component-library";
-import { IncidentMethods } from "src/app/_models/SPI_Lookups";
+import { IncidentMethods } from "../../../../_models/SPI_Lookups";
 
 export interface AdminLists {
     listname: string;
@@ -9,7 +9,7 @@ export interface AdminLists {
 }
 
 @Component({
-    selector: "app-Admin",
+    selector: "app-spi-admin",
     templateUrl: "./Admin.component.html",
     styleUrls: ["./Admin.component.scss"],
     encapsulation: ViewEncapsulation.None,

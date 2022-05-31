@@ -52,7 +52,7 @@ export class AppModalComponent implements OnInit {
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../../../shared/shared.module";
-import { DemoMaterialModule } from "src/app/demo-material-module";
+import { DemoMaterialModule } from "../../../../demo-material-module";
 
 @NgModule({
     imports: [CommonModule, SharedModule, DemoMaterialModule],

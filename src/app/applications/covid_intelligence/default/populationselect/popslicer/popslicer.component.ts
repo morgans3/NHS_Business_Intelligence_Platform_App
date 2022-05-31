@@ -23,7 +23,6 @@ import { AuthState } from "../../../../../_states/auth.state";
 import { MatDialog } from "@angular/material/dialog";
 import { JoyrideService } from "ngx-joyride";
 import { NotificationService } from "../../../../../_services/notification.service";
-import { ExpandTextDialogComponent } from "../../../_modals/dialogexpand";
 declare let leafletChoroplethChart: any;
 declare let leafletLegend: any;
 declare let leafletMarkerChartBubble: any;
@@ -32,6 +31,7 @@ declare let window: any;
 declare let L: any;
 import { RiskRows, RiskCols, CareModelExamples } from "./RiskRows";
 import { environment } from "src/environments/environment";
+import { ModalService } from "../../../../../_services/modal.service";
 
 export class StatCardData {
     title: string;
@@ -44,7 +44,7 @@ export class StatCardData {
 }
 
 @Component({
-    selector: "app-popslicer",
+    selector: "app-covid-popslicer",
     templateUrl: "./popslicer.component.html",
     styleUrls: ["./popslicer.component.scss"],
     animations: [collapseAnimations],
@@ -223,6 +223,7 @@ export class PopslicerComponent implements OnInit {
         public store: Store,
         public dialog: MatDialog,
         private apiService: APIService,
+        private modalService: ModalService,
         private populationManagementService: PopulationManagementService,
         private readonly joyrideService: JoyrideService,
         private notificationService: NotificationService
@@ -1963,10 +1964,7 @@ export class PopslicerComponent implements OnInit {
 
     /* #region Filter Display Functions */
     showRange(text) {
-        this.dialog.open(ExpandTextDialogComponent, {
-            width: "350px",
-            data: text,
-        });
+        this.modalService.expandText(text);
     }
 
     shortenText(text: string): string {

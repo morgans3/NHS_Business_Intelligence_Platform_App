@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 
 @Component({
-    selector: "app-Landing",
+    selector: "app-covid-landing",
     templateUrl: "./Landing.component.html",
     styleUrls: ["./Landing.component.scss"],
 })

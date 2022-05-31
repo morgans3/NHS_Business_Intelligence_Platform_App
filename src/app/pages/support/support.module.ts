@@ -5,7 +5,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 import { AccordionLinkModule } from "../../shared/accordion/accordionLinkModule";
-import { DemoMaterialModule } from "src/app/demo-material-module";
+import { DemoMaterialModule } from "../../demo-material-module";
 import { SupportRoutes } from "./support.routing";
 
 import { GuideComponent } from "./guides/guides.component";

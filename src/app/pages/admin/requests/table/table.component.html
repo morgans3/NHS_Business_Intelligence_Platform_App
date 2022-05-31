@@ -5,6 +5,7 @@
         <mat-label>Change type</mat-label>
         <mat-select (selectionChange)="getRequestsByType($event.value)">
             <mat-option value="AccountRequest">Account Request</mat-option>
+            <mat-option value="HelpRequest">Help Request</mat-option>
             <mat-option value="AccountRequestComplete">Account Request Response</mat-option>
         </mat-select>
     </mat-form-field>

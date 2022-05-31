@@ -9,19 +9,18 @@ import { RouterModule } from "@angular/router";
 import { MainPipe } from "../_pipes/main-pipe.module";
 
 import { StatCardComponent } from "./stat-card.component";
-import { ExpandTextDialogComponent } from "./modals/expand/dialogexpand";
 import { ExpandListDialogComponent } from "./modals/expandlist/dialogexpandlist";
 import { ConfirmTextDialogComponent } from "./modals/textconfirm/dialogtextconfirm";
 import { UserValidationComponent } from "./user-validation/UserValidation.component";
 import { VerifiyDialogComponent } from "./modals/verify/dialogverifiy";
 import { ValidateDialogComponent } from "./modals/validate/dialogvalidate";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
+import { ModalService } from "../_services/modal.service";
 
 @NgModule({
     declarations: [
         MapComponent,
         StatCardComponent,
-        ExpandTextDialogComponent,
         ExpandListDialogComponent,
         ConfirmTextDialogComponent,
         UserValidationComponent,
@@ -48,11 +47,11 @@ import { LeafletModule } from "@asymmetrik/ngx-leaflet";
         FlexLayoutModule,
         MapComponent,
         StatCardComponent,
-        ExpandTextDialogComponent,
         ExpandListDialogComponent,
         ConfirmTextDialogComponent,
         UserValidationComponent,
     ],
+    providers: [ModalService],
     entryComponents: [VerifiyDialogComponent, ValidateDialogComponent],
 })
 export class SharedModule {}

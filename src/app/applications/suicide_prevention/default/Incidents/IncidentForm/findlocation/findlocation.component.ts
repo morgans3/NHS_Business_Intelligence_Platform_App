@@ -2,9 +2,10 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, Input, OnChanges } 
 import { FormGroup, FormControl, FormGroupDirective } from "@angular/forms";
 import { latLng, tileLayer, TileLayer, LatLng } from "leaflet";
 import * as L from "leaflet";
-import { NotificationService } from "src/app/_services/notification.service";
-import { iLocation } from "src/app/_models/SPI_Lookups";
-import { Postcodes, PostcodeService } from "src/app/_services/postcodes.service";
+import { NotificationService } from "../../../../../../_services/notification.service";
+import { iLocation } from "../../../../../../_models/SPI_Lookups";
+import { PostcodeService } from "../../../../../../_services/postcodes.service";
+import { Postcodes } from "diu-component-library";
 
 export class MapData {
     layers?: any;

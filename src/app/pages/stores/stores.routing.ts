@@ -3,11 +3,7 @@ import { StoresComponent } from "./stores/stores.component";
 
 export const StoresRoutes: Routes = [
     {
-        path: "apps",
+        path: "",
         component: StoresComponent,
-    },
-    {
-        path: "dashboardstore",
-        component: StoresComponent,
-    },
+    }
 ];

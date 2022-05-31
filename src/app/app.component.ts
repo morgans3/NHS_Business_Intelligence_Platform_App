@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { filter, map, mergeMap } from "rxjs/operators";
+import { NotificationService } from "./_services/notification.service";
 
 declare function cwr(operation: string, payload: any): void;
 
@@ -9,7 +10,11 @@ declare function cwr(operation: string, payload: any): void;
     templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
-    constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+    constructor(
+        private router: Router,
+        private activatedRoute: ActivatedRoute,
+        public notificationService: NotificationService
+    ) {}
 
     ngOnInit() {
         // Listen and get all route data
@@ -33,5 +38,10 @@ export class AppComponent implements OnInit {
                     console.log("Page view recorded");
                 }
             });
+
+        // Expose notification api
+        window["notify"] = ({ message, actions = null, status = null }) => {
+            this.notificationService.notify({ message, actions, status })
+        };
     }
 }

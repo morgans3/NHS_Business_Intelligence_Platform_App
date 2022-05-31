@@ -20,7 +20,7 @@ import { ActivatedRoute } from "@angular/router";
 export class AccessLogsTableComponent implements OnInit {
     @ViewChild(MatTable) table: MatTable<any>;
 
-    logs = { all: [], nextPageKey: null };
+    logs = { all: [], isLastPage: false };
     filters = { query_by: "date", user: "", type: "", date: moment(), pageKey: null };
 
     constructor(private dialog: MatDialog, private apiService: APIService, private activatedRoute: ActivatedRoute) {}
@@ -61,7 +61,10 @@ export class AccessLogsTableComponent implements OnInit {
             }
 
             // Get by user
-            dataObservable = this.apiService.getAllAccessLogsByUser({ user: this.filters.user, pageKey: this.filters.pageKey });
+            dataObservable = this.apiService.getAllAccessLogsByUser({
+                user: this.filters.user,
+                pageKey: this.filters.pageKey,
+            });
         } else {
             // Set page key?
             if (startItem) {
@@ -69,19 +72,16 @@ export class AccessLogsTableComponent implements OnInit {
             }
 
             // Get by type
-            dataObservable = this.apiService.getAllAccessLogs({ type: this.filters.type, pageKey: this.filters.pageKey });
+            dataObservable = this.apiService.getAllAccessLogs({
+                type: this.filters.type,
+                pageKey: this.filters.pageKey,
+            });
         }
 
         dataObservable.subscribe((data: any) => {
             // Set log data
-            this.logs.all = this.logs.all.concat(data.Items.length > 0 ? data.Items : []);
-
-            // Has next page?
-            if (data.LastEvaluatedKey) {
-                this.logs.nextPageKey = data.LastEvaluatedKey;
-            } else {
-                this.logs.nextPageKey = null;
-            }
+            this.logs.all = this.logs.all.concat(data.length > 0 ? data : []);
+            this.logs.isLastPage = data.length > 0 ? false : true;
         });
     }
 
@@ -99,7 +99,7 @@ export class AccessLogsTableComponent implements OnInit {
         clearTimeout(this.filterTimeout);
         this.filterTimeout = setTimeout(() => {
             // Reset page key and get data
-            this.logs = { all: [], nextPageKey: null };
+            this.logs = { all: [], isLastPage: false };
             this.filters.pageKey = null;
             this.getLogs();
         }, 500);

@@ -7,34 +7,99 @@ import { Injectable } from "@angular/core";
 import { NotificationService } from "./notification.service";
 import { Store } from "@ngxs/store";
 import { environment } from "src/environments/environment";
+import { ModalService } from "./modal.service";
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
-    isRefreshingToken = false;
     tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>("");
-    model: any = {};
     lastRequest: any = null;
 
-    constructor(private apiService: APIService, private notificationService: NotificationService, public store: Store) {}
+    constructor(
+        public store: Store,
+        private apiService: APIService,
+        private notificationService: NotificationService,
+        private modalService: ModalService
+    ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): any {
         if (request !== this.lastRequest) {
             this.lastRequest = request;
             return next.handle(this.addTokenToRequest(request, this.store.selectSnapshot(AuthState.getToken) || "")).pipe(
                 catchError((err: any) => {
-                    if (err.error instanceof ErrorEvent) {
-                    }
                     if (err instanceof HttpErrorResponse) {
+                        // Handle 403 error
                         if (err.status === 403) {
-                            this.notificationService.error("Insufficent privileges");
                             // TODO: Ask if the user wants to request capabilities required
+                            this.notificationService.error("Insufficent privileges");
                             return throwError(err.statusText);
                         }
-                        if (err.status === 401) {
-                            return this.handle401Error(request, next);
-                        }
-                        // TODO: Check if there are any other status codes that need to be handled
 
+                        // Handle 401 error
+                        if (err.status === 401) {
+                            return this.tokenSubject.pipe(
+                                filter((token) => token != null),
+                                take(1),
+                                switchMap((token) => {
+                                    return next.handle(this.addTokenToRequest(request, token));
+                                })
+                            );
+                        }
+
+                        // Handle 500 error
+                        if([500, 504].includes(err.status)) {
+                            this.notificationService
+                                .notify({
+                                    status: "error",
+                                    message: "A system error has occurred. If this issue persists click to report it...",
+                                    actions: [
+                                        { id: "close", name: "Close" },
+                                        { id: "report", name: "Report issue" }
+                                    ]
+                                })
+                                .then((snackbar) => {
+                                    snackbar.instance.dismissed.subscribe((action) => {
+                                        if(action === "report") {
+                                            this.modalService.requestHelp({
+                                                message: "I'm experiencing a system error on the page at " + location.href,
+                                                attributes: {
+                                                    error_status: err.status,
+                                                    error_message: err.message,
+                                                    error_url: err.url
+                                                }
+                                            });
+                                        }
+                                    })
+                                });
+                        }
+
+                        // Handle 404 error
+                        if(err.status === 404) {
+                            this.notificationService
+                                .notify({
+                                    status: "error",
+                                    message: err.error.msg || "Item not found",
+                                    actions: [
+                                        { id: "close", name: "Close" },
+                                        { id: "report", name: "Report issue" }
+                                    ]
+                                })
+                                .then((snackbar) => {
+                                    snackbar.instance.dismissed.subscribe((action) => {
+                                        if(action === "report") {
+                                            this.modalService.requestHelp({
+                                                message: "I'm experiencing a 404 error on the page at " + location.href,
+                                                attributes: {
+                                                    error_status: err.status,
+                                                    error_message: err.message,
+                                                    error_url: err.url
+                                                }
+                                            });
+                                        }
+                                    })
+                                });
+                        }
+
+                        // Handle application error
                         const applicationError = err.headers.get("Application-Error");
                         if (applicationError) {
                             if (applicationError === "Invalid refresh token") {
@@ -56,7 +121,7 @@ export class RequestInterceptor implements HttpInterceptor {
                             }
                         }
                         // this.notificationService.error(modelStateErrors || serverError || "Server Error");
-                        this.notificationService.error("Connection to Server Error");
+                        // this.notificationService.error("Connection to Server Error");
                         return throwError(modelStateErrors || serverError || "Server Error");
                     } else {
                         return throwError(err);
@@ -78,15 +143,5 @@ export class RequestInterceptor implements HttpInterceptor {
                 "Access-Control-Allow-Origin": "*",
             }),
         });
-    }
-
-    private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-        return this.tokenSubject.pipe(
-            filter((token) => token != null),
-            take(1),
-            switchMap((token) => {
-                return next.handle(this.addTokenToRequest(request, token));
-            })
-        );
     }
 }

@@ -4,7 +4,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
-    selector: "app-worksheet",
+    selector: "app-spi-worksheet",
     templateUrl: "worksheet.component.html",
 })
 export class WorksheetComponent implements OnInit, OnChanges, AfterViewInit {

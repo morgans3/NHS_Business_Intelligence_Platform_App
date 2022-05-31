@@ -11,7 +11,7 @@ import { MosaicCode } from "diu-component-library";
 import { APIService } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
 import { AuthState } from "../../../../_states/auth.state";
-import { StatCardData } from "../Regional/stat-card.component";
+import { StatCardData } from "../../../../shared/stat-card.component";
 
 export class CompTableItem {
     chart: string;
@@ -35,7 +35,7 @@ export class CompResults {
 }
 
 @Component({
-    selector: "app-cohortcompare",
+    selector: "app-covid-cohortcompare",
     templateUrl: "./cohortcompare.component.html",
 })
 export class CohortcompareComponent implements OnInit {

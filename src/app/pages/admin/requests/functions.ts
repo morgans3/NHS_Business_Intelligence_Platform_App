@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-implied-eval */
 export const getValueByKey = (key, item) => {
     key = key.split("|");
     if (key[1]) {
-        return helper.fn(key[0]);
+        return new Function("return `" + key[0] + "`").call({ item });
     } else {
         return ((s, o) => {
             s = s.replace(/\[(\w+)\]/g, ".$1"); // convert indexes to properties
@@ -18,10 +19,4 @@ export const getValueByKey = (key, item) => {
             return o;
         })(key[0], item);
     }
-};
-
-class helper {
-    static fn = (key) => {
-        return "`" + (key as string) + "`";
-    };
 }

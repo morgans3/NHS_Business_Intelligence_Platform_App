@@ -8,7 +8,7 @@ import { PatientLinked, APIService } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
 
 @Component({
-    selector: "app-patient",
+    selector: "app-covid-patient",
     templateUrl: "./patient.component.html",
 })
 export class PatientComponent implements OnInit {

@@ -18,7 +18,6 @@ import { FullmapComponent } from "./layouts/fullmap/fullmap.component";
 // Libraries
 import { NgxsModule } from "@ngxs/store";
 import { NgxsResetPluginModule } from "ngxs-reset-plugin";
-import { ToastrModule } from "ngx-toastr";
 import { NgxsStoragePluginModule, StorageOption } from "@ngxs/storage-plugin";
 import { NgxsEmitPluginModule } from "@ngxs-labs/emitter";
 import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
@@ -40,6 +39,7 @@ import { AccordionLinkModule } from "./shared/accordion/accordionLinkModule";
 import { SpinnerComponent } from "./shared/spinner.component";
 import { AlertState } from "./_states/alert.state";
 import { AuthState } from "./_states/auth.state";
+import { DynamicConfigState } from "./_states/dynamic-config.state";
 import { ReferenceState } from "./_states/reference.state";
 import { SharedModule } from "./shared/shared.module";
 import { NotificationService } from "./_services/notification.service";
@@ -70,13 +70,8 @@ import { DemoMaterialModule } from "./demo-material-module";
         RouterModule.forRoot(AppRoutes),
         DiuAngularNavigationModule,
         DiuHeaderModule,
-        ToastrModule.forRoot({
-            timeOut: 4000,
-            positionClass: "toast-bottom-full-width",
-            preventDuplicates: true,
-        }),
         SharedModule,
-        NgxsModule.forRoot([AuthState, AlertState, ReferenceState], {
+        NgxsModule.forRoot([AuthState, AlertState, DynamicConfigState, ReferenceState], {
             developmentMode: !true,
         }),
         NgxsStoragePluginModule.forRoot({

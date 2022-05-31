@@ -7,7 +7,7 @@ import { NotificationService } from "../../../../_services/notification.service"
 import { decodeToken } from "../../../../_pipes/functions";
 import * as d3 from "d3";
 import * as L from "leaflet";
-import { StatCardData } from "src/app/shared/stat-card.component";
+import { StatCardData } from "../../../../shared/stat-card.component";
 
 export class CompTableItem {
     chart: string;
@@ -33,7 +33,7 @@ export class CompResults {
 }
 
 @Component({
-    selector: "app-cohortcompare",
+    selector: "app-ph-cohortcompare",
     templateUrl: "./cohortcompare.component.html",
 })
 export class CohortcompareComponent implements OnInit {

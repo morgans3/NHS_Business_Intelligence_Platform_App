@@ -6,7 +6,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { InterventionAssistantComponent } from "./intervention-assistant.component";
-import { SharedModule } from "src/app/shared/shared.module";
+import { SharedModule } from "../../../../shared/shared.module";
 
 @NgModule({
     imports: [

@@ -7,7 +7,7 @@ import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { startWith, map } from "rxjs/operators";
 import { ReferenceState } from "../../../_states/reference.state";
-import { decodeToken } from "src/app/_pipes/functions";
+import { decodeToken } from "../../../_pipes/functions";
 import { iTeam, iTeamMembers, APIService } from "diu-component-library";
 
 @Component({

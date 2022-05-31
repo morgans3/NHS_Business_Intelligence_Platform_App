@@ -22,10 +22,10 @@ import * as d3 from "d3";
 import { Store } from "@ngxs/store";
 import { AuthState } from "../../../../_states/auth.state";
 import { collapseAnimations } from "../../../../shared/animations";
-import { ExpandTextDialogComponent } from "../../../../shared/modals/expand/dialogexpand";
+import { ModalService } from "../../../../_services/modal.service";
 import { NotificationService } from "../../../../_services/notification.service";
-import { environment } from "src/environments/environment";
-import { StatCardData } from "src/app/shared/stat-card.component";
+import { environment } from "../../../../../environments/environment";
+import { StatCardData } from "../../../../shared/stat-card.component";
 
 declare let leafletChoroplethChart: any;
 declare let leafletLegend: any;
@@ -33,7 +33,7 @@ declare let leafletMarkerChartBubble: any;
 declare let window: any;
 
 @Component({
-    selector: "app-popslicer",
+    selector: "app-ph-popslicer",
     templateUrl: "./popslicer.component.html",
     animations: [collapseAnimations],
 })
@@ -200,7 +200,8 @@ export class PopslicerComponent implements OnInit {
         public dialog: MatDialog,
         private sqlService: APIService,
         private readonly joyrideService: JoyrideService,
-        private notificationService: NotificationService
+        private notificationService: NotificationService,
+        private modalService: ModalService
     ) {
         this.token = this.store.selectSnapshot(AuthState.getToken);
         const parsedUrl = window.location.href;
@@ -1610,10 +1611,7 @@ export class PopslicerComponent implements OnInit {
 
     /* #region Filter Display Functions */
     showRange(text) {
-        this.dialog.open(ExpandTextDialogComponent, {
-            width: "350px",
-            data: text,
-        });
+        this.modalService.expandText(text);
     }
 
     shortenText(text: string): string {

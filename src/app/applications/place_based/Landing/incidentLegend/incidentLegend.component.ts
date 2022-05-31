@@ -8,7 +8,7 @@ export interface Legend {
 }
 
 @Component({
-    selector: "app-incidentLegend",
+    selector: "app-pb-incidentLegend",
     templateUrl: "./incidentLegend.component.html",
 })
 export class IncidentLegendComponent implements OnChanges {

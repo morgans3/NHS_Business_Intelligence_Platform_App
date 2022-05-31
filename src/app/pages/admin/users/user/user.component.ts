@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { APIService } from "diu-component-library";
 import { MatTable } from "@angular/material/table";
-import { NotificationService } from "src/app/_services/notification.service";
+import { NotificationService } from "../../../../_services/notification.service";
 
 @Component({
     selector: "app-user",
@@ -13,6 +13,7 @@ export class UserComponent implements OnInit {
     @ViewChild("rolesTable") rolesTable: MatTable<any>;
     @ViewChild("capabilitiesTable") capabilitiesTable: MatTable<any>;
     @ViewChild("teamsTable") teamsTable: MatTable<any>;
+    @ViewChild("accessLogsTable") accessLogsTable: MatTable<any>;
 
     user;
     accessLogs = [];
@@ -33,7 +34,8 @@ export class UserComponent implements OnInit {
 
                 // Init access logs
                 this.apiService.getAllAccessLogsByUser({ user: params.id }).subscribe((data: any) => {
-                    this.accessLogs = data.Items.slice(0, 5);
+                    this.accessLogs = data.slice(0, 5);
+                    this.accessLogsTable.renderRows();
                 });
 
                 // Get team capabilities
@@ -194,6 +196,7 @@ export class UserComponent implements OnInit {
                     _id: null,
                     teamcode: $event.option.value.code,
                     username: this.user.username,
+                    organisation: this.user.organisation,
                     joindate: new Date(),
                 })
                 .subscribe((data: any) => {
@@ -216,6 +219,7 @@ export class UserComponent implements OnInit {
             this.apiService
                 .removeTeamMember({
                     _id: this.teams.selected[index].link_id,
+                    organisation: null,
                     teamcode: null,
                     username: null,
                     joindate: null,

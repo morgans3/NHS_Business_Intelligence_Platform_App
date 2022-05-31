@@ -39,6 +39,13 @@ export const AppRoutes: Routes = [
         canActivate: [AuthGuard],
         children: [
             {
+                path: "",
+                pathMatch: "full",
+                component: FullComponent,
+                loadChildren: () => import("./pages/stores/stores.module").then((m) => m.StoresModule),
+                canActivate: [AuthGuard],
+            },
+            {
                 path: "mapping",
                 component: FullmapComponent,
                 loadChildren: () => import("./applications/place_based/mapping/mapping.module").then((m) => m.MappingModule),
@@ -48,6 +55,18 @@ export const AppRoutes: Routes = [
                 component: FullComponent,
                 data: { layout_config: { id: "Covid19_Information" } },
                 loadChildren: () => import("./applications/covid_intelligence/default/default.module").then((m) => m.DefaultModule),
+            },
+            {
+                path: "covid19-shielding",
+                component: FullComponent,
+                data: { layout_config: { id: "Covid19_Information" } },
+                loadChildren: () => import("./applications/covid_shielding/default.module").then((m) => m.DefaultModule),
+            },
+            {
+                path: "covid19-caseloads",
+                component: FullComponent,
+                data: { layout_config: { id: "Covid19_Information" } },
+                loadChildren: () => import("./applications/covid_caseloads/default.module").then((m) => m.DefaultModule),
             },
             {
                 path: "population-health",
@@ -87,6 +106,10 @@ export const AppRoutes: Routes = [
         canActivate: [AuthGuard],
         children: [
             {
+                path: "dashboardstore",
+                loadChildren: () => import("./pages/stores/stores.module").then((m) => m.StoresModule),
+            },
+            {
                 path: "dashboard",
                 loadChildren: () => import("./pages/dashboard/dashboard.module").then((m) => m.DashboardModule),
             },
@@ -105,11 +128,6 @@ export const AppRoutes: Routes = [
                 // data: { capabilities: ["admin"] },
                 // canActivate: [CapabilityGuard]
             },
-            // {
-            //   path: "",
-            //   loadChildren: () => import("./pages/stores/stores.module").then((m) => m.StoresModule),
-            //   canActivate: [AuthGuard],
-            // },
             {
                 path: "**",
                 loadChildren: () => import("./pages/dynamic/dynamic.module").then((m) => m.DynamicPageModule),

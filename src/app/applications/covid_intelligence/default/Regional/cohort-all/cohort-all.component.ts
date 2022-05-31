@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges } from "@angular/core";
+import { Component, ViewChild, Input, Output, EventEmitter, OnChanges, AfterViewInit } from "@angular/core";
 import { MatSelectionList, MatSelectionListChange } from "@angular/material/list";
 import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
@@ -6,16 +6,15 @@ import { AuthState } from "../../../../../_states/auth.state";
 import { NotificationService } from "../../../../../_services/notification.service";
 import { Router } from "@angular/router";
 import { iTeam, CVICohort, APIService } from "diu-component-library";
-import { ConfirmText, ConfirmTextDialogComponent } from "../dialogtextconfirm";
-import { ConfirmDialogComponent } from "../dialogconfirm";
+import { ConfirmText, ConfirmTextDialogComponent } from "../../../../../shared/modals/textconfirm/dialogtextconfirm";
 import { decodeToken } from "../../../../../_pipes/functions";
 
 @Component({
-    selector: "app-cohort-all",
+    selector: "app-covid-cohort-all",
     templateUrl: "./cohort-all.component.html",
     styleUrls: ["./cohort-all.component.scss"],
 })
-export class CohortAllComponent implements OnInit, OnChanges {
+export class CohortAllComponent implements AfterViewInit, OnChanges {
     @ViewChild(MatSelectionList) cohorts: MatSelectionList;
     @Input() cohort: any;
     @Output() changeEvent = new EventEmitter<any>();
@@ -69,7 +68,7 @@ export class CohortAllComponent implements OnInit, OnChanges {
         return Object.keys(obj).length === 0;
     }
 
-    ngOnInit() {
+    ngAfterViewInit() {
         this.cohorts.selectionChange.subscribe((s: MatSelectionListChange) => {
             this.cohorts.deselectAll();
             s.option.selected = true;
@@ -172,12 +171,8 @@ export class CohortAllComponent implements OnInit, OnChanges {
     }
 
     saveUpdate() {
-        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-            width: "350px",
-            data: null,
-        });
-        dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
+        this.notificationService.question("Are you sure you wish to proceed with this action?").then((confirmed) => {
+            if (confirmed === true) {
                 this.confirmUpdate();
             }
         });
@@ -198,12 +193,8 @@ export class CohortAllComponent implements OnInit, OnChanges {
     }
 
     removeCohort() {
-        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-            width: "350px",
-            data: null,
-        });
-        dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
+        this.notificationService.question("Are you sure you wish to proceed with this action?").then((confirmed) => {
+            if (confirmed === true) {
                 this.apiService.deleteCVICohort(this.selectedCohort).subscribe((data: any) => {
                     if (data.success) {
                         this.apiService.getCVICohortsByUsername(this.tokenDecoded.username).subscribe((res: CVICohort[]) => {

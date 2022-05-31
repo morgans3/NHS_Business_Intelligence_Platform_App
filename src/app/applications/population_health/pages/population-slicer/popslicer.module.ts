@@ -7,11 +7,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { JoyrideModule } from "ngx-joyride";
 import { CohortAllComponent } from "./cohort-all/cohort-all.component";
-import { VerifiyDialogComponent } from "./UserValidation/dialogverifiy";
-import { ValidateDialogComponent } from "./UserValidation/dialogvalidate";
-import { UserValidationComponent } from "./UserValidation/UserValidation.component";
 import { PopslicerComponent } from "./popslicer.component";
-import { SharedModule } from "src/app/shared/shared.module";
+import { SharedModule } from "../../../../shared/shared.module";
 
 @NgModule({
     imports: [
@@ -29,6 +26,6 @@ import { SharedModule } from "src/app/shared/shared.module";
             },
         ]),
     ],
-    declarations: [PopslicerComponent, UserValidationComponent, ValidateDialogComponent, VerifiyDialogComponent, CohortAllComponent],
+    declarations: [PopslicerComponent, CohortAllComponent],
 })
 export class PopslicerModule {}

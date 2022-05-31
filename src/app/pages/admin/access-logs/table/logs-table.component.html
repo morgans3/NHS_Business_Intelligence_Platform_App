@@ -71,5 +71,5 @@
 </table>
 
 <div class="w-100 m-t-15 text-center">
-    <button *ngIf="logs.nextPageKey" (click)="getLogs(logs.nextPageKey)" mat-raised-button color="primary" class="m-r-15">Load more</button>
+    <button *ngIf="logs.isLastPage" (click)="getLogs(logs.isLastPage)" mat-raised-button color="primary" class="m-r-15">Load more</button>
 </div>

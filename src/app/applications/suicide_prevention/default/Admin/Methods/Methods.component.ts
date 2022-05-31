@@ -4,8 +4,8 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { APIService } from "diu-component-library";
-import { NotificationService } from "src/app/_services/notification.service";
-import { IncidentMethods } from "src/app/_models/SPI_Lookups";
+import { NotificationService } from "../../../../../_services/notification.service";
+import { IncidentMethods } from "../../../../../_models/SPI_Lookups";
 
 @Component({
     selector: "app-Methods",

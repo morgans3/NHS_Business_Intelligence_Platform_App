@@ -6,12 +6,12 @@ import * as L from "leaflet";
 import { legendColors } from "./colorlist";
 import { FormControl, FormGroup } from "@angular/forms";
 import { MapData } from "../../Incidents/IncidentForm/findlocation/findlocation.component";
-import { iExcelWorkBook } from "src/app/_models/excel.interface";
-import { iMappingDashboard } from "src/app/_models/mapping.interface";
+import { iExcelWorkBook } from "../../../../../_models/excel.interface";
+import { iMappingDashboard } from "../../../../../_models/mapping.interface";
 import { Moment } from "moment-timezone";
 
 @Component({
-    selector: "app-mapping",
+    selector: "app-spi-mapping",
     templateUrl: "./mapping.component.html",
 })
 export class MappingComponent implements OnInit {

@@ -4,7 +4,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 
 @Component({
-    selector: "app-worksheet",
+    selector: "app-gs-worksheet",
     templateUrl: "worksheet.component.html",
 })
 export class WorksheetComponent implements OnInit {

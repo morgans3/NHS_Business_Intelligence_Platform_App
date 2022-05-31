@@ -2,13 +2,13 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef } from "@angular/core";
 import { Store } from "@ngxs/store";
 import { Router } from "@angular/router";
 import { MatTableDataSource } from "@angular/material/table";
-import { Incident } from "src/app/_models/SPI_Lookups";
+import { Incident } from "../../../../_models/SPI_Lookups";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
-import { NotificationService } from "src/app/_services/notification.service";
-import { decodeToken } from "src/app/_pipes/functions";
-import { AuthState } from "src/app/_states/auth.state";
-import { StorageService } from "src/app/_services/storage.service";
+import { NotificationService } from "../../../../_services/notification.service";
+import { decodeToken } from "../../../../_pipes/functions";
+import { AuthState } from "../../../../_states/auth.state";
+import { StorageService } from "../../../../_services/storage.service";
 
 @Component({
     selector: "app-Incidents",

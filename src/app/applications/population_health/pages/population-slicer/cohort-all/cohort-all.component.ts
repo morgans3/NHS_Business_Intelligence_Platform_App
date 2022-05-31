@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
 import { generateID, decodeToken } from "../../../../../_pipes/functions";
 
 @Component({
-    selector: "app-cohort-all",
+    selector: "app-ph-cohort-all",
     templateUrl: "./cohort-all.component.html",
     styleUrls: ["./cohort-all.component.scss"],
 })

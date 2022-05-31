@@ -5,7 +5,6 @@ import * as d3Scale from "d3-scale";
 import * as d3Axis from "d3-axis";
 import * as d3_test from "d3";
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
-import { ToastrService } from "ngx-toastr";
 import { JoyrideService } from "ngx-joyride";
 import { Subject } from "rxjs";
 import { Store } from "@ngxs/store";
@@ -13,10 +12,12 @@ import { AuthState } from "../../../../_states/auth.state";
 import { APIService } from "diu-component-library";
 import { decodeToken } from "../../../../_pipes/functions";
 import { environment } from "src/environments/environment";
+import { NotificationService } from "../../../../_services/notification.service";
+import { ModalService } from "src/app/_services/modal.service";
 declare let window: any;
 
 @Component({
-    selector: "app-need-list",
+    selector: "app-covid-need-list",
     templateUrl: "./need-list.component.html",
     styleUrls: ["./need-list.component.scss"],
 })
@@ -127,8 +128,9 @@ export class NeedListComponent implements OnInit {
 
     constructor(
         public http: HttpClient,
-        private toastr: ToastrService,
+        private notificationService: NotificationService,
         private readonly joyrideService: JoyrideService,
+        private modalService: ModalService,
         private apiService: APIService,
         private store: Store
     ) {
@@ -189,31 +191,45 @@ export class NeedListComponent implements OnInit {
 
     // Warning pop-up if user puts too many items into a box
     n_variable_toaster(toast_message: string, n: number) {
-        this.toastr.show("", "Please Select " + n.toString() + " " + toast_message + " Only.");
+        this.notificationService.info("Please Select " + n.toString() + " " + toast_message + " Only.");
     }
 
     // Warning pop-up if user doesn't put any items into a box
     too_few_variables_toaster(toast_message: string) {
-        this.toastr.show("", "Please Select At Least One " + toast_message + ".");
+        this.notificationService.info("Please Select At Least One " + toast_message + ".");
     }
 
     // Warning pop-up if user tries to use both AGE and AGE-BAND in the model
     two_age_variables_toaster(toast_message: string) {
-        this.toastr.show("", "Two Age Groupings Selected, Using Only " + toast_message + ".");
+        this.notificationService.info("Two Age Groupings Selected, Using Only " + toast_message + ".");
     }
 
     // Warning pop-up if there's an error in the R-script
     r_error_toaster() {
-        this.toastr.show("", this.response_message);
+        this.notificationService.info(this.response_message);
     }
 
     // Warning pop-up if there's an error in the request (e.g. a 503 response)
     server_error_toaster(error_status: string) {
-        this.toastr.show(
-            "If The Problem Persists Then Contact A Nexus Intelligence Admin.",
-            "Warning, " + error_status + " Error. Please Wait A Few Seconds And Try Again.",
-            { timeOut: 3000 }
-        );
+        this.notificationService
+            .notify({
+                status: error_status || "error",
+                message: "An error has occurred, please wait a few seconds and try again. If this issue persists click to report it...",
+                actions: [
+                    { id: "close", name: "Close" },
+                    { id: "report", name: "Report issue" },
+                ],
+            })
+            .then((snackbar) => {
+                // Listen for report
+                snackbar.instance.dismissed.subscribe((action) => {
+                    if (action === "report") {
+                        this.modalService.requestHelp({
+                            message: "I'm experiencing a system error on the page at " + location.href,
+                        });
+                    }
+                });
+            });
     }
 
     // Drag/drop into a box which can have all items within it
