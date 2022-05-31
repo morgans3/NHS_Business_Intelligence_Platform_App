@@ -1,7 +1,47 @@
-<div *ngIf="storeConfig">
-    <ng-container dynamicComponent [config]="modify(storeConfig)"></ng-container>
+<div fxLayout="row wrap">
+    <!-- <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="RequestedApps.length > 0">
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title> Requested </mat-card-title>
+
+                <div fxLayout="row wrap">
+                    <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100" *ngFor="let fave of RequestedApps">
+                        <app-application-tile
+                            [app]="fave.app"
+                            (appStatusChange)="reloadApps()"
+                        ></app-application-tile>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div> -->
+
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="apps.installed.length > 0">
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title>Installed</mat-card-title>
+                <div fxLayout="row wrap">
+                    <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100" *ngFor="let installedApp of apps.installed">
+                        <app-application-tile [app]="installedApp" status="installed" (changed)="appChanged($event)"></app-application-tile>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>
 
-<div *ngIf="!storeConfig">
-    <mat-spinner></mat-spinner>
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title>Store</mat-card-title>
+                <div fxLayout="row wrap">
+                    <div fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100" *ngFor="let uninstalledApp of apps.uninstalled">
+                        <app-application-tile [app]="uninstalledApp" status="uninstalled" (changed)="appChanged($event)"></app-application-tile>
+                    </div>
+                </div>
+                <p *ngIf="apps.uninstalled.length === 0">No further apps to install or request at this time.</p>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>
