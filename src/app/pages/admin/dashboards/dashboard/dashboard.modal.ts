@@ -9,6 +9,7 @@ import { NotificationService } from "../../../../_services/notification.service"
     templateUrl: "./dashboard.modal.html",
 })
 export class DashboardModalComponent implements OnInit {
+    newDashboard = false;
     dashboard = new FormGroup({
         name: new FormControl(""),
         url: new FormControl(""),
@@ -31,22 +32,35 @@ export class DashboardModalComponent implements OnInit {
     ngOnInit() {
         // Set values from opener
         if (this.data.dashboard) {
+            this.newDashboard = false;
             this.dashboard.patchValue(this.data.dashboard);
             this.dashboard.get("name").disable();
+        } else {
+            this.newDashboard = true;
         }
     }
 
     save() {
         // Update app with new values
-        // TODO: where is this endpoint now?
-        // this.apiService.updateDashboard(this.dashboard.getRawValue()).subscribe((res: any) => {
-        //     if (res.success === true) {
-        //         this.notificationService.success("Dashboard updated successfully");
-        //         this.dialogRef.close(this.dashboard.getRawValue());
-        //     } else {
-        //         this.notificationService.error("An error occurred updating the dashboard!");
-        //     }
-        // });
+        if (this.newDashboard) {
+            this.apiService.addDashboard(this.dashboard.getRawValue()).subscribe((res: any) => {
+                if (res.success === true) {
+                    this.notificationService.success("Dashboard updated successfully");
+                    this.dialogRef.close(this.dashboard.getRawValue());
+                } else {
+                    this.notificationService.error("An error occurred updating the dashboard!");
+                }
+            });
+        } else {
+            this.apiService.updateDashboard(this.dashboard.getRawValue()).subscribe((res: any) => {
+                if (res.success === true) {
+                    this.notificationService.success("Dashboard updated successfully");
+                    this.dialogRef.close(this.dashboard.getRawValue());
+                } else {
+                    this.notificationService.error("An error occurred updating the dashboard!");
+                }
+            });
+        }
     }
 }
 
