@@ -2,8 +2,8 @@
 
 const TeamFactory = require("../../../factories/team");
 describe("Admin: Test teams page", () => {
-    beforeEach(() => {
-        cy.login("#1");
+    before(() => {
+        cy.login(false);
         cy.visit("http://localhost:4200/admin/teams");
     });
 

@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
 describe("Admin: Test users page", () => {
-    beforeEach(() => {
+    before(() => {
         cy.intercept({ method: "GET", url: "**/users*" }).as("getUsers");
-        cy.login("#1");
+        cy.login(false);
         cy.visit("http://localhost:4200/admin/users");
         cy.wait("@getUsers");
     });

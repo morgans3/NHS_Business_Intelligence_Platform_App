@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 const NumberHelper = require("../../helpers/number");
 
-describe("Admin: Test profile page", () => {
+describe("Test profile page", () => {
     before(() => {
         cy.login(false);
     });
@@ -10,6 +10,8 @@ describe("Admin: Test profile page", () => {
         cy.get(`a[href*="profile"]`).click();
         cy.url().should("include", "profile");
     });
+
+    // TODO: Add test to check that the page displays the correct user information for the logged in user
 
     it("user can update details", () => {
         // Generate phone number
@@ -27,4 +29,6 @@ describe("Admin: Test profile page", () => {
             cy.expect(interception.response.statusCode).to.equal(200);
         });
     });
+
+    // TODO: Add tests for functions for capabilties, roles, installations, etc.
 });
