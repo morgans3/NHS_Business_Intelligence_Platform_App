@@ -178,7 +178,7 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
         } else {
             const newProfile: iFullUser = {
                 _id: "",
-                username: this.currentProfile.username,
+                username: this.currentProfile.username + "#" + this.currentProfile.organisation,
                 photobase64: this.updatedImage,
                 contactnumber: this.form.controls["contactnumber"].value,
                 preferredcontactmethod: this.form.controls["preferredcontactmethod"].value,

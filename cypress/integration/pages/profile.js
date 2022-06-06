@@ -2,9 +2,13 @@
 const NumberHelper = require("../../helpers/number");
 
 describe("Admin: Test profile page", () => {
-    beforeEach(() => {
-        cy.login("#1");
-        cy.visit("http://localhost:4200/profile");
+    before(() => {
+        cy.login(false);
+    });
+
+    it("displays profile page", () => {
+        cy.get(`a[href*="profile"]`).click();
+        cy.url().should("include", "profile");
     });
 
     it("user can update details", () => {
@@ -14,11 +18,13 @@ describe("Admin: Test profile page", () => {
         // Edit contact number and save
         cy.log("Changing phone number...");
         cy.get("input[formcontrolname=contactnumber]").type(newPhoneNumber);
+
+        cy.intercept("POST", "/userprofiles/create*").as("createProfile");
+
         cy.get("button[type=submit]").click();
 
-        // Refresh and check for change
-        cy.log("Reloading page and checking number changed...");
-        cy.reload();
-        cy.get("input[formcontrolname=contactnumber]").should("have.value", newPhoneNumber);
+        cy.wait("@createProfile").then((interception) => {
+            cy.expect(interception.response.statusCode).to.equal(200);
+        });
     });
 });

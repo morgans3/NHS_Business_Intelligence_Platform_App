@@ -27,24 +27,15 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 // Login method
-Cypress.Commands.add("login", (userId, { cacheSession = true } = {}) => {
-    // Login by user id
-    const login = () => {
-        cy.fixture("users").then((users) => {
-            const user = users[userId];
-            cy.visit("http://localhost:4200");
-            cy.get("input[formControlName=username]").first().type(user.username);
-            cy.get("input[formControlName=password]").type(user.password);
-            cy.get("mat-select[formControlName=organisation]").click().get("mat-option").contains("Collaborative Partners").click();
-            cy.get("form").submit();
-            cy.url().should("include", "dashboard");
-        });
-    };
-
-    // Store session?
-    if (cacheSession) {
-        cy.session(userId, login);
-    } else {
-        login();
-    }
+Cypress.Commands.add("login", (isAdmin) => {
+    cy.fixture("users").then((users) => {
+        let user = { username: users.username, password: users.password };
+        if (isAdmin) user = { username: users.admin_username, password: users.admin_password };
+        cy.visit("http://localhost:4200");
+        cy.get("input[formControlName=username]").first().type(user.username);
+        cy.get("input[formControlName=password]").type(user.password);
+        cy.get("mat-select[formControlName=organisation]").click().get("mat-option").contains("Collaborative Partners").click();
+        cy.get("form").submit();
+        cy.url().should("include", "landing");
+    });
 });
