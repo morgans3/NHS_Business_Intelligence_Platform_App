@@ -9,6 +9,7 @@ import { APIService } from "diu-component-library";
     styleUrls: ["./action.component.scss"],
 })
 export class AccessRequestActionFormComponent implements OnInit {
+
     request: any = {};
     action = "approve";
 
@@ -16,7 +17,6 @@ export class AccessRequestActionFormComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private notificationService: NotificationService,
         private apiService: APIService,
-        private router: Router
     ) {}
 
     ngOnInit() {
@@ -35,8 +35,31 @@ export class AccessRequestActionFormComponent implements OnInit {
     }
 
     getRequest(id) {
-        this.apiService.getAccessRequest(id).subscribe((request) => {
-            this.request = request;
+        this.apiService.getAccessRequest(id).subscribe((request: any) => {
+            this.apiService.getCapabilities().subscribe((data: any) => {
+                // Keyby id
+                const capabilities = data.reduce((acc, cur, i) => {
+                    acc[cur.id] = cur;
+                    return acc;
+                }, {});
+
+                // Enrich array
+                request.data.capabilities.map((capability) => {
+                    capability.name = capabilities[capability.id].name;
+                    capability.description = capabilities[capability.id].description;
+                    if(capability.meta?.children) {
+                        capability.children = capability.meta.children.map((child) => {
+                            child.name = capabilities[child.id].name;
+                            child.description = capabilities[child.id].description;
+                            return child;
+                        });
+                    }
+                    return capability;
+                });
+
+                // Set request data
+                this.request = request;
+            })
         });
     }
 
@@ -69,4 +92,6 @@ export class AccessRequestActionFormComponent implements OnInit {
             this.notificationService.error("Please make sure all fields are filled in correctly!");
         }
     }
+
+    valueJson(data) { return (data instanceof Array) ? data.join(","): data }
 }

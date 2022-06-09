@@ -1,7 +1,7 @@
 import { MediaMatcher } from "@angular/cdk/layout";
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { MENUITEMS } from "../../shared/menu-items/menu-items";
+import { MENUITEMS } from "../../shared/menu-items";
 import { Title } from "@angular/platform-browser";
 import { APIService, iSystemAlerts } from "diu-component-library";
 import { iMenu } from "diu-component-library/lib/_models/menu-items.interface";

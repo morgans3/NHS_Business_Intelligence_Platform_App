@@ -14,6 +14,8 @@ import { ConfirmTextDialogComponent } from "./modals/textconfirm/dialogtextconfi
 import { UserValidationComponent } from "./user-validation/UserValidation.component";
 import { VerifiyDialogComponent } from "./modals/verify/dialogverifiy";
 import { ValidateDialogComponent } from "./modals/validate/dialogvalidate";
+import { GPSelectComponent } from "./components/gp-select/gp-select.component";
+import { CCGSelectComponent } from "./components/ccg-select/ccg-select.component";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { ModalService } from "../_services/modal.service";
 
@@ -26,6 +28,8 @@ import { ModalService } from "../_services/modal.service";
         UserValidationComponent,
         VerifiyDialogComponent,
         ValidateDialogComponent,
+        GPSelectComponent,
+        CCGSelectComponent
     ],
     imports: [
         CommonModule,
@@ -50,6 +54,8 @@ import { ModalService } from "../_services/modal.service";
         ExpandListDialogComponent,
         ConfirmTextDialogComponent,
         UserValidationComponent,
+        GPSelectComponent,
+        CCGSelectComponent
     ],
     providers: [ModalService],
     entryComponents: [VerifiyDialogComponent, ValidateDialogComponent],

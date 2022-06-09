@@ -1,0 +1,12 @@
+<mat-chip-list style="display: block;">
+    <mat-chip (click)="filterCapabilities({ tag: 'App' });" [color]="filters.tag == 'App' ? 'primary' : 'grey'" selected>Apps</mat-chip>
+    <mat-chip (click)="filterCapabilities({ tag: 'Dashboard' });" [color]="filters.tag == 'Dashboard' ? 'primary' : 'grey'" selected>Dashboards</mat-chip>
+    <mat-chip (click)="filterCapabilities({ tag: '' });" [color]="filters.tag == '' ? 'primary' : 'grey'" selected>All</mat-chip>
+</mat-chip-list>
+
+<mat-selection-list [ngModel]="selected.ids" (selectionChange)="select($event.option)" style="margin-left: -16px" class="scrollable">
+    <mat-list-option *ngFor="let capability of capabilities.filtered" [value]="capability.id">
+        <div mat-line>{{ capability.name }}</div>
+        <div mat-line>{{ capability.description }}</div>
+    </mat-list-option>
+</mat-selection-list>

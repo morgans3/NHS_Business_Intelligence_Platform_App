@@ -1,0 +1,32 @@
+<div *ngIf="capability" mat-dialog-content>
+    <form [formGroup]="form">
+        <value-field [capability]="capability" formControlName="valuejson"></value-field>
+
+        <div *ngIf="hasChildren()" formGroupName="meta">
+            <p class="m-b-0"><b>{{ capability.value?.type_meta?.children_select?.title }}</b></p>
+            <mat-selection-list (selectionChange)="selectChild($event)" style="margin-left: -16px" class="scrollable">
+                <mat-list-option *ngFor="let child of children | keyvalue" [value]="child.key">
+                    <div mat-line>{{ child.value.name }}</div>
+                    <div mat-line>{{ child.value.description }}</div>
+                </mat-list-option>
+            </mat-selection-list>
+
+            <mat-divider style="margin-bottom: 0.75rem;"></mat-divider>
+            <mat-error *ngIf="form.get('meta.children').errors?.maxlength" class="m-b-15">
+                <small>Only select one {{ capability.value.type_meta?.children_select?.max }} option(s)</small>
+            </mat-error>
+
+            <ng-container formArrayName="children">
+                <ng-container *ngFor="let child of form.get('meta.children').controls; let i = index">
+                    <div [formGroupName]="i">
+                        <value-field [capability]="children[child.value.id]" formControlName="valuejson"></value-field>   
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button (click)="close()" mat-raised-button color="warn" cdkFocusInitial>Cancel</button>
+    <button (click)="close(form.value)" mat-raised-button color="primary" cdkFocusInitial>Save</button>
+</div>

@@ -2,6 +2,7 @@ import { Component, Input, ViewChild } from "@angular/core";
 import { ControlValueAccessor, FormControl, FormControlDirective, NG_VALUE_ACCESSOR, ControlContainer } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
+import { APIService } from "diu-component-library";
 
 @Component({
     selector: "gp-select",
@@ -35,17 +36,23 @@ export class GPSelectComponent implements ControlValueAccessor {
         return this.formControl || this.controlContainer.control.get(this.formControlName);
     }
 
-    constructor(private controlContainer: ControlContainer, private http: HttpClient) {}
+    constructor(
+        private controlContainer: ControlContainer,
+        private apiService: APIService,
+        private http: HttpClient
+    ) {}
+
+    // To-do: Add validation for max items
 
     async getGps() {
         if (this.gps.all.length === 0) {
             this.gps.all = (
-                (await this.http.get("https://api." + environment.websiteURL + "/gppractices/").toPromise()) as Array<any>
-            )[0].features
+                (await this.http.get(this.apiService.baseUrl + "gppractices/").toPromise()) as Array<any>)[0].features
                 .map((gp) => gp.properties)
                 .sort((a, b) => {
                     return a.Name < b.Name ? -1 : a.Name > b.Name ? 1 : 0;
                 });
+            this.gps.filtered = this.gps.all;
         }
     }
 

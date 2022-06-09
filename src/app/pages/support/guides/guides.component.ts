@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from "@angular/material/dialog";
 import { environment } from "src/environments/environment";
+import { APIService } from "diu-component-library";
 
 export interface iConfluenceSearchItem {
     id: string;
@@ -24,9 +25,15 @@ export class GuideComponent implements OnInit {
     filters = { keyword: "" };
 
     selectedGuide = null;
-    baseURL = "https://api." + environment.websiteURL + "/confluence/content/";
+    baseURL = "";
 
-    constructor(private http: HttpClient, private dialog: MatDialog) {}
+    constructor(
+        private http: HttpClient,
+        private dialog: MatDialog,
+        private apiService: APIService,
+    ) {
+        this.baseURL = apiService.baseUrl + "confluence/content/";
+    }
 
     ngOnInit() {
         this.searchConfluenceGuides();
