@@ -8,7 +8,6 @@ import { MatSort } from "@angular/material/sort";
 import { NotificationService } from "../../../../_services/notification.service";
 import { decodeToken } from "../../../../_pipes/functions";
 import { AuthState } from "../../../../_states/auth.state";
-import { StorageService } from "../../../../_services/storage.service";
 
 @Component({
     selector: "app-Incidents",
@@ -29,7 +28,6 @@ export class IncidentsComponent implements OnInit {
         private router: Router,
         public store: Store,
         private notificationService: NotificationService,
-        private storageService: StorageService,
         private changeDetectorRef: ChangeDetectorRef
     ) {
         const token = this.store.selectSnapshot(AuthState.getToken);
@@ -44,17 +42,18 @@ export class IncidentsComponent implements OnInit {
 
     getData() {
         this.dataFetched = false;
-        this.storageService.getIncidents().subscribe((data: Incident[]) => {
-            this.incidents = data;
-            this.updateTable();
-            this.changeDetectorRef.detectChanges();
-            if (this.paginator) {
-                this.dataSource.paginator = this.paginator;
-            }
-            if (this.sort) {
-                this.dataSource.sort = this.sort;
-            }
-        });
+        // TODO: add new API method
+        // this.storageService.getIncidents().subscribe((data: Incident[]) => {
+        //     this.incidents = data;
+        //     this.updateTable();
+        //     this.changeDetectorRef.detectChanges();
+        //     if (this.paginator) {
+        //         this.dataSource.paginator = this.paginator;
+        //     }
+        //     if (this.sort) {
+        //         this.dataSource.sort = this.sort;
+        //     }
+        // });
     }
 
     updateTable() {
@@ -76,15 +75,16 @@ export class IncidentsComponent implements OnInit {
     }
 
     removeRecord(row) {
-        this.storageService.removeIncident(row).subscribe((data: any) => {
-            if (data.success && data.success === false) {
-                this.notificationService.error("Unable to remove Incident, reason: " + (data.msg as string));
-            } else {
-                this.notificationService.success("Incident removed");
-                this.incidents.splice(this.incidents.indexOf(row), 1);
-                this.updateTable();
-            }
-        });
+        // TODO: add new API method
+        // this.storageService.removeIncident(row).subscribe((data: any) => {
+        //     if (data.success && data.success === false) {
+        //         this.notificationService.error("Unable to remove Incident, reason: " + (data.msg as string));
+        //     } else {
+        //         this.notificationService.success("Incident removed");
+        //         this.incidents.splice(this.incidents.indexOf(row), 1);
+        //         this.updateTable();
+        //     }
+        // });
     }
 
     updatePID(event) {

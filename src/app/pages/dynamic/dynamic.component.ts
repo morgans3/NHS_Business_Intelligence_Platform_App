@@ -21,8 +21,8 @@ export class DynamicComponent implements OnChanges, OnDestroy {
         this.routerEventsSubscription = this.router.events.subscribe((event: any) => {
             if (event instanceof NavigationEnd) {
                 // Record RUM view
-                cwr("recordPageView", this.router.url);
                 this.location = this.getLocation();
+                if (!this.router.url.includes("localhost")) cwr("recordPageView", this.router.url);
 
                 if (this.location === "") {
                     const urlWithoutLeadingUnderline = event.urlAfterRedirects.substr(1, event.urlAfterRedirects.length);

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewEncapsulation } from "@angular/core";
 import { Store } from "@ngxs/store";
 import { AuthState, ManualSetAuthTokens } from "../../_states/auth.state";
 import { NotificationService } from "../../_services/notification.service";
@@ -8,7 +8,8 @@ import { decodeToken } from "../../_pipes/functions";
 @Component({
     selector: "app-fullmap-layout",
     templateUrl: "fullmap.component.html",
-    styleUrls: [],
+    styleUrls: ["fullmap.component.scss"],
+    encapsulation: ViewEncapsulation.None,
 })
 export class FullmapComponent {
     username = "";

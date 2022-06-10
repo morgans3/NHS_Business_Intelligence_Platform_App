@@ -3,14 +3,14 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { MENUITEMS } from "../../shared/menu-items/menu-items";
 import { Title } from "@angular/platform-browser";
-import { APIService, iSystemAlerts } from "diu-component-library";
+import { iSystemAlerts } from "diu-component-library";
 import { iMenu } from "diu-component-library/lib/_models/menu-items.interface";
 import { Store } from "@ngxs/store";
 import { AuthState, ManualSetAuthTokens } from "../../_states/auth.state";
-import { AlertState, AlertStateModel, UpdateAlerts } from "../../_states/alert.state";
+import { AlertState, AlertStateModel } from "../../_states/alert.state";
 import { NotificationService } from "../../_services/notification.service";
 import { DynamicConfigState, GetConfigByID } from "../../_states/dynamic-config.state";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { decodeToken } from "../../_pipes/functions";
 import { distinctUntilKeyChanged } from "rxjs/operators";
 
@@ -49,7 +49,7 @@ export class FullComponent implements OnDestroy, OnInit {
     constructor(
         public store: Store,
         private titleService: Title,
-        private apiService: APIService,
+        private router: Router,
         private activatedRoute: ActivatedRoute,
         private notificationService: NotificationService,
         changeDetectorRef: ChangeDetectorRef,
@@ -64,13 +64,11 @@ export class FullComponent implements OnDestroy, OnInit {
         this.userToken = this.store.selectSnapshot(AuthState.getToken);
         if (this.userToken) {
             this.user = decodeToken(this.userToken);
-            this.store.dispatch(new UpdateAlerts());
         }
 
         // Initialise config
-        this.activatedRoute.data.pipe(
-            distinctUntilKeyChanged("data")
-        ).subscribe((data) => {
+        this.activatedRoute.data.pipe(distinctUntilKeyChanged("data")).subscribe((data) => {
+            // This only work if the landing page name is unique between apps, otherwise it won't load the app or direct to its landingpage
             this.getConfiguration(data?.layout_config?.id || "Nexus_Intelligence");
         });
     }
@@ -90,6 +88,7 @@ export class FullComponent implements OnDestroy, OnInit {
     }
 
     getConfiguration(id) {
+        console.log(id);
         // Call in App Settings and MenuItems
         this.store.dispatch(new GetConfigByID(id)).subscribe(() => {
             this.store.select(DynamicConfigState.getConfigById(id)).subscribe((payload) => {
@@ -120,7 +119,7 @@ export class FullComponent implements OnDestroy, OnInit {
                     // Set page title
                     this.titleService.setTitle(appConfig.name);
                 }
-            })
+            });
         });
     }
 
@@ -132,8 +131,7 @@ export class FullComponent implements OnDestroy, OnInit {
     }
 
     logout() {
-        this.apiService.logout("www." + environment.websiteURL);
-        this.store.reset({});
+        this.router.navigate(["/login"]);
     }
 
     showErrors(event: any) {

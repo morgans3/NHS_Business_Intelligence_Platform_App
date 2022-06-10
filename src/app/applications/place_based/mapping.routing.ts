@@ -3,7 +3,7 @@ import { MappingComponent } from "./mapping/mapping.component";
 
 export const MappingRoutes: Routes = [
     {
-        path: "",
+        path: "map",
         component: MappingComponent,
     },
 ];

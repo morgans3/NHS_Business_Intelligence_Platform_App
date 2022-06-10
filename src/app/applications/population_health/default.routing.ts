@@ -3,7 +3,7 @@ import { SettingsComponent } from "./pages/settings/settings.component";
 
 export const DefaultRoutes: Routes = [
     {
-        path: "",
+        path: "population",
         loadChildren: () => import("./pages/population-slicer/popslicer.module").then((m) => m.PopslicerModule),
     },
     {
