@@ -120,11 +120,14 @@ export class ProfileTeamsComponent implements OnInit {
     leaveTeam(team: iTeam) {
         this.notificationService.question("Are you sure you want to leave this team?").then((confirmed) => {
             if (confirmed === true) {
-                const membership = this.myTeamMemberships.filter((x) => x.teamcode === team.code);
+                const membership: iTeamMembers | any = this.myTeamMemberships.filter((x) => x.teamcode === team.code);
                 if (membership.length > 0) {
-                    this.apiService.removeTeamMember(membership[0]).subscribe((res: any) => {
+                    const team = membership[0];
+                    team.id = team["_id"];
+                    this.apiService.removeTeamMember(team).subscribe((res: any) => {
                         if (res.success) {
                             this.notificationService.success("You have now left this Team");
+                            // TODO: Token needs adjusting otherwise memberships are not updated
                             this.getTeams();
                         } else {
                             this.notificationService.warning(res.msg);
