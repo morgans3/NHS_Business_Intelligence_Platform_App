@@ -37,7 +37,7 @@
 </mat-card>
 
 <ng-template #selectedGuideTemplate>
-    <button (click)="selectedGuide = null" mat-raised-button color="primary" class="m-l-20 m-b-10 m-t-10">Back to all</button>
+    <button (click)="clearGuide()" mat-raised-button color="primary" class="m-l-20 m-b-10 m-t-10">Back to all</button>
     <mat-card>
         <mat-card-header style="justify-content: center">
             <mat-card-title>{{ selectedGuide.title }}</mat-card-title>
