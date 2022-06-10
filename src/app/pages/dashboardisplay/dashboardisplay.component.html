@@ -1,0 +1,7 @@
+<mat-card>
+  <mat-card-content style="height: 80vh">
+    <p *ngIf="!selectedDashboard">No Dashboard selected, please click the link via the Dashboard Store</p>
+
+    <iframe style="height: 100%" width="100%" *ngIf="safeURL" [src]="safeURL" frameborder="0"></iframe>
+  </mat-card-content>
+</mat-card>

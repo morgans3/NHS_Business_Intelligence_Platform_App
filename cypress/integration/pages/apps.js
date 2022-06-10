@@ -2,7 +2,7 @@
 
 describe("Apps", () => {
     beforeEach(() => {
-        cy.login("#1");
+        cy.login(false);
         cy.visit("http://localhost:4200/apps");
     });
 

@@ -3,7 +3,7 @@
 const TeamFactory = require("../../../factories/team");
 describe("Teams", () => {
     beforeEach(() => {
-        cy.login("#1");
+        cy.login(false);
         cy.visit("http://localhost:4200/teams");
     });
 
@@ -24,7 +24,7 @@ describe("Teams", () => {
         team.responsible_people.forEach((person) => {
             cy.get("button").contains("Add Administrators").click();
             cy.get("lib-user-search input[id=search2_txt]").first().type(person.username);
-            cy.get('lib-user-search mat-select[placeholder="Select an Organisation..."]')
+            cy.get(`lib-user-search mat-select[placeholder="Select an Organisation..."]`)
                 .click()
                 .get("mat-option")
                 .contains(team.organisation)

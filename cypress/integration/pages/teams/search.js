@@ -1,9 +1,8 @@
 /// <reference types="cypress" />
 
-const TeamFactory = require("../../../factories/team");
 describe("Teams", () => {
     beforeEach(() => {
-        cy.login("#1");
+        cy.login(false);
         cy.visit("http://localhost:4200/teams");
     });
 
