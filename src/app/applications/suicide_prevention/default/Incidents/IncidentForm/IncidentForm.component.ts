@@ -5,7 +5,6 @@ import { Router } from "@angular/router";
 import { APIService } from "diu-component-library";
 import { iLocation, Incident, IncidentMethods } from "../../../../../_models/SPI_Lookups";
 import { NotificationService } from "../../../../../_services/notification.service";
-import { StorageService } from "../../../../../_services/storage.service";
 
 @Component({
     selector: "app-IncidentForm",
@@ -95,7 +94,6 @@ export class IncidentFormComponent implements OnInit {
     showToolTip: boolean;
 
     constructor(
-        private storageService: StorageService,
         private apiService: APIService,
         private notificationService: NotificationService,
         public dialog: MatDialog,
@@ -237,32 +235,33 @@ export class IncidentFormComponent implements OnInit {
         if (this.postcode_mosaic) {
             item.postcode_mosaic = this.postcode_mosaic;
         }
-        console.log(item);
         if (this.editForm) {
             item.index = this.editForm.index;
             item.ics = this.editForm.ics;
-            this.storageService.updateIncident(item).subscribe((data: any) => {
-                if (data.success && data.success === false) {
-                    this.notificationService.error("Unable to add Incident, reason: " + (data.msg as string));
-                } else {
-                    this.formDirective.resetForm();
-                    this.medicationlist = [];
-                    this.editForm = null;
-                    this.notificationService.success("Updated record");
-                    this.router.navigate(["/incidents"]);
-                }
-            });
+            // TODO: add new API method
+            // this.storageService.updateIncident(item).subscribe((data: any) => {
+            //     if (data.success && data.success === false) {
+            //         this.notificationService.error("Unable to add Incident, reason: " + (data.msg as string));
+            //     } else {
+            //         this.formDirective.resetForm();
+            //         this.medicationlist = [];
+            //         this.editForm = null;
+            //         this.notificationService.success("Updated record");
+            //         this.router.navigate(["/incidents"]);
+            //     }
+            // });
         } else {
-            this.storageService.updateIncident(this.myForm.value).subscribe((data: any) => {
-                if (data.success && data.success === false) {
-                    this.notificationService.error("Unable to add Incident, reason: " + (data.msg as string));
-                } else {
-                    this.formDirective.resetForm();
-                    this.medicationlist = [];
-                    this.notificationService.success("Incident Added");
-                    this.router.navigate(["/incidents"]);
-                }
-            });
+            // TODO: add new API method
+            // this.storageService.updateIncident(this.myForm.value).subscribe((data: any) => {
+            //     if (data.success && data.success === false) {
+            //         this.notificationService.error("Unable to add Incident, reason: " + (data.msg as string));
+            //     } else {
+            //         this.formDirective.resetForm();
+            //         this.medicationlist = [];
+            //         this.notificationService.success("Incident Added");
+            //         this.router.navigate(["/incidents"]);
+            //     }
+            // });
         }
     }
 

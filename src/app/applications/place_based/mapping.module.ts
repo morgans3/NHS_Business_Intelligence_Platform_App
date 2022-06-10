@@ -10,16 +10,16 @@ import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { MappingComponent } from "./mapping/mapping.component";
 import { WorksheetComponent } from "./mapping/worksheet/worksheet.component";
 import { MaterialModule } from "diu-component-library";
-import { MainPipe } from "../../../_pipes/main-pipe.module";
-import { IncidentLegendComponent } from "../Landing/incidentLegend/incidentLegend.component";
+import { MainPipe } from "../../_pipes/main-pipe.module";
 import { HomepanelComponent } from "./mapping/panels/homepanel/homepanel.component";
 import { MapdatasetsComponent } from "./mapping/panels/mapdatasets/mapdatasets.component";
 import { MapsettingsComponent } from "./mapping/panels/mapsettings/mapsettings.component";
 import { MapfiltersComponent } from "./mapping/panels/mapfilters/mapfilters.component";
 import { SavedviewsComponent } from "./mapping/panels/savedviews/savedviews.component";
 import { MarkeroptionsComponent } from "./mapping/panels/mapfilters/markeroptions/markeroptions.component";
-import { SharedModule } from "../../../shared/shared.module";
-import { DemoMaterialModule } from "../../../demo-material-module";
+import { DemoMaterialModule } from "src/app/demo-material-module";
+import { SharedModule } from "src/app/shared/shared.module";
+import { IncidentLegendComponent } from "./incidentLegend/incidentLegend.component";
 
 @NgModule({
     imports: [
@@ -38,13 +38,13 @@ import { DemoMaterialModule } from "../../../demo-material-module";
     declarations: [
         MappingComponent,
         WorksheetComponent,
-        IncidentLegendComponent,
         HomepanelComponent,
         MapdatasetsComponent,
         MapsettingsComponent,
         MapfiltersComponent,
         SavedviewsComponent,
         MarkeroptionsComponent,
+        IncidentLegendComponent,
     ],
     entryComponents: [],
     exports: [],

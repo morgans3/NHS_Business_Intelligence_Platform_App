@@ -44,7 +44,6 @@ import { ReferenceState } from "./_states/reference.state";
 import { SharedModule } from "./shared/shared.module";
 import { NotificationService } from "./_services/notification.service";
 import { PostcodeService } from "./_services/postcodes.service";
-import { StorageService } from "./_services/storage.service";
 import { RequestInterceptor } from "./_services/requestinterceptor.service";
 import { environment } from "src/environments/environment";
 import { CwrErrorHandler } from "./cwr-error-handler";
@@ -108,7 +107,6 @@ import { DemoMaterialModule } from "./demo-material-module";
         },
         { provide: MAT_DATE_LOCALE, useValue: "en-GB" },
         PostcodeService,
-        StorageService,
         DIUServicesModule,
         { provide: "environment", useValue: environment },
         NotificationService,

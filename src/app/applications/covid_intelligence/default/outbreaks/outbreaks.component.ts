@@ -413,7 +413,7 @@ export class OutbreaksComponent implements OnInit {
 
         // TODO: what has the smtp subdomain become in the new mapping
         http_request =
-            "https://smtp." +
+            "https://covidstats." +
             environment.websiteURL +
             "/" +
             (api_method === "rate" ? "covid_crude_rate?" : "cloak?") +

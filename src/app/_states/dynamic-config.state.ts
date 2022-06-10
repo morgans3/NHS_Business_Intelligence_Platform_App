@@ -14,13 +14,11 @@ export class GetConfigByID {
 
 @State<DynamicConfigStateModel>({
     name: "dynamicConfig",
-    defaults: {}
+    defaults: {},
 })
 @Injectable()
 export class DynamicConfigState {
-    constructor(
-        private apiService: APIService
-    ) { }
+    constructor(private apiService: APIService) {}
 
     static getConfigById(id: string) {
         return createSelector([DynamicConfigState], (state: DynamicConfigStateModel) => state[id].payload);
@@ -29,7 +27,10 @@ export class DynamicConfigState {
     @Action(GetConfigByID)
     getConfigById(ctx: StateContext<DynamicConfigStateModel>, action: GetConfigByID) {
         const configs = ctx.getState();
-        const id = action.id;
+        let id = action.id;
+        if (id.includes("apps_")) id = id.replace("apps_", "");
+        if (id.includes("/")) id = id.split("/")[0];
+        console.log("Getting config for " + id);
 
         if (configs[id] && new Date(configs[id].expiry) > new Date()) {
             // If the novel with ID has been already loaded
@@ -38,7 +39,7 @@ export class DynamicConfigState {
         }
 
         return this.apiService.getPayloadById(id).pipe(
-            tap(payload => {
+            tap((payload) => {
                 ctx.patchState({ [id]: { payload, expiry: new Date(new Date().getTime() + 30 * 60000) } });
             })
         );

@@ -204,11 +204,7 @@ export class PopslicerComponent implements OnInit {
         private modalService: ModalService
     ) {
         this.token = this.store.selectSnapshot(AuthState.getToken);
-        const parsedUrl = window.location.href;
-        this.origin = parsedUrl.replace("/population-health", "");
-        if (this.origin.includes("localhost")) {
-            this.origin = "https://www." + environment.websiteURL;
-        }
+        this.origin = "https://www." + environment.websiteURL;
     }
 
     ngOnInit() {
@@ -510,7 +506,7 @@ export class PopslicerComponent implements OnInit {
             method: "GET",
             headers: header,
         };
-        d3.json((this.origin.replace("phi", "population") as string) + "/populations/getCrossfilter", options).then((d) => {
+        d3.json((this.origin.replace("www", "population") as string) + "/populations/getCrossfilter", options).then((d) => {
             this.filteredData = d;
             this.myDC.filterAll();
             this.myDC.redrawAll();
@@ -1520,7 +1516,7 @@ export class PopslicerComponent implements OnInit {
         };
         await d3
             .json(
-                (this.origin.replace("phi", "population") as string) + "/populations/getCrossfilter?filter=" + (cohorturl as string),
+                (this.origin.replace("www", "population") as string) + "/populations/getCrossfilter?filter=" + (cohorturl as string),
                 options
                 // {
                 //   headers: new Headers({ Authorization: "JWT " + this.token })

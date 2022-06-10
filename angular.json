@@ -24,7 +24,10 @@
                             "src/assets/styles/style.scss",
                             "node_modules/diu-component-library/_styles.scss",
                             "node_modules/animate.css/animate.css",
-                            "src/assets/fonts/material-icons/iconfont/material-icons.css"
+                            "src/assets/fonts/material-icons/iconfont/material-icons.css",
+                            "node_modules/leaflet/dist/leaflet.css",
+                            "node_modules/dc/style/dc.scss",
+                            "node_modules/leaflet-sidebar-v2/css/leaflet-sidebar.min.css"
                         ],
                         "scripts": [
                             "node_modules/crossfilter/crossfilter.js",
@@ -90,16 +93,17 @@
                         "karmaConfig": "./karma.conf.js",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.spec.json",
-                        "scripts": [
-                            "src/assets/js/leaflet-extract.js"
-                        ],
+                        "scripts": ["src/assets/js/leaflet-extract.js"],
                         "styles": [
                             "node_modules/chartist/dist/chartist.css",
                             "src/styles.scss",
                             "src/assets/styles/style.scss",
                             "node_modules/diu-component-library/_styles.scss",
                             "node_modules/animate.css/animate.css",
-                            "src/assets/fonts/material-icons/iconfont/material-icons.css"
+                            "src/assets/fonts/material-icons/iconfont/material-icons.css",
+                            "node_modules/leaflet/dist/leaflet.css",
+                            "node_modules/dc/style/dc.scss",
+                            "node_modules/leaflet-sidebar-v2/css/leaflet-sidebar.min.css"
                         ],
                         "assets": ["src/assets", "src/favicon.ico"]
                     }

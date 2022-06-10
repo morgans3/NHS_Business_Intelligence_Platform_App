@@ -36,12 +36,7 @@ export class DashboardisplayComponent implements OnInit {
     }
 
     private combineURL(origin: string, subd: string) {
-        const domain = origin.split("//")[1].split("/")[0].replace("www", "");
-        if (domain.includes("localhost")) {
-            return "https://" + subd + environment.websiteURL + "/";
-        } else if (domain.includes("dev") || domain.includes("demo")) {
-            return "https://" + subd + domain + "/";
-        }
+        const domain = environment.websiteURL;
         return "https://" + subd + domain + "/";
     }
 

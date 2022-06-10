@@ -147,14 +147,6 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
         }
     }
 
-    imageUpdated(newvalue: string) {
-        this.updatedImage = newvalue || null;
-        if (this.currentProfile) {
-            this.currentProfile.photobase64 = this.updatedImage;
-        }
-        this.onSubmit();
-    }
-
     onSubmit() {
         if (this.currentProfile && this.currentProfile["_id"]) {
             const updatedProfile: iFullUser = {
