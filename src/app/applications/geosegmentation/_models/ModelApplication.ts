@@ -10,7 +10,7 @@ export interface Application {
 }
 
 export interface Installation {
-    _id?: string;
+    id?: string;
     username?: string;
     teamcode?: string;
     app_name: string;

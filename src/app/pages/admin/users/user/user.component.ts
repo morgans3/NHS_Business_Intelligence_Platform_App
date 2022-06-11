@@ -193,7 +193,7 @@ export class UserComponent implements OnInit {
             // Send request
             this.apiService
                 .addTeamMember({
-                    _id: null,
+                    id: null,
                     teamcode: $event.option.value.code,
                     username: this.user.username,
                     organisation: this.user.organisation,
@@ -202,7 +202,7 @@ export class UserComponent implements OnInit {
                 .subscribe((data: any) => {
                     if (data.success) {
                         // Add team
-                        this.teams.selected.push(Object.assign($event.option.value, { _id: data.data["id"] }));
+                        this.teams.selected.push(Object.assign($event.option.value, { id: data.data["id"] }));
                         this.teamsTable.renderRows();
                         this.notificationService.success("User added to team!");
                     } else {
@@ -218,7 +218,7 @@ export class UserComponent implements OnInit {
             // Send request
             this.apiService
                 .removeTeamMember({
-                    _id: this.teams.selected[index].link_id,
+                    id: this.teams.selected[index].link_id,
                     organisation: null,
                     teamcode: null,
                     username: null,

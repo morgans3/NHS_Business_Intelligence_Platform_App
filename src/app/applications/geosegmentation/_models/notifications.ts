@@ -1,5 +1,5 @@
 export interface Notifications {
-    _id: string;
+    id: string;
     username?: string;
     teamcode?: string;
     method: string;

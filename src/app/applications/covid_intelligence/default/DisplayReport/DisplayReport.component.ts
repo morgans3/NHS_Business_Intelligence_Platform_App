@@ -6,7 +6,7 @@ import { AuthState } from "../../../../_states/auth.state";
 import { decodeToken } from "../../../../_pipes/functions";
 
 export interface ReportDetails {
-    _id: string;
+    id: string;
     name: string;
     description: string;
     publisher: string;
@@ -30,7 +30,7 @@ export class DisplayReportComponent implements OnInit {
 
     reportExamples: ReportDetails[] = [
         {
-            _id: "1",
+            id: "1",
             name: "Test Qlik Sense",
             description: "This is a test",
             publisher: "Tester",
@@ -41,7 +41,7 @@ export class DisplayReportComponent implements OnInit {
                 "sheet/54b60312-68c5-4d92-a225-79326b68ad5a/state/analysis",
         },
         {
-            _id: "2",
+            id: "2",
             name: "Test Power BI",
             description: "This is a test",
             publisher: "Tester",
@@ -52,7 +52,7 @@ export class DisplayReportComponent implements OnInit {
                 "RhNjA2MDZjIiwidCI6ImJhMzNiNjE1LTI3MzItNGYwYi05MmU2LWE3NDZlNWNjNzBhMCIsImMiOjN9",
         },
         {
-            _id: "3",
+            id: "3",
             name: "Test Tableau",
             description: "This is a test",
             publisher: "Tester",
@@ -63,7 +63,7 @@ export class DisplayReportComponent implements OnInit {
                 "Similar10CCGInteractiveMap?:embed=y&:display_count=yes&:showVizHome=no",
         },
         {
-            _id: "4",
+            id: "4",
             name: "Test Qlik View",
             description: "This is a test",
             publisher: "Tester",
@@ -73,7 +73,7 @@ export class DisplayReportComponent implements OnInit {
             reportUrl: "https://eu-b.demo.qlik.com/QvAJAXZfc/opendoc.htm?document=qvdocs%2FEpidemiology%20-Tycho.qvw&host=demo11",
         },
         {
-            _id: "5",
+            id: "5",
             name: "Test Tableau",
             description: "This is a test",
             publisher: "Tester",
@@ -86,7 +86,7 @@ export class DisplayReportComponent implements OnInit {
                 "TopCCGsandGPPracticesbypotentialsavingsforanexampleUKmarketsavingsdashboard?:embed=y&:display_count=yes&:showVizHome=no",
         },
         {
-            _id: "6",
+            id: "6",
             name: "Test Power BI",
             description: "This is a test",
             publisher: "Tester",
@@ -115,7 +115,7 @@ export class DisplayReportComponent implements OnInit {
         this.getReportID();
         if (this.reportID !== this.lastReportID) {
             this.lastReportID = this.reportID;
-            const report = this.reportExamples.filter((x) => x["_id"] === this.reportID)[0];
+            const report = this.reportExamples.filter((x) => x.id === this.reportID)[0];
             if (report) {
                 this.thisReport = report;
             }
@@ -128,7 +128,7 @@ export class DisplayReportComponent implements OnInit {
                 this.getReportID();
                 if (this.reportID !== this.lastReportID) {
                     this.lastReportID = this.reportID;
-                    const report = this.reportExamples.filter((x) => x["_id"] === this.reportID)[0];
+                    const report = this.reportExamples.filter((x) => x.id === this.reportID)[0];
                     if (report) {
                         this.thisReport = report;
                     }

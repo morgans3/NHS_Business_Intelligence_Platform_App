@@ -1,5 +1,5 @@
 export interface Organisation {
-    _id: string;
+    id: string;
     name: string;
     authmethod: string;
     code?: string;
@@ -7,7 +7,7 @@ export interface Organisation {
 }
 
 export interface OrganisationMembers {
-    _id: string;
+    id: string;
     organisationcode: string;
     username: string;
     rolecode?: string;
@@ -17,7 +17,7 @@ export interface OrganisationMembers {
 }
 
 export interface Team {
-    _id: string;
+    id: string;
     name: string;
     description: string;
     code: string;
@@ -26,7 +26,7 @@ export interface Team {
 }
 
 export interface TeamMembers {
-    _id: string;
+    id: string;
     teamcode: string;
     username: string;
     rolecode?: string;
@@ -36,7 +36,7 @@ export interface TeamMembers {
 }
 
 export interface TeamRequest {
-    _id?: string;
+    id?: string;
     username: string;
     teamcode: string;
     isArchived: boolean;
@@ -49,7 +49,7 @@ export interface TeamRequest {
 }
 
 export interface Roles {
-    _id: string;
+    id: string;
     code: string;
     name: string;
     description: string;
@@ -59,7 +59,7 @@ export interface Roles {
 }
 
 export interface Network {
-    _id: string;
+    id: string;
     name: string;
     description: string;
     code: string;
@@ -69,7 +69,7 @@ export interface Network {
 }
 
 export interface NetworkMembers {
-    _id: string;
+    id: string;
     networkcode: string;
     teamcode: string;
     joindate: Date;

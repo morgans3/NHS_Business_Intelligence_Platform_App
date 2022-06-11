@@ -80,7 +80,7 @@ export class ReportNotesComponent implements OnInit, OnChanges {
 
     sendMessage(form: any) {
         const newMessage: iNotifications = {
-            _id: null,
+            id: null,
             method: "",
             sentdate: new Date(),
             type: "",
@@ -94,7 +94,7 @@ export class ReportNotesComponent implements OnInit, OnChanges {
         this.notificationService.success("Note added");
         this.clearForm();
         // const newNotification: Notifications = {
-        //   _id: null,
+        //   id: null,
         //   message: form.message,
         //   teamcode: this.teamcode,
         //   method: "Team",
@@ -107,7 +107,7 @@ export class ReportNotesComponent implements OnInit, OnChanges {
         // };
         // this.messageService.add(newNotification).subscribe((res: any) => {
         //   if (res.success) {
-        //     newNotification._id = res._id;
+        //     newNotification.id = res.id;
         //     this.messages.unshift(newNotification);
         //     this.formDirective.resetForm();
         //   } else {

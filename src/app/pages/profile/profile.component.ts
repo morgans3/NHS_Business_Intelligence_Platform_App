@@ -14,7 +14,7 @@ interface iToken {
     organisation: string;
     linemanager: string;
     lastactive: Date;
-    _id: string;
+    id: string;
 }
 
 @Component({
@@ -56,7 +56,7 @@ export class ProfileComponent implements OnInit {
                     if (res.success === false) {
                         this.notificationService.warning("Unable to locate your profile, we will create a profile for you shortly.");
                         const newProfile: iUserDetails = {
-                            _id: generateID(),
+                            id: generateID(),
                             username: this.userDecodedToken.username,
                         };
                         this.usergroupService.addUserProfile(newProfile).subscribe((response: any) => {
@@ -71,7 +71,7 @@ export class ProfileComponent implements OnInit {
                                 organisation: this.userDecodedToken.organisation,
                                 linemanager: this.userDecodedToken.linemanager,
                                 lastactive: new Date(),
-                                _id: response["_id"],
+                                id: response.id,
                             };
                             this.notificationService.success("Profile added");
                         });
@@ -86,7 +86,7 @@ export class ProfileComponent implements OnInit {
                                 organisation: this.userDecodedToken.organisation,
                                 linemanager: this.userDecodedToken.linemanager,
                                 lastactive: new Date(),
-                                _id: res["_id"],
+                                id: res.id,
                                 photobase64: res.photobase64,
                                 contactnumber: res.contactnumber,
                                 preferredcontactmethod: res.preferredcontactmethod,

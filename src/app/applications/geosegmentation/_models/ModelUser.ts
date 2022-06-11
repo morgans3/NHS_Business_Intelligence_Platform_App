@@ -11,7 +11,7 @@ export class Credentials {
 }
 
 export class UserProfile {
-    _id: string;
+    id: string;
     name: string;
     username: string;
     email: string;
@@ -19,7 +19,7 @@ export class UserProfile {
 }
 
 export class UserDetails {
-    _id: string;
+    id: string;
     username: string;
     photobase64?: string;
     contactnumber?: string;
@@ -31,7 +31,7 @@ export class UserDetails {
 }
 
 export class FullUser {
-    _id: string;
+    id: string;
     name: string;
     username: string;
     email: string;
