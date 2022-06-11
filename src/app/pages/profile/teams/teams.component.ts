@@ -123,7 +123,6 @@ export class ProfileTeamsComponent implements OnInit {
                 const membership: iTeamMembers | any = this.myTeamMemberships.filter((x) => x.teamcode === team.code);
                 if (membership.length > 0) {
                     const team = membership[0];
-                    team.id = team["_id"];
                     this.apiService.removeTeamMember(team).subscribe((res: any) => {
                         if (res.success) {
                             this.notificationService.success("You have now left this Team");

@@ -154,11 +154,11 @@
                 <div fxFlex></div>
 
                 <div fxLayoutAlign="center center">
-                    <button *ngIf="!selectedCohort._id" mat-icon-button color="primary" (click)="saveNew()" title="Save New Cohort">
+                    <button *ngIf="!selectedCohort.id" mat-icon-button color="primary" (click)="saveNew()" title="Save New Cohort">
                         <mat-icon>save</mat-icon>
                     </button>
                     <button
-                        *ngIf="selectedCohort._id && selectedCohort.user !== 'Global'"
+                        *ngIf="selectedCohort.id && selectedCohort.user !== 'Global'"
                         mat-icon-button
                         color="accent"
                         (click)="saveUpdate()"
@@ -167,12 +167,12 @@
                         <mat-icon>person_add</mat-icon>
                     </button>
                     &nbsp;
-                    <button *ngIf="selectedCohort._id" mat-icon-button color="primary" (click)="saveAsNew()" title="Save As New">
+                    <button *ngIf="selectedCohort.id" mat-icon-button color="primary" (click)="saveAsNew()" title="Save As New">
                         <mat-icon>save</mat-icon>
                     </button>
                     &nbsp;
                     <button
-                        *ngIf="selectedCohort._id && selectedCohort.user !== 'Global'"
+                        *ngIf="selectedCohort.id && selectedCohort.user !== 'Global'"
                         mat-icon-button
                         color="warn"
                         title="Remove Saved Cohort"
@@ -189,7 +189,7 @@
             </mat-card-header>
             <mat-card-content>
                 <mat-selection-list #cohorts>
-                    <mat-list-option *ngFor="let cohort of allcohorts" [value]="cohort._id">
+                    <mat-list-option *ngFor="let cohort of allcohorts" [value]="cohort.id">
                         <span class="mat-list-text-icon" *ngIf="cohort.user === 'Global'">
                             <mat-icon>public</mat-icon>
                         </span>

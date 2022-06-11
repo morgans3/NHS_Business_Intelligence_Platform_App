@@ -38,12 +38,12 @@ export class TeamsTableComponent implements OnInit {
 
                     // Change item at index
                     this.teams.all.splice(
-                        this.teams.all.findIndex((listedItem) => listedItem["_id"] === item["_id"]),
+                        this.teams.all.findIndex((listedItem) => listedItem.id === item.id),
                         1
                     );
 
                     // Change item in filtered list
-                    const filteredListIndex = this.teams.filtered.findIndex((listedItem) => listedItem["_id"] === item["_id"]);
+                    const filteredListIndex = this.teams.filtered.findIndex((listedItem) => listedItem.id === item.id);
                     if (filteredListIndex >= 0) {
                         this.teams.filtered.splice(filteredListIndex, 1);
                     }

@@ -16,7 +16,7 @@ export class TeamComponent implements OnInit {
     @ViewChild("capabilitiesTable") capabilitiesTable: MatTable<any>;
 
     team = new FormGroup({
-        _id: new FormControl(null),
+        id: new FormControl(null),
         code: new FormControl(""),
         name: new FormControl(""),
         description: new FormControl(""),
@@ -38,7 +38,7 @@ export class TeamComponent implements OnInit {
                 this.apiService.getTeams().subscribe((teams: any) => {
                     // Get team and set value
                     const team = teams.find((team) => {
-                        return team["_id"] === params.id;
+                        return team.id === params.id;
                     });
                     this.team.patchValue(team);
 
@@ -74,7 +74,7 @@ export class TeamComponent implements OnInit {
         });
 
         // Create/Update team?
-        if (this.team.value["_id"]) {
+        if (this.team.value.id) {
             this.apiService.updateTeam(this.team.value).subscribe((data: any) => {
                 if (data.success) {
                     rolesCapabiltiesUpdate.subscribe((data: any) => {

@@ -1,5 +1,5 @@
 export interface SystemAlerts {
-    _id: string;
+    id: string;
     name: string;
     message: string;
     startdate: Date;
