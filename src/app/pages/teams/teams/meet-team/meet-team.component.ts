@@ -90,16 +90,20 @@ export class MeetTeamComponent implements OnInit, OnChanges {
         this.isAdmin = false;
         this.admins = [];
         this.selectedTeam.responsiblepeople.forEach((x: any) => {
-            this.apiService.getUserProfileByUsername(x).subscribe((res: iFullUser) => {
+            this.apiService.getUserProfileByUsernameAndOrganisation(x).subscribe((res: iFullUser) => {
                 if (res) {
                     if (!this.admins.includes(res)) {
                         this.admins.push(res);
                     }
+                    console.log(res, this.tokenDecoded);
                     if (res.username === this.tokenDecoded.username) {
                         this.isAdmin = true;
                         this.setConfig();
                     }
                 }
+            }, (error) => {
+                // @ts-ignore
+                this.members.push({ username: x.username, name: x.username });
             });
         });
 
@@ -109,7 +113,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
         this.apiService.getTeamMembersByCode(this.selectedTeam.code).subscribe((response: iTeamMembers[]) => {
             this.teammembers = response;
             this.teammembers.forEach((x) => {
-                this.apiService.getUserProfileByUsername(x.username).subscribe((res: iFullUser) => {
+                this.apiService.getUserProfileByUsernameAndOrganisation(`${x.username}#${x.organisation}`).subscribe((res: iFullUser) => {
                     if (res) {
                         if (!this.members.includes(res)) {
                             this.members.push(res);
@@ -118,6 +122,9 @@ export class MeetTeamComponent implements OnInit, OnChanges {
                             this.TeamMember = true;
                         }
                     }
+                }, (error) => {
+                    // @ts-ignore
+                    this.members.push({ username: x.username, name: x.username });
                 });
             });
         });
@@ -128,7 +135,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
         this.apiService.getTeamRequestsByTeamCode(this.selectedTeam.code).subscribe((response: iTeamRequest[]) => {
             this.teamrequests = response.filter((x) => !x.approveddate && !x.refusedate);
             this.teamrequests.forEach((x) => {
-                this.apiService.getUserProfileByUsername(x.username).subscribe((res: iFullUser) => {
+                this.apiService.getUserProfileByUsernameAndOrganisation(`${x.username}#${x.organisation}`).subscribe((res: iFullUser) => {
                     if (res) {
                         if (x.requestor) {
                             if (!this.outstanding.includes(res)) {
@@ -140,9 +147,12 @@ export class MeetTeamComponent implements OnInit, OnChanges {
                             }
                         }
                     }
+                }, (error) => {
+                    // @ts-ignore
+                    this.members.push({ username: x.username, name: x.username });
                 });
             });
-        });
+        }, () => {});
     }
 
     teamsChanged() {

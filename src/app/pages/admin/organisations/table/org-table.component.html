@@ -4,6 +4,7 @@
     <mat-form-field appearance="outline">
         <input type="text" placeholder="Search by name" matInput (keyup)="search($event.target.value)" />
     </mat-form-field>
+    <button (click)="addEdit()" class="m-l-15" mat-raised-button mat-dialog-close color="primary">Add new</button>
 </div>
 
 <table mat-table [dataSource]="orgs.filtered" class="w-100">
