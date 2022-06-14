@@ -30,6 +30,7 @@ export class DynamicComponent implements OnChanges, OnDestroy {
                 }
 
                 // Get page
+                console.log("Get oag", this.location)
                 this.getPage(this.location);
             }
         });
