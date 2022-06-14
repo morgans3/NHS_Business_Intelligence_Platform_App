@@ -1,5 +1,5 @@
 export interface Tasks {
-    _id: string;
+    id: string;
     username?: string;
     teamcode?: string;
     iscompleted: boolean;

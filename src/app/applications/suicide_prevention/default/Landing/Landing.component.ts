@@ -12,8 +12,7 @@ import { AuthState } from "../../../../_states/auth.state";
 import { MapData } from "../Incidents/IncidentForm/findlocation/findlocation.component";
 import { BarChart } from "../../../../_models/chart";
 import { StatCardData } from "../../../../_models/SPI_Lookups";
-import { StorageService } from "../../../../_services/storage.service";
-import { APIService, MosaicColours, MosaicDomain } from "diu-component-library";
+import { APIService, MosaicColours, MosaicDomain, RTSService } from "diu-component-library";
 import { environment } from "../../../../../environments/environment";
 import { ModalService } from "../../../../_services/modal.service";
 declare let window: any;
@@ -123,7 +122,6 @@ export class LandingComponent implements OnInit {
         icon: "assessment",
         color: "bg-primary",
     };
-    subd = "";
     mode = false;
     mapLegend: any[] = [];
     mosaicCodes: any[];
@@ -551,21 +549,13 @@ export class LandingComponent implements OnInit {
 
     constructor(
         public store: Store,
-        private storageService: StorageService,
         public dialog: MatDialog,
+        private rtsService: RTSService,
         private referenceService: APIService,
         private modalService: ModalService
     ) {
         this.token = this.store.selectSnapshot(AuthState.getToken);
-        const parsedUrl = window.location.href;
-        this.origin = parsedUrl.replace("/main", "");
-        if (this.origin.includes("localhost")) {
-            this.origin = "https://spi." + environment.websiteURL;
-        }
-        const origin = window.location.origin;
-        if (origin.includes("localhost")) {
-            this.subd = ".dev";
-        }
+        this.origin = "https://www." + environment.websiteURL;
         this.referenceService.getMosiacs().subscribe((res: any[]) => {
             this.mosaicCodes = res;
         });
@@ -583,7 +573,7 @@ export class LandingComponent implements OnInit {
                 this.openCloseAnimation[this.crossFilterData[key].filterName] = "open";
             }
         });
-        this.storageService.getCrossfilter("{}").subscribe((res: any) => {
+        this.rtsService.getCFServer().subscribe((res: any) => {
             this.dataLoaded = true;
             this.filteredData = res;
             this.totalsize = this.filteredData["all"].values;
@@ -847,7 +837,7 @@ export class LandingComponent implements OnInit {
             };
             await d3
                 .json(
-                    (this.origin.replace("www", "rts" + this.subd) as string) +
+                    (this.origin.replace("www", "rts") as string) +
                         "/dataset/getCrossfilter?filter=" +
                         (this.replaceAmpersand(JSON.stringify(queryFilter)) as string),
                     options
@@ -882,7 +872,7 @@ export class LandingComponent implements OnInit {
             method: "GET",
             headers: header,
         };
-        d3.json((this.origin.replace("spi", "storage" + this.subd) as string) + "/spindex/getCrossfilter", options).then((d) => {
+        d3.json((this.origin.replace("www", "rts") as string) + "/dataset/getCrossfilter", options).then((d) => {
             this.filteredData = d;
             this.myDC.filterAll();
             this.icsSelect.redraw();

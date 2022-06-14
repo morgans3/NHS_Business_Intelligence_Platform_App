@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from "@angular/core";
-import { iExcelWorkBook } from "../../../../../../_models/excel.interface";
-import { NotificationService } from "../../../../../../_services/notification.service";
+import { iExcelWorkBook } from "../../../../../_models/excel.interface";
+import { NotificationService } from "../../../../../_services/notification.service";
 import * as XLSX from "xlsx";
 
 @Component({

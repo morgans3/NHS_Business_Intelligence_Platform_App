@@ -111,7 +111,7 @@ export class TeamMembersComponent implements OnInit, OnChanges {
                         organisation: person.organisation,
                         teamcode: request[0].teamcode,
                         joindate: new Date(),
-                        _id: generateID(),
+                        id: generateID(),
                     };
                     this.apiService.addTeamMember(newTeamMember).subscribe(() => {
                         this.notificationService.success("Added to Team");

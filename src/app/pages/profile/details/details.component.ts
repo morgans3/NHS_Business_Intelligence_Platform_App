@@ -147,18 +147,10 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
         }
     }
 
-    imageUpdated(newvalue: string) {
-        this.updatedImage = newvalue || null;
-        if (this.currentProfile) {
-            this.currentProfile.photobase64 = this.updatedImage;
-        }
-        this.onSubmit();
-    }
-
     onSubmit() {
-        if (this.currentProfile && this.currentProfile["_id"]) {
+        if (this.currentProfile && this.currentProfile.id) {
             const updatedProfile: iFullUser = {
-                _id: this.currentProfile["_id"],
+                id: this.currentProfile.id,
                 username: this.currentProfile.username,
                 photobase64: this.currentProfile.photobase64,
                 contactnumber: this.form.controls["contactnumber"].value,
@@ -177,8 +169,8 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
             });
         } else {
             const newProfile: iFullUser = {
-                _id: "",
-                username: this.currentProfile.username,
+                id: "",
+                username: this.currentProfile.username + "#" + this.currentProfile.organisation,
                 photobase64: this.updatedImage,
                 contactnumber: this.form.controls["contactnumber"].value,
                 preferredcontactmethod: this.form.controls["preferredcontactmethod"].value,
@@ -189,7 +181,7 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
             this.apiService.addUserProfile(newProfile).subscribe((res: any) => {
                 if (res.success) {
                     this.notificationService.success(res.msg);
-                    this.currentProfile["_id"] = res["_id"];
+                    this.currentProfile.id = res.id;
                     this.formUpdated.emit(true);
                 } else {
                     this.notificationService.warning(res.msg);

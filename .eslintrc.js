@@ -144,6 +144,7 @@ module.exports = {
         "comma-dangle": "off",
         complexity: "off",
         "constructor-super": "error",
+        "cypress/no-unnecessary-waiting": "off",
         "dot-notation": "off",
         eqeqeq: ["error", "smart"],
         "guard-for-in": "error",

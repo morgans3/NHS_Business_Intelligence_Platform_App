@@ -108,18 +108,9 @@ export class RegionalComponent implements OnInit {
         }, 0);
     }
 
-    constructor(
-        public store: Store,
-        public dialog: MatDialog,
-        private sqlService: APIService,
-        private modalService: ModalService
-    ) {
+    constructor(public store: Store, public dialog: MatDialog, private sqlService: APIService, private modalService: ModalService) {
         this.token = this.store.selectSnapshot(AuthState.getToken);
-        const parsedUrl = window.location.href;
-        this.origin = parsedUrl.replace("/population-health", "");
-        if (this.origin.includes("localhost")) {
-            this.origin = "https://www." + environment.websiteURL;
-        }
+        this.origin = "https://www." + environment.websiteURL;
     }
 
     ngOnInit() {

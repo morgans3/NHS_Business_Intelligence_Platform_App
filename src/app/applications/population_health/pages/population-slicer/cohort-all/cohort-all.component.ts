@@ -73,7 +73,7 @@ export class CohortAllComponent implements OnInit, OnChanges {
         this.cohorts.selectionChange.subscribe((s: MatSelectionListChange) => {
             this.cohorts.deselectAll();
             s.option.selected = true;
-            const savedCohort = this.allcohorts.find((x) => x["_id"] === s.option.value);
+            const savedCohort = this.allcohorts.find((x) => x.id === s.option.value);
             if (savedCohort) {
                 this.selectedCohort = savedCohort;
                 this.changeEvent.emit(this.selectedCohort);
@@ -150,7 +150,7 @@ export class CohortAllComponent implements OnInit, OnChanges {
             cohortName: response.name,
             cohorturl: JSON.stringify(this.cohort),
             isDeleted: false,
-            _id: generateID(),
+            id: generateID(),
             user: this.tokenDecoded.username,
         };
         if (response.teamcode) {

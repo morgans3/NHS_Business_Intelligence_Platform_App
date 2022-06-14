@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from "@angular/material/dialog";
-import { environment } from "src/environments/environment";
+import { ActivatedRoute, Router } from "@angular/router";
 import { APIService } from "diu-component-library";
 
 export interface iConfluenceSearchItem {
@@ -28,15 +28,30 @@ export class GuideComponent implements OnInit {
     baseURL = "";
 
     constructor(
+        apiService: APIService,
+        private activatedRoute: ActivatedRoute,
         private http: HttpClient,
         private dialog: MatDialog,
-        private apiService: APIService,
+        private router: Router
     ) {
         this.baseURL = apiService.baseUrl + "confluence/content/";
     }
 
     ngOnInit() {
         this.searchConfluenceGuides();
+        // Listen for request id
+        this.activatedRoute.queryParams.subscribe((params) => {
+            if (params["id"]) {
+                this.getConfluenceGuide(params["id"]);
+            }
+
+            // Listen for request id changes
+            this.activatedRoute.params.subscribe((params) => {
+                if (params["id"]) {
+                    this.getConfluenceGuide(params["id"]);
+                }
+            });
+        });
     }
 
     searchTimeout;
@@ -70,5 +85,10 @@ export class GuideComponent implements OnInit {
                 dialog.componentInstance.imageUrl = $event.target.src;
             });
         }
+    }
+
+    clearGuide() {
+        this.selectedGuide = null;
+        this.router.navigate(["/support/guides"]);
     }
 }

@@ -20,7 +20,7 @@ export class CreateTeamComponent implements OnInit {
         description: new FormControl(null, Validators.required),
         code: new FormControl(null, Validators.required),
         organisationcode: new FormControl(null, Validators.required),
-        _id: new FormControl(null),
+        id: new FormControl(null),
     });
     @ViewChild(FormGroupDirective, { static: false }) formDirective: FormGroupDirective;
     form: iTeam;
@@ -60,7 +60,7 @@ export class CreateTeamComponent implements OnInit {
             return;
         }
         const team: iTeam = {
-            _id: "0",
+            id: "0",
             name: this.myForm.controls["name"].value,
             description: this.myForm.controls["description"].value,
             code: this.myForm.controls["code"].value,

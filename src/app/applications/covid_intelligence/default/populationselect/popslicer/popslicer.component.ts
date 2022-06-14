@@ -27,11 +27,11 @@ declare let leafletChoroplethChart: any;
 declare let leafletLegend: any;
 declare let leafletMarkerChartBubble: any;
 declare let dc: any;
-declare let window: any;
 declare let L: any;
 import { RiskRows, RiskCols, CareModelExamples } from "./RiskRows";
 import { environment } from "src/environments/environment";
 import { ModalService } from "../../../../../_services/modal.service";
+import { isArray } from "rxjs/internal-compatibility";
 
 export class StatCardData {
     title: string;
@@ -207,7 +207,7 @@ export class PopslicerComponent implements OnInit {
         icon: "group",
         color: "bg-primary",
     };
-    origin: any;
+    crossfilterApiUrl: any;
     ewLoading = true;
     gpLoading = true;
     /* #endregion */
@@ -229,11 +229,7 @@ export class PopslicerComponent implements OnInit {
         private notificationService: NotificationService
     ) {
         this.token = this.store.selectSnapshot(AuthState.getToken);
-        const parsedUrl = window.location.href;
-        this.origin = parsedUrl.replace("/populationselect", "");
-        if (this.origin.includes("localhost")) {
-            this.origin = "https://www.dev." + environment.websiteURL;
-        }
+        this.crossfilterApiUrl = "https://crossfilter." + environment.websiteURL;
     }
 
     ngOnInit() {
@@ -568,24 +564,22 @@ export class PopslicerComponent implements OnInit {
                 method: "GET",
                 headers: header,
             };
-            await d3
-                .json(this.origin.replace("cvi", "pmi") + "/populations/getCrossfilter?filter=" + JSON.stringify(queryFilter), options)
-                .then((d) => {
-                    if (this.filteredData !== d) {
-                        this.filteredData = d;
-                        this.myDC.redrawAll();
-                        this.ewChart.redraw();
-                        this.gpChart.redraw();
-                        if (this.matrixChartOpenCloseAnim === "open") {
-                            this.matrixChart.render();
-                        }
-                        this.ccgSelect.redraw();
-                        this.icpSelect.redraw();
-                        this.neighbourhoodSelect.redraw();
-                        this.loadFilters = {};
-                        this.loading = false;
+            await d3.json(this.crossfilterApiUrl + "/dataset/getCrossfilter?filter=" + JSON.stringify(queryFilter), options).then((d) => {
+                if (this.filteredData !== d) {
+                    this.filteredData = d;
+                    this.myDC.redrawAll();
+                    this.ewChart.redraw();
+                    this.gpChart.redraw();
+                    if (this.matrixChartOpenCloseAnim === "open") {
+                        this.matrixChart.render();
                     }
-                });
+                    this.ccgSelect.redraw();
+                    this.icpSelect.redraw();
+                    this.neighbourhoodSelect.redraw();
+                    this.loadFilters = {};
+                    this.loading = false;
+                }
+            });
         }
         return null;
     }
@@ -599,7 +593,7 @@ export class PopslicerComponent implements OnInit {
             headers: header,
         };
         d3.json(
-            this.origin.replace("cvi", "pmi") + "/populations/getCrossfilter",
+            this.crossfilterApiUrl + "/dataset/getCrossfilter",
             options
             // {
             //   headers: new Headers({ Authorization: "JWT " + this.token })
@@ -631,14 +625,16 @@ export class PopslicerComponent implements OnInit {
         const response: { key: string[]; value: number }[] = [];
         values.forEach((keyvaluePair) => {
             const keyarray = keyvaluePair.key;
-            keyarray.forEach((ltc) => {
-                const check = response.filter((x) => x.key.includes(ltc));
-                if (check.length > 0) {
-                    check[0].value = check[0].value + keyvaluePair.value;
-                } else {
-                    response.push({ key: [ltc], value: keyvaluePair.value });
-                }
-            });
+            if (keyarray && isArray(keyarray)) {
+                keyarray.forEach((ltc) => {
+                    const check = response.filter((x) => x.key.includes(ltc));
+                    if (check.length > 0) {
+                        check[0].value = check[0].value + keyvaluePair.value;
+                    } else {
+                        response.push({ key: [ltc], value: keyvaluePair.value });
+                    }
+                });
+            }
         });
         return response;
     }
@@ -728,7 +724,6 @@ export class PopslicerComponent implements OnInit {
     filterHandled(dim, filters) {
         const name = dim.filterName();
         this.loadFilters[name] = true;
-        this.loading = true;
         if (filters) {
             dim.filter(filters);
         } else {
@@ -749,11 +744,12 @@ export class PopslicerComponent implements OnInit {
             list.forEach((e) => {
                 const chart = list[e];
                 if (
-                    chart.anchorName() === "dc-data-count" ||
-                    chart.anchorName() === "TotalPopulation" ||
-                    chart.anchorName() === "CustBaseline" ||
-                    chart.anchorName() === "TotalSelected" ||
-                    chart.anchorName() === "PercentSelected"
+                    chart &&
+                    (chart.anchorName() === "dc-data-count" ||
+                        chart.anchorName() === "TotalPopulation" ||
+                        chart.anchorName() === "CustBaseline" ||
+                        chart.anchorName() === "TotalSelected" ||
+                        chart.anchorName() === "PercentSelected")
                 ) {
                     this.myDC.chartRegistry.deregister(chart);
                 }
@@ -1753,6 +1749,7 @@ export class PopslicerComponent implements OnInit {
         }
         chart.filterHandler((dim, filters) => this.filterHandled(dim, filters));
         chart.commitHandler(async () => {
+            this.loading = true;
             await this.refresh(this.queryFilter);
         });
     }
@@ -1851,7 +1848,7 @@ export class PopslicerComponent implements OnInit {
         };
         await d3
             .json(
-                this.origin.replace("cvi", "pmi") + "/populations/getCrossfilter?filter=" + cohorturl,
+                this.crossfilterApiUrl + "/dataset/getCrossfilter?filter=" + cohorturl,
                 options
                 // {
                 //   headers: new Headers({ Authorization: "JWT " + this.token })

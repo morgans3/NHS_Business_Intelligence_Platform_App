@@ -48,7 +48,8 @@ export const AppRoutes: Routes = [
             {
                 path: "mapping",
                 component: FullmapComponent,
-                loadChildren: () => import("./applications/place_based/mapping/mapping.module").then((m) => m.MappingModule),
+                data: { layout_config: { id: "Place_Based_Intelligence" } },
+                loadChildren: () => import("./applications/place_based/mapping.module").then((m) => m.MappingModule),
             },
             {
                 path: "covid19",
@@ -101,14 +102,34 @@ export const AppRoutes: Routes = [
         ],
     },
     {
+        path: "dashboardstore",
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: "",
+                pathMatch: "full",
+                component: FullComponent,
+                loadChildren: () => import("./pages/stores/stores.module").then((m) => m.StoresModule),
+                canActivate: [AuthGuard],
+            },
+            {
+                path: "virtual_wardy",
+                component: FullComponent,
+                loadChildren: () => import("./pages/dashboardisplay/dashboardisplay.module").then((m) => m.DashboardisplayModule),
+            },
+            {
+                path: "**",
+                component: FullComponent,
+                loadChildren: () => import("./pages/dynamic/dynamic.module").then((m) => m.DynamicPageModule),
+                pathMatch: "full",
+            },
+        ],
+    },
+    {
         path: "",
         component: FullComponent,
         canActivate: [AuthGuard],
         children: [
-            {
-                path: "dashboardstore",
-                loadChildren: () => import("./pages/stores/stores.module").then((m) => m.StoresModule),
-            },
             {
                 path: "dashboard",
                 loadChildren: () => import("./pages/dashboard/dashboard.module").then((m) => m.DashboardModule),

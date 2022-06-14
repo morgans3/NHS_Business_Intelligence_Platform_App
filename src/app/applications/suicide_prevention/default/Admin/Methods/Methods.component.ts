@@ -55,7 +55,7 @@ export class MethodsComponent implements OnInit, OnChanges {
 
     onSubmit() {
         if (this.editForm) {
-            // this.myForm.controls["_id"].patchValue(this.editForm._id);
+            // this.myForm.controls["id"].patchValue(this.editForm.id);
             const updateItem = this.methods.filter((x) => x.method === this.myForm.value["method"]);
             if (updateItem.length > 0) {
                 updateItem[0].priority = this.myForm.value["priority"];

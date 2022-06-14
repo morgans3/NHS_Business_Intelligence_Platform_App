@@ -1,0 +1,18 @@
+@import "../../../../node_modules/leaflet-sidebar-v2/css/leaflet-sidebar.min.css";
+
+app-sharedmap {
+    width: 100vw;
+    height: 100vh;
+}
+
+.leaflet-container {
+    background: #fff !important;
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+.leafletmap {
+    margin: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+}
