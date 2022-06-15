@@ -87,7 +87,6 @@ export class CreateTeamComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((result: iFullUser) => {
             if (result) {
-                console.log(result);
                 this.responsiblepeople.push(`${result.username}#${result.organisation}`);
             }
         });

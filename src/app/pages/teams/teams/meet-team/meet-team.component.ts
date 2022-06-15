@@ -95,7 +95,6 @@ export class MeetTeamComponent implements OnInit, OnChanges {
                     if (!this.admins.includes(res)) {
                         this.admins.push(res);
                     }
-                    console.log(res, this.tokenDecoded);
                     if (res.username === this.tokenDecoded.username) {
                         this.isAdmin = true;
                         this.setConfig();
