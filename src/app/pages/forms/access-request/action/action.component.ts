@@ -23,7 +23,7 @@ export class AccessRequestActionFormComponent implements OnInit {
         // Listen for request id
         this.activatedRoute.queryParams.subscribe((params) => {
             // Set parent request id
-            this.getRequest(params["id"] || null);
+            this.getRequest(params["id"] || null, params["capabilities"]);
 
             // Listen for request action
             this.activatedRoute.params.subscribe((params) => {
@@ -34,7 +34,7 @@ export class AccessRequestActionFormComponent implements OnInit {
         });
     }
 
-    getRequest(id) {
+    getRequest(id, capabilitiesForApproval = []) {
         this.apiService.getAccessRequest(id).subscribe((request: any) => {
             this.apiService.getCapabilities().subscribe((data: any) => {
                 // Keyby id
@@ -44,7 +44,9 @@ export class AccessRequestActionFormComponent implements OnInit {
                 }, {});
 
                 // Enrich array
-                request.data.capabilities.map((capability) => {
+                request.data.capabilities = request.data.capabilities.filter((capability) => {
+                    return capabilitiesForApproval.includes(capability.id)
+                }).map((capability) => {
                     capability.name = capabilities[capability.id].name;
                     capability.description = capabilities[capability.id].description;
                     if(capability.meta?.children) {
@@ -70,6 +72,7 @@ export class AccessRequestActionFormComponent implements OnInit {
                 parent_id: this.request.id,
                 action: this.action,
                 date: new Date().toISOString(),
+                capabilities: this.request.data.capabilities
             };
 
             // Set form properties
