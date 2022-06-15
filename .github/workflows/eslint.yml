@@ -26,11 +26,11 @@ jobs:
 
             - name: Install ESLint
               run: |
-                  npm install --force
-                  npm install eslint@8.10.0
-                  npm install @microsoft/eslint-formatter-sarif@2.1.7
-                  npm install @typescript-eslint/eslint-plugin@5.25.0
-                  npm install @typescript-eslint/parser@5.25.0
+                  npm install --force --legacy-peer-deps
+                  npm install eslint@8.10.0 --legacy-peer-deps
+                  npm install @microsoft/eslint-formatter-sarif@2.1.7 --legacy-peer-deps
+                  npm install @typescript-eslint/eslint-plugin@5.25.0 --legacy-peer-deps
+                  npm install @typescript-eslint/parser@5.25.0 --legacy-peer-deps
 
             - name: Run ESLint
               run: npx eslint .
