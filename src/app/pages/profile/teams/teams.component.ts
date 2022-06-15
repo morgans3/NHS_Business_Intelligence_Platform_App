@@ -16,6 +16,7 @@ import { decodeToken } from "../../../_pipes/functions";
     templateUrl: "./teams.component.html",
 })
 export class ProfileTeamsComponent implements OnInit {
+
     @Input() user: iFullUser;
     joinTeamForm = new FormGroup({
         team: new FormControl(null),
@@ -59,7 +60,7 @@ export class ProfileTeamsComponent implements OnInit {
     getTeams() {
         this.myTeams = [];
         this.store.select(ReferenceState.getTeams).subscribe((res: iTeam[]) => {
-            this.teams.all = res;
+            this.teams = { all: res, filtered: res };
             if (this.myTeamMemberships) {
                 const myTeamCodes = this.myTeamMemberships.map((membership) => membership.teamcode);
                 this.myTeams = res.filter((team) => myTeamCodes.includes(team.code));

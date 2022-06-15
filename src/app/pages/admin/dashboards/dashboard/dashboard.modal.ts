@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from "@angular/core";
-import { FormGroup, FormControl } from "@angular/forms";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { APIService } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
@@ -11,14 +11,14 @@ import { NotificationService } from "../../../../_services/notification.service"
 export class DashboardModalComponent implements OnInit {
     newDashboard = false;
     dashboard = new FormGroup({
-        name: new FormControl(""),
-        url: new FormControl(""),
-        ownerName: new FormControl(""),
-        ownerEmail: new FormControl(""),
-        icon: new FormControl(""),
-        environment: new FormControl(""),
-        status: new FormControl(""),
-        description: new FormControl(""),
+        name: new FormControl("", Validators.required),
+        url: new FormControl("", Validators.required),
+        ownerName: new FormControl("", Validators.required),
+        ownerEmail: new FormControl("", Validators.required),
+        icon: new FormControl("", Validators.required),
+        environment: new FormControl("", Validators.required),
+        status: new FormControl("", Validators.required),
+        description: new FormControl("", Validators.required),
         images: new FormControl([]),
     });
 
@@ -41,25 +41,29 @@ export class DashboardModalComponent implements OnInit {
     }
 
     save() {
-        // Update app with new values
-        if (this.newDashboard) {
-            this.apiService.addDashboard(this.dashboard.getRawValue()).subscribe((res: any) => {
-                if (res.success === true) {
-                    this.notificationService.success("Dashboard updated successfully");
-                    this.dialogRef.close(this.dashboard.getRawValue());
-                } else {
-                    this.notificationService.error("An error occurred updating the dashboard!");
-                }
-            });
+        if(this.dashboard.valid) {
+            // Update app with new values
+            if (this.newDashboard) {
+                this.apiService.addDashboard(this.dashboard.getRawValue()).subscribe((res: any) => {
+                    if (res.success === true) {
+                        this.notificationService.success("Dashboard updated successfully");
+                        this.dialogRef.close(this.dashboard.getRawValue());
+                    } else {
+                        this.notificationService.error("An error occurred updating the dashboard");
+                    }
+                });
+            } else {
+                this.apiService.updateDashboard(this.dashboard.getRawValue()).subscribe((res: any) => {
+                    if (res.success === true) {
+                        this.notificationService.success("Dashboard updated successfully");
+                        this.dialogRef.close(this.dashboard.getRawValue());
+                    } else {
+                        this.notificationService.error("An error occurred updating the dashboard");
+                    }
+                });
+            }
         } else {
-            this.apiService.updateDashboard(this.dashboard.getRawValue()).subscribe((res: any) => {
-                if (res.success === true) {
-                    this.notificationService.success("Dashboard updated successfully");
-                    this.dialogRef.close(this.dashboard.getRawValue());
-                } else {
-                    this.notificationService.error("An error occurred updating the dashboard!");
-                }
-            });
+            this.notificationService.error("Please ensure all fields are completed correctly")
         }
     }
 }
