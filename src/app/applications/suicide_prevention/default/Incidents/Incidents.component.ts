@@ -8,6 +8,7 @@ import { MatSort } from "@angular/material/sort";
 import { NotificationService } from "../../../../_services/notification.service";
 import { decodeToken } from "../../../../_pipes/functions";
 import { AuthState } from "../../../../_states/auth.state";
+import { APIService } from "diu-component-library";
 
 @Component({
     selector: "app-Incidents",
@@ -28,7 +29,8 @@ export class IncidentsComponent implements OnInit {
         private router: Router,
         public store: Store,
         private notificationService: NotificationService,
-        private changeDetectorRef: ChangeDetectorRef
+        private changeDetectorRef: ChangeDetectorRef,
+        private APIService: APIService
     ) {
         const token = this.store.selectSnapshot(AuthState.getToken);
         if (token) {
@@ -42,18 +44,17 @@ export class IncidentsComponent implements OnInit {
 
     getData() {
         this.dataFetched = false;
-        // TODO: add new API method
-        // this.storageService.getIncidents().subscribe((data: Incident[]) => {
-        //     this.incidents = data;
-        //     this.updateTable();
-        //     this.changeDetectorRef.detectChanges();
-        //     if (this.paginator) {
-        //         this.dataSource.paginator = this.paginator;
-        //     }
-        //     if (this.sort) {
-        //         this.dataSource.sort = this.sort;
-        //     }
-        // });
+        this.APIService.getAllIncidents().subscribe((data: Incident[]) => {
+            this.incidents = data;
+            this.updateTable();
+            this.changeDetectorRef.detectChanges();
+            if (this.paginator) {
+                this.dataSource.paginator = this.paginator;
+            }
+            if (this.sort) {
+                this.dataSource.sort = this.sort;
+            }
+        });
     }
 
     updateTable() {
@@ -71,7 +72,7 @@ export class IncidentsComponent implements OnInit {
 
     incidentSelected(row) {
         localStorage.setItem("@@selected-incident", JSON.stringify(row));
-        this.router.navigate(["/incidentform"]);
+        this.router.navigate(["/apps/suicide-prevention/incidentform"]);
     }
 
     removeRecord(row) {

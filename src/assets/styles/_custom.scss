@@ -59,26 +59,6 @@
     margin: -0px;
 }
 
-#mosaicToolTip div.row {
-    line-height: 1;
-    padding: 3px;
-    margin: -0px;
-}
-
-#mosaicToolTip h1 {
-    /**/
-    margin-left: -4px;
-    margin-top: -4px;
-}
-
-#mosaicToolTip h4 {
-    margin: 0px;
-}
-
-#mosaicToolTip h5 {
-    margin: 0px;
-}
-
 /* Creates a small triangle extender for the tooltip
   .d3-tip:after {
     box-sizing: border-box;
@@ -2329,6 +2309,10 @@ rect {
             /* Chrome, Firefox 16+, IE 10+, Opera */
         }
     }
+}
+
+.img-container {
+    max-width: 100%;
 }
 
 @import "./solid.scss";

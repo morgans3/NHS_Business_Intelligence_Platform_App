@@ -21,8 +21,4 @@ export const DefaultRoutes: Routes = [
         path: "incidentform",
         component: IncidentFormComponent,
     },
-    {
-        path: "mapping",
-        loadChildren: () => import("./mapping/mapping.module").then((m) => m.MappingModule),
-    },
 ];

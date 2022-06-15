@@ -924,7 +924,7 @@ export class LandingComponent implements OnInit {
         });
     }
 
-    resizeChart(chart, parent, type?) {
+    resizeChart(chart, parent, type = null) {
         if (chart && type) {
             switch (type) {
                 case "slim":
@@ -1184,8 +1184,7 @@ export class LandingComponent implements OnInit {
     updateSummaries() {
         const list = this.myDC.chartRegistry.list();
         if (list.length > 0) {
-            list.forEach((e) => {
-                const chart = list[e];
+            list.forEach((chart) => {
                 if (
                     chart.anchorName() === "dc-data-count" ||
                     chart.anchorName() === "TotalPopulation" ||
