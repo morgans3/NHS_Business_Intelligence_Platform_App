@@ -1,11 +1,8 @@
 <mat-list>
-    <mat-list-item *ngFor="let person of profiles; let i = index" style="margin: 5px; background: transparent">
-        <img *ngIf="!person.photobase64" width="40" src="../../../../assets/images/login.png" style="background-color: white" />
-        <img *ngIf="person.photobase64" width="40" [src]="person.photobase64" style="background-color: white" />
-        <div class="mat-list-text" style="margin-left: 5px">
-            <h3 class="mat-line">{{ person.name }} ({{ person.email }})</h3>
-            <p *ngIf="person.contactnumber" class="mat-line text-muted">{{ person.contactnumber }}</p>
-        </div>
+    <mat-list-item *ngFor="let person of profiles; let i = index">
+        <img matListAvatar [src]="person.photobase64 || '../../../../assets/images/login.png'" style="background-color: white">
+        <div matLine>{{ person?.name }} ({{ person?.email }})</div>
+        <div matLine>Phone number: {{ person?.contactnumber }}</div>
         <button
             mat-icon-button
             type="button"

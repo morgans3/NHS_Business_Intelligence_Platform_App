@@ -11,7 +11,7 @@ import { NotificationService } from "../../../../_services/notification.service"
 export class OrgModalComponent implements OnInit {
     newOrg = false;
     org = new FormGroup({
-        code: new FormControl({ value: "", disabled: true }),
+        code: new FormControl(""),
         name: new FormControl(""),
         contact: new FormControl(""),
         authmethod: new FormControl(""),
@@ -29,6 +29,7 @@ export class OrgModalComponent implements OnInit {
         if (this.data.org) {
             this.newOrg = false;
             this.org.patchValue(this.data.org);
+            this.org.get("code").disable();
         } else {
             this.newOrg = true;
         }

@@ -15,10 +15,9 @@ export class DashboardsTableComponent implements OnInit {
     constructor(private dialog: MatDialog, private notificationService: NotificationService, private apiService: APIService) {}
 
     ngOnInit() {
-        // TODO: where is this endpoint now?
-        // this.apiService.getDashboards().subscribe((orgs: any) => {
-        //   this.dashboards = { all: orgs, filtered: orgs };
-        // });
+        this.apiService.getDashboards().subscribe((orgs: any) => {
+            this.dashboards = { all: orgs, filtered: orgs };
+        });
     }
 
     search(name) {
@@ -62,20 +61,21 @@ export class DashboardsTableComponent implements OnInit {
     delete(dashboard) {
         this.notificationService.question("Are you sure you want to delete this dashboard?").then((confirmed) => {
             if (confirmed === true) {
-                // TODO: where is this endpoint now?
-                // this.apiService.archiveDashboard(dashboard).subscribe((res) => {
-                //     //Notify success
-                //     this.notificationService.success("Dashboard has been removed successfully!");
-                //     //Change item at index
-                //     this.dashboards.all.splice(this.dashboards.all.findIndex((listedDash) => listedDash.name === dashboard.name), 1);
-                //     //Change item in filtered list
-                //     let filteredListIndex = this.dashboards.filtered.findIndex((listedDash) => listedDash.name === dashboard.name);
-                //     if (filteredListIndex >= 0) {
-                //         this.dashboards.filtered.splice(filteredListIndex, 1);
-                //     }
-                //     //Trigger material table
-                //     this.table.renderRows();
-                // });
+                this.apiService.archiveDashboard(dashboard).subscribe((res) => {
+                    // Notify success
+                    this.notificationService.success("Dashboard has been removed successfully!");
+
+                    // Change item at index
+                    this.dashboards.all.splice(this.dashboards.all.findIndex((listedDash) => listedDash.name === dashboard.name), 1);
+
+                    // Change item in filtered list
+                    const filteredListIndex = this.dashboards.filtered.findIndex((listedDash) => listedDash.name === dashboard.name);
+                    if (filteredListIndex >= 0) {
+                        this.dashboards.filtered.splice(filteredListIndex, 1);
+                    }
+                    // Trigger material table
+                    this.table.renderRows();
+                });
             }
         });
     }
