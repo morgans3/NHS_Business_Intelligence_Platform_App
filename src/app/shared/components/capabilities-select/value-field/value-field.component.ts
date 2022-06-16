@@ -33,6 +33,15 @@ export class ValueFieldComponent implements ControlValueAccessor, AfterViewInit 
     ) { }
 
     ngAfterViewInit() {
+        // Change value
+        this.control.valueChanges.subscribe((value) => {
+            if(this.capability.value.type === "nhsnumber") {
+                // Remove spaces from number
+                this.control.setValue(value.replace(/\s/g, ""), { emitEvent: false });
+            }
+        });
+
+        // Add validators
         this.control.addValidators((formControl: FormControl): ValidationErrors => {
             if(this.capability) {
                 // Valid NHS number?

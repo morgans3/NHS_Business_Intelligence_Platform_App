@@ -13,6 +13,7 @@ export const ucfirst = (value: string) => {
 };
 
 export const isNhsNumber = (nhsNumber) => {
+    // Check type
     if(
         nhsNumber === undefined ||
         nhsNumber === null ||

@@ -64,13 +64,13 @@
                                 <mat-list role="list" class="scrollable">
                                     <ng-container *ngFor="let capability of request.data.capabilities">
                                         <mat-list-item>
-                                            <div mat-line>{{ capability.name }}</div>
+                                            <div mat-line><b>{{ capability.name }}</b></div>
                                             <div mat-line>{{ capability.description }}</div>
                                             <div mat-line>Value: {{ valueJson(capability.valuejson) }}</div>
                                         </mat-list-item>
                                         <mat-list-item *ngFor="let child of capability.meta?.children" class="p-l-15">
                                             <mat-icon matListIcon>subdirectory_arrow_right</mat-icon>
-                                            <div mat-line>{{ child.name }}</div>
+                                            <div mat-line><b>{{ child.name }}</b></div>
                                             <div mat-line>{{ child.description }}</div>
                                             <div mat-line>Value: {{ valueJson(child.valuejson) }}</div>
                                         </mat-list-item>
@@ -78,25 +78,6 @@
                                 </mat-list>
                             </td>
                         </tr> 
-
-                        <!-- <tr class="mat-row">
-                            <td class="mat-cell" colspan="2">
-                                <b>Requested capabilities: </b>
-                            </td
-                            <!-- <td style="padding: 10px 0px" class="mat-cell">
-                                <b>Apps requested: </b>{{ request?.data?.app_access.join(", ") }}
-                            </td>
-                            <td class="mat-cell">
-                                <b>Status: </b
-                                >{{
-                                    request?.data?.approved === null
-                                        ? "Awaiting action"
-                                        : request?.data?.approved
-                                        ? "Approved"
-                                        : "Unapproved"
-                                }}
-                            </td>
-                        </tr> -->
                     </table>
 
                     <mat-tab-group

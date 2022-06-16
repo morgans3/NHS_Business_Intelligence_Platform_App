@@ -60,7 +60,6 @@ export class DashboardsTableComponent implements OnInit {
     }
 
     delete(dashboard) {
-        console.log(dashboard);
         this.notificationService.question("Are you sure you want to delete this dashboard?").then((confirmed) => {
             if (confirmed === true) {
                 // TODO: where is this endpoint now?

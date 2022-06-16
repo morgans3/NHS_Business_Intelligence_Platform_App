@@ -1,0 +1,52 @@
+<mat-form-field style="margin-bottom: -1.34375em">
+    <mat-label>Add new capability</mat-label>
+    <input
+        (keyup)="search($event.target.value)" (focus)="search()"
+        type="text" placeholder="Search by name" matInput
+        [matAutocomplete]="capabilitySearchAutocomplete"
+        #capabilitiesSearchInput
+    />
+    <mat-autocomplete
+        (optionSelected)="assign($event, capabilitiesSearchInput)"
+        #capabilitySearchAutocomplete="matAutocomplete"
+    >
+        <mat-option *ngFor="let capability of list.filtered" [value]="capability">
+            {{ capability.name }}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>
+
+<table mat-table [dataSource]="selected" class="w-100" #capabilitiesTable>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element" class="w-25">{{ element.name }}</td>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let element" class="w-50">{{ element.description }}</td>
+    </ng-container>
+
+    <!-- Valuejson Column -->
+    <ng-container matColumnDef="valuejson">
+        <th mat-header-cell *matHeaderCellDef>Value JSON</th>
+        <td mat-cell *matCellDef="let element" class="w-25">{{ element.valuejson }}</td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+            <button (click)="revoke(i)" mat-raised-button color="warn">Revoke</button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['name', 'description', 'valuejson', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name', 'description', 'valuejson', 'actions']"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="3">No capabilities assigned</td>
+    </tr>
+</table>

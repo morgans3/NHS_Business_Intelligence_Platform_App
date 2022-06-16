@@ -3,7 +3,8 @@ import { FormGroup, FormControl } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { APIService } from "diu-component-library";
 import { NotificationService } from "../../../../_services/notification.service";
-import { MatTable } from "@angular/material/table";
+import { SharedCapabilitiesTableComponent } from "../../_shared/capabilities-table/capabilities-table.component";
+import { SharedRolesTableComponent } from "../../_shared/roles-table/roles-table.component";
 import { forkJoin } from "rxjs";
 
 @Component({
@@ -12,9 +13,10 @@ import { forkJoin } from "rxjs";
     styleUrls: ["./team.component.scss"],
 })
 export class TeamComponent implements OnInit {
-    @ViewChild("rolesTable") rolesTable: MatTable<any>;
-    @ViewChild("capabilitiesTable") capabilitiesTable: MatTable<any>;
+    @ViewChild("roles") roles: SharedRolesTableComponent;
+    @ViewChild("capabilities") capabilities: SharedCapabilitiesTableComponent;
 
+    id = null;
     team = new FormGroup({
         id: new FormControl(null),
         code: new FormControl(""),
@@ -41,43 +43,22 @@ export class TeamComponent implements OnInit {
                         return team.id === params.id;
                     });
                     this.team.patchValue(team);
-
-                    // Get team capabilities
-                    this.apiService.getCapabilitiesByTypeId("team", team.code).subscribe((data: any) => {
-                        this.capabilities.selected = data instanceof Array ? data : [];
-                        this.capabilitiesTable.renderRows();
-                    });
-
-                    // Get team roles
-                    this.apiService.getRolesByTypeId("team", team.code).subscribe((data: any) => {
-                        this.roles.selected = data instanceof Array ? data : [];
-                        this.rolesTable.renderRows();
-                    });
                 });
             }
         });
     }
 
     save() {
-        // Roles and capabilities
-        const rolesCapabiltiesUpdate = forkJoin({
-            capabilities: this.apiService.syncCapabilityLinks(
-                this.capabilities.selected.map((item) => item.id),
-                "team",
-                this.team.value.code
-            ),
-            roles: this.apiService.syncRoleLinks(
-                this.roles.selected.map((item) => item.id),
-                "team",
-                this.team.value.code
-            ),
-        });
-
         // Create/Update team?
         if (this.team.value.id) {
+            // Update team
             this.apiService.updateTeam(this.team.value).subscribe((data: any) => {
                 if (data.success) {
-                    rolesCapabiltiesUpdate.subscribe((data: any) => {
+                    // Update roles and capabilities
+                    forkJoin({
+                        capabilities: this.capabilities.save(),
+                        roles: this.roles.save(),
+                    }).subscribe((data: any) => {
                         if (data.capabilities.success && data.roles.success) {
                             this.notificationService.success("Team updated successfully!");
                             this.router.navigateByUrl("/admin/teams");
@@ -90,9 +71,17 @@ export class TeamComponent implements OnInit {
                 }
             });
         } else {
-            this.apiService.createTeam(this.team.value).subscribe((data: any) => {
-                if (data.success) {
-                    rolesCapabiltiesUpdate.subscribe((data: any) => {
+            this.apiService.createTeam(this.team.value).subscribe((response: any) => {
+                if (response.success) {
+                    // Update model id
+                    this.roles.modelId = response.data.id;
+                    this.capabilities.modelId = response.data.id;
+
+                    // Create roles and capabilties
+                    forkJoin({
+                        capabilities: this.capabilities.save(),
+                        roles: this.roles.save(),
+                    }).subscribe((data: any) => {
                         if (data.capabilities.success && data.roles.success) {
                             this.notificationService.success("Team created successfully!");
                             this.router.navigateByUrl("/admin/teams");
@@ -110,73 +99,4 @@ export class TeamComponent implements OnInit {
     update() {
         // TODO: implement function or update html onSubmit
     }
-
-    roles = {
-        list: { all: [], filtered: [] },
-        selected: [],
-        search: async (name = "") => {
-            // Get roles list?
-            if (this.roles.list.all.length === 0) {
-                this.roles.list.all = (await this.apiService.getRoles().toPromise()) as any;
-            }
-
-            // Filter roles
-            const selectedIds = this.roles.selected.map((item) => item.id);
-            this.roles.list.filtered = this.roles.list.all.filter((item) => {
-                const itemName = item.name as string;
-                const description = item.description as string;
-                const fullItem = itemName.toLowerCase() + description.toLowerCase();
-                return fullItem.includes(name.toLowerCase()) && !selectedIds.includes(item.id);
-            });
-        },
-        assign: ($event, rolesSearchInput) => {
-            // Add role
-            this.roles.selected.push($event.option.value);
-            this.rolesTable.renderRows();
-
-            // Clear input
-            rolesSearchInput.value = "";
-            rolesSearchInput.blur();
-        },
-        revoke: (index) => {
-            // Remove by index
-            console.log(index);
-            this.roles.selected.splice(index, 1);
-            this.rolesTable.renderRows();
-        },
-    };
-
-    capabilities = {
-        list: { all: [], filtered: [] },
-        selected: [],
-        search: async (name = "") => {
-            // Get roles list?
-            if (this.capabilities.list.all.length === 0) {
-                this.capabilities.list.all = (await this.apiService.getCapabilities().toPromise()) as any;
-            }
-
-            // Filter roles
-            const selectedIds = this.capabilities.selected.map((item) => item.id);
-            this.capabilities.list.filtered = this.capabilities.list.all.filter((item) => {
-                const itemName = item.name as string;
-                const description = item.description as string;
-                const fullItem = itemName.toLowerCase() + description.toLowerCase();
-                return fullItem.includes(name.toLowerCase()) && !selectedIds.includes(item.id);
-            });
-        },
-        assign: ($event, capabilitiesSearchInput) => {
-            // Add role
-            this.capabilities.selected.push($event.option.value);
-            this.capabilitiesTable.renderRows();
-
-            // Clear input
-            capabilitiesSearchInput.value = "";
-            capabilitiesSearchInput.blur();
-        },
-        revoke: (index) => {
-            // Remove by index
-            this.capabilities.selected.splice(index, 1);
-            this.capabilitiesTable.renderRows();
-        },
-    };
 }

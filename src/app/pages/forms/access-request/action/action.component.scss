@@ -12,6 +12,15 @@ mat-card-header {
     border-radius: 10px;
     margin-bottom: 20px;
 }
-mat-list-item {
-    font-size: 14px;
+mat-list {
+    padding-top: 0px;
+    mat-list-item {
+        background: #fff;
+        font-size: 14px !important;
+        height: fit-content !important;
+        border-bottom: 2px solid #eef5f9;
+        ::ng-deep .mat-list-item-content {
+            padding: 6px 16px;
+        }
+    }
 }

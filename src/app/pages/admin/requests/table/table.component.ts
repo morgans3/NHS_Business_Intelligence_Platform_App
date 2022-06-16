@@ -41,7 +41,6 @@ export class RequestsTableComponent implements OnInit {
 
     action(action, item) {
         if (action.type === "link") {
-            console.log(getValueByKey(action.link, item));
             this.router.navigateByUrl(getValueByKey(action.link, item));
         }
     }

@@ -12,6 +12,7 @@ export class CapabilityValueModalComponent {
     capability;
     children = {};
     form = new FormGroup({
+        id: new FormControl(""),
         valuejson: new FormControl("", Validators.required),
         meta: new FormGroup({})
     });
@@ -24,6 +25,12 @@ export class CapabilityValueModalComponent {
     ) {
         // Assign capability
         this.capability = this.data.capability || {};
+
+        // Set values
+        this.form.patchValue({
+            id: this.capability.id,
+            valuejson: (this.capability.value.type === "allow_deny") ? "allow" : ""
+        });
 
         // Set children?
         if(this.capability.value.type_meta?.children_select) {
