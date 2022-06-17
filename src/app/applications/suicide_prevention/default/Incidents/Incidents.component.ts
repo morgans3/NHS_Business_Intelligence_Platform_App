@@ -44,7 +44,7 @@ export class IncidentsComponent implements OnInit {
 
     getData() {
         this.dataFetched = false;
-        this.APIService.getAllIncidents().subscribe((data: Incident[]) => {
+        this.APIService.getSPIIncidents().subscribe((data: Incident[]) => {
             this.incidents = data;
             this.updateTable();
             this.changeDetectorRef.detectChanges();
@@ -76,16 +76,15 @@ export class IncidentsComponent implements OnInit {
     }
 
     removeRecord(row) {
-        // TODO: add new API method
-        // this.storageService.removeIncident(row).subscribe((data: any) => {
-        //     if (data.success && data.success === false) {
-        //         this.notificationService.error("Unable to remove Incident, reason: " + (data.msg as string));
-        //     } else {
-        //         this.notificationService.success("Incident removed");
-        //         this.incidents.splice(this.incidents.indexOf(row), 1);
-        //         this.updateTable();
-        //     }
-        // });
+        this.APIService.deleteSPIIncident(row).subscribe((data: any) => {
+            if (data.success && data.success === false) {
+                this.notificationService.error("Unable to remove Incident, reason: " + (data.msg as string));
+            } else {
+                this.notificationService.success("Incident removed");
+                this.incidents.splice(this.incidents.indexOf(row), 1);
+                this.updateTable();
+            }
+        });
     }
 
     updatePID(event) {

@@ -1,0 +1,11 @@
+<mat-form-field>
+    <mat-label>{{ placeholder }}</mat-label>
+    <mat-select [formControl]="control" (focus)="getGps()" [multiple]="max > 1" tabindex="-1">
+        <mat-form-field class="search" appearance="none">
+            <mat-label>Search by name</mat-label>
+            <input matInput (keyup)="filterGps($event.target.value)" tabindex="-1" />
+        </mat-form-field>
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let gp of gps.filtered" [value]="gp.Code">{{ gp.Name }}</mat-option>
+    </mat-select>
+</mat-form-field>

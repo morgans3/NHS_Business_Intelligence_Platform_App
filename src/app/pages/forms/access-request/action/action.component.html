@@ -2,7 +2,7 @@
     <div fxFlex="100">
         <mat-card>
             <mat-card-header>
-                <mat-card-title>COVID 19 Data Hub Access Authorisation</mat-card-title>
+                <mat-card-title>NHS BI Platform Access Authorisation</mat-card-title>
             </mat-card-header>
             <mat-card-content>
                 <ng-container *ngIf="request?.id && request?.data.approved === null">
@@ -56,18 +56,30 @@
                         </tr>
 
                         <tr class="mat-row">
-                            <td style="padding: 10px 0px" class="mat-cell">
-                                <b>Apps requested: </b>{{ request?.data?.app_access.join(", ") }}
-                            </td>
-                            <td class="mat-cell">
-                                <b>Status: </b
-                                >{{
-                                    request?.data?.approved === null
-                                        ? "Awaiting action"
-                                        : request?.data?.approved
-                                        ? "Approved"
-                                        : "Unapproved"
-                                }}
+                            <td class="mat-cell" colspan="2" style="padding: 10px 0px"><b>Requested capabilities</b></td>
+                        </tr>
+
+                        <tr class="mat-row">
+                            <td class="mat-cell" colspan="2">
+                                <mat-list role="list" class="scrollable">
+                                    <ng-container *ngFor="let capability of request.data.capabilities">
+                                        <mat-list-item>
+                                            <div mat-line>
+                                                <b>{{ capability.name }}</b>
+                                            </div>
+                                            <div mat-line>{{ capability.description }}</div>
+                                            <div mat-line>Value: {{ valueJson(capability.valuejson) }}</div>
+                                        </mat-list-item>
+                                        <mat-list-item *ngFor="let child of capability.meta?.children" class="p-l-15">
+                                            <mat-icon matListIcon>subdirectory_arrow_right</mat-icon>
+                                            <div mat-line>
+                                                <b>{{ child.name }}</b>
+                                            </div>
+                                            <div mat-line>{{ child.description }}</div>
+                                            <div mat-line>Value: {{ valueJson(child.valuejson) }}</div>
+                                        </mat-list-item>
+                                    </ng-container>
+                                </mat-list>
                             </td>
                         </tr>
                     </table>

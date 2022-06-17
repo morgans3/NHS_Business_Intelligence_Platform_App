@@ -1,28 +1,24 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
-import { DemoMaterialModule } from "../../../demo-material-module";
+import { DemoMaterialModule } from "../../../../demo-material-module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
-import { Routes } from "./roles.routing";
 import { DiuComponentLibraryModule } from "diu-component-library";
 
-import { SharedCapabilitiesTableModule } from "../_shared/capabilities-table/capabilties-table.module";
-import { RolesTableComponent } from "./table/roles-table.component";
-import { RoleComponent } from "./role/role.component";
+import { SharedRolesTableComponent } from "./roles-table.component";
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
+        RouterModule,
         ReactiveFormsModule,
         DemoMaterialModule,
         FlexLayoutModule,
-        RouterModule.forChild(Routes),
         DiuComponentLibraryModule,
-        SharedCapabilitiesTableModule
     ],
-    declarations: [RolesTableComponent, RoleComponent],
+    declarations: [SharedRolesTableComponent],
+    exports: [SharedRolesTableComponent]
 })
-export class RolesAdminModule {}
+export class SharedRolesTableModule {}
