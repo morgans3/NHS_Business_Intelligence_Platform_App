@@ -1,6 +1,5 @@
 import { Component, Input, ViewChild } from "@angular/core";
 import { ControlValueAccessor, FormControl, FormControlDirective, NG_VALUE_ACCESSOR, ControlContainer } from "@angular/forms";
-import { HttpClient } from "@angular/common/http";
 
 const CCGs = [
     { code: "02M", name: "Fylde & Wyre CCG" },
@@ -45,7 +44,7 @@ export class CCGSelectComponent implements ControlValueAccessor {
         return this.formControl || this.controlContainer.control.get(this.formControlName);
     }
 
-    constructor(private controlContainer: ControlContainer) { }
+    constructor(private controlContainer: ControlContainer) {}
 
     // To-do: Add validation for max items
 

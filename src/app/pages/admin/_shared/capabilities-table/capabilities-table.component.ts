@@ -10,22 +10,20 @@ import { tap } from "rxjs/operators";
     templateUrl: "./capabilities-table.component.html",
 })
 export class SharedCapabilitiesTableComponent implements OnChanges {
-
     @Input() modelId;
     @Input() modelName;
     @Input() lazyLoad = true;
     @ViewChild("capabilitiesTable") capabilitiesTable: MatTable<any>;
 
-    selected = []; list = { all: [], filtered: [] };
+    selected = [];
+    list = { all: [], filtered: [] };
 
-    constructor(
-        private dialog: MatDialog,
-        private apiService: APIService,
-        private notificationService: NotificationService
-    ) {}
+    constructor(private dialog: MatDialog, private apiService: APIService, private notificationService: NotificationService) {}
 
     ngOnChanges() {
-        if(this.lazyLoad === false) { this.get(); }
+        if (this.lazyLoad === false) {
+            this.get();
+        }
     }
 
     public get() {
@@ -59,7 +57,7 @@ export class SharedCapabilitiesTableComponent implements OnChanges {
             const capability = $event.option.value;
 
             // Set value json
-            if(capability.value.type === "allow_deny" && !capability.value.type_meta?.children_select) {
+            if (capability.value.type === "allow_deny" && !capability.value.type_meta?.children_select) {
                 capability.valuejson = "allow";
                 this.selected.push(capability);
                 resolve(true);
@@ -67,38 +65,42 @@ export class SharedCapabilitiesTableComponent implements OnChanges {
                 // Handle alternative type
                 import("../../../../shared/components/capabilities-select/value-modal/value.modal").then((c) => {
                     // Open modal with data
-                    this.dialog.open(c.CapabilityValueModalComponent, {
-                        data: { capability }, width: "60%",
-                    }).afterClosed().subscribe((data) => {
-                        if (data) {
-                            // Set value json
-                            capability.valuejson = data.valuejson;
-                            this.selected.push(capability);
+                    this.dialog
+                        .open(c.CapabilityValueModalComponent, {
+                            data: { capability },
+                            width: "60%",
+                        })
+                        .afterClosed()
+                        .subscribe((data) => {
+                            if (data) {
+                                // Set value json
+                                capability.valuejson = data.valuejson;
+                                this.selected.push(capability);
 
-                            // Handle any children
-                            if(data?.meta?.children) {
-                                data.meta.children.forEach((child) => {
-                                    // Get capability info
-                                    // eslint-disable-next-line prefer-const
-                                    let childCapability = this.list.all.find((item) => item.id === child.id);
+                                // Handle any children
+                                if (data?.meta?.children) {
+                                    data.meta.children.forEach((child) => {
+                                        // Get capability info
+                                        // eslint-disable-next-line prefer-const
+                                        const childCapability = this.list.all.find((item) => item.id === child.id);
 
-                                    // Multiple value jsons?
-                                    if (!(child.valuejson instanceof Array)) {
-                                        childCapability.valuejson = child.valuejson;
-                                        this.selected.push(childCapability);
-                                    } else {
-                                        child.valuejson.forEach((valuejson) => {
-                                            childCapability.valuejson = valuejson;
-                                            this.selected.push(JSON.parse(JSON.stringify(childCapability)));
-                                        });
-                                    }
-                                })
+                                        // Multiple value jsons?
+                                        if (!(child.valuejson instanceof Array)) {
+                                            childCapability.valuejson = child.valuejson;
+                                            this.selected.push(childCapability);
+                                        } else {
+                                            child.valuejson.forEach((valuejson) => {
+                                                childCapability.valuejson = valuejson;
+                                                this.selected.push(JSON.parse(JSON.stringify(childCapability)));
+                                            });
+                                        }
+                                    });
+                                }
+                                resolve(true);
+                            } else {
+                                resolve(false);
                             }
-                            resolve(true);
-                        } else {
-                            resolve(false);
-                        }
-                    });
+                        });
                 });
             }
         }).then(() => {
@@ -106,7 +108,7 @@ export class SharedCapabilitiesTableComponent implements OnChanges {
             this.capabilitiesTable.renderRows();
             capabilitiesSearchInput.value = "";
             capabilitiesSearchInput.blur();
-        })
+        });
     }
 
     revoke(index) {
@@ -114,10 +116,11 @@ export class SharedCapabilitiesTableComponent implements OnChanges {
         const removedItem = this.selected[index];
 
         // Remove children
-        this.selected = this.selected.filter((capability) =>
-            // eslint-disable-next-line eqeqeq
-            !(capability.id == removedItem.id || capability.parent == removedItem.id)
-        )
+        this.selected = this.selected.filter(
+            (capability) =>
+                // eslint-disable-next-line eqeqeq
+                !(capability.id === removedItem.id || capability.parent === removedItem.id)
+        );
 
         this.capabilitiesTable.renderRows();
     }
@@ -126,18 +129,20 @@ export class SharedCapabilitiesTableComponent implements OnChanges {
         return this.apiService
             .syncCapabilityLinks(
                 this.selected.map((item) => {
-                    return { id: item.id, valuejson: item.valuejson }
+                    return { id: item.id, valuejson: item.valuejson };
                 }),
                 this.modelName,
                 this.modelId
             )
-            .pipe(tap((data: any) => {
-                // Send message
-                if (data.success) {
-                    this.notificationService.success("Capabilities updated successfully!");
-                } else {
-                    this.notificationService.error("An error occurred updating the capabilities");
-                }
-            }));
+            .pipe(
+                tap((data: any) => {
+                    // Send message
+                    if (data.success) {
+                        this.notificationService.success("Capabilities updated successfully!");
+                    } else {
+                        this.notificationService.error("An error occurred updating the capabilities");
+                    }
+                })
+            );
     }
 }

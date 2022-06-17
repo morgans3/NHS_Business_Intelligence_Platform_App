@@ -9,15 +9,10 @@ import { APIService } from "diu-component-library";
     styleUrls: ["./action.component.scss"],
 })
 export class AccessRequestActionFormComponent implements OnInit {
-
     request: any = {};
     action = "approve";
 
-    constructor(
-        private activatedRoute: ActivatedRoute,
-        private notificationService: NotificationService,
-        private apiService: APIService,
-    ) {}
+    constructor(private activatedRoute: ActivatedRoute, private notificationService: NotificationService, private apiService: APIService) {}
 
     ngOnInit() {
         // Listen for request id
@@ -38,30 +33,32 @@ export class AccessRequestActionFormComponent implements OnInit {
         this.apiService.getAccessRequest(id).subscribe((request: any) => {
             this.apiService.getCapabilities().subscribe((data: any) => {
                 // Keyby id
-                const capabilities = data.reduce((acc, cur, i) => {
+                const capabilities = data.reduce((acc, cur) => {
                     acc[cur.id] = cur;
                     return acc;
                 }, {});
 
                 // Enrich array
-                request.data.capabilities = request.data.capabilities.filter((capability) => {
-                    return capabilitiesForApproval.includes(capability.id)
-                }).map((capability) => {
-                    capability.name = capabilities[capability.id].name;
-                    capability.description = capabilities[capability.id].description;
-                    if(capability.meta?.children) {
-                        capability.children = capability.meta.children.map((child) => {
-                            child.name = capabilities[child.id].name;
-                            child.description = capabilities[child.id].description;
-                            return child;
-                        });
-                    }
-                    return capability;
-                });
+                request.data.capabilities = request.data.capabilities
+                    .filter((capability) => {
+                        return capabilitiesForApproval.includes(capability.id);
+                    })
+                    .map((capability) => {
+                        capability.name = capabilities[capability.id].name;
+                        capability.description = capabilities[capability.id].description;
+                        if (capability.meta?.children) {
+                            capability.children = capability.meta.children.map((child) => {
+                                child.name = capabilities[child.id].name;
+                                child.description = capabilities[child.id].description;
+                                return child;
+                            });
+                        }
+                        return capability;
+                    });
 
                 // Set request data
                 this.request = request;
-            })
+            });
         });
     }
 
@@ -72,7 +69,7 @@ export class AccessRequestActionFormComponent implements OnInit {
                 parent_id: this.request.id,
                 action: this.action,
                 date: new Date().toISOString(),
-                capabilities: this.request.data.capabilities
+                capabilities: this.request.data.capabilities,
             };
 
             // Set form properties
@@ -96,5 +93,7 @@ export class AccessRequestActionFormComponent implements OnInit {
         }
     }
 
-    valueJson(data) { return (data instanceof Array) ? data.join(","): data }
+    valueJson(data) {
+        return data instanceof Array ? data.join(",") : data;
+    }
 }
