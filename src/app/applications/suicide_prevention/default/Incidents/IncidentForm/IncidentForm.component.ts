@@ -139,7 +139,6 @@ export class IncidentFormComponent implements OnInit {
             this.customParse(this.editForm);
             localStorage.removeItem("@@selected-incident");
         }
-        console.log(this);
     }
 
     populateDropdowns() {
@@ -198,9 +197,7 @@ export class IncidentFormComponent implements OnInit {
         }
         this.myForm.patchValue(incident);
         if (incident.medication) {
-            // let medicationList = incident.medication;
-            // medicationList = JSON.parse(medicationList);
-            // this.medicationlist = incident.medication;
+            this.medicationlist = incident.medication;
         }
         if (incident_location) {
             this.read_incident_loc = incident_location;
@@ -208,13 +205,9 @@ export class IncidentFormComponent implements OnInit {
         if (residence_location) {
             this.read_residence_loc = residence_location;
         }
-        // if (incident.location_postcode_mosaic) {
-        //   this.incidicentMosType = incident.location_postcode_mosaic;
-        // }
         if (incident.postcode_mosaic) {
             this.postcode_mosaic = incident.postcode_mosaic;
         }
-        console.log(this);
     }
 
     onSubmit() {
