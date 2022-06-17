@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NotificationService } from "../../../../_services/notification.service";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { APIService } from "diu-component-library";
 
 @Component({

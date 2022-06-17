@@ -2,7 +2,7 @@
     <div fxFlex="100">
         <mat-card>
             <mat-card-header>
-                <mat-card-title>COVID 19 Data Hub Access Authorisation</mat-card-title>
+                <mat-card-title>NHS BI Platform Access Authorisation</mat-card-title>
             </mat-card-header>
             <mat-card-content>
                 <ng-container *ngIf="request?.id && request?.data.approved === null">
@@ -64,20 +64,24 @@
                                 <mat-list role="list" class="scrollable">
                                     <ng-container *ngFor="let capability of request.data.capabilities">
                                         <mat-list-item>
-                                            <div mat-line><b>{{ capability.name }}</b></div>
+                                            <div mat-line>
+                                                <b>{{ capability.name }}</b>
+                                            </div>
                                             <div mat-line>{{ capability.description }}</div>
                                             <div mat-line>Value: {{ valueJson(capability.valuejson) }}</div>
                                         </mat-list-item>
                                         <mat-list-item *ngFor="let child of capability.meta?.children" class="p-l-15">
                                             <mat-icon matListIcon>subdirectory_arrow_right</mat-icon>
-                                            <div mat-line><b>{{ child.name }}</b></div>
+                                            <div mat-line>
+                                                <b>{{ child.name }}</b>
+                                            </div>
                                             <div mat-line>{{ child.description }}</div>
                                             <div mat-line>Value: {{ valueJson(child.valuejson) }}</div>
                                         </mat-list-item>
                                     </ng-container>
                                 </mat-list>
                             </td>
-                        </tr> 
+                        </tr>
                     </table>
 
                     <mat-tab-group
