@@ -36,7 +36,7 @@ export class IncidentFormComponent implements OnInit {
     editForm: Incident;
     myForm = new FormGroup({
         index: new FormControl(null, Validators.required),
-        ics: new FormControl(null, Validators.required),
+        ics: new FormControl(null, null),
         type: new FormControl(null, null),
         method: new FormControl(null, null),
         bcu: new FormControl(null, null),
@@ -59,7 +59,7 @@ export class IncidentFormComponent implements OnInit {
         type_of_location: new FormControl(null, null),
         local_authority: new FormControl(null, null),
         gender: new FormControl(null, null),
-        date_of_birth: new FormControl(null, null),
+        date_of_birth: new FormControl(null, Validators.required),
         occupation: new FormControl(null, null),
         type_of_job: new FormControl(null, null),
         employment: new FormControl(null, null),
@@ -139,6 +139,7 @@ export class IncidentFormComponent implements OnInit {
             this.customParse(this.editForm);
             localStorage.removeItem("@@selected-incident");
         }
+        console.log(this);
     }
 
     populateDropdowns() {
@@ -197,7 +198,9 @@ export class IncidentFormComponent implements OnInit {
         }
         this.myForm.patchValue(incident);
         if (incident.medication) {
-            this.medicationlist = incident.medication;
+            // let medicationList = incident.medication;
+            // medicationList = JSON.parse(medicationList);
+            // this.medicationlist = incident.medication;
         }
         if (incident_location) {
             this.read_incident_loc = incident_location;
@@ -238,30 +241,29 @@ export class IncidentFormComponent implements OnInit {
         if (this.editForm) {
             item.index = this.editForm.index;
             item.ics = this.editForm.ics;
-            // TODO: add new API method
-            // this.storageService.updateIncident(item).subscribe((data: any) => {
-            //     if (data.success && data.success === false) {
-            //         this.notificationService.error("Unable to add Incident, reason: " + (data.msg as string));
-            //     } else {
-            //         this.formDirective.resetForm();
-            //         this.medicationlist = [];
-            //         this.editForm = null;
-            //         this.notificationService.success("Updated record");
-            //         this.router.navigate(["/incidents"]);
-            //     }
-            // });
+            this.apiService.updateIncident(item).subscribe((data: any) => {
+                if (data.success && data.success === false) {
+                    this.notificationService.error("Unable to update Incident, reason: " + (data.msg as string));
+                } else {
+                    this.formDirective.resetForm();
+                    this.medicationlist = [];
+                    this.editForm = null;
+                    this.notificationService.success("Updated record");
+                    this.router.navigate(["/apps/suicide-prevention/incidents"]);
+                }
+            });
         } else {
-            // TODO: add new API method
-            // this.storageService.updateIncident(this.myForm.value).subscribe((data: any) => {
-            //     if (data.success && data.success === false) {
-            //         this.notificationService.error("Unable to add Incident, reason: " + (data.msg as string));
-            //     } else {
-            //         this.formDirective.resetForm();
-            //         this.medicationlist = [];
-            //         this.notificationService.success("Incident Added");
-            //         this.router.navigate(["/incidents"]);
-            //     }
-            // });
+            this.apiService.createIncident(item).subscribe((data: any) => {
+                if (data.success && data.success === false) {
+                    this.notificationService.error("Unable to update Incident, reason: " + (data.msg as string));
+                } else {
+                    this.formDirective.resetForm();
+                    this.medicationlist = [];
+                    this.editForm = null;
+                    this.notificationService.success("record created");
+                    this.router.navigate(["/apps/suicide-prevention/incidents"]);
+                }
+            });
         }
     }
 
