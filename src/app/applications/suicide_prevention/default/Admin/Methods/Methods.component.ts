@@ -64,7 +64,7 @@ export class MethodsComponent implements OnInit, OnChanges {
                     this.methods.splice(
                         this.methods.indexOf(this.methods.filter((x) => x.method === this.myForm.value["method"])[0]),
                         1,
-                        this.myForm.value
+                        updateItem[0]
                     );
                     this.buildTable();
                     this.notificationService.success("Updated record");
@@ -116,7 +116,7 @@ export class MethodsComponent implements OnInit, OnChanges {
                 this.notificationService.warning("Unable to remove method, reason: " + (res.message as string));
             } else {
                 this.notificationService.success("Method removed");
-                this.methods.splice(this.methods.indexOf(row));
+                this.methods.splice(this.methods.indexOf(row), 1);
                 this.buildTable();
                 this.updatedmethods.emit(null);
             }
