@@ -701,7 +701,10 @@ mat-chip {
 
 svg {
     overflow: hidden;
-    fill: white;
+}
+
+.mat-datepicker-input {
+    cursor: pointer;
 }
 
 gallery {
