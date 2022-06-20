@@ -77,11 +77,22 @@
                                 </div>
                             </div>
 
-                            <p class="m-t-0 m-b-0">
-                                <small
-                                    >* Your work email address should end with your employer's website name, i.e. john.appleseed@gov.uk,
-                                    millie.smith@nhs.net</small
-                                >
+                            <mat-form-field class="m-b-10" formGroupName="request_sponsor">
+                                <input
+                                    matInput
+                                    formControlName="email"
+                                    placeholder="Sponsor email address"
+                                    type="email"
+                                    autocomplete="false"
+                                />
+                                <mat-hint>Enter the email for the individual responsible for authorising your account</mat-hint>
+                                <mat-error *ngIf="form?.get('request_sponsor.email').errors?.not_valid">
+                                    Email cannot be the same as your own and must be a <b>work*</b> email address
+                                </mat-error>
+                            </mat-form-field>
+
+                            <p class="m-b-0">
+                                <small>* Your work email address should end with your employer's website name, i.e. john.appleseed@gov.uk, millie.smith@nhs.net</small>
                             </p>
                         </mat-step>
                         <mat-step formGroupName="pid_access">
