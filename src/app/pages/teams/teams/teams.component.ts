@@ -113,7 +113,7 @@ export class TeamsComponent implements OnInit {
     changeTeam(team: iTeam) {
         this.currentTeam = team;
         this.currentTeamMembers = [];
-        this.checkAdmin(this.currentTeam.responsiblepeople, this.tokenDecoded.username);
+        this.checkAdmin(this.currentTeam.responsiblepeople, this.tokenDecoded.username + "#" + this.tokenDecoded.organisation);
         this.apiService.getTeamMembersByCode(this.currentTeam.code).subscribe((res: any) => {
             this.currentTeamMembers = res;
             this.checkMembership(this.currentTeamMembers, this.tokenDecoded.username);
@@ -124,7 +124,7 @@ export class TeamsComponent implements OnInit {
     changeTeamWithName(teamname: string) {
         this.currentTeam = this.allTeams.filter((x) => x.name === teamname)[0];
         this.currentTeamMembers = [];
-        this.checkAdmin(this.currentTeam.responsiblepeople, this.tokenDecoded.username);
+        this.checkAdmin(this.currentTeam.responsiblepeople, this.tokenDecoded.username + "#" + this.tokenDecoded.organisation);
         this.apiService.getTeamMembersByCode(this.currentTeam.code).subscribe((res: any) => {
             this.currentTeamMembers = res;
             this.checkMembership(this.currentTeamMembers, this.tokenDecoded.username);
@@ -135,7 +135,7 @@ export class TeamsComponent implements OnInit {
     changeTeamWithCode(teamcode: string) {
         this.currentTeam = this.allTeams.filter((x) => x.code === teamcode)[0];
         this.currentTeamMembers = [];
-        this.checkAdmin(this.currentTeam.responsiblepeople, this.tokenDecoded.username);
+        this.checkAdmin(this.currentTeam.responsiblepeople, this.tokenDecoded.username + "#" + this.tokenDecoded.organisation);
         this.apiService.getTeamMembersByCode(this.currentTeam.code).subscribe((res: any) => {
             this.currentTeamMembers = res;
             this.checkMembership(this.currentTeamMembers, this.tokenDecoded.username);

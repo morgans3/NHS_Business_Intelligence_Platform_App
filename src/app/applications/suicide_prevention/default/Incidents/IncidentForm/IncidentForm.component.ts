@@ -234,7 +234,7 @@ export class IncidentFormComponent implements OnInit {
         if (this.editForm) {
             item.index = this.editForm.index;
             item.ics = this.editForm.ics;
-            this.apiService.updateIncident(item).subscribe((data: any) => {
+            this.apiService.updateSPIIncident(item).subscribe((data: any) => {
                 if (data.success && data.success === false) {
                     this.notificationService.error("Unable to update Incident, reason: " + (data.msg as string));
                 } else {
@@ -246,7 +246,7 @@ export class IncidentFormComponent implements OnInit {
                 }
             });
         } else {
-            this.apiService.createIncident(item).subscribe((data: any) => {
+            this.apiService.createSPIIncident(item).subscribe((data: any) => {
                 if (data.success && data.success === false) {
                     this.notificationService.error("Unable to update Incident, reason: " + (data.msg as string));
                 } else {
