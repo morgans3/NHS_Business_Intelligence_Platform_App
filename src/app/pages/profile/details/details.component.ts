@@ -187,4 +187,10 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
             });
         }
     }
+
+    requestAccess() {
+        // TODO: redirect to request access page
+        // this.router.navigateByUrl("/RequestAccess");
+        this.notificationService.info("Function needs to be updated once request form completed");
+    }
 }

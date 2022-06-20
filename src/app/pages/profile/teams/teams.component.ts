@@ -7,7 +7,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { iTeam, iTeamMembers, iOrganisation, iTeamRequest, iFullUser } from "diu-component-library";
 import { APIService } from "diu-component-library";
 import { NotificationService } from "../../../_services/notification.service";
-import { AuthState } from "../../../_states/auth.state";
+import { AuthState, ManualSetAuthTokens } from "../../../_states/auth.state";
 import { ReferenceState } from "../../../_states/reference.state";
 import { decodeToken } from "../../../_pipes/functions";
 
@@ -16,7 +16,6 @@ import { decodeToken } from "../../../_pipes/functions";
     templateUrl: "./teams.component.html",
 })
 export class ProfileTeamsComponent implements OnInit {
-
     @Input() user: iFullUser;
     joinTeamForm = new FormGroup({
         team: new FormControl(null),
@@ -127,8 +126,19 @@ export class ProfileTeamsComponent implements OnInit {
                     this.apiService.removeTeamMember(team).subscribe((res: any) => {
                         if (res.success) {
                             this.notificationService.success("You have now left this Team");
-                            // TODO: Token needs adjusting otherwise memberships are not updated
-                            this.getTeams();
+                            this.apiService.refreshAuthenticatedUser().subscribe((data: { token: string }) => {
+                                if (data.token) {
+                                    this.store.dispatch(
+                                        new ManualSetAuthTokens({
+                                            success: true,
+                                            token: data.token,
+                                        })
+                                    );
+                                    this.getTeams();
+                                } else {
+                                    this.notificationService.error("Could not authenticate you as as a user");
+                                }
+                            });
                         } else {
                             this.notificationService.warning(res.msg);
                         }
