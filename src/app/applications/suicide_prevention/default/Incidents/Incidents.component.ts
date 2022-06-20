@@ -44,7 +44,7 @@ export class IncidentsComponent implements OnInit {
 
     getData() {
         this.dataFetched = false;
-        this.APIService.getAllIncidents().subscribe((data: Incident[]) => {
+        this.APIService.getSPIIncidents().subscribe((data: Incident[]) => {
             this.incidents = data;
             this.updateTable();
             this.changeDetectorRef.detectChanges();
@@ -74,7 +74,6 @@ export class IncidentsComponent implements OnInit {
         localStorage.setItem("@@selected-incident", JSON.stringify(row));
         this.router.navigate(["/apps/suicide-prevention/incidentform"]);
     }
-
     removeIncident(row) {
         this.APIService.removeIncident(row).subscribe((data: any) => {
             if (data.success && data.success === false) {

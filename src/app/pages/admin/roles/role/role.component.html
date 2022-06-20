@@ -15,17 +15,12 @@
         <input matInput formControlName="authoriser" />
     </mat-form-field>
 
-    <mat-form-field color="primary" floatLabel="always">
-        <mat-label>Capabilities</mat-label>
-        <input (keyup)="searchCapabilities($event.target.value)" matInput placeholder="Search by name" />
-        <mat-selection-list formControlName="capabilities">
-            <mat-list-option *ngFor="let capability of capabilities" [value]="capability.id">
-                <div mat-line>{{ capability.name }}</div>
-                <div mat-line>{{ capability.description }}</div>
-            </mat-list-option>
-        </mat-selection-list>
-    </mat-form-field>
+    <!-- Capabilities table -->
+    <app-shared-capabilties-table [modelId]="role.value.id" modelName="role" [lazyLoad]="false" #capabilities></app-shared-capabilties-table>
 </form>
 
-<button class="m-r-10" (click)="save()" mat-raised-button color="primary">Save</button>
-<button routerLink="/admin/roles" mat-raised-button color="warn">Cancel</button>
+<div class="m-t-30">
+    <button class="m-r-10" (click)="save()" mat-raised-button color="primary">Save</button>
+    <button routerLink="/admin/roles" mat-raised-button color="warn">Cancel</button>
+</div>
+

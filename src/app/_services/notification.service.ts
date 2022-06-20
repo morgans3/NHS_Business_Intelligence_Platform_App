@@ -27,7 +27,7 @@ export class NotificationService {
 
     notify({ message = "", actions = null, status = "success" }): Promise<MatSnackBarRef<any>> {
         return new Promise((resolve) => {
-            import("../shared/notification-snackbar/notification-snackbar").then((c => {
+            import("../shared/components/notification-snackbar/notification-snackbar").then((c => {
                 // Open snackbar
                 const snackBar = this.snackBar.openFromComponent(
                     c.NotificationSnackbarComponent,

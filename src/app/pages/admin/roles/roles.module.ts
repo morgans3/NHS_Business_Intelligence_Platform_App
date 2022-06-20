@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Routes } from "./roles.routing";
 import { DiuComponentLibraryModule } from "diu-component-library";
 
+import { SharedCapabilitiesTableModule } from "../_shared/capabilities-table/capabilties-table.module";
 import { RolesTableComponent } from "./table/roles-table.component";
 import { RoleComponent } from "./role/role.component";
 
@@ -20,6 +21,7 @@ import { RoleComponent } from "./role/role.component";
         FlexLayoutModule,
         RouterModule.forChild(Routes),
         DiuComponentLibraryModule,
+        SharedCapabilitiesTableModule
     ],
     declarations: [RolesTableComponent, RoleComponent],
 })

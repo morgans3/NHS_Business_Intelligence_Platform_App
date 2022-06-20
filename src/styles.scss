@@ -3477,3 +3477,13 @@ button {
 .w-100 {
   width: 100%;
 }
+
+/* Angular material utils */
+mat-selection-list.scrollable {
+  max-height: 300px;
+  overflow-y: auto;
+}
+mat-datepicker-toggle {
+  button { font-size: 1.5rem !important; }
+  svg { fill: #aeaeae; }
+}

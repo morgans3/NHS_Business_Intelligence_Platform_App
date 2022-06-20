@@ -94,7 +94,7 @@
                 <input autocomplete="off" matInput placeholder="Incident Ref" type="text" formControlName="incident_ref" />
             </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Incident Date" (click)="picker.open()" />
+                <input matInput (click)="picker.open()" [matDatepicker]="picker" formControlName="date" placeholder="Incident Date" readonly="true" />
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker type="datetime" touchUi clockStep="5" #picker></mat-datepicker>
             </mat-form-field>
@@ -156,14 +156,7 @@
                 </mat-select>
             </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input
-                    matInput
-                    [matDatepicker]="picker3"
-                    formControlName="date_of_birth"
-                    placeholder="Date of Birth"
-                    readonly="true"
-                    (click)="picker3.open()"
-                />
+                <input matInput (click)="picker3.open()" [matDatepicker]="picker3" formControlName="date_of_birth" placeholder="Date of Birth" readonly="true" />
                 <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                 <mat-datepicker type="date" touchUi #picker3></mat-datepicker>
             </mat-form-field>
@@ -295,14 +288,8 @@
         <mat-card-header> Inquest Information </mat-card-header>
         <mat-card-content>
             <mat-form-field class="example-full-width">
-                <input
-                    matInput
-                    [matDatepicker]="picker2"
-                    formControlName="inquest_date"
-                    placeholder="Inquest Date"
-                    readonly="true"
-                    (click)="picker2.open()"
-                />
+                <input matInput (click)="picker2.open()" [matDatepicker]="picker2" formControlName="inquest_date" placeholder="Inquest Date" readonly="true" />
+
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker type="datetime" touchUi clockStep="5" #picker2></mat-datepicker>
             </mat-form-field>

@@ -53,11 +53,6 @@ export const AdminRoutes: Routes = [
                 loadChildren: () => import("./access-logs/access-logs.module").then((m) => m.AccessLogsAdminModule),
             },
             {
-                path: "",
-                pathMatch: "full",
-                redirectTo: "/admin/users",
-            },
-            {
                 path: "**",
                 loadChildren: () => import("../dynamic/dynamic.module").then((m) => m.DynamicPageModule),
                 pathMatch: "full",

@@ -113,8 +113,6 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
     }
 
     install(event: any, type: string) {
-        console.log(event);
-        console.log(type);
         // TODO: install
         // this.installbroker.addInstallation(
         //   event.name,

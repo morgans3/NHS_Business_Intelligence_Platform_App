@@ -1,0 +1,28 @@
+<ng-container [ngSwitch]="capability.value.type">
+    <mat-form-field *ngSwitchCase="'allow_deny'">
+        <mat-label>Allow/Deny Capability</mat-label>
+        <mat-select  placeholder="Allow/Deny" [formControl]="control">
+            <mat-option value="allow">Allow</mat-option>
+            <mat-option value="deny">Deny</mat-option>
+        </mat-select>    
+    </mat-form-field>
+    
+    <mat-form-field *ngSwitchCase="'nhsnumber'">
+        <mat-label>Enter patient's NHS number</mat-label>
+        <input matInput [formControl]="control" />
+    </mat-form-field>
+
+    <ccg-select *ngSwitchCase="'ccglist'" [formControl]="control" [max]="200" placeholder="Select the CCGs you want access to"></ccg-select>
+
+    <gp-select *ngSwitchCase="'gplist'" [formControl]="control" [max]="200" placeholder="Select the GPs you want access to"></gp-select>
+</ng-container>
+
+<mat-error *ngIf="control.errors?.required">
+    <small>This field is required</small>
+</mat-error>
+<mat-error *ngIf="control.errors?.invalid_nhsnumber">
+    <small>The NHS number appears to be incorrect</small>
+</mat-error>
+<mat-error *ngIf="control.errors?.invalid_min">
+    <small>Please select at least one option</small>
+</mat-error>
