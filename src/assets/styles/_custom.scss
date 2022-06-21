@@ -94,13 +94,13 @@
     min-height: 300px;
 }
 
-.chartspace > div {
-    margin: 0;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+// .chartspace > div {
+//     margin: 0;
+//     position: absolute;
+//     top: 55%;
+//     left: 50%;
+//     transform: translate(-50%, -50%);
+// }
 
 .chartspace-half {
     min-height: 120px;
@@ -1458,18 +1458,6 @@ $transition-base: all 0.2s ease-in-out !default;
     font-size: 72px;
 }
 
-.chartspace {
-    min-height: 300px;
-}
-
-.chartspace > div {
-    margin: 0;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 /*
 * D3 Styles for Population Health Module
 */
@@ -1623,10 +1611,6 @@ $transition-base: all 0.2s ease-in-out !default;
     background-position: center;
     background-size: auto;
     background-repeat: no-repeat;
-}
-
-.chartspace {
-    min-height: 300px;
 }
 
 .chartspace > .numLTCSelect {
