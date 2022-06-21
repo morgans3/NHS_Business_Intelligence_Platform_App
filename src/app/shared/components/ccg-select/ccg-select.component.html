@@ -5,7 +5,7 @@
             <mat-label>Search by name</mat-label>
             <input matInput (keyup)="filterCCGs($event.target.value)" tabindex="-1" />
         </mat-form-field>
-        <mat-option>None</mat-option>
+        <mat-option value="%">All</mat-option>
         <mat-option *ngFor="let ccg of ccgs.filtered" [value]="ccg.code">{{ ccg.name }}</mat-option>
     </mat-select>
 </mat-form-field>
