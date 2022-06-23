@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Location } from "@angular/common";
 import { collapseAnimations } from "../../../shared/animations";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Store } from "@ngxs/store";
@@ -32,7 +33,13 @@ export class TeamsComponent implements OnInit {
     isAdmin = false;
     isMember = false;
 
-    constructor(public store: Store, private apiService: APIService, private router: Router, private route: ActivatedRoute) {
+    constructor(
+        public store: Store,
+        private apiService: APIService,
+        private router: Router,
+        private route: ActivatedRoute,
+        private location: Location
+    ) {
         const token = this.store.selectSnapshot(AuthState.getToken);
         if (token) {
             this.tokenDecoded = decodeToken(token);
@@ -117,6 +124,7 @@ export class TeamsComponent implements OnInit {
         this.apiService.getTeamMembersByCode(this.currentTeam.code).subscribe((res: any) => {
             this.currentTeamMembers = res;
             this.checkMembership(this.currentTeamMembers, this.tokenDecoded.username);
+            this.location.go("/teams/" + this.currentTeam.code);
         });
         this.onCollapse();
     }
@@ -128,6 +136,7 @@ export class TeamsComponent implements OnInit {
         this.apiService.getTeamMembersByCode(this.currentTeam.code).subscribe((res: any) => {
             this.currentTeamMembers = res;
             this.checkMembership(this.currentTeamMembers, this.tokenDecoded.username);
+            this.location.go("/teams/" + this.currentTeam.code);
         });
         this.onCollapse();
     }
@@ -139,6 +148,7 @@ export class TeamsComponent implements OnInit {
         this.apiService.getTeamMembersByCode(this.currentTeam.code).subscribe((res: any) => {
             this.currentTeamMembers = res;
             this.checkMembership(this.currentTeamMembers, this.tokenDecoded.username);
+            this.location.go("/teams/" + this.currentTeam.code);
         });
         this.onCollapse();
     }
