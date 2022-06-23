@@ -47,7 +47,7 @@
     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card *ngIf="currentTeam">
             <mat-card-content>
-                <mat-tab-group id="tabs" (selectedTabChange)="tabClick($event)">
+                <mat-tab-group id="tabs">
                     <mat-tab label="Meet The Team">
                         <app-meet-team [team]="currentTeam"></app-meet-team>
                     </mat-tab>
