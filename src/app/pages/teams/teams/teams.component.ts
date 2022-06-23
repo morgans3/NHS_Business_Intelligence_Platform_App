@@ -30,7 +30,6 @@ export class TeamsComponent implements OnInit {
     myControl = new FormControl();
     filteredOptions: Observable<string[]>;
     isAdmin = false;
-    isMember = false;
 
     constructor(public store: Store, private apiService: APIService, private router: Router, private route: ActivatedRoute) {
         const token = this.store.selectSnapshot(AuthState.getToken);
@@ -91,7 +90,7 @@ export class TeamsComponent implements OnInit {
     }
 
     createTeam() {
-        this.router.navigate(["/teams/create-team"]);
+        this.router.navigate(["teams", "create-team"]);
     }
 
     checkAdmin(admins: string[], username: string) {
@@ -99,14 +98,6 @@ export class TeamsComponent implements OnInit {
             this.isAdmin = true;
         } else {
             this.isAdmin = false;
-        }
-    }
-
-    checkMembership(members: iTeamMembers[], username: string) {
-        if (members.find((x) => x.username === username)) {
-            this.isMember = true;
-        } else {
-            this.isMember = false;
         }
     }
 
@@ -126,7 +117,8 @@ export class TeamsComponent implements OnInit {
     }
 
     reloadComponent() {
-        this.router.navigate(["/teams/" + this.currentTeam.code]);
+        this.checkAdmin(this.currentTeam.responsiblepeople, this.tokenDecoded.username + "#" + this.tokenDecoded.organisation);
+        this.router.navigate(["teams", this.currentTeam.code]);
         this.onCollapse();
     }
 
