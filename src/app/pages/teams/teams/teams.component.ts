@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { Location } from "@angular/common";
 import { collapseAnimations } from "../../../shared/animations";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Store } from "@ngxs/store";
@@ -33,13 +32,7 @@ export class TeamsComponent implements OnInit {
     isAdmin = false;
     isMember = false;
 
-    constructor(
-        public store: Store,
-        private apiService: APIService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private location: Location
-    ) {
+    constructor(public store: Store, private apiService: APIService, private router: Router, private route: ActivatedRoute) {
         const token = this.store.selectSnapshot(AuthState.getToken);
         if (token) {
             this.tokenDecoded = decodeToken(token);
@@ -119,27 +112,21 @@ export class TeamsComponent implements OnInit {
 
     changeTeam(team: iTeam) {
         this.currentTeam = team;
-        this.requestNewTeamMembers();
+        this.reloadComponent();
     }
 
     changeTeamWithName(teamname: string) {
         this.currentTeam = this.allTeams.filter((x) => x.name === teamname)[0];
-        this.requestNewTeamMembers();
+        this.reloadComponent();
     }
 
     changeTeamWithCode(teamcode: string) {
         this.currentTeam = this.allTeams.filter((x) => x.code === teamcode)[0];
-        this.requestNewTeamMembers();
+        this.reloadComponent();
     }
 
-    requestNewTeamMembers() {
-        this.currentTeamMembers = [];
-        this.checkAdmin(this.currentTeam.responsiblepeople, this.tokenDecoded.username + "#" + this.tokenDecoded.organisation);
-        this.apiService.getTeamMembersByCode(this.currentTeam.code).subscribe((res: any) => {
-            this.currentTeamMembers = res;
-            this.checkMembership(this.currentTeamMembers, this.tokenDecoded.username);
-            this.location.go("/teams/" + this.currentTeam.code);
-        });
+    reloadComponent() {
+        this.router.navigate(["/teams/" + this.currentTeam.code]);
         this.onCollapse();
     }
 
