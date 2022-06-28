@@ -81,7 +81,6 @@ export class ProfileTeamsComponent implements OnInit {
     }
 
     cancelRequest(teamRequest: any) {
-        console.log(teamRequest);
         this.notificationService.question("Are you sure you want to withdraw this request?").then((confirmed) => {
             if (confirmed === true) {
                 this.apiService.archiveTeamRequest(teamRequest).subscribe((res: any) => {
@@ -123,7 +122,8 @@ export class ProfileTeamsComponent implements OnInit {
                     organisation: this.user.organisation,
                     teamcode: team.code,
                     requestdate: new Date(),
-                    requestor: this.user.username,
+                    requestor: this.user.email,
+                    emailto: team.responsiblepeople[0],
                 })
                 .subscribe((res: any) => {
                     if (res.success) {

@@ -250,6 +250,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
                     teamcode: this.selectedTeam.code,
                     // isArchived: false,
                     requestdate: new Date(),
+                    emailto: result.email,
                 };
                 this.apiService.addTeamRequest(request).subscribe((res: any) => {
                     if (res.success) {
@@ -271,7 +272,8 @@ export class MeetTeamComponent implements OnInit, OnChanges {
             organisation: this.tokenDecoded.organisation,
             teamcode: this.selectedTeam.code,
             requestdate: new Date(),
-            requestor: this.tokenDecoded.username,
+            requestor: this.tokenDecoded.email,
+            emailto: this.selectedTeam.responsiblepeople[0],
         };
         this.apiService.addTeamRequest(newRequest).subscribe((res: any) => {
             if (res.success) {
