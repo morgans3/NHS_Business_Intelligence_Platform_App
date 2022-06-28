@@ -69,8 +69,28 @@ export class ProfileTeamsComponent implements OnInit {
                         const teamDetails = this.teams.all.find((team) => teamRequest.teamcode === team.code);
                         teamRequest.organisationcode = teamDetails?.organisationcode || "";
                         teamRequest.teamname = teamDetails?.name || "";
+                        if (this.myTeams.filter((x) => x.code === teamRequest.teamcode).length > 0) teamRequest.inTeam = true;
+                        else {
+                            teamRequest.refusedate ? (teamRequest.inTeam = true) : (teamRequest.inTeam = false);
+                        }
                         return teamRequest;
                     });
+                });
+            }
+        });
+    }
+
+    cancelRequest(teamRequest: any) {
+        console.log(teamRequest);
+        this.notificationService.question("Are you sure you want to withdraw this request?").then((confirmed) => {
+            if (confirmed === true) {
+                this.apiService.archiveTeamRequest(teamRequest).subscribe((res: any) => {
+                    if (res.success) {
+                        this.notificationService.success("This request has been withdrawn");
+                        this.getTeams();
+                    } else {
+                        this.notificationService.warning(res.msg);
+                    }
                 });
             }
         });
