@@ -38,7 +38,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatStepperModule } from "@angular/material/stepper";
 import { MatBadgeModule } from "@angular/material/badge";
-import { MatNativeDateModule, MatRippleModule } from "@angular/material/core";
+import { DateAdapter, MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 
 import { CdkTableModule } from "@angular/cdk/table";
@@ -49,6 +49,7 @@ import { OverlayModule } from "@angular/cdk/overlay";
 import { PlatformModule } from "@angular/cdk/platform";
 import { ObserversModule } from "@angular/cdk/observers";
 import { PortalModule } from "@angular/cdk/portal";
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from "@angular/material-moment-adapter";
 
 /**
  * NgModule that includes all Material modules that are required to serve the demo-app.
@@ -97,6 +98,15 @@ import { PortalModule } from "@angular/cdk/portal";
         OverlayModule,
         PlatformModule,
         PortalModule,
+    ],
+    providers: [
+        { provide: MAT_DATE_LOCALE, useValue: "en-GB" },
+        { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+        },
     ],
 })
 export class DemoMaterialModule {}

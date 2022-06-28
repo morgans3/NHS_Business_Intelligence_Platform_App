@@ -13,6 +13,7 @@ import { PopulationselectComponent } from "./populationselect/populationselect.c
 import { CohortcompareComponent } from "./cohortcompare/cohortcompare.component";
 import { InterventionAssistantComponent } from "./intervention-assistant/intervention-assistant.component";
 import { HeatmapComponent } from "./heatmap/heatmap.component";
+import { CapabilityGuard } from "src/app/_guards/capability.guard";
 
 export const DefaultRoutes: Routes = [
     {
@@ -42,13 +43,13 @@ export const DefaultRoutes: Routes = [
     {
         path: "outbreaks",
         component: OutbreaksComponent,
-        // canActivate: [CapabilityGuard],
+        canActivate: [CapabilityGuard],
         data: { capabilities: ["cvi_outbreakmap"] },
     },
     {
         path: "heatmap",
         component: HeatmapComponent,
-        // canActivate: [CapabilityGuard],
+        canActivate: [CapabilityGuard],
         data: { capabilities: ["cvi_outbreakmap"] },
     },
     {

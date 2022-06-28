@@ -4,6 +4,7 @@ import { FullComponent } from "./layouts/full/full.component";
 import { FormLayoutComponent } from "./layouts/form/form.component";
 import { SupportLayoutComponent } from "./layouts/support/support.component";
 import { FullmapComponent } from "./layouts/fullmap/fullmap.component";
+import { CapabilityGuard } from "./_guards/capability.guard";
 
 export const AppRoutes: Routes = [
     {
@@ -131,10 +132,6 @@ export const AppRoutes: Routes = [
         canActivate: [AuthGuard],
         children: [
             {
-                path: "dashboard",
-                loadChildren: () => import("./pages/dashboard/dashboard.module").then((m) => m.DashboardModule),
-            },
-            {
                 path: "teams",
                 loadChildren: () => import("./pages/teams/teams.module").then((m) => m.TeamsModule),
                 data: { awsTrackable: true },
@@ -146,8 +143,8 @@ export const AppRoutes: Routes = [
             {
                 path: "admin",
                 loadChildren: () => import("./pages/admin/admin.module").then((m) => m.AdminModule),
-                // data: { capabilities: ["admin"] },
-                // canActivate: [CapabilityGuard]
+                data: { capabilities: ["Hall Monitor"] },
+                canActivate: [CapabilityGuard],
             },
             {
                 path: "**",

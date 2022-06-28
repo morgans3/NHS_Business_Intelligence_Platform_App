@@ -3,7 +3,7 @@ import { LandingComponent } from "./Landing/Landing.component";
 import { AdminComponent } from "./Admin/Admin.component";
 import { IncidentsComponent } from "./Incidents/Incidents.component";
 import { IncidentFormComponent } from "./Incidents/IncidentForm/IncidentForm.component";
-import { PidGuard } from "src/app/_guards/pid.guard";
+import { CapabilityGuard } from "src/app/_guards/capability.guard";
 
 export const DefaultRoutes: Routes = [
     {
@@ -13,7 +13,8 @@ export const DefaultRoutes: Routes = [
     {
         path: "admin",
         component: AdminComponent,
-        canActivate: [PidGuard],
+        canActivate: [CapabilityGuard],
+        data: { capabilities: ["Suicide Prevention Admin"] },
     },
     {
         path: "incidents",

@@ -25,8 +25,8 @@ import { NgxsLoggerPluginModule } from "@ngxs/logger-plugin";
 import { DiuAngularNavigationModule, DiuHeaderModule, MaterialModule, DIUServicesModule } from "diu-component-library";
 import { MatDatetimepickerModule } from "@mat-datetimepicker/core";
 import { MatDatepickerModule } from "@angular/material/datepicker/";
-import { MatMomentDateModule } from "@angular/material-moment-adapter";
-import { MAT_DATE_LOCALE } from "@angular/material/core";
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from "@angular/material-moment-adapter";
+import { DateAdapter, MAT_DATE_LOCALE } from "@angular/material/core";
 import { NgxTwitterTimelineModule } from "ngx-twitter-timeline";
 
 // Route guards
@@ -106,6 +106,12 @@ import { DemoMaterialModule } from "./demo-material-module";
             multi: true,
         },
         { provide: MAT_DATE_LOCALE, useValue: "en-GB" },
+        { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+        },
         PostcodeService,
         DIUServicesModule,
         { provide: "environment", useValue: environment },

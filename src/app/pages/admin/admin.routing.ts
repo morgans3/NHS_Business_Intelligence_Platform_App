@@ -5,6 +5,8 @@ import { RequestComponent } from "./requests/request/request.component";
 import { AppsTableComponent } from "./apps/table/apps-table.component";
 import { OrganisationsTableComponent } from "./organisations/table/org-table.component";
 import { DashboardsTableComponent } from "./dashboards/table/dashboards-table.component";
+import { AlertsTableComponent } from "./alerts/table/alerts-table.component";
+import { NewsfeedsTableComponent } from "./newsfeeds/table/newsfeeds-table.component";
 
 export const AdminRoutes: Routes = [
     {
@@ -31,6 +33,14 @@ export const AdminRoutes: Routes = [
             {
                 path: "organisations",
                 component: OrganisationsTableComponent,
+            },
+            {
+                path: "alerts",
+                component: AlertsTableComponent,
+            },
+            {
+                path: "newsfeeds",
+                component: NewsfeedsTableComponent,
             },
             {
                 path: "dashboards",
