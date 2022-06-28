@@ -34,12 +34,10 @@ export class CapabilityGuard implements CanActivate {
             userAuthorised = userAuthorised === false ? false : capabilityAuthorised;
 
             // Record log
-            this.apiService
-                .createAccessLog({
-                    type: `Capability${capabilityAuthorised ? "Authorised" : "Unauthorised"}#${capability}`,
-                    data: capability,
-                })
-                .subscribe(() => {});
+            this.apiService.createAccessLog({
+                type: `Capability${capabilityAuthorised ? "Authorised" : "Unauthorised"}#${capability}`,
+                data: capability,
+            });
         });
 
         if (!userAuthorised) this.notificationService.error("You're unauthorised to access this page!");
