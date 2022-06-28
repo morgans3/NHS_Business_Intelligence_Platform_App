@@ -28,22 +28,18 @@ export class CapabilityGuard implements CanActivate {
         const userCapabilities = this.user.capabilities.map((item) => Object.keys(item)[0]);
 
         // Get user object
-        (route.data["capabilities"] || []).forEach((capability) => {
-            const capabilityName = Object.keys(capability)[0];
+        (route.data["capabilities"] || []).forEach((capability: string) => {
             // Check if capability authorised
-            const capabilityAuthorised = userCapabilities.includes(capabilityName);
+            const capabilityAuthorised = userCapabilities.includes(capability);
             userAuthorised = userAuthorised === false ? false : capabilityAuthorised;
 
             // Record log
             this.apiService
                 .createAccessLog({
-                    type: `Capability${capabilityAuthorised ? "Authorised" : "Unauthorised"}#${capabilityName}`,
+                    type: `Capability${capabilityAuthorised ? "Authorised" : "Unauthorised"}#${capability}`,
                     data: capability,
                 })
-                .subscribe((res) => {
-                    // Error logged
-                    console.log(res);
-                });
+                .subscribe(() => {});
         });
 
         if (!userAuthorised) this.notificationService.error("You're unauthorised to access this page!");

@@ -46,4 +46,9 @@ export class RequestsTableComponent implements OnInit {
     }
 
     getValueByKey = getValueByKey;
+
+    iconFromAction(action: string) {
+        // change if different actions added
+        return "search";
+    }
 }

@@ -29,9 +29,9 @@ export class AdminComponent {
         {
             name: "Other",
             sub: [
-                { name: "Alerts", link: "/admin/" },
+                { name: "Alerts", link: "/admin/alerts" },
                 { name: "Dashboards", link: "/admin/dashboards" },
-                { name: "News Feeds", link: "/admin/" },
+                { name: "News Feeds", link: "/admin/newsfeeds" },
             ],
         },
     ];

@@ -16,4 +16,5 @@ export const SupportRoutes: Routes = [
         component: AccessRequestActionFormComponent,
         data: { awsTrackable: true },
     },
+    { path: "", redirectTo: "/support/guides", pathMatch: "full" },
 ];
