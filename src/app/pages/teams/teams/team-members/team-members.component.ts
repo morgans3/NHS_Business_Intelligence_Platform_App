@@ -13,20 +13,20 @@ import { generateID, decodeToken } from "../../../../_pipes/functions";
     styleUrls: ["./team-members.component.scss"],
 })
 export class TeamMembersComponent implements OnInit, OnChanges {
-    @Input() profiles: iFullUser[];
-    @Input() isAdmin = false;
-    @Input() outstanding: iTeamRequest[] = [];
+    @Input() config: any;
+    oldConfig: any;
+    profiles: iFullUser[];
+    isAdmin = false;
+    outstanding: iTeamRequest[] = [];
+    tokenDecoded: any;
+    blnShowAdminButton = false;
+    blnShowRemoveFromTeamButton = false;
+    blnShowAddToTeamButton = false;
+    blnShowRemoveAdminButton = false;
     @Output() changedTeams = new EventEmitter<boolean>();
     @Output() removeTeamMember = new EventEmitter<iFullUser>();
     @Output() adminUser = new EventEmitter<iFullUser>();
     @Output() removeTeamAdmin = new EventEmitter<iFullUser>();
-    tokenDecoded: any;
-    @Input() blnShowAdminButton = false;
-    @Input() blnShowRemoveFromTeamButton = false;
-    @Input() blnShowAddToTeamButton = false;
-    @Input() blnShowRemoveAdminButton = false;
-    @Input() config: any;
-    @Input() oldConfig: any;
 
     constructor(
         public store: Store,
@@ -49,28 +49,14 @@ export class TeamMembersComponent implements OnInit, OnChanges {
     }
 
     setConfig() {
-        if (this.config && this.config !== this.oldConfig) {
-            if (this.config.profiles) {
-                this.profiles = this.config.profiles;
-            }
-            if (this.config.isAdmin) {
-                this.isAdmin = this.config.isAdmin;
-            }
-            if (this.config.outstanding) {
-                this.outstanding = this.config.outstanding;
-            }
-            if (this.config.blnShowAdminButton) {
-                this.blnShowAdminButton = this.config.blnShowAdminButton;
-            }
-            if (this.config.blnShowRemoveFromTeamButton) {
-                this.blnShowRemoveFromTeamButton = this.config.blnShowRemoveFromTeamButton;
-            }
-            if (this.config.blnShowAddToTeamButton) {
-                this.blnShowAddToTeamButton = this.config.blnShowAddToTeamButton;
-            }
-            if (this.config.blnShowRemoveAdminButton) {
-                this.blnShowRemoveAdminButton = this.config.blnShowRemoveAdminButton;
-            }
+        if (this.config) {
+            if (this.config.profiles) this.profiles = this.config.profiles;
+            if (this.config.isAdmin) this.isAdmin = this.config.isAdmin;
+            if (this.config.outstanding) this.outstanding = this.config.outstanding;
+            if (this.config.blnShowAdminButton) this.blnShowAdminButton = this.config.blnShowAdminButton;
+            if (this.config.blnShowRemoveFromTeamButton) this.blnShowRemoveFromTeamButton = this.config.blnShowRemoveFromTeamButton;
+            if (this.config.blnShowAddToTeamButton) this.blnShowAddToTeamButton = this.config.blnShowAddToTeamButton;
+            if (this.config.blnShowRemoveAdminButton) this.blnShowRemoveAdminButton = this.config.blnShowRemoveAdminButton;
             this.oldConfig = this.config;
         }
     }

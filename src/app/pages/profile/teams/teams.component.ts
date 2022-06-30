@@ -116,24 +116,34 @@ export class ProfileTeamsComponent implements OnInit {
     joinTeam() {
         const team = this.joinTeamForm.value.team;
         if (team) {
-            this.apiService
-                .addTeamRequest({
-                    username: this.user.username,
-                    organisation: this.user.organisation,
-                    teamcode: team.code,
-                    requestdate: new Date(),
-                    requestor: this.user.email,
-                    emailto: team.responsiblepeople[0],
-                })
-                .subscribe((res: any) => {
-                    if (res.success) {
-                        this.notificationService.success("A request has been sent to the Team Administrator to grant you access.");
-                        this.getOrganisations();
-                        this.getTeams();
-                    } else {
-                        this.notificationService.warning(res.msg);
-                    }
-                });
+            this.apiService.getUserProfileByUsernameAndOrganisation(team.responsiblepeople[0]).subscribe((resAdminProfile: any) => {
+                if (resAdminProfile.success === false) {
+                    this.notificationService.warning(
+                        "Unable to locate administrator of team. Please contact the administrator directly to gain access to the team."
+                    );
+                } else {
+                    this.apiService
+                        .addTeamRequest({
+                            username: this.user.username,
+                            organisation: this.user.organisation,
+                            teamcode: team.code,
+                            requestdate: new Date(),
+                            requestor: this.user.email,
+                            emailto: resAdminProfile.email,
+                        })
+                        .subscribe((res: any) => {
+                            if (res.success) {
+                                this.notificationService.success("A request has been sent to the Team Administrator to grant you access.");
+                                this.getOrganisations();
+                                this.getTeams();
+                            } else {
+                                this.notificationService.warning(res.msg);
+                            }
+                        });
+                }
+            });
+        } else {
+            this.notificationService.warning("No team selected.");
         }
     }
 

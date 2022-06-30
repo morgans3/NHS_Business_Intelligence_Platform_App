@@ -103,7 +103,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
                     }
                 },
                 () => {
-                    this.members.push({
+                    this.admins.push({
                         username: x.split("#")[0],
                         name: x.split("#")[0],
                         email: null,
@@ -168,11 +168,6 @@ export class MeetTeamComponent implements OnInit, OnChanges {
         );
     }
 
-    teamsChanged() {
-        this.store.dispatch(UpdateTeams);
-        this.getPeople();
-    }
-
     removal(person: iFullUser) {
         if (this.members.includes(person)) {
             const member = this.teammembers.filter((x) => x.username === person.username);
@@ -181,7 +176,6 @@ export class MeetTeamComponent implements OnInit, OnChanges {
                     if (res.success) {
                         this.members.splice(this.members.indexOf(person), 1);
                         this.notificationService.success("Removed from Members");
-                        this.teamsChanged();
                     }
                 });
             }
@@ -195,7 +189,6 @@ export class MeetTeamComponent implements OnInit, OnChanges {
                     if (res.success) {
                         this.invitees.splice(this.invitees.indexOf(person), 1);
                         this.notificationService.success("Removed Invitation");
-                        this.teamsChanged();
                     }
                 });
             }
@@ -205,7 +198,6 @@ export class MeetTeamComponent implements OnInit, OnChanges {
             this.apiService.updateTeam(this.selectedTeam).subscribe((res: any) => {
                 if (res.success) {
                     this.notificationService.success("Removed Admin");
-                    this.teamsChanged();
                 }
             });
         }
@@ -217,7 +209,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
             this.apiService.updateTeam(this.selectedTeam).subscribe((res: any) => {
                 if (res.success) {
                     this.notificationService.success("Removed Admin");
-                    this.teamsChanged();
+                    this.store.dispatch(UpdateTeams);
                 }
             });
         }
@@ -229,7 +221,7 @@ export class MeetTeamComponent implements OnInit, OnChanges {
             this.apiService.updateTeam(this.selectedTeam).subscribe(() => {
                 this.admins.push(person);
                 this.notificationService.success("Promoted to Admin");
-                this.teamsChanged();
+                this.store.dispatch(UpdateTeams);
             });
         } else {
             this.notificationService.warning("Already an Admin");
@@ -248,7 +240,6 @@ export class MeetTeamComponent implements OnInit, OnChanges {
                     username: result.username,
                     organisation: result.organisation,
                     teamcode: this.selectedTeam.code,
-                    // isArchived: false,
                     requestdate: new Date(),
                     emailto: result.email,
                 };
@@ -257,7 +248,6 @@ export class MeetTeamComponent implements OnInit, OnChanges {
                         this.notificationService.success("Request Sent.");
                         this.teamrequests.push(request);
                         this.invitees.push(result);
-                        this.teamsChanged();
                     } else {
                         this.notificationService.warning("Unable to add team request.");
                     }
@@ -267,28 +257,37 @@ export class MeetTeamComponent implements OnInit, OnChanges {
     }
 
     requestAccess() {
-        const newRequest: iTeamRequest = {
-            username: this.tokenDecoded.username,
-            organisation: this.tokenDecoded.organisation,
-            teamcode: this.selectedTeam.code,
-            requestdate: new Date(),
-            requestor: this.tokenDecoded.email,
-            emailto: this.selectedTeam.responsiblepeople[0],
-        };
-        this.apiService.addTeamRequest(newRequest).subscribe((res: any) => {
-            if (res.success) {
-                this.notificationService.success("A request has been sent to the Team Administrator to grant you access.");
-                const thisPerson: iFullUser = {
-                    name: this.tokenDecoded.name,
-                    username: this.tokenDecoded.username,
-                    email: this.tokenDecoded.email,
-                    organisation: this.tokenDecoded.organisation,
-                };
-                this.outstanding.push(thisPerson);
-                this.teamsChanged();
-            } else {
-                this.notificationService.warning(res.msg);
-            }
-        });
+        this.apiService
+            .getUserProfileByUsernameAndOrganisation(this.selectedTeam.responsiblepeople[0])
+            .subscribe((resAdminProfile: any) => {
+                if (resAdminProfile.success === false) {
+                    this.notificationService.warning(
+                        "Unable to locate administrator of team. Please contact the administrator directly to gain access to the team."
+                    );
+                } else {
+                    const newRequest: iTeamRequest = {
+                        username: this.tokenDecoded.username,
+                        organisation: this.tokenDecoded.organisation,
+                        teamcode: this.selectedTeam.code,
+                        requestdate: new Date(),
+                        requestor: this.tokenDecoded.email,
+                        emailto: resAdminProfile.email,
+                    };
+                    this.apiService.addTeamRequest(newRequest).subscribe((res: any) => {
+                        if (res.success) {
+                            this.notificationService.success("A request has been sent to the Team Administrator to grant you access.");
+                            const thisPerson: iFullUser = {
+                                name: this.tokenDecoded.name,
+                                username: this.tokenDecoded.username,
+                                email: this.tokenDecoded.email,
+                                organisation: this.tokenDecoded.organisation,
+                            };
+                            this.outstanding.push(thisPerson);
+                        } else {
+                            this.notificationService.warning(res.msg);
+                        }
+                    });
+                }
+            });
     }
 }
