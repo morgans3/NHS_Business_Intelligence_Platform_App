@@ -99,6 +99,7 @@ export class RequestInterceptor implements HttpInterceptor {
 
                         // Handle 404 error
                         if (err.status === 404) {
+                            if (err.error.msg === "No requests found") return;
                             this.notificationService
                                 .notify({
                                     status: "error",

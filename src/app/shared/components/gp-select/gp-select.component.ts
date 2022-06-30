@@ -36,18 +36,13 @@ export class GPSelectComponent implements ControlValueAccessor {
         return this.formControl || this.controlContainer.control.get(this.formControlName);
     }
 
-    constructor(
-        private controlContainer: ControlContainer,
-        private apiService: APIService,
-        private http: HttpClient
-    ) {}
+    constructor(private controlContainer: ControlContainer, private apiService: APIService, private http: HttpClient) {}
 
     // Future feature: Add validation for max items
 
     async getGps() {
         if (this.gps.all.length === 0) {
-            this.gps.all = (
-                (await this.http.get(this.apiService.baseUrl + "gppractices/").toPromise()) as Array<any>)[0].features
+            this.gps.all = ((await this.http.get(this.apiService.baseUrl + "gppractices/").toPromise()) as Array<any>)[0].features
                 .map((gp) => gp.properties)
                 .sort((a, b) => {
                     return a.Name < b.Name ? -1 : a.Name > b.Name ? 1 : 0;

@@ -15,7 +15,6 @@ import { StatCardData } from "../../../../_models/SPI_Lookups";
 import { APIService, MosaicColours, MosaicDomain, RTSService } from "diu-component-library";
 import { environment } from "../../../../../environments/environment";
 import { ModalService } from "../../../../_services/modal.service";
-declare let window: any;
 
 @Component({
     selector: "app-spi-landing",
@@ -481,9 +480,9 @@ export class LandingComponent implements OnInit {
                 round: "timeDay",
                 alwaysUseRounding: true,
                 xAxis: true,
-                xAxisTicks: d3.timeMonth.every(1),
+                xAxisTicks: d3.timeMonth.every(3),
                 timeticks: "timeWeek",
-                timeformat: "%d %b",
+                timeformat: "%d %b %Y",
                 gap: 1,
             },
             openCloseAnim: "open",
@@ -505,9 +504,9 @@ export class LandingComponent implements OnInit {
                 round: "timeDay",
                 alwaysUseRounding: true,
                 xAxis: true,
-                xAxisTicks: d3.timeMonth.every(1),
+                xAxisTicks: d3.timeMonth.every(3),
                 timeticks: "timeWeek",
-                timeformat: "%d %b",
+                timeformat: "%d %b %Y",
                 gap: 1,
             },
             openCloseAnim: "open",
@@ -1297,12 +1296,11 @@ export class LandingComponent implements OnInit {
         const x = parseInt(attributes["x"].nodeValue);
         const y = parseInt(attributes["y"].nodeValue);
         const rect = document.getElementById("mosaicChart").getBoundingClientRect();
-        const drawer = document.getElementsByClassName("mat-drawer-content")[0];
         this.keyToolTip.transition().duration(200).style("opacity", 0.9);
         this.keyToolTip
             .html(this.getTooltipHtml(datum.x))
             .style("left", x.toString() + "px")
-            .style("top", (drawer.scrollTop + rect.top - y).toString() + "px");
+            .style("top", (document.documentElement.scrollTop + rect.top - 400).toString() + "px");
     }
 
     exitMosaic() {

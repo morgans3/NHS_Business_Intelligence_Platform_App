@@ -74,8 +74,7 @@ export class IncidentsComponent implements OnInit {
         localStorage.setItem("@@selected-incident", JSON.stringify(row));
         this.router.navigate(["/apps/suicide-prevention/incidentform"]);
     }
-
-    removeRecord(row) {
+    removeIncident(row) {
         this.APIService.deleteSPIIncident(row).subscribe((data: any) => {
             if (data.success && data.success === false) {
                 this.notificationService.error("Unable to remove Incident, reason: " + (data.msg as string));

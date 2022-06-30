@@ -84,6 +84,29 @@
     text-align: center;
 }
 
+#day_of_the_weeksChart svg,
+#monthsChart svg,
+#mosaicChart svg {
+    overflow: overlay;
+}
+
+.chartspace {
+    min-height: 300px;
+}
+
+// .chartspace > div {
+//     margin: 0;
+//     position: absolute;
+//     top: 55%;
+//     left: 50%;
+//     transform: translate(-50%, -50%);
+// }
+
+.chartspace-half {
+    min-height: 120px;
+    padding: 0 24px !important;
+}
+
 .mosaic-A {
     background: #056746;
     fill: #056746;
@@ -678,7 +701,10 @@ mat-chip {
 
 svg {
     overflow: hidden;
-    fill: white;
+}
+
+.mat-datepicker-input {
+    cursor: pointer;
 }
 
 gallery {
@@ -1432,18 +1458,6 @@ $transition-base: all 0.2s ease-in-out !default;
     font-size: 72px;
 }
 
-.chartspace {
-    min-height: 300px;
-}
-
-.chartspace > div {
-    margin: 0;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 /*
 * D3 Styles for Population Health Module
 */
@@ -1486,6 +1500,10 @@ $transition-base: all 0.2s ease-in-out !default;
     line-height: 1;
     padding: 3px;
     margin: -0px;
+}
+
+#mosaicToolTip {
+    position: absolute;
 }
 
 #mosaicToolTip div.row {
@@ -1595,10 +1613,6 @@ $transition-base: all 0.2s ease-in-out !default;
     background-repeat: no-repeat;
 }
 
-.chartspace {
-    min-height: 300px;
-}
-
 .chartspace > .numLTCSelect {
     margin: 0;
     position: absolute;
@@ -1639,12 +1653,6 @@ $transition-base: all 0.2s ease-in-out !default;
 .halfheight {
     height: 55vh;
     min-height: 55vh;
-}
-
-.leaflet-container {
-    background: #fff !important;
-    width: 95% !important;
-    height: 85% !important;
 }
 
 .nexusselect {

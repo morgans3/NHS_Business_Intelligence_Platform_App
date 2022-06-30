@@ -104,11 +104,11 @@ export class FullComponent implements OnDestroy, OnInit {
                         name: appConfig.name,
                         landingpage: appConfig.landingpage,
                         menuitems: appConfig.menuitems.filter((menu: iMenu) => {
-                            if (menu.role) {
-                                // Check for role
+                            if (menu.isAdmin) {
+                                const userIsAdmin = this.user && userCapabilities && userCapabilities.includes("Hall Monitor");
+                                return userIsAdmin ? true : false;
+                            } else if (menu.role) {
                                 const userHasRole = this.user && userCapabilities && userCapabilities.includes(menu.role);
-
-                                // Return
                                 return userHasRole ? true : false;
                             } else {
                                 return true;

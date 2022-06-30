@@ -89,21 +89,28 @@ export class MeetTeamComponent implements OnInit, OnChanges {
     getPeople() {
         this.isAdmin = false;
         this.admins = [];
-        this.selectedTeam.responsiblepeople.forEach((x: any) => {
-            this.apiService.getUserProfileByUsernameAndOrganisation(x).subscribe((res: iFullUser) => {
-                if (res) {
-                    if (!this.admins.includes(res)) {
-                        this.admins.push(res);
+        this.selectedTeam.responsiblepeople.forEach((x: string) => {
+            this.apiService.getUserProfileByUsernameAndOrganisation(x).subscribe(
+                (res: iFullUser) => {
+                    if (res) {
+                        if (!this.admins.includes(res)) {
+                            this.admins.push(res);
+                        }
+                        if (res.username === this.tokenDecoded.username) {
+                            this.isAdmin = true;
+                            this.setConfig();
+                        }
                     }
-                    if (res.username === this.tokenDecoded.username) {
-                        this.isAdmin = true;
-                        this.setConfig();
-                    }
+                },
+                () => {
+                    this.members.push({
+                        username: x.split("#")[0],
+                        name: x.split("#")[0],
+                        email: null,
+                        organisation: x.split("#")[1],
+                    });
                 }
-            }, (error) => {
-                // @ts-ignore
-                this.members.push({ username: x.username, name: x.username });
-            });
+            );
         });
 
         this.teammembers = [];
@@ -112,46 +119,53 @@ export class MeetTeamComponent implements OnInit, OnChanges {
         this.apiService.getTeamMembersByCode(this.selectedTeam.code).subscribe((response: iTeamMembers[]) => {
             this.teammembers = response;
             this.teammembers.forEach((x) => {
-                this.apiService.getUserProfileByUsernameAndOrganisation(`${x.username}#${x.organisation}`).subscribe((res: iFullUser) => {
-                    if (res) {
-                        if (!this.members.includes(res)) {
-                            this.members.push(res);
+                this.apiService.getUserProfileByUsernameAndOrganisation(`${x.username}#${x.organisation}`).subscribe(
+                    (res: iFullUser) => {
+                        if (res) {
+                            if (!this.members.includes(res)) {
+                                this.members.push(res);
+                            }
+                            if (res.username === this.tokenDecoded.username) {
+                                this.TeamMember = true;
+                            }
                         }
-                        if (res.username === this.tokenDecoded.username) {
-                            this.TeamMember = true;
-                        }
+                    },
+                    () => {
+                        this.members.push({ username: x.username, name: x.username, email: null, organisation: x.organisation });
                     }
-                }, (error) => {
-                    // @ts-ignore
-                    this.members.push({ username: x.username, name: x.username });
-                });
+                );
             });
         });
 
         this.invitees = [];
         this.outstanding = [];
         this.teamrequests = [];
-        this.apiService.getTeamRequestsByTeamCode(this.selectedTeam.code).subscribe((response: iTeamRequest[]) => {
-            this.teamrequests = response.filter((x) => !x.approveddate && !x.refusedate);
-            this.teamrequests.forEach((x) => {
-                this.apiService.getUserProfileByUsernameAndOrganisation(`${x.username}#${x.organisation}`).subscribe((res: iFullUser) => {
-                    if (res) {
-                        if (x.requestor) {
-                            if (!this.outstanding.includes(res)) {
-                                this.outstanding.push(res);
+        this.apiService.getTeamRequestsByTeamCode(this.selectedTeam.code).subscribe(
+            (response: iTeamRequest[]) => {
+                this.teamrequests = response.filter((x) => !x.approveddate && !x.refusedate);
+                this.teamrequests.forEach((x) => {
+                    this.apiService.getUserProfileByUsernameAndOrganisation(`${x.username}#${x.organisation}`).subscribe(
+                        (res: iFullUser) => {
+                            if (res) {
+                                if (x.requestor) {
+                                    if (!this.outstanding.includes(res)) {
+                                        this.outstanding.push(res);
+                                    }
+                                } else {
+                                    if (!this.invitees.includes(res)) {
+                                        this.invitees.push(res);
+                                    }
+                                }
                             }
-                        } else {
-                            if (!this.invitees.includes(res)) {
-                                this.invitees.push(res);
-                            }
+                        },
+                        () => {
+                            this.members.push({ username: x.username, name: x.username, email: null, organisation: x.organisation });
                         }
-                    }
-                }, (error) => {
-                    // @ts-ignore
-                    this.members.push({ username: x.username, name: x.username });
+                    );
                 });
-            });
-        }, () => {});
+            },
+            () => {}
+        );
     }
 
     teamsChanged() {

@@ -22,8 +22,14 @@
     <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
-            <button *ngFor="let tableAction of table.actions" (click)="action(tableAction, element)" mat-raised-button color="primary">
-                {{ tableAction.name }}
+            <button
+                *ngFor="let tableAction of table.actions"
+                (click)="action(tableAction, element)"
+                mat-mini-fab
+                color="primary"
+                [matTooltip]="tableAction.name"
+            >
+                <mat-icon>{{ iconFromAction(tableAction.name) }}</mat-icon>
             </button>
         </td>
     </ng-container>

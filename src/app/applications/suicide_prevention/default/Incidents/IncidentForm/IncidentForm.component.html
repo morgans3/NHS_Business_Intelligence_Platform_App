@@ -289,6 +289,7 @@
         <mat-card-content>
             <mat-form-field class="example-full-width">
                 <input matInput (click)="picker2.open()" [matDatepicker]="picker2" formControlName="inquest_date" placeholder="Inquest Date" readonly="true" />
+
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker type="datetime" touchUi clockStep="5" #picker2></mat-datepicker>
             </mat-form-field>
