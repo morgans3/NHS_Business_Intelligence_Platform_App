@@ -1,14 +1,14 @@
+import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { Store } from "@ngxs/store";
+import { APIService } from "diu-component-library";
+import { HttpErrorResponse, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { AuthState } from "../_states/auth.state";
 import { BehaviorSubject, throwError } from "rxjs";
-import { HttpErrorResponse, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { catchError, filter, switchMap, take } from "rxjs/operators";
-import { APIService } from "diu-component-library";
-import { Injectable } from "@angular/core";
+import { catchError } from "rxjs/operators";
 import { NotificationService } from "./notification.service";
-import { Store } from "@ngxs/store";
-import { environment } from "src/environments/environment";
+import { environment } from "../../environments/environment";
 import { ModalService } from "./modal.service";
-import { Router } from "@angular/router";
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
@@ -31,29 +31,23 @@ export class RequestInterceptor implements HttpInterceptor {
                     if (err instanceof HttpErrorResponse) {
                         // Handle 403 error
                         if (err.status === 403) {
-                            // TODO: change to a redirect to the capability request form page once built
                             this.notificationService
                                 .notify({
                                     status: "warning",
                                     message: "You do not have the required capabilities to access this page.",
                                     actions: [
                                         { id: "close", name: "Close" },
-                                        { id: "request", name: "Request Capability" },
+                                        { id: "request", name: "Request Permission" },
                                     ],
                                 })
                                 .then((snackbar) => {
                                     snackbar.instance.dismissed.subscribe((action) => {
+                                        // Check action
                                         if (action === "request") {
-                                            this.modalService.requestHelp({
-                                                message: "I would like further access to " + location.href,
-                                                attributes: {
-                                                    error_status: err.status,
-                                                    error_message: err.message,
-                                                    error_url: err.url,
-                                                    api_url: request.url,
-                                                    api_body: request.body,
-                                                },
-                                            });
+                                            window.open(
+                                                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                                                `${window.location.origin}/profile/access?capabilities=${err.error.data.join(",")}`
+                                            );
                                         }
                                     });
                                 });

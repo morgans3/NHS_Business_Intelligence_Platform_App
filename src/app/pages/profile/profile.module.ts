@@ -12,7 +12,9 @@ import { ProfileDetailsComponent } from "./details/details.component";
 import { ProfileTeamsComponent } from "./teams/teams.component";
 import { DiuComponentLibraryModule } from "diu-component-library";
 import { PasswordComponentsModule } from "../forms/password-reset/password-components.module";
-import { RoleCapabilityListModule } from "./details/rolecapabilitylist/rolecapabilitylist.component";
+import { ProfileAccessComponent } from "./access/access.component";
+import { CapabilitiesSelectModule } from "../../shared/components/capabilities-select/capabilities-select.module";
+import { RolesSelectModule } from "../../shared/components/roles-select/roles-select.module";
 
 @NgModule({
     imports: [
@@ -24,9 +26,10 @@ import { RoleCapabilityListModule } from "./details/rolecapabilitylist/rolecapab
         ImageUploaderModule,
         PasswordComponentsModule,
         RouterModule.forChild(ProfileRoutes),
-        RoleCapabilityListModule,
+        RolesSelectModule,
+        CapabilitiesSelectModule,
         DiuComponentLibraryModule,
     ],
-    declarations: [ProfileComponent, ProfileDetailsComponent, ProfileTeamsComponent],
+    declarations: [ProfileComponent, ProfileDetailsComponent, ProfileTeamsComponent, ProfileAccessComponent],
 })
 export class ProfileModule {}

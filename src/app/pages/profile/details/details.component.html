@@ -49,26 +49,3 @@
     </div>
     <button mat-raised-button color="primary" type="submit">Save Changes</button>
 </form>
-
-<mat-divider></mat-divider>
-<mat-card-title>My Access</mat-card-title>
-<p>
-    If you would like to review your access levels and request access to more datasets, please click the button below to be redirected to
-    the request form.
-</p>
-
-<button mat-raised-button color="primary" (click)="requestAccess()">Request Roles and Capabilities</button>
-
-<!-- Installations
-<mat-divider></mat-divider>
-<mat-card-title>My Installations</mat-card-title>
-
-<display-applications
-    *ngFor="let list of displayLists"
-    [applicationData]="list.data"
-    [applicationTitle]="list.title"
-    (removeAppData)="remove($event, list.title)"
-    (requestAppData)="install($event, list.title)"
-></display-applications>
-
-<app-rolecapabilitylist [username]="currentProfile.username"></app-rolecapabilitylist> -->

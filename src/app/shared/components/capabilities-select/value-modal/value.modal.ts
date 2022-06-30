@@ -8,12 +8,13 @@ import { NotificationService } from "../../../../_services/notification.service"
     templateUrl: "./value.modal.html",
 })
 export class CapabilityValueModalComponent {
-    capability;
-    children = {};
+    capability; children = {};
     form = new FormGroup({
         id: new FormControl(""),
         valuejson: new FormControl("", Validators.required),
-        meta: new FormGroup({}),
+        meta: new FormGroup({
+            children_types: new FormControl([])
+        }),
     });
 
     constructor(
@@ -21,33 +22,52 @@ export class CapabilityValueModalComponent {
         @Inject(MAT_DIALOG_DATA) public data,
         private notificationService: NotificationService,
         public dialogRef: MatDialogRef<CapabilityValueModalComponent>
-    ) {
+    ) { this.init(); }
+
+    async init() {
         // Assign capability
         this.capability = this.data.capability || {};
-
-        // Set values
-        this.form.patchValue({
-            id: this.capability.id,
-            valuejson: this.capability.value.type === "allow_deny" ? "allow" : "",
-        });
 
         // Set children?
         if (this.capability.value.type_meta?.children_select) {
             // Get capabilities
-            this.apiService.getCapabilities().subscribe((data: any) => {
-                this.children = data
-                    .filter((item) => this.capability.value.type_meta.children_select.items.enum.includes(item.id))
-                    .reduce((acc, item) => {
-                        acc[item.id] = item;
-                        return acc;
-                    }, {});
-            });
+            const children = await this.apiService.getCapabilities().toPromise() as any;
+            this.children = children
+                .filter((item) => this.capability.value.type_meta.children_select.items.enum.includes(item.id))
+                .reduce((acc, item) => {
+                    acc[item.id] = item;
+                    return acc;
+                }, {});
 
             // Add field
             (this.form.get("meta") as FormGroup).addControl(
                 "children",
                 new FormArray([], Validators.maxLength(this.capability.value.type_meta?.children_select?.max || 1))
             );
+        }
+
+        // Value provided?
+        if(this.data.values) {
+            // Set values
+            this.form.patchValue(this.data.values);
+
+            // Set children
+            const selectedChildren = [];
+            this.data.values.meta?.children.forEach(child => {
+                (this.form.get("meta.children") as FormArray).push(
+                    new FormGroup({
+                        id: new FormControl(child.id),
+                        valuejson: new FormControl(child.valuejson),
+                    })
+                );
+                selectedChildren.push(child.id);
+            });
+            this.form.get("meta.children_types").setValue(selectedChildren);
+        } else {
+            this.form.patchValue({
+                id: this.capability.id,
+                valuejson: this.capability.value.type === "allow_deny" ? "allow" : "",
+            });
         }
     }
 
@@ -75,6 +95,7 @@ export class CapabilityValueModalComponent {
         if (data !== null && !this.form.valid) {
             this.notificationService.error("Please complete all fields correctly");
         } else {
+            delete data?.meta?.children_types;
             this.dialogRef.close(data);
         }
     }

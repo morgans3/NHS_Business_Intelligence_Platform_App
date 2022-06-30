@@ -18,7 +18,7 @@ export class RequestComponent implements OnInit {
         this.activatedRoute.params.subscribe((params) => {
             if (params.id) {
                 // TODO: Make view more user friendly
-                this.apiService.getAccessRequest(params.id).subscribe((data: any) => {
+                this.apiService.getRequest(params.id).subscribe((data: any) => {
                     this.request = data;
                 });
             }

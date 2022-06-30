@@ -69,7 +69,7 @@
     <mat-card-title class="m-b-15">Assignments</mat-card-title>
     <mat-accordion>
         <!-- Roles -->
-        <mat-expansion-panel (afterExpand)="roles.get()" (afterCollapse)="roles.save()">
+        <mat-expansion-panel (afterExpand)="roles.get()">
             <mat-expansion-panel-header>
                 <mat-panel-title>Roles</mat-panel-title>
                 <mat-panel-description>View and edit roles assigned to this user</mat-panel-description>
@@ -77,10 +77,11 @@
 
             <!-- Roles table -->
             <app-shared-roles-table [modelId]="user?.id" modelName="user" #roles></app-shared-roles-table>
+            <button mat-raised-button color="primary" class="m-t-20" (click)="roles.save().toPromise();">Save roles</button>
         </mat-expansion-panel>
 
         <!-- Capabilities -->
-        <mat-expansion-panel (afterExpand)="capabilities.get()" (afterCollapse)="capabilities.save()">
+        <mat-expansion-panel (afterExpand)="capabilities.get()">
             <mat-expansion-panel-header>
                 <mat-panel-title>Capabilities</mat-panel-title>
                 <mat-panel-description>View and edit capabilities assigned to this user</mat-panel-description>
@@ -88,6 +89,7 @@
 
             <!-- Capabilities table -->
             <app-shared-capabilties-table [modelId]="user?.id" modelName="user" #capabilities></app-shared-capabilties-table>
+            <button mat-raised-button color="primary" class="m-t-20" (click)="capabilities.save().toPromise();">Save capabilities</button>
         </mat-expansion-panel>
 
         <mat-expansion-panel (afterExpand)="teams.get()">

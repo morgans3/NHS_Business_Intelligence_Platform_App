@@ -11,8 +11,8 @@ import { NotificationService } from "../../../../_services/notification.service"
 })
 export class UserComponent implements OnInit {
 
-    @ViewChild("teamsTable") teamsTable: MatTable<any>;
-    @ViewChild("accessLogsTable") accessLogsTable: MatTable<any>;
+    @ViewChild("teamsTable", { static: true }) teamsTable: MatTable<any>;
+    @ViewChild("accessLogsTable", { static: true }) accessLogsTable: MatTable<any>;
 
     user;
     accessLogs = [];

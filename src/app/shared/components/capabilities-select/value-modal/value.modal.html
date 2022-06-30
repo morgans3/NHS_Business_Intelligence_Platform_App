@@ -1,10 +1,11 @@
+<h1 mat-dialog-title>{{ capability?.name }}</h1>
 <div *ngIf="capability" mat-dialog-content>
     <form [formGroup]="form">
         <value-field [capability]="capability" formControlName="valuejson"></value-field>
 
         <div *ngIf="hasChildren()" formGroupName="meta">
             <p class="m-b-0"><b>{{ capability.value?.type_meta?.children_select?.title }}</b></p>
-            <mat-selection-list (selectionChange)="selectChild($event)" style="margin-left: -16px" class="scrollable">
+            <mat-selection-list formControlName="children_types" (selectionChange)="selectChild($event)" style="margin-left: -16px" class="scrollable">
                 <mat-list-option *ngFor="let child of children | keyvalue" [value]="child.key">
                     <div mat-line>{{ child.value.name }}</div>
                     <div mat-line>{{ child.value.description }}</div>

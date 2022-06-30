@@ -143,8 +143,6 @@ export const AppRoutes: Routes = [
             {
                 path: "admin",
                 loadChildren: () => import("./pages/admin/admin.module").then((m) => m.AdminModule),
-                data: { capabilities: ["Hall Monitor"] },
-                canActivate: [CapabilityGuard],
             },
             {
                 path: "**",

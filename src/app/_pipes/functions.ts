@@ -49,4 +49,4 @@ export const isNhsNumber = (nhsNumber) => {
 
     // Do the check digits match?
     return checkDigit === Number(providedCheckDigit);
-};
+}

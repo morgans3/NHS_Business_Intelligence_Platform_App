@@ -17,13 +17,12 @@
                                             formControlName="firstname"
                                             placeholder="First name"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
                                     <mat-form-field class="m-b-10">
-                                        <input matInput formControlName="surname" placeholder="Surname" type="text" autocomplete="false" />
+                                        <input matInput formControlName="surname" placeholder="Surname" type="text" />
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
@@ -33,7 +32,6 @@
                                             formControlName="professional_role"
                                             placeholder="Professional role"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                         <mat-hint>E.g. Clinician/Social Worker/Community Nurse</mat-hint>
                                     </mat-form-field>
@@ -45,7 +43,6 @@
                                             formControlName="professional_number"
                                             placeholder="Professional registration number"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                         <mat-hint>If relevant</mat-hint>
                                     </mat-form-field>
@@ -57,7 +54,6 @@
                                             formControlName="organisation"
                                             placeholder="Employing organisation"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                     </mat-form-field>
                                 </div>
@@ -68,7 +64,6 @@
                                             formControlName="email"
                                             placeholder="Work* email address"
                                             type="email"
-                                            autocomplete="false"
                                         />
                                         <mat-error *ngIf="form?.get('email').errors?.is_personal">
                                             Please make sure to use your <b>work*</b> email address
@@ -77,11 +72,21 @@
                                 </div>
                             </div>
 
-                            <p class="m-t-0 m-b-0">
-                                <small
-                                    >* Your work email address should end with your employer's website name, i.e. john.appleseed@gov.uk,
-                                    millie.smith@nhs.net</small
-                                >
+                            <mat-form-field class="m-b-10" formGroupName="request_sponsor">
+                                <input
+                                    matInput
+                                    formControlName="email"
+                                    placeholder="Sponsor email address"
+                                    type="email"
+                                />
+                                <mat-hint>Enter the email for the individual responsible for authorising your account</mat-hint>
+                                <mat-error *ngIf="form?.get('request_sponsor.email').errors?.not_valid">
+                                    Email cannot be the same as your own and must be a <b>work*</b> email address
+                                </mat-error>
+                            </mat-form-field>
+
+                            <p class="m-b-0">
+                                <small>* Your work email address should end with your employer's website name, i.e. john.appleseed@gov.uk, millie.smith@nhs.net</small>
                             </p>
                         </mat-step>
                         <mat-step formGroupName="pid_access">
@@ -109,7 +114,6 @@
                                             formControlName="citizen_council"
                                             placeholder="Citizen local authority/district council"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                         <mat-hint>Enter local authority/district council</mat-hint>
                                     </mat-form-field>
@@ -121,7 +125,6 @@
                                             formControlName="patient_chs"
                                             placeholder="Patient's community health service"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                         <mat-hint>Enter service code</mat-hint>
                                     </mat-form-field>
@@ -133,7 +136,6 @@
                                             formControlName="related_ch"
                                             placeholder="Related community hub"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                     </mat-form-field>
                                 </div>
@@ -151,8 +153,17 @@
                         <mat-step>
                             <ng-template matStepLabel>Access</ng-template>
                             <p class="m-t-0"><b>Please select the permissions you require access to...</b></p>
-                            <capabilities-select formControlName="capabilities"></capabilities-select>
-                            <mat-error *ngIf="form?.get('capabilities').errors?.required">
+                            
+                            <mat-tab-group>
+                                <mat-tab label="Roles">
+                                    <roles-select formControlName="roles"></roles-select>
+                                </mat-tab>
+                                <mat-tab label="Capabilities">
+                                    <capabilities-select formControlName="capabilities"></capabilities-select>
+                                </mat-tab>
+                            </mat-tab-group>
+                            
+                            <mat-error *ngIf="form?.errors?.permissions_required">
                                 <small>Please select at least one permission</small>
                             </mat-error>
                         </mat-step>
@@ -182,11 +193,10 @@
                                     Verify
                                 </button>
                                 <button
-                                    (click)="apiService.sendVerificationCode(form.get('email').value)"
+                                    (click)="sendEmailVerificationCode()"
                                     mat-raised-button
                                     color="primary"
-                                    type="button"
-                                >
+                                    type="button">
                                     Re-send code
                                 </button>
                             </ng-container>

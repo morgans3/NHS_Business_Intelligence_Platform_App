@@ -46,7 +46,7 @@ export class CCGSelectComponent implements ControlValueAccessor {
 
     constructor(private controlContainer: ControlContainer) {}
 
-    // TODO: Add validation for max items
+    // Future feature: Add validation for max items
 
     filterCCGs(name = "") {
         // Filter gps
