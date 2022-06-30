@@ -56,7 +56,7 @@ export class ProfileAccessComponent implements OnInit {
 
     async autoSelectPermissions(capabilitiesSelect: CapabilitiesSelectComponent) {
         // Pre-select permissions
-        const capabilitiesForSelection = this.activatedRoute.snapshot.queryParams.capabilities.split(",");
+        const capabilitiesForSelection = this.activatedRoute.snapshot.queryParams.capabilities?.split(",") || 0;
         if(capabilitiesForSelection.length > 0) {
             for(const capability of capabilitiesForSelection) {
                 // Get capability id

@@ -48,7 +48,6 @@ export class PermissionRequestActionFormComponent implements OnInit {
                         capability.name = capabilities[capability.id].name;
                         capability.description = capabilities[capability.id].description;
                         if (capability.meta?.children) {
-                            console.log(capability);
                             capability.children = capability.meta.children.map((child) => {
                                 child.name = capabilities[child.id].name;
                                 child.description = capabilities[child.id].description;

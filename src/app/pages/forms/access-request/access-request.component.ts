@@ -55,10 +55,10 @@ export class AccessRequestFormComponent implements OnInit {
                     let sponsorEmailErrors = null;
 
                     // Email same as their own?
-                    // if (form.get("request_sponsor.email").value === form.get("email").value) {
-                    //     // Email same as their own
-                    //     sponsorEmailErrors = { not_valid: true };
-                    // }
+                    if (form.get("request_sponsor.email").value === form.get("email").value) {
+                        // Email same as their own
+                        sponsorEmailErrors = { not_valid: true };
+                    }
 
                     // Email is a valid partner?
                     if (!isValidPartnerEmail(form.get("request_sponsor.email").value)) {

@@ -17,7 +17,7 @@ export const AdminRoutes: Routes = [
             {
                 path: "users",
                 loadChildren: () => import("./users/user.module").then((m) => m.UsersAdminModule),
-                // data: { capabilities: ["Inspection"] },
+                data: { capabilities: ["Inspection"] },
                 canActivate: [CapabilityGuard]
             },
             {
