@@ -69,8 +69,27 @@ export class ProfileTeamsComponent implements OnInit {
                         const teamDetails = this.teams.all.find((team) => teamRequest.teamcode === team.code);
                         teamRequest.organisationcode = teamDetails?.organisationcode || "";
                         teamRequest.teamname = teamDetails?.name || "";
+                        if (this.myTeams.filter((x) => x.code === teamRequest.teamcode).length > 0) teamRequest.inTeam = true;
+                        else {
+                            teamRequest.refusedate ? (teamRequest.inTeam = true) : (teamRequest.inTeam = false);
+                        }
                         return teamRequest;
                     });
+                });
+            }
+        });
+    }
+
+    cancelRequest(teamRequest: any) {
+        this.notificationService.question("Are you sure you want to withdraw this request?").then((confirmed) => {
+            if (confirmed === true) {
+                this.apiService.archiveTeamRequest(teamRequest).subscribe((res: any) => {
+                    if (res.success) {
+                        this.notificationService.success("This request has been withdrawn");
+                        this.getTeams();
+                    } else {
+                        this.notificationService.warning(res.msg);
+                    }
                 });
             }
         });
@@ -97,23 +116,34 @@ export class ProfileTeamsComponent implements OnInit {
     joinTeam() {
         const team = this.joinTeamForm.value.team;
         if (team) {
-            this.apiService
-                .addTeamRequest({
-                    username: this.user.username,
-                    organisation: this.user.organisation,
-                    teamcode: team.code,
-                    requestdate: new Date(),
-                    requestor: this.user.username,
-                })
-                .subscribe((res: any) => {
-                    if (res.success) {
-                        this.notificationService.success("A request has been sent to the Team Administrator to grant you access.");
-                        this.getOrganisations();
-                        this.getTeams();
-                    } else {
-                        this.notificationService.warning(res.msg);
-                    }
-                });
+            this.apiService.getUserProfileByUsernameAndOrganisation(team.responsiblepeople[0]).subscribe((resAdminProfile: any) => {
+                if (resAdminProfile.success === false) {
+                    this.notificationService.warning(
+                        "Unable to locate administrator of team. Please contact the administrator directly to gain access to the team."
+                    );
+                } else {
+                    this.apiService
+                        .addTeamRequest({
+                            username: this.user.username,
+                            organisation: this.user.organisation,
+                            teamcode: team.code,
+                            requestdate: new Date(),
+                            requestor: this.user.email,
+                            emailto: resAdminProfile.email,
+                        })
+                        .subscribe((res: any) => {
+                            if (res.success) {
+                                this.notificationService.success("A request has been sent to the Team Administrator to grant you access.");
+                                this.getOrganisations();
+                                this.getTeams();
+                            } else {
+                                this.notificationService.warning(res.msg);
+                            }
+                        });
+                }
+            });
+        } else {
+            this.notificationService.warning("No team selected.");
         }
     }
 

@@ -46,10 +46,17 @@
         <th class="mat-header-cell text-left">Team Name</th>
         <th class="mat-header-cell text-left">Organisation</th>
         <th class="mat-header-cell text-center">Date joined/requested</th>
+        <th class="mat-header-cell text-center">Request Pending?</th>
     </thead>
     <tr *ngFor="let team of myTeamRequests" class="mat-row">
         <td class="mat-cell">{{ team.teamname }}</td>
         <td class="mat-cell">{{ getOrganisationName(team.organisationcode) }}</td>
         <td class="mat-cell text-center">{{ team.requestdate | date: "dd/MM/yyyy" }}</td>
+        <td class="mat-cell text-center">
+            <span *ngIf="team.inTeam">Actioned</span>
+            <button *ngIf="!team.inTeam" (click)="cancelRequest(team)" mat-raised-button color="warn" matTooltip="Cancel request">
+                Cancel request
+            </button>
+        </td>
     </tr>
 </table>
