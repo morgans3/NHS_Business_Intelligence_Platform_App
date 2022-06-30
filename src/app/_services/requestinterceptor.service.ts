@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngxs/store";
-import { APIService, iUserProfile } from "diu-component-library";
+import { APIService } from "diu-component-library";
 import { HttpErrorResponse, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { AuthState } from "../_states/auth.state";
 import { BehaviorSubject, throwError } from "rxjs";
@@ -9,7 +9,6 @@ import { catchError } from "rxjs/operators";
 import { NotificationService } from "./notification.service";
 import { environment } from "../../environments/environment";
 import { ModalService } from "./modal.service";
-import { decodeToken } from "../_pipes/functions";
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
