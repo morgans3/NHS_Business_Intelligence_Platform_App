@@ -43,7 +43,8 @@ export class AccessRequestFormComponent implements OnInit {
                 related_ch: new FormControl(""),
                 related_mdt: new FormControl([]),
             }),
-            capabilities: new FormControl([], [Validators.required]),
+            roles: new FormControl([]),
+            capabilities: new FormControl([]),
             terms_agreed: new FormControl(false, Validators.requiredTrue),
             date: new FormControl(new Date().toISOString()),
         },
@@ -54,10 +55,10 @@ export class AccessRequestFormComponent implements OnInit {
                     let sponsorEmailErrors = null;
 
                     // Email same as their own?
-                    if (form.get("request_sponsor.email").value === form.get("email").value) {
-                        // Email same as their own
-                        sponsorEmailErrors = { not_valid: true };
-                    }
+                    // if (form.get("request_sponsor.email").value === form.get("email").value) {
+                    //     // Email same as their own
+                    //     sponsorEmailErrors = { not_valid: true };
+                    // }
 
                     // Email is a valid partner?
                     if (!isValidPartnerEmail(form.get("request_sponsor.email").value)) {
@@ -65,6 +66,17 @@ export class AccessRequestFormComponent implements OnInit {
                     }
 
                     form.get("request_sponsor.email").setErrors(sponsorEmailErrors);
+
+                    // Check permissions minimum?
+                    let formErrors = null;
+                    if(
+                        Validators.required(form.get("roles"))?.required === true &&
+                        Validators.required(form.get("capabilities"))?.required === true
+                    ) {
+                        formErrors = { permissions_required: true };
+                    }
+                    form.setErrors(formErrors);
+
                     return null;
                 },
             ],
@@ -83,6 +95,11 @@ export class AccessRequestFormComponent implements OnInit {
                 this.apiService.sendVerificationCode(emailField.value).toPromise();
             }
         }
+    }
+
+    sendEmailVerificationCode(emailAddress = null) {
+        emailAddress = emailAddress || this.form.get("email").value;
+        this.apiService.sendVerificationCode(emailAddress).toPromise();
     }
 
     checkEmailVerificationCode(formStepper) {

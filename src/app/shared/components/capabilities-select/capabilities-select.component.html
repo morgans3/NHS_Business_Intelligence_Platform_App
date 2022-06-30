@@ -1,12 +1,28 @@
-<mat-chip-list style="display: block;">
-    <mat-chip (click)="filterCapabilities({ tag: 'App' });" [color]="filters.tag == 'App' ? 'primary' : 'grey'" selected>Apps</mat-chip>
-    <mat-chip (click)="filterCapabilities({ tag: 'Dashboard' });" [color]="filters.tag == 'Dashboard' ? 'primary' : 'grey'" selected>Dashboards</mat-chip>
-    <mat-chip (click)="filterCapabilities({ tag: '' });" [color]="filters.tag == '' ? 'primary' : 'grey'" selected>All</mat-chip>
-</mat-chip-list>
+<div class="m-t-10" fxLayout="row wrap">
+    <div fxFlex.gt-sm="70" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-form-field>
+            <input matInput (keyup)="filterCapabilities({ name: $event.target.value })" placeholder="Search by name" />
+        </mat-form-field>
+    </div>
+    <div fxFlex.gt-sm="30" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-form-field>
+            <mat-select placeholder="Filter by tag" [(ngModel)]="filters.tag" (selectionChange)="filterCapabilities({});">
+                <mat-option *ngFor="let tag of tags | keyvalue" [value]="tag.key">{{ tag.value }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
 
-<mat-selection-list [ngModel]="selected.ids" (selectionChange)="select($event.option)" style="margin-left: -16px" class="scrollable">
+<mat-selection-list [ngModel]="selected.ids" (selectionChange)="select($event.option.value)" style="margin-left: -16px" class="scrollable">
     <mat-list-option *ngFor="let capability of capabilities.filtered" [value]="capability.id">
-        <div mat-line>{{ capability.name }}</div>
-        <div mat-line>{{ capability.description }}</div>
+        <div class="content" fxLayout="row wrap" mat-line>
+            <div fxFlex="70">
+                <b>{{ capability.name }}</b>
+                <small class="db">{{ capability.description }}</small>
+            </div>
+            <div fxFlex="30" class="text-right">
+                <mat-icon *ngIf="selected.ids.includes(capability.id)" (click)="edit($event, capability.id)" color="primary" mat-list-icon>edit</mat-icon>
+            </div>
+        </div>
     </mat-list-option>
 </mat-selection-list>

@@ -4,54 +4,62 @@
             <mat-card-header>
                 <mat-card-title>NHS BI Platform Access Authorisation</mat-card-title>
             </mat-card-header>
-            <mat-card-content>
-                <ng-container *ngIf="request?.id && request?.data.approved === null">
+            <mat-card-content *ngIf="request?.id">
+                <ng-container *ngIf="request?.data.completed === null && !request.data.expired">
                     <table class="mat-table overview">
                         <tr class="mat-row">
                             <td class="mat-cell" colspan="2" style="padding-bottom: 10px"><b>User details</b></td>
                         </tr>
                         <tr class="mat-row">
-                            <td class="mat-cell">First name: {{ request?.data?.firstname }}</td>
-                            <td class="mat-cell">Email: {{ request?.data?.email }}</td>
+                            <td class="mat-cell">Full name: {{ request?.data?.user?.name }}</td>
+                            <td class="mat-cell">Username: {{ request?.data?.user?.username }}</td>
                         </tr>
                         <tr class="mat-row">
-                            <td class="mat-cell">Surname: {{ request?.data?.surname }}</td>
-                            <td class="mat-cell">Organisation: {{ request?.data?.organisation }}</td>
-                        </tr>
-                        <tr class="mat-row">
-                            <td class="mat-cell">Professional role: {{ request?.data?.professional_role }}</td>
-                            <td class="mat-cell">Professional number: {{ request?.data?.professional_number }}</td>
+                            <td class="mat-cell" colspan="2">Organisation: {{ request?.data?.user?.organisation }}</td>
                         </tr>
 
                         <tr class="mat-row">
-                            <td class="mat-cell" colspan="2" style="padding: 10px 0px"><b>Patient identifiable access</b></td>
-                        </tr>
-                        <tr class="mat-row">
-                            <td class="mat-cell">
-                                Patient's registered GP practice:
-                                {{ request?.data?.pid_access.patient_gps === "" ? "n/a" : request?.data?.pid_access.patient_gps }}
-                            </td>
-                            <td class="mat-cell">
-                                Patient's community health service:
-                                {{ request?.data?.pid_access.patient_chs === "" ? "n/a" : request?.data?.pid_access.patient_chs }}
-                            </td>
-                        </tr>
-                        <tr class="mat-row">
-                            <td class="mat-cell">
-                                Related community hub:
-                                {{ request?.data?.pid_access.related_ch === "" ? "n/a" : request?.data?.pid_access.related_ch }}
-                            </td>
-                            <td class="mat-cell">
-                                Related multi-discplinary team:
-                                {{
-                                    request?.data?.pid_access.related_mdt.length ? request?.data?.pid_access.related_mdt.join(", ") : "n/a"
-                                }}
-                            </td>
+                            <td class="mat-cell" colspan="2" style="padding: 10px 0px"><b>Requested capabilities</b></td>
                         </tr>
                         <tr class="mat-row">
                             <td class="mat-cell" colspan="2">
-                                Citizen local authority/district council:
-                                {{ request?.data?.pid_access.citizen_council === "" ? "n/a" : request?.data?.pid_access.citizen_council }}
+                                <mat-list role="list" class="scrollable">
+                                    <ng-container *ngFor="let capability of request.data.capabilities">
+                                        <mat-list-item>
+                                            <div mat-line>
+                                                <b>{{ capability.name }}</b>
+                                            </div>
+                                            <div mat-line>{{ capability.description }}</div>
+                                            <div mat-line>Value: {{ valueJson(capability.valuejson) }}</div>
+                                        </mat-list-item>
+                                        <mat-list-item *ngFor="let child of capability.meta?.children" class="p-l-15">
+                                            <mat-icon matListIcon>subdirectory_arrow_right</mat-icon>
+                                            <div mat-line>
+                                                <b>{{ child.name }}</b>
+                                            </div>
+                                            <div mat-line>{{ child.description }}</div>
+                                            <div mat-line>Value: {{ valueJson(child.valuejson) }}</div>
+                                        </mat-list-item>
+                                    </ng-container>
+                                </mat-list>
+                            </td>
+                        </tr>
+
+                        <tr class="mat-row">
+                            <td class="mat-cell" colspan="2" style="padding: 10px 0px"><b>Requested roles</b></td>
+                        </tr>
+                        <tr class="mat-row">
+                            <td class="mat-cell" colspan="2">
+                                <mat-list role="list" class="scrollable">
+                                    <ng-container *ngFor="let role of request.data.roles">
+                                        <mat-list-item>
+                                            <div mat-line>
+                                                <b>{{ role.name }}</b>
+                                            </div>
+                                            <div mat-line>{{ role.description }}</div>
+                                        </mat-list-item>
+                                    </ng-container>
+                                </mat-list>
                             </td>
                         </tr>
                     </table>
@@ -117,11 +125,17 @@
                     </mat-tab-group>
                 </ng-container>
 
-                <h4 *ngIf="request?.id && request?.data.approved !== null" style="text-align: center; padding: 50px 0px">
+                <h4 *ngIf="request?.data.completed !== null && !request.data.expired" style="text-align: center; padding: 50px 0px">
                     Thank you! Your response to this request has been recorded.
                 </h4>
 
-                <h4 *ngIf="!request?.id" style="text-align: center; padding: 50px 0px">Oops! This request doesn't seem to exist.</h4>
+                <h4 *ngIf="request.data.expired" style="text-align: center; padding: 50px 0px">
+                    This request has expired. If the user still requires further access then please contact them at {{ request.data.user.email }} and ask them to re-submit their request.
+                </h4>
+            </mat-card-content>
+
+            <mat-card-content *ngIf="!request?.id">
+                <h4 style="text-align: center; padding: 50px 0px">Oops! This request doesn't seem to exist.</h4>
             </mat-card-content>
         </mat-card>
     </div>

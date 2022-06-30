@@ -18,7 +18,7 @@ export class AccessRequestActionFormComponent implements OnInit {
         // Listen for request id
         this.activatedRoute.queryParams.subscribe((params) => {
             // Set parent request id
-            this.getRequest(params["id"] || null, params["capabilities"]);
+            this.getRequest(params["id"] || null);
 
             // Listen for request action
             this.activatedRoute.params.subscribe((params) => {
@@ -29,36 +29,9 @@ export class AccessRequestActionFormComponent implements OnInit {
         });
     }
 
-    getRequest(id, capabilitiesForApproval = []) {
-        this.apiService.getAccessRequest(id).subscribe((request: any) => {
-            this.apiService.getCapabilities().subscribe((data: any) => {
-                // Keyby id
-                const capabilities = data.reduce((acc, cur) => {
-                    acc[cur.id] = cur;
-                    return acc;
-                }, {});
-
-                // Enrich array
-                request.data.capabilities = request.data.capabilities
-                    .filter((capability) => {
-                        return capabilitiesForApproval.includes(capability.id);
-                    })
-                    .map((capability) => {
-                        capability.name = capabilities[capability.id].name;
-                        capability.description = capabilities[capability.id].description;
-                        if (capability.meta?.children) {
-                            capability.children = capability.meta.children.map((child) => {
-                                child.name = capabilities[child.id].name;
-                                child.description = capabilities[child.id].description;
-                                return child;
-                            });
-                        }
-                        return capability;
-                    });
-
-                // Set request data
-                this.request = request;
-            });
+    getRequest(id) {
+        this.apiService.getRequest(id).subscribe((request: any) => {
+            this.request = request;
         });
     }
 
@@ -69,7 +42,7 @@ export class AccessRequestActionFormComponent implements OnInit {
                 parent_id: this.request.id,
                 action: this.action,
                 date: new Date().toISOString(),
-                capabilities: this.request.data.capabilities,
+                token: this.activatedRoute.snapshot.queryParams.token
             };
 
             // Set form properties

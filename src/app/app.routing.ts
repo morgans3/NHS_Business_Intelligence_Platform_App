@@ -146,8 +146,6 @@ export const AppRoutes: Routes = [
             {
                 path: "admin",
                 loadChildren: () => import("./pages/admin/admin.module").then((m) => m.AdminModule),
-                // data: { capabilities: ["admin"] },
-                // canActivate: [CapabilityGuard]
             },
             {
                 path: "**",

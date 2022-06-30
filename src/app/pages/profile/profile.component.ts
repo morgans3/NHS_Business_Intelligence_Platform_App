@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import * as d3 from "d3";
 import { Store } from "@ngxs/store";
@@ -6,6 +6,7 @@ import { iFullUser, iUserDetails, APIService } from "diu-component-library";
 import { AuthState } from "../../_states/auth.state";
 import { NotificationService } from "../../_services/notification.service";
 import { decodeToken, generateID } from "../../_pipes/functions";
+import { MatTabGroup } from "@angular/material/tabs";
 
 interface iToken {
     name: string;
@@ -23,9 +24,9 @@ interface iToken {
     styleUrls: ["./profile.component.scss"],
 })
 export class ProfileComponent implements OnInit {
+    @ViewChild("tabs", { static: true }) tabs: MatTabGroup;
     fulluser: iFullUser;
     userDecodedToken: iToken;
-    selectedtab: any;
 
     constructor(
         public store: Store,
@@ -40,11 +41,16 @@ export class ProfileComponent implements OnInit {
     }
 
     ngOnInit() {
+        // Remove tooltip
         const tooltip_remove = d3.select("mat-sidenav-content").selectAll(".tooltip");
         tooltip_remove.remove();
-        this.route.paramMap.subscribe((params) => {
-            this.selectedtab = params.get("tab");
+
+        // Set active tab
+        this.route.params.subscribe((params) => {
+            this.tabs.selectedIndex = ["details", "teams", "access"].indexOf(params.tab);
         });
+
+        // Get user
         this.getData();
     }
 

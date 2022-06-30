@@ -1,0 +1,12 @@
+mat-list-option { 
+    height: fit-content !important; 
+    ::ng-deep {
+        .mat-list-item-content {
+            margin-bottom: 15px;
+        }
+        .content { align-items: center; }
+    }
+    &[aria-selected=true] ::ng-deep .mat-list-item-content {
+        padding-left: 0px !important;
+    }
+}

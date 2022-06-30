@@ -1,0 +1,10 @@
+<mat-form-field class="m-t-10">
+    <input matInput (keyup)="filterRoles({ name: $event.target.value })" placeholder="Search by name" />
+</mat-form-field>
+
+<mat-selection-list [ngModel]="selected.ids" (selectionChange)="select($event.option.value)" style="margin-left: -16px" class="scrollable">
+    <mat-list-option *ngFor="let role of roles.filtered" [value]="role.id">
+        <div mat-line><b>{{ role.name }}</b></div>
+        <div mat-line>{{ role.description }}</div>
+    </mat-list-option>
+</mat-selection-list>

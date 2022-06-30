@@ -42,7 +42,7 @@ export class GPSelectComponent implements ControlValueAccessor {
         private http: HttpClient
     ) {}
 
-    // To-do: Add validation for max items
+    // Future feature: Add validation for max items
 
     async getGps() {
         if (this.gps.all.length === 0) {

@@ -129,8 +129,6 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
     }
 
     remove(event: any, type: string) {
-        console.log(event);
-        console.log(type);
         const install = this.myInstallations.find((x) => x.app_name === event.name);
         if (install) {
             // TODO: remove

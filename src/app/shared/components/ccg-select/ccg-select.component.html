@@ -1,11 +1,11 @@
 <mat-form-field>
-    <mat-label>{{ placeholder }}</mat-label>
+    <mat-label>{{ control.value.length > 0 ? (control.value.length + " selected") : placeholder }}</mat-label>
     <mat-select [formControl]="control" tabindex="-1" [multiple]="max > 1">
         <mat-form-field class="search" appearance="none">
             <mat-label>Search by name</mat-label>
             <input matInput (keyup)="filterCCGs($event.target.value)" tabindex="-1" />
         </mat-form-field>
-        <mat-option>None</mat-option>
+        <mat-option value="%">All</mat-option>
         <mat-option *ngFor="let ccg of ccgs.filtered" [value]="ccg.code">{{ ccg.name }}</mat-option>
     </mat-select>
 </mat-form-field>

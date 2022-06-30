@@ -76,9 +76,9 @@ export class SharedRolesTableComponent implements OnChanges {
             .pipe(tap((data: any) => {
                 // Send message
                 if (data.success) {
-                    this.notificationService.success("Capabilities updated successfully!");
+                    this.notificationService.success("Roles updated successfully!");
                 } else {
-                    this.notificationService.error("An error occurred updating the capabilities");
+                    this.notificationService.error("An error occurred updating the roles");
                 }
                 return data;
             }));

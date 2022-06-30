@@ -162,8 +162,17 @@
                         <mat-step>
                             <ng-template matStepLabel>Nexus access</ng-template>
                             <p class="m-t-0"><b>Please select the permissions you require access to...</b></p>
-                            <capabilities-select formControlName="capabilities"></capabilities-select>
-                            <mat-error *ngIf="form?.get('capabilities').errors?.required">
+                            
+                            <mat-tab-group>
+                                <mat-tab label="Roles">
+                                    <roles-select formControlName="roles"></roles-select>
+                                </mat-tab>
+                                <mat-tab label="Capabilities">
+                                    <capabilities-select formControlName="capabilities"></capabilities-select>
+                                </mat-tab>
+                            </mat-tab-group>
+                            
+                            <mat-error *ngIf="form?.errors?.permissions_required">
                                 <small>Please select at least one permission</small>
                             </mat-error>
                         </mat-step>
@@ -193,11 +202,10 @@
                                     Verify
                                 </button>
                                 <button
-                                    (click)="apiService.sendVerificationCode(form.get('email').value)"
+                                    (click)="sendEmailVerificationCode()"
                                     mat-raised-button
                                     color="primary"
-                                    type="button"
-                                >
+                                    type="button">
                                     Re-send code
                                 </button>
                             </ng-container>
