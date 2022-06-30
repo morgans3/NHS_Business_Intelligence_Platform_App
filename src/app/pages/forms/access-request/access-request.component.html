@@ -17,13 +17,12 @@
                                             formControlName="firstname"
                                             placeholder="First name"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
                                     <mat-form-field class="m-b-10">
-                                        <input matInput formControlName="surname" placeholder="Surname" type="text" autocomplete="false" />
+                                        <input matInput formControlName="surname" placeholder="Surname" type="text" />
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex.gt-md="calc(50% - 15px)" fxFlex.gt-xs="100" fxFlex="100">
@@ -33,7 +32,6 @@
                                             formControlName="professional_role"
                                             placeholder="Professional role"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                         <mat-hint>E.g. Clinician/Social Worker/Community Nurse</mat-hint>
                                     </mat-form-field>
@@ -45,7 +43,6 @@
                                             formControlName="professional_number"
                                             placeholder="Professional registration number"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                         <mat-hint>If relevant</mat-hint>
                                     </mat-form-field>
@@ -57,7 +54,6 @@
                                             formControlName="organisation"
                                             placeholder="Employing organisation"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                     </mat-form-field>
                                 </div>
@@ -68,7 +64,6 @@
                                             formControlName="email"
                                             placeholder="Work* email address"
                                             type="email"
-                                            autocomplete="false"
                                         />
                                         <mat-error *ngIf="form?.get('email').errors?.is_personal">
                                             Please make sure to use your <b>work*</b> email address
@@ -83,7 +78,6 @@
                                     formControlName="email"
                                     placeholder="Sponsor email address"
                                     type="email"
-                                    autocomplete="false"
                                 />
                                 <mat-hint>Enter the email for the individual responsible for authorising your account</mat-hint>
                                 <mat-error *ngIf="form?.get('request_sponsor.email').errors?.not_valid">
@@ -120,7 +114,6 @@
                                             formControlName="citizen_council"
                                             placeholder="Citizen local authority/district council"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                         <mat-hint>Enter local authority/district council</mat-hint>
                                     </mat-form-field>
@@ -132,7 +125,6 @@
                                             formControlName="patient_chs"
                                             placeholder="Patient's community health service"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                         <mat-hint>Enter service code</mat-hint>
                                     </mat-form-field>
@@ -144,7 +136,6 @@
                                             formControlName="related_ch"
                                             placeholder="Related community hub"
                                             type="text"
-                                            autocomplete="false"
                                         />
                                     </mat-form-field>
                                 </div>

@@ -31,7 +31,6 @@ export class RequestInterceptor implements HttpInterceptor {
                     if (err instanceof HttpErrorResponse) {
                         // Handle 403 error
                         if (err.status === 403) {
-                            // TODO: change to a redirect to the capability request form page once built
                             this.notificationService
                                 .notify({
                                     status: "warning",

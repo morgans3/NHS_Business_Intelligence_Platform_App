@@ -9,7 +9,6 @@ export const reverseFormat = (data) => {
         }
         return list;
     }, {});
-    console.log(permissions);
 
     // Add children
     data.forEach(item => {
@@ -22,7 +21,7 @@ export const reverseFormat = (data) => {
                 }
             } else {
                 // eslint-disable-next-line eqeqeq
-                const index = permissions[item.parent].meta.children.findIndex((x) => x.id == item.id);
+                const index = permissions[item.parent].meta.children.findIndex((x) => x.id.toString() === item.id.toString());
                 if(index >= 0) {
                     permissions[item.parent].meta.children[index].valuejson.push(item.valuejson);
                 } else {

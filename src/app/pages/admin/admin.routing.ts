@@ -47,10 +47,14 @@ export const AdminRoutes: Routes = [
             {
                 path: "alerts",
                 component: AlertsTableComponent,
+                data: { capabilities: ["Hall Monitor"] },
+                canActivate: [CapabilityGuard]
             },
             {
                 path: "newsfeeds",
                 component: NewsfeedsTableComponent,
+                data: { capabilities: ["Hall Monitor"] },
+                canActivate: [CapabilityGuard]
             },
             {
                 path: "dashboards",

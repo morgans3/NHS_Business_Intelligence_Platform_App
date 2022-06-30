@@ -19,7 +19,6 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
     currentProfile: iFullUser;
     @Input() set user(user: iFullUser) {
         this.currentProfile = user;
-        this.getInstallations();
     }
     @Output() formUpdated = new EventEmitter<boolean>();
 
@@ -103,46 +102,6 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
         });
     }
 
-    getInstallations() {
-        // TODO: get installations
-        // if (this.installbroker.getAllInstallations.length === 0) this.installbroker.buildUserData();
-        // this.myInstallations = this.installbroker.getAllInstallations();
-        // this.installbroker.createDisplayLists("user", (err: any, res: any) => {
-        //   this.displayLists = res;
-        // });
-    }
-
-    install(event: any, type: string) {
-        // TODO: install
-        // this.installbroker.addInstallation(
-        //   event.name,
-        //   type.toLowerCase(),
-        //   (err: any, res: iInstallation[]) => {
-        //     if (err) this.notificationService.warning(err);
-        //     else {
-        //       this.notificationService.success("Installed");
-        //     }
-        //     this.getInstallations();
-        //   },
-        //   this.currentProfile.username
-        // );
-    }
-
-    remove(event: any, type: string) {
-        const install = this.myInstallations.find((x) => x.app_name === event.name);
-        if (install) {
-            // TODO: remove
-            // this.installbroker.removeInstallationFromAList(install, (err: any, res: iInstallation[]) => {
-            //   this.getInstallations();
-            //   if (err) this.notificationService.warning(err);
-            //   else {
-            //     this.notificationService.success("Request Updated");
-            //     this.getInstallations();
-            //   }
-            // });
-        }
-    }
-
     onSubmit() {
         if (this.currentProfile && this.currentProfile.id) {
             const updatedProfile: iFullUser = {
@@ -184,11 +143,5 @@ export class ProfileDetailsComponent implements OnInit, AfterViewInit {
                 }
             });
         }
-    }
-
-    requestAccess() {
-        // TODO: redirect to request access page
-        // this.router.navigateByUrl("/RequestAccess");
-        this.notificationService.info("Function needs to be updated once request form completed");
     }
 }
