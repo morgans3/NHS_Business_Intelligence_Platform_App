@@ -12,9 +12,9 @@ import { reverseFormat, getChanges } from "./utils";
 })
 export class ProfileAccessComponent implements OnInit {
 
-    userId = "";
     loading = true;
     type = "roles";
+    iuser: { id: string; email: string; }
     original = { capabilities: [], roles: [] }
     updated = new FormGroup({
         capabilities: new FormControl([]),
@@ -22,7 +22,10 @@ export class ProfileAccessComponent implements OnInit {
     });
 
     @Input() set user(user: iFullUser) {
-        this.userId = `${user.username}#${user.organisation}`;
+        this.iuser = {
+            id: `${user.username}#${user.organisation}`,
+            email: user.email
+        };
     }
 
     constructor(
@@ -33,14 +36,14 @@ export class ProfileAccessComponent implements OnInit {
 
     ngOnInit() {
         // Get existing capabilities
-        this.apiService.getCapabilitiesByTypeId("user", this.userId).subscribe((data: Array<any>) => {
+        this.apiService.getCapabilitiesByTypeId("user", this.iuser.id).subscribe((data: Array<any>) => {
             // Set values
             this.original.capabilities = reverseFormat(data || []);
             this.updated.get("capabilities").setValue(JSON.parse(JSON.stringify(this.original.capabilities)));
         });
 
         // Get existing roles
-        this.apiService.getRolesByTypeId("user", this.userId).subscribe((data: Array<any>) => {
+        this.apiService.getRolesByTypeId("user", this.iuser.id).subscribe((data: Array<any>) => {
             this.original.roles = reverseFormat(data || []);
             this.updated.get("roles").setValue(JSON.parse(JSON.stringify(this.original.roles)));
             this.loading = false;
@@ -90,16 +93,18 @@ export class ProfileAccessComponent implements OnInit {
 
         // Handle deleted
         for(const capability of changed.roles.deleted) {
-            await this.apiService.deleteRolesLink(capability.id, this.userId, "user").toPromise();
+            await this.apiService.deleteRolesLink(capability.id, this.iuser.id, "user").toPromise();
         }
         for(const capability of changed.capabilities.deleted) {
-            await this.apiService.deleteCapabilitiesLink(capability.id, this.userId, "user").toPromise();
+            await this.apiService.deleteCapabilitiesLink(capability.id, this.iuser.id, "user").toPromise();
         }
 
         // Check for changes
         if(changed.roles.edited.length > 0 || changed.capabilities.edited.length > 0) {
             this.apiService.sendPermissionsRequest({
-                user_id: this.userId,
+                type: "user",
+                type_id: this.iuser.id,
+                user: this.iuser,
                 roles: changed.roles.edited || [],
                 capabilities: changed.capabilities.edited || [],
                 date: new Date().toISOString()
