@@ -34,7 +34,7 @@ export class RequestInterceptor implements HttpInterceptor {
                             this.notificationService
                                 .notify({
                                     status: "warning",
-                                    message: "You do not have the required capabilities to access this page.",
+                                    message: "You do not have the required permissions to access this page.",
                                     actions: [
                                         { id: "close", name: "Close" },
                                         { id: "request", name: "Request Permission" },

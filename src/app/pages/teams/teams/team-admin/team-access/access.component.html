@@ -1,0 +1,28 @@
+<mat-card-title class="m-t-20">Team access</mat-card-title>
+<p>You can review your team's access levels and request access to more datasets below...</p>
+
+<mat-chip-list style="width: fit-content; display: block;">
+    <mat-chip (click)="type = 'roles'" [selected]="type == 'roles' ? true : null">Roles</mat-chip>
+    <mat-chip (click)="type = 'capabilities'" [selected]="type == 'capabilities' ? true : null" selected>Capabilities</mat-chip>
+</mat-chip-list>
+
+<form [formGroup]="updated" (ngSubmit)="submit()">
+    <capabilities-select *ngIf="type == 'capabilities'" formControlName="capabilities" (initialised)="autoSelectPermissions($event)"></capabilities-select>
+    <roles-select *ngIf="type == 'roles'" formControlName="roles"></roles-select>  
+    <button *ngIf="updated.dirty" class="m-t-20" mat-raised-button color="primary">Update access</button>  
+</form>
+
+<div *ngIf="loading" class="overlay">
+    <div class="overlay-text">Running Model...</div>
+    <div id="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="loading"></div>
+    </div>
+</div>
