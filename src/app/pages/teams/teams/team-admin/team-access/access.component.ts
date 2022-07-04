@@ -1,49 +1,52 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { APIService, iFullUser } from "diu-component-library";
+import { APIService, iFullUser, iTeam, iUserDetails } from "diu-component-library";
 import { CapabilitiesSelectComponent } from "src/app/shared/components/capabilities-select/capabilities-select.component";
-import { NotificationService } from "../../../_services/notification.service";
-import { reverseFormat, getChanges } from "./utils";
+import { NotificationService } from "../../../../../_services/notification.service";
+import { reverseFormat, getChanges } from "../../../../profile/access/utils";
+import { decodeToken } from "src/app/_pipes/functions";
+import { AuthState } from "src/app/_states/auth.state";
+import { Store } from "@ngxs/store";
 
 @Component({
-    selector: "app-profile-access-tab",
+    selector: "app-team-access",
     templateUrl: "./access.component.html",
 })
-export class ProfileAccessComponent implements OnInit {
+export class TeamAccessComponent implements OnInit {
 
     loading = true;
     type = "roles";
-    iuser: { id: string; email: string; }
+    user: iFullUser;
     original = { capabilities: [], roles: [] }
     updated = new FormGroup({
         capabilities: new FormControl([]),
         roles: new FormControl([])
     });
 
-    @Input() set user(user: iFullUser) {
-        this.iuser = {
-            id: `${user.username}#${user.organisation}`,
-            email: user.email
-        };
-    }
+    @Input() team: iTeam;
 
     constructor(
+        private store: Store,
         private apiService: APIService,
         private activatedRoute: ActivatedRoute,
         private notificationService: NotificationService
     ) {}
 
     ngOnInit() {
+        // Decode user token
+        const jwtToken = this.store.selectSnapshot(AuthState.getToken);
+        this.user = decodeToken(jwtToken) as iFullUser;
+
         // Get existing capabilities
-        this.apiService.getCapabilitiesByTypeId("user", this.iuser.id).subscribe((data: Array<any>) => {
+        this.apiService.getCapabilitiesByTypeId("team", this.team.code).subscribe((data: Array<any>) => {
             // Set values
             this.original.capabilities = reverseFormat(data || []);
             this.updated.get("capabilities").setValue(JSON.parse(JSON.stringify(this.original.capabilities)));
         });
 
         // Get existing roles
-        this.apiService.getRolesByTypeId("user", this.iuser.id).subscribe((data: Array<any>) => {
+        this.apiService.getRolesByTypeId("team", this.team.code).subscribe((data: Array<any>) => {
             this.original.roles = reverseFormat(data || []);
             this.updated.get("roles").setValue(JSON.parse(JSON.stringify(this.original.roles)));
             this.loading = false;
@@ -100,18 +103,21 @@ export class ProfileAccessComponent implements OnInit {
 
         // Handle deleted
         for(const capability of changed.roles.deleted) {
-            await this.apiService.deleteRolesLink(capability.id, this.iuser.id, "user").toPromise();
+            await this.apiService.deleteRolesLink(capability.id, this.team.code, "team").toPromise();
         }
         for(const capability of changed.capabilities.deleted) {
-            await this.apiService.deleteCapabilitiesLink(capability.id, this.iuser.id, "user").toPromise();
+            await this.apiService.deleteCapabilitiesLink(capability.id, this.team.code, "team").toPromise();
         }
 
         // Check for changes
         if(changed.roles.edited.length > 0 || changed.capabilities.edited.length > 0) {
             this.apiService.sendPermissionsRequest({
-                type: "user",
-                type_id: this.iuser.id,
-                user: this.iuser,
+                type: "team",
+                type_id: this.team.code,
+                user: {
+                    id: `${this.user.username}#${this.user.organisation}`,
+                    email: this.user.email
+                },
                 roles: changed.roles.edited || [],
                 capabilities: changed.capabilities.edited || [],
                 date: new Date().toISOString()

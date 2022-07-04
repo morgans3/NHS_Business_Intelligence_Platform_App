@@ -86,7 +86,7 @@ export class TeamsComponent implements OnInit {
     }
 
     checkAdmin(admins: string[], username: string) {
-        admins.includes(username) ? (this.isAdmin = true) : (this.isAdmin = false);
+        this.isAdmin= admins.includes(username) ? true : false;
     }
 
     changeTeamWithName(teamname: string) {

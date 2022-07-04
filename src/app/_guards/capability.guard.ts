@@ -11,7 +11,11 @@ import { Store } from "@ngxs/store";
     providedIn: "root",
 })
 export class CapabilityGuard implements CanActivate {
-    constructor(private store: Store, private apiService: APIService, private notificationService: NotificationService) {}
+    constructor(
+        private store: Store,
+        private apiService: APIService,
+        private notificationService: NotificationService
+    ) {}
 
     selectedUser;
     get user() {
@@ -40,7 +44,28 @@ export class CapabilityGuard implements CanActivate {
             });
         });
 
-        if (!userAuthorised) this.notificationService.error("You're unauthorised to access this page!");
+        if (!userAuthorised) {
+            this.notificationService
+                .notify({
+                    status: "warning",
+                    message: "You do not have the required permissions to access this page.",
+                    actions: [
+                        { id: "close", name: "Close" },
+                        { id: "request", name: "Request Permission" },
+                    ],
+                })
+                .then((snackbar) => {
+                    snackbar.instance.dismissed.subscribe((action) => {
+                        // Check action
+                        if (action === "request") {
+                            window.open(
+                                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                                `${window.location.origin}/profile/access?capabilities=${route.data["capabilities"].join(",")}`
+                            );
+                        }
+                    });
+                });
+        }
 
         return userAuthorised;
     }

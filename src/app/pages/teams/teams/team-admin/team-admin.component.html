@@ -1,41 +1,23 @@
-<mat-card-content>
-    <mat-card-title>Administrator Functions</mat-card-title>
+<mat-card-title class="m-t-20">Team details</mat-card-title>
+<form [formGroup]="teamUpdateForm" (ngSubmit)="update()" style="width: 100%">
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input formControlName="name" matInput />
+    </mat-form-field>
 
-    <div class="row wrap">
-        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-            <display-applications
-                *ngFor="let list of displayLists"
-                [applicationData]="list.data"
-                [applicationTitle]="list.title"
-                (removeAppData)="remove($event, list.title)"
-                (requestAppData)="install($event, list.title)"
-            ></display-applications>
-        </div>
-    </div>
-</mat-card-content>
-<mat-card-content>
-    <mat-card-title>Team Roles</mat-card-title>
-    <mat-list>
-        <mat-list-item *ngFor="let role of roles">
-            <h4 mat-line>
-                <strong>{{ role.name.split("_").join(" ") }}</strong
-                >: {{ role.status }}
-            </h4>
-            <span style="float: right; display: inline-flex">
-                <button
-                    mat-icon-button
-                    type="button"
-                    color="warn"
-                    title="Remove Role"
-                    class="margin-left-right"
-                    (click)="removeTeamRole(role)"
-                >
-                    <mat-icon>remove_circle</mat-icon>
-                </button>
-            </span>
-        </mat-list-item>
-    </mat-list>
-    <p *ngIf="!roles || roles.length === 0" style="padding-left: 20px">No Roles to Administer</p>
+    <mat-form-field>
+        <mat-label>Organisation code</mat-label>
+        <input formControlName="organisationcode" matInput />
+    </mat-form-field>
+     
+    <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea formControlName="description" matInput placeholder="Describe what the team does..."></textarea>
+    </mat-form-field>
 
-    <app-rolecapabilitylist [teamcode]="selectedTeam.code"></app-rolecapabilitylist>
-</mat-card-content>
+    <button mat-raised-button color="primary">Update</button>
+</form>
+
+<mat-divider style="position: relative;" class="m-t-20"></mat-divider>
+
+<app-team-access [team]="team"></app-team-access>
