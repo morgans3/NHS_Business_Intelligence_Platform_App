@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { APIService, iFullUser, iTeam, iUserDetails } from "diu-component-library";
+import { APIService, iFullUser, iTeam } from "diu-component-library";
 import { CapabilitiesSelectComponent } from "src/app/shared/components/capabilities-select/capabilities-select.component";
 import { NotificationService } from "../../../../../_services/notification.service";
 import { reverseFormat, getChanges } from "../../../../profile/access/utils";

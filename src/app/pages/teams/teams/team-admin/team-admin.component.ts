@@ -28,7 +28,7 @@ export class TeamAdminComponent implements OnInit, OnChanges {
 
     ngOnInit() {}
 
-    ngOnChanges(changes: SimpleChanges): void {
+    ngOnChanges(): void {
         this.teamUpdateForm.patchValue(this.team);
     }
 

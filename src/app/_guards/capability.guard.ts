@@ -58,10 +58,8 @@ export class CapabilityGuard implements CanActivate {
                     snackbar.instance.dismissed.subscribe((action) => {
                         // Check action
                         if (action === "request") {
-                            window.open(
-                                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                                `${window.location.origin}/profile/access?capabilities=${route.data["capabilities"].join(",")}`
-                            );
+                            const capabilityList: string = route.data["capabilities"].join(",");
+                            window.open(`${window.location.origin}/profile/access?capabilities=${capabilityList}`);
                         }
                     });
                 });
