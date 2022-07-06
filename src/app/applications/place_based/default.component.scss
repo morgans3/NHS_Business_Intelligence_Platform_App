@@ -1,0 +1,62 @@
+.pbi-layout {
+    min-height: 100vh;
+    background: #fff;
+    box-shadow: 0px 0px 15px #333;
+    .logo {
+        background: #27205d;
+        padding: 30px 15px;
+        width: 100%;
+        text-align: center;
+    }
+    .pbi-sidebar {
+        box-shadow: 0px 0px 20px rgb(0 0 0 / 8%);
+        overflow-y: auto;
+        max-height: 100vh;
+        .fixed {
+            position: sticky;
+            background: #eef5f9;
+            padding: 15px 15px 0px 15px;
+            top: 0;
+        }
+        mat-form-field {
+            ::ng-deep {
+                .mat-form-field-infix {
+                    padding: 0.5rem !important;
+                }
+                .mat-form-field-wrapper {
+                    padding-bottom: 0 !important;
+                }
+                .mat-form-field-label-wrapper {
+                    top: -1.275em;
+                }
+            }
+        }
+    }
+    .pbi-main {
+        padding: 0px 30px;
+    }
+    button.settings {
+        position: fixed;
+        bottom: 15px;
+        left: 15px;
+        ::ng-deep .mat-button-wrapper {
+            line-height: 10px;
+        }
+    }
+}
+.map-container {
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px rgb(0 0 0 / 15%);
+    overflow: hidden;
+    height: 80vh;
+    .map {
+        width: 100%;
+        height: 100%;
+    }
+    ::ng-deep {
+        .leaflet-div-icon {
+            border: none;
+            background: transparent !important;
+        }
+    }
+}

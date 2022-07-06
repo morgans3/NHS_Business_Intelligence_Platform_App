@@ -10,10 +10,7 @@ import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { MappingComponent } from "./mapping/mapping.component";
 import { WorksheetComponent } from "./mapping/worksheet/worksheet.component";
 import { MaterialModule } from "diu-component-library";
-import { MainPipe } from "../../_pipes/main-pipe.module";
-import { HomepanelComponent } from "./mapping/panels/homepanel/homepanel.component";
 import { MapdatasetsComponent } from "./mapping/panels/mapdatasets/mapdatasets.component";
-import { MapsettingsComponent } from "./mapping/panels/mapsettings/mapsettings.component";
 import { MapfiltersComponent } from "./mapping/panels/mapfilters/mapfilters.component";
 import { SavedviewsComponent } from "./mapping/panels/savedviews/savedviews.component";
 import { MarkeroptionsComponent } from "./mapping/panels/mapfilters/markeroptions/markeroptions.component";
@@ -30,7 +27,6 @@ import { IncidentLegendComponent } from "./incidentLegend/incidentLegend.compone
         MaterialModule,
         DemoMaterialModule,
         FlexLayoutModule,
-        MainPipe,
         LeafletModule,
         LeafletDrawModule,
         SharedModule,
@@ -38,9 +34,7 @@ import { IncidentLegendComponent } from "./incidentLegend/incidentLegend.compone
     declarations: [
         MappingComponent,
         WorksheetComponent,
-        HomepanelComponent,
         MapdatasetsComponent,
-        MapsettingsComponent,
         MapfiltersComponent,
         SavedviewsComponent,
         MarkeroptionsComponent,

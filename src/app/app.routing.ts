@@ -50,7 +50,7 @@ export const AppRoutes: Routes = [
                 path: "mapping",
                 component: FullmapComponent,
                 data: { layout_config: { id: "Place_Based_Intelligence" } },
-                loadChildren: () => import("./applications/place_based/mapping.module").then((m) => m.MappingModule),
+                loadChildren: () => import("./applications/place_based/default.module").then((m) => m.DefaultModule),
             },
             {
                 path: "covid19",

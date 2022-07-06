@@ -1,0 +1,67 @@
+<div fxLayout="row wrap" class="pbi-layout">
+    <div class="pbi-sidebar" fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+        <div class="logo">
+            <img src="assets/images/nexusgen_crop.png" alt="Nexus Intelligence" width="230px" />
+        </div>
+
+        <div style="position: relative;">
+            <div class="fixed">
+                <div fxLayout="row wrap" fxLayoutAlign="center center" class="m-b-20">
+                    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+                        <button mat-raised-button color="primary">
+                            <mat-icon>apps</mat-icon> All apps
+                        </button>
+                    </div>
+                    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Map</mat-label>
+                            <mat-select (selectionChange)="selectMap($event.value);" [ngModel]="selectedMapIndex">
+                                <mat-option *ngFor="let map of mapService.maps; let i = index;" [value]="i">Map {{ i + 1 }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <nav mat-tab-nav-bar>
+                    <a mat-tab-link routerLink="/apps/mapping/">About</a>
+                    <a mat-tab-link routerLink="/apps/mapping/datasets">Datasets</a>
+                    <a mat-tab-link>Map</a>
+                    <a mat-tab-link>Filter</a>
+                    <a mat-tab-link>Saved views</a>
+                </nav>    
+            </div>
+            
+            <div style="margin: 15px 15px 0px 15px;padding-bottom: 100px;">
+                <router-outlet></router-outlet>
+            </div>
+            
+            <button class="settings" mat-mini-fab routerLink="/apps/mapping/settings" color="primary">
+                <mat-icon>settings</mat-icon>
+            </button>
+        </div>
+        
+    </div>
+    <div class="pbi-main" fxFlex.gt-sm="75" fxFlex.gt-xs="100" fxFlex="100">
+        <div fxLayout="row wrap" class="m-t-30">
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+
+            </div>
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="text-right">
+                <button (click)="showMap2 = !showMap2" mat-mini-fab>
+                    <mat-icon *ngIf="showMap2 == true">image</mat-icon>
+                    <mat-icon *ngIf="showMap2 == false" style="transform: rotate(-90deg)">broken_image</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap" fxLayoutGap="30px" class="m-t-30" style="margin-right: -50px;">
+            <div class="map-container" fxFlex>
+                <div #map1></div>
+            </div>
+            <div *ngIf="showMap2" class="map-container" fxFlex="50">
+                <div #map2></div>
+            </div>
+            <mat-icon id="map-resizer">drag_indicator</mat-icon>
+        </div>
+    </div>
+</div>

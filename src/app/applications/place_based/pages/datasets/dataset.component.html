@@ -1,0 +1,22 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center">
+    <div fxFlex="60">
+        <mat-form-field>
+            <input matInput placeholder="Search dataset by name" type="text" />
+        </mat-form-field>
+    </div>
+    <div fxFlex="40" class="text-right">
+        <label class="mat-raised-button mat-primary">
+            <span class="mat-button-wrapper">
+                Upload File
+                <input id="file_input_file" (change)="uploadDatasetFile($event)" accept=".xlsx"
+                    type="file" style="display: none" multiple="false"/>
+            </span>
+        </label>
+    </div>
+</div>
+
+<mat-selection-list (selectionChange)="select($event)" [ngModel]="selected">
+    <mat-list-option *ngFor="let dataset of datasets" [value]="dataset.id">
+        {{ dataset.title }}
+    </mat-list-option>
+</mat-selection-list>

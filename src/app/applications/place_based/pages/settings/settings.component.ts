@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { NotificationService } from "../../../../../_services/notification.service";
-import { tilelayerOptions } from "../../tilelayeroptions";
+import { NotificationService } from "../../../../_services/notification.service";
+import { tilelayerOptions } from "../../_archived/mapping/tilelayeroptions";
 import * as L from "leaflet";
-import { PostcodeService } from "../../../../../_services/postcodes.service";
+import { PostcodeService } from "../../../../_services/postcodes.service";
 
 @Component({
-    selector: "app-mapsettings",
-    templateUrl: "./mapsettings.component.html",
+    selector: "app-pbi-settings",
+    templateUrl: "./settings.component.html",
 })
-export class MapsettingsComponent implements OnInit, OnChanges {
+export class SettingsComponent implements OnInit, OnChanges {
     @Input() mapreference: any;
     postcode = new FormControl(null, null);
     latitude = new FormControl(null, null);
