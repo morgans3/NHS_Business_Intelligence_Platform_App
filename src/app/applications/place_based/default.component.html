@@ -8,7 +8,7 @@
             <div class="fixed">
                 <div fxLayout="row wrap" fxLayoutAlign="center center" class="m-b-20">
                     <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
-                        <button mat-raised-button color="primary">
+                        <button routerLink="/apps" mat-raised-button color="primary">
                             <mat-icon>apps</mat-icon> All apps
                         </button>
                     </div>
@@ -43,8 +43,11 @@
     </div>
     <div class="pbi-main" fxFlex.gt-sm="75" fxFlex.gt-xs="100" fxFlex="100">
         <div fxLayout="row wrap" class="m-t-30">
-            <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
-
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="legend">
+                <div *ngFor="let layer of mapService.maps[selectedMapIndex]?.layers; let i = index;" class="item">
+                    <img src="/assets/images/marker-icon-2x-{{layer.color}}.png"> 
+                    <p>{{ layer.title }}</p>
+                </div>
             </div>
             <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="text-right">
                 <button (click)="showMap2 = !showMap2" mat-mini-fab>

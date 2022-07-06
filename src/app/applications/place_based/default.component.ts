@@ -31,7 +31,6 @@ export class DefaultComponent implements OnInit {
         // Listen for selected map change
         this.mapService.selectedMapIndex.subscribe((index) => {
             this.selectedMapIndex = index;
-            console.log(index);
         })
     }
 
