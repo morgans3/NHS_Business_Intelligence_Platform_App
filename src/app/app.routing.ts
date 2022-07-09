@@ -53,22 +53,10 @@ export const AppRoutes: Routes = [
                 loadChildren: () => import("./applications/place_based/mapping.module").then((m) => m.MappingModule),
             },
             {
-                path: "covid19",
+                path: "phm",
                 component: FullComponent,
-                data: { layout_config: { id: "Covid19_Information" } },
-                loadChildren: () => import("./applications/covid_intelligence/default/default.module").then((m) => m.DefaultModule),
-            },
-            {
-                path: "covid19-shielding",
-                component: FullComponent,
-                data: { layout_config: { id: "Covid19_Information" } },
-                loadChildren: () => import("./applications/covid_shielding/default.module").then((m) => m.DefaultModule),
-            },
-            {
-                path: "covid19-caseloads",
-                component: FullComponent,
-                data: { layout_config: { id: "Covid19_Information" } },
-                loadChildren: () => import("./applications/covid_caseloads/default.module").then((m) => m.DefaultModule),
+                data: { layout_config: { id: "Population_Health_Management" } },
+                loadChildren: () => import("./applications/phm/default/default.module").then((m) => m.DefaultModule),
             },
             {
                 path: "population-health",
