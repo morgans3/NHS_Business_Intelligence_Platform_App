@@ -1,15 +1,5 @@
-<div
-    joyrideStep="phi0"
-    stepPosition="center"
-    title="Population Health"
-    text="Population Health Intelligence provides an application for you to review your organisation's population and identify patient cohorts for providing targetted interventions for better health outcomes."
->
-    <div
-        fxLayout="row wrap"
-        joyrideStep="phi1"
-        title="Population Stats"
-        text="Here you can find aggregated totals for your whole population, selected population and any custom population you have set."
-    >
+<div>
+    <div fxLayout="row wrap">
         <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
             <app-statcard [data]="icpPopulation"></app-statcard>
         </div>
@@ -29,35 +19,27 @@
             <mat-card>
                 <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
                     <div id="icp-select" class="nexusselect"></div>
-                    <button mat-icon-button color="warn" (click)="redrawCharts(icpSelect, 'ICPDimension')" title="Reset">
+                    <button mat-icon-button color="warn" (click)="redrawCharts(icpSelect, 'ICPDimension')" matTooltip="Reset">
                         <mat-icon>indeterminate_check_box</mat-icon>
                     </button>
                 </mat-card-content>
             </mat-card>
         </div>
         <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
-            <mat-card
-                joyrideStep="phi2"
-                title="Filter by CCG"
-                text="The dropdown selection here will allow you to filter the selected population by the person's CCG."
-            >
+            <mat-card>
                 <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
                     <div id="ccg-select" class="nexusselect"></div>
-                    <button mat-icon-button color="warn" (click)="redrawCharts(ccgSelect, 'CCGDimension')" title="Reset">
+                    <button mat-icon-button color="warn" (click)="redrawCharts(ccgSelect, 'CCGDimension')" matTooltip="Reset">
                         <mat-icon>indeterminate_check_box</mat-icon>
                     </button>
                 </mat-card-content>
             </mat-card>
         </div>
         <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
-            <mat-card
-                joyrideStep="phi3"
-                title="Filter by Neighbourhood"
-                text="The dropdown selection here will allow you to filter the selected population by the person's Neighbourhood."
-            >
+            <mat-card>
                 <mat-card-content class="slimCard" style="min-height: 66px" fxLayoutAlign="center center">
                     <div id="neighbourhood-select" class="nexusselect"></div>
-                    <button mat-icon-button color="warn" (click)="redrawCharts(neighbourhoodSelect, 'LDimension')" title="Reset">
+                    <button mat-icon-button color="warn" (click)="redrawCharts(neighbourhoodSelect, 'LDimension')" matTooltip="Reset">
                         <mat-icon>indeterminate_check_box</mat-icon>
                     </button>
                 </mat-card-content>
@@ -67,15 +49,7 @@
             <mat-card>
                 <mat-card-content class="slimCard" fxLayoutAlign="space-around center">
                     <div fxLayoutAlign="center center" style="height: 66px">
-                        <button
-                            type="button"
-                            mat-raised-button
-                            style="width: 100%"
-                            [class.bg-danger]="customBaseline"
-                            joyrideStep="phi4"
-                            title="Custom Population"
-                            text="Using the button here, you can set the current selection as a Custom Population."
-                        >
+                        <button type="button" mat-raised-button style="width: 100%" [class.bg-danger]="customBaseline">
                             <span
                                 *ngIf="!customBaseline"
                                 (click)="customBaseline = selectedPopulation; myDC.redrawAll(); gpChart.redraw(); ewChart.redraw()"
@@ -90,25 +64,10 @@
                     </div>
 
                     <div class="forceColumn" fxLayoutAlign="center center" style="height: 66px">
-                        <button
-                            type="button"
-                            mat-raised-button
-                            style="min-width: 50px"
-                            color="warn"
-                            (click)="resetToWholePop()"
-                            joyrideStep="phi8"
-                            title="Reset Current Selections"
-                            text="You can clear any selections by pressing the Reset All button."
-                        >
+                        <button type="button" mat-raised-button style="min-width: 50px" color="warn" (click)="resetToWholePop()">
                             <i class="fas fa-redo-alt"></i>
                         </button>
                         <mat-progress-bar *ngIf="resetBtnPushed" mode="indeterminate" style="margin-top: 10px"> </mat-progress-bar>
-                    </div>
-
-                    <div fxLayoutAlign="center center" style="height: 66px">
-                        <button mat-icon-button color="primary" (click)="showGuide()" title="PHI Guide">
-                            <mat-icon>info</mat-icon>
-                        </button>
                     </div>
                 </mat-card-content>
             </mat-card>
@@ -117,30 +76,28 @@
 
     <div fxLayout="row wrap">
         <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" #ageholder>
-            <mat-card
-                joyrideStep="phi5"
-                title="Charts"
-                text="Each of the data dimensions has an associated chart which displays data based on the current selection. You can filter these by selecting the appropriate region of the corresponding graph."
-            >
+            <mat-card>
                 <mat-card-header>
                     <mat-card-title-group>
                         <mat-card-title style="padding-top: 2px"> Age Chart </mat-card-title>
                     </mat-card-title-group>
                     <div fxFlex></div>
                     <div fxLayoutAlign="center center">
-                        <mat-progress-bar *ngIf="loadFilters['AgeDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
-                        >&nbsp;
                         <mat-chip-list *ngIf="queryFilter['AgeDimension']">
                             <mat-chip color="primary" selected>{{ queryFilter["AgeDimension"].toString().replace(",", " - ") }} </mat-chip>
                         </mat-chip-list>
+
                         <button
                             *ngIf="queryFilter && queryFilter['AgeDimension']"
                             mat-icon-button
                             color="warn"
                             (click)="redrawCharts(ageChart, 'AgeDimension')"
-                            title="Reset"
+                            matTooltip="Reset"
                         >
                             <mat-icon>indeterminate_check_box</mat-icon>
+                        </button>
+                        <button *ngIf="showAgeFilterBtn" mat-stroked-button color="accent" (click)="applyBarChartFilter('ageChart')">
+                            Apply Filter
                         </button>
                         <button mat-icon-button color="accent" (click)="onChartCollapse('ageChart')" title="Collapse">
                             <mat-icon>swap_vertical_circle</mat-icon>
@@ -160,8 +117,6 @@
                     </mat-card-title-group>
                     <div fxFlex></div>
                     <div fxLayoutAlign="center center">
-                        <mat-progress-bar *ngIf="loadFilters['RskDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
-                        >&nbsp;
                         <mat-chip-list *ngIf="queryFilter['RskDimension']">
                             <mat-chip color="primary" selected>{{ queryFilter["RskDimension"].toString().replace(",", " - ") }} </mat-chip>
                         </mat-chip-list>
@@ -170,9 +125,12 @@
                             mat-icon-button
                             color="warn"
                             (click)="redrawCharts(riskChart, 'RskDimension')"
-                            title="Reset"
+                            matTooltip="Reset"
                         >
                             <mat-icon>indeterminate_check_box</mat-icon>
+                        </button>
+                        <button *ngIf="showRiskFilterBtn" mat-stroked-button color="accent" (click)="applyBarChartFilter('riskChart')">
+                            Apply Filter
                         </button>
                         <button mat-icon-button color="accent" (click)="onChartCollapse('riskChart')" title="Collapse">
                             <mat-icon>swap_vertical_circle</mat-icon>
@@ -192,14 +150,12 @@
                     </mat-card-title-group>
                     <div fxFlex></div>
                     <div fxLayoutAlign="center center">
-                        <mat-progress-bar *ngIf="loadFilters['SexDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
-                        >&nbsp;
                         <button
                             *ngIf="queryFilter && queryFilter['SexDimension']"
                             mat-icon-button
                             color="warn"
                             (click)="redrawCharts(sexChart, 'SexDimension')"
-                            title="Reset"
+                            matTooltip="Reset"
                         >
                             <mat-icon>indeterminate_check_box</mat-icon>
                         </button>
@@ -224,9 +180,6 @@
                     </mat-card-title-group>
                     <div fxFlex></div>
                     <div fxLayoutAlign="center center">
-                        <mat-progress-bar *ngIf="loadFilters['MatrixDimension']" mode="indeterminate" style="width: 50px">
-                        </mat-progress-bar
-                        >&nbsp;
                         <mat-chip-list *ngIf="queryFilter['MatrixDimension']">
                             <mat-chip
                                 color="primary"
@@ -241,7 +194,7 @@
                             mat-icon-button
                             color="warn"
                             (click)="redrawCharts(matrixChart, 'MatrixDimension')"
-                            title="Reset"
+                            matTooltip="Reset"
                         >
                             <mat-icon>indeterminate_check_box</mat-icon>
                         </button>
@@ -266,8 +219,6 @@
                     </mat-card-title-group>
                     <div fxFlex></div>
                     <div fxLayoutAlign="center center">
-                        <mat-progress-bar *ngIf="loadFilters['MDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
-                        >&nbsp;
                         <mat-chip-list *ngIf="queryFilter['MDimension']">
                             <mat-chip
                                 color="primary"
@@ -282,7 +233,7 @@
                             mat-icon-button
                             color="warn"
                             (click)="redrawCharts(mosaicChart, 'MDimension')"
-                            title="Reset"
+                            matTooltip="Reset"
                         >
                             <mat-icon>indeterminate_check_box</mat-icon>
                         </button>
@@ -307,8 +258,6 @@
                     </mat-card-title-group>
                     <div fxFlex></div>
                     <div fxLayoutAlign="center center">
-                        <mat-progress-bar *ngIf="loadFilters['LTCs2Dimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
-                        >&nbsp;
                         <mat-chip-list *ngIf="queryFilter['LTCs2Dimension']">
                             <mat-chip
                                 color="primary"
@@ -323,7 +272,7 @@
                             mat-icon-button
                             color="warn"
                             (click)="redrawCharts(ltcChart, 'LTCs2Dimension')"
-                            title="Reset"
+                            matTooltip="Reset"
                         >
                             <mat-icon>indeterminate_check_box</mat-icon>
                         </button>
@@ -354,14 +303,12 @@
                     </mat-card-title-group>
                     <div fxFlex></div>
                     <div fxLayoutAlign="center center">
-                        <mat-progress-bar *ngIf="loadFilters['GPDimension']" mode="indeterminate" style="width: 50px"></mat-progress-bar
-                        >&nbsp;
                         <button
                             *ngIf="queryFilter && queryFilter['GPDimension']"
                             mat-icon-button
                             color="warn"
                             (click)="redrawCharts(gpChart, 'GPDimension')"
-                            title="Reset"
+                            matTooltip="Reset"
                         >
                             <mat-icon>indeterminate_check_box</mat-icon>
                         </button>
@@ -401,14 +348,12 @@
                     </mat-card-title-group>
                     <div fxFlex></div>
                     <div fxLayoutAlign="center center">
-                        <mat-progress-bar *ngIf="loadFilters['WDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
-                        >&nbsp;
                         <button
                             *ngIf="queryFilter && queryFilter['WDimension']"
                             mat-icon-button
                             color="warn"
                             (click)="redrawCharts(ewChart, 'WDimension')"
-                            title="Reset"
+                            matTooltip="Reset"
                         >
                             <mat-icon>indeterminate_check_box</mat-icon>
                         </button>
@@ -434,8 +379,6 @@
                     </mat-card-title-group>
                     <div fxFlex></div>
                     <div fxLayoutAlign="center center">
-                        <mat-progress-bar *ngIf="loadFilters['LCntDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
-                        >&nbsp;
                         <mat-chip-list *ngIf="queryFilter['LCntDimension']">
                             <mat-chip
                                 color="primary"
@@ -450,7 +393,7 @@
                             mat-icon-button
                             color="warn"
                             (click)="redrawCharts(countltcChart, 'LCntDimension')"
-                            title="Reset"
+                            matTooltip="Reset"
                         >
                             <mat-icon>indeterminate_check_box</mat-icon>
                         </button>
@@ -472,9 +415,6 @@
                     </mat-card-title-group>
                     <div fxFlex></div>
                     <div fxLayoutAlign="center center">
-                        <mat-progress-bar *ngIf="loadFilters['Flags2Dimension']" mode="indeterminate" style="width: 50px">
-                        </mat-progress-bar
-                        >&nbsp;
                         <mat-chip-list *ngIf="queryFilter['Flags2Dimension']">
                             <mat-chip
                                 color="primary"
@@ -489,7 +429,7 @@
                             mat-icon-button
                             color="warn"
                             (click)="redrawCharts(flagChart, 'Flags2Dimension')"
-                            title="Reset"
+                            matTooltip="Reset"
                         >
                             <mat-icon>indeterminate_check_box</mat-icon>
                         </button>
@@ -520,8 +460,6 @@
                     </mat-card-title-group>
                     <div fxFlex></div>
                     <div fxLayoutAlign="center center">
-                        <mat-progress-bar *ngIf="loadFilters['DDimension']" mode="indeterminate" style="width: 50px"> </mat-progress-bar
-                        >&nbsp;
                         <mat-chip-list *ngIf="queryFilter['DDimension']">
                             <mat-chip
                                 color="primary"
@@ -536,7 +474,7 @@
                             mat-icon-button
                             color="warn"
                             (click)="redrawCharts(deprivationChart, 'DDimension')"
-                            title="Reset"
+                            matTooltip="Reset"
                         >
                             <mat-icon>indeterminate_check_box</mat-icon>
                         </button>
@@ -551,41 +489,6 @@
             </mat-card>
         </div>
     </div>
-
-    <!-- <div fxLayout="row wrap">
-    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" #countflagholder>
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title style="padding-top: 2px;">
-              Count of Lists
-            </mat-card-title>
-          </mat-card-title-group>
-          <div fxFlex></div>
-          <div fxLayoutAlign="center center">
-            <mat-progress-bar *ngIf="loadFilters['FCntDimension']" mode="indeterminate" style="width:50px">
-            </mat-progress-bar>&nbsp;
-            <mat-chip-list *ngIf="queryFilter['FCntDimension']">
-              <mat-chip color="primary" selected
-                (click)="showRange(queryFilter['FCntDimension'].toString().split(',').join(' , '))">
-                {{shortenText(queryFilter['FCntDimension'].toString().split(',').join(' , '))}}
-              </mat-chip>
-            </mat-chip-list>
-            <button *ngIf="queryFilter && queryFilter['FCntDimension']" mat-icon-button color="warn"
-              (click)="redrawCharts(countflagChart, 'FCntDimension')" title="Reset">
-              <mat-icon>indeterminate_check_box</mat-icon>
-            </button>
-            <button mat-icon-button color="accent" (click)="onChartCollapse('countflagChart')" title="Collapse">
-              <mat-icon>swap_vertical_circle</mat-icon>
-            </button>
-          </div>
-        </mat-card-header>
-        <mat-card-content #countflagChartParent class="chartspace" [@expandCollapse]="countflagChartOpenCloseAnim">
-          <div id="countflagChart"></div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div> -->
 
     <app-covid-cohort-all [cohort]="queryFilter" (changeEvent)="cohortChanged($event)"></app-covid-cohort-all>
 </div>
