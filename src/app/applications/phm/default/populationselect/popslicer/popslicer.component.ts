@@ -21,7 +21,6 @@ import * as d3 from "d3";
 import { Store } from "@ngxs/store";
 import { AuthState } from "../../../../../_states/auth.state";
 import { MatDialog } from "@angular/material/dialog";
-import { JoyrideService } from "ngx-joyride";
 import { NotificationService } from "../../../../../_services/notification.service";
 declare let leafletChoroplethChart: any;
 declare let leafletLegend: any;
@@ -210,6 +209,10 @@ export class PopslicerComponent implements OnInit {
     crossfilterApiUrl: any;
     ewLoading = true;
     gpLoading = true;
+    ageFilterValue: any;
+    riskFilterValue: any;
+    showAgeFilterBtn = false;
+    showRiskFilterBtn = false;
     /* #endregion */
 
     @HostListener("window:resize", ["$event"])
@@ -225,7 +228,6 @@ export class PopslicerComponent implements OnInit {
         private apiService: APIService,
         private modalService: ModalService,
         private populationManagementService: PopulationManagementService,
-        private readonly joyrideService: JoyrideService,
         private notificationService: NotificationService
     ) {
         this.token = this.store.selectSnapshot(AuthState.getToken);
@@ -241,12 +243,14 @@ export class PopslicerComponent implements OnInit {
         this.apiService.getWards().subscribe((data: FeatureCollection[]) => {
             this.wards = data[0];
             this.createEWMap(this.WDimension, this.WDimGroup);
-            this.ewChart.render();
+            // TODO: FIX leaflet maps not drawing
+            // this.ewChart.render();
         });
         this.apiService.getGPPractices().subscribe((data: any[]) => {
             this.GPs = data[0];
             this.createGPMap(this.GPDimension, this.GPDimGroup);
-            this.gpChart.render();
+            // TODO: FIX leaflet maps not drawing
+            // this.gpChart.render();
         });
         this.keyToolTip = d3.select("mat-sidenav-content").append("div").attr("class", "tooltip").style("opacity", 0);
         this.matrixToolTip = d3.select("mat-sidenav-content").append("div").attr("class", "tooltip").style("opacity", 0);
@@ -585,6 +589,7 @@ export class PopslicerComponent implements OnInit {
     }
 
     resetToWholePop() {
+        this.loading = true;
         this.resetBtnPushed = true;
         this.queryFilter = {};
         const header = [["Authorization", "JWT " + this.store.selectSnapshot(AuthState.getToken)]];
@@ -731,9 +736,34 @@ export class PopslicerComponent implements OnInit {
         }
     }
 
+    changeBarFilter(chartName: string, dim, filters) {
+        if (chartName === "ageChart") {
+            this.ageFilterValue = filters;
+            this.showAgeFilterBtn = true;
+        } else {
+            this.riskFilterValue = filters;
+            this.showRiskFilterBtn = true;
+        }
+    }
+
+    applyBarChartFilter(chartName: string) {
+        if (chartName === "ageChart") {
+            this.AgeDimension.filter(this.ageFilterValue);
+            this.showAgeFilterBtn = false;
+            this.loading = true;
+            this.refresh(this.queryFilter);
+        } else {
+            this.RskDimension.filter(this.riskFilterValue);
+            this.showRiskFilterBtn = false;
+            this.loading = true;
+            this.refresh(this.queryFilter);
+        }
+    }
+
     async redrawCharts(chart: any, dimName: string) {
         chart.filterAll();
         this.getDimensionFromName(dimName).filter(null);
+        this.loading = true;
         await this.refresh(this.queryFilter);
     }
 
@@ -1747,14 +1777,18 @@ export class PopslicerComponent implements OnInit {
         if (details.rowOrdering) {
             chart.rowOrdering(details.rowOrdering);
         }
-        chart.filterHandler((dim, filters) => this.filterHandled(dim, filters));
-        chart.commitHandler(async () => {
-            this.loading = true;
-            await this.refresh(this.queryFilter);
-        });
+        if (details.name === "ageChart" || details.name === "riskChart") {
+            chart.filterHandler((dim, filters) => this.changeBarFilter(details.name, dim, filters));
+        } else {
+            chart.filterHandler((dim, filters) => this.filterHandled(dim, filters));
+            chart.commitHandler(async () => {
+                this.loading = true;
+                await this.refresh(this.queryFilter);
+            });
+        }
     }
 
-    tiphtml(d, mosaic) {
+    tiphtml(d: string, mosaic) {
         const usedMosaicType = d;
         let output = "";
         output = "	<div id='mosaicToolTip' class='container d3-tip mosaic-" + usedMosaicType.substr(0, 1) + "'>";
@@ -1773,7 +1807,7 @@ export class PopslicerComponent implements OnInit {
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
         output += "		<div fxFlex.gt-sm='100' fxFlex.gt-xs='100' fxFlex='100'>";
-        output += `<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_' + usedMosaicType + '.jpg">`;
+        output += `<img alt="image" class="img-container" src="assets/images/mosaic/mosaic_${usedMosaicType}.jpg">`;
         output += "			</div>";
         output += "		</div>";
         output += "			<div fxLayout='row wrap'>";
@@ -1971,10 +2005,4 @@ export class PopslicerComponent implements OnInit {
         return text;
     }
     /* #endregion */
-
-    showGuide() {
-        this.joyrideService.startTour({
-            steps: ["cvi0", "cvi1", "cvi2", "cvi3", "cvi4", "cvi5", "cvi6", "cvi7", "cvi8"],
-        });
-    }
 }

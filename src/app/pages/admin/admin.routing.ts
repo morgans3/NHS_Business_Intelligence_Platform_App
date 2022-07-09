@@ -17,81 +17,82 @@ export const AdminRoutes: Routes = [
             {
                 path: "users",
                 loadChildren: () => import("./users/user.module").then((m) => m.UsersAdminModule),
-                data: { capabilities: ["Inspection"] },
-                canActivate: [CapabilityGuard]
+                // data: { capabilities: ["Inspection"] },
+                // canActivate: [CapabilityGuard],
+                // TODO: If this is enabled navigation has a bug for Admins with Hall Monitor only, needs review
             },
             {
                 path: "requests",
                 component: RequestsTableComponent,
                 data: { awsTrackable: true, capabilities: ["Hall Monitor"] },
-                canActivate: [CapabilityGuard]
+                canActivate: [CapabilityGuard],
             },
             {
                 path: "requests/:id",
                 component: RequestComponent,
                 data: { capabilities: ["Hall Monitor"] },
-                canActivate: [CapabilityGuard]
+                canActivate: [CapabilityGuard],
             },
             {
                 path: "apps",
                 component: AppsTableComponent,
                 data: { capabilities: ["Hall Monitor"] },
-                canActivate: [CapabilityGuard]
+                canActivate: [CapabilityGuard],
             },
             {
                 path: "organisations",
                 component: OrganisationsTableComponent,
                 data: { capabilities: ["Hall Monitor"] },
-                canActivate: [CapabilityGuard]
+                canActivate: [CapabilityGuard],
             },
             {
                 path: "alerts",
                 component: AlertsTableComponent,
                 data: { capabilities: ["Hall Monitor"] },
-                canActivate: [CapabilityGuard]
+                canActivate: [CapabilityGuard],
             },
             {
                 path: "newsfeeds",
                 component: NewsfeedsTableComponent,
                 data: { capabilities: ["Hall Monitor"] },
-                canActivate: [CapabilityGuard]
+                canActivate: [CapabilityGuard],
             },
             {
                 path: "dashboards",
                 component: DashboardsTableComponent,
                 data: { capabilities: ["Hall Monitor"] },
-                canActivate: [CapabilityGuard]
+                canActivate: [CapabilityGuard],
             },
             {
                 path: "capabilities",
                 loadChildren: () => import("./capabilities/capabilities.module").then((m) => m.CapabilitiesAdminModule),
                 data: { capabilities: ["Hall Monitor"] },
-                canActivate: [CapabilityGuard]
+                canActivate: [CapabilityGuard],
             },
             {
                 path: "roles",
                 loadChildren: () => import("./roles/roles.module").then((m) => m.RolesAdminModule),
                 data: { capabilities: ["Hall Monitor"] },
-                canActivate: [CapabilityGuard]
+                canActivate: [CapabilityGuard],
             },
             {
                 path: "teams",
                 loadChildren: () => import("./teams/team.module").then((m) => m.TeamsAdminModule),
                 data: { capabilities: ["Hall Monitor"] },
-                canActivate: [CapabilityGuard]
+                canActivate: [CapabilityGuard],
             },
             {
                 path: "access-logs",
                 loadChildren: () => import("./access-logs/access-logs.module").then((m) => m.AccessLogsAdminModule),
                 data: { capabilities: ["Inspection"] },
-                canActivate: [CapabilityGuard]
+                canActivate: [CapabilityGuard],
             },
             {
                 path: "**",
                 loadChildren: () => import("../dynamic/dynamic.module").then((m) => m.DynamicPageModule),
                 pathMatch: "full",
                 data: { capabilities: ["Hall Monitor"] },
-                canActivate: [CapabilityGuard]
+                canActivate: [CapabilityGuard],
             },
         ],
     },

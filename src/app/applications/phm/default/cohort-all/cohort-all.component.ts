@@ -2,12 +2,12 @@ import { Component, ViewChild, Input, Output, EventEmitter, OnChanges, AfterView
 import { MatSelectionList, MatSelectionListChange } from "@angular/material/list";
 import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
-import { AuthState } from "../../../../../_states/auth.state";
-import { NotificationService } from "../../../../../_services/notification.service";
+import { AuthState } from "../../../../_states/auth.state";
+import { NotificationService } from "../../../../_services/notification.service";
 import { Router } from "@angular/router";
 import { iTeam, CVICohort, APIService } from "diu-component-library";
-import { ConfirmText, ConfirmTextDialogComponent } from "../../../../../shared/modals/textconfirm/dialogtextconfirm";
-import { decodeToken } from "../../../../../_pipes/functions";
+import { ConfirmText, ConfirmTextDialogComponent } from "../../../../shared/modals/textconfirm/dialogtextconfirm";
+import { decodeToken } from "../../../../_pipes/functions";
 
 @Component({
     selector: "app-covid-cohort-all",
