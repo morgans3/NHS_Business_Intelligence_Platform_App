@@ -1785,6 +1785,10 @@ rect {
 //     flex-direction: row !important;
 // }
 
+.row-mat-list-options .mat-list-item-content .mat-list-text {
+    flex-direction: row !important;
+}
+
 .mat-list-text-icon {
     display: inline-flex;
     width: 40px;

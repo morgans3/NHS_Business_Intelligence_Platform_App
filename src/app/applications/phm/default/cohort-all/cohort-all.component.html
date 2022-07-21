@@ -211,7 +211,7 @@
             </mat-card-header>
             <mat-card-content>
                 <mat-selection-list #cohorts>
-                    <mat-list-option *ngFor="let cohort of allcohorts" [value]="cohort.cohortName">
+                    <mat-list-option class="row-mat-list-options" *ngFor="let cohort of allcohorts" [value]="cohort.cohortName">
                         <span class="mat-list-text-icon" *ngIf="cohort.user === 'Global'">
                             <mat-icon>public</mat-icon>
                         </span>
