@@ -682,6 +682,11 @@ mat-chip {
     z-index: 999;
 }
 
+.static-tooltip {
+    position: fixed !important;
+    z-index: 9999;
+}
+
 .inlinechip div.mat-chip-list-wrapper {
     display: inline-flex !important;
     font-size: 18px;
@@ -1419,6 +1424,7 @@ $transition-base: all 0.2s ease-in-out !default;
 
 .mat-drawer-content {
     overflow: initial !important;
+    z-index: auto !important;
 }
 
 .leaflet-sidebar {
@@ -1502,9 +1508,13 @@ $transition-base: all 0.2s ease-in-out !default;
     margin: -0px;
 }
 
-#mosaicToolTip {
-    position: absolute;
-}
+// #matrixToolTip {
+//     position: fixed;
+// }
+
+// #mosaicToolTip {
+//     position: fixed;
+// }
 
 #mosaicToolTip div.row {
     line-height: 1;
