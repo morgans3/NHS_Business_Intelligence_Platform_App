@@ -582,6 +582,8 @@ export class PopslicerComponent implements OnInit {
                     this.neighbourhoodSelect.redraw();
                     this.loadFilters = {};
                     this.loading = false;
+                    this.showAgeFilterBtn = false;
+                    this.showRiskFilterBtn = false;
                 }
             });
         }
@@ -618,6 +620,8 @@ export class PopslicerComponent implements OnInit {
             this.resetBtnPushed = false;
             this.loadFilters = {};
             this.loading = false;
+            this.showAgeFilterBtn = false;
+            this.showRiskFilterBtn = false;
             setTimeout(() => {
                 if (this.selectedPopulation !== this.totalsize) {
                     this.resetToWholePop();
