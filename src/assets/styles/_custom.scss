@@ -1427,6 +1427,12 @@ $transition-base: all 0.2s ease-in-out !default;
     z-index: auto !important;
 }
 
+.leaflet-container {
+    background: #fff !important;
+    width: 95% !important;
+    height: 85% !important;
+}
+
 .leaflet-sidebar {
     z-index: 500 !important;
 }
