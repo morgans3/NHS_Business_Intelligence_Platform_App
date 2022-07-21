@@ -12,8 +12,8 @@
                 <mat-card-title-group>
                     <mat-card-title style="padding-top: 2px">Cohort Details</mat-card-title>
                 </mat-card-title-group>
-                <div fxFlex></div>
-                <button type="button" mat-raised-button color="primary" (click)="goToPopList()">View selected Population</button>
+                <!-- <div fxFlex></div>
+                <button type="button" mat-raised-button color="primary" (click)="goToPopList()">View selected Population</button> -->
             </mat-card-header>
 
             <mat-card-content *ngIf="cohort">
@@ -211,7 +211,7 @@
             </mat-card-header>
             <mat-card-content>
                 <mat-selection-list #cohorts>
-                    <mat-list-option *ngFor="let cohort of allcohorts" [value]="cohort.cohortName">
+                    <mat-list-option class="row-mat-list-options" *ngFor="let cohort of allcohorts" [value]="cohort.cohortName">
                         <span class="mat-list-text-icon" *ngIf="cohort.user === 'Global'">
                             <mat-icon>public</mat-icon>
                         </span>

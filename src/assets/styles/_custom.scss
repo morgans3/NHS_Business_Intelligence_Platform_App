@@ -682,6 +682,11 @@ mat-chip {
     z-index: 999;
 }
 
+.static-tooltip {
+    position: fixed !important;
+    z-index: 9999;
+}
+
 .inlinechip div.mat-chip-list-wrapper {
     display: inline-flex !important;
     font-size: 18px;
@@ -1419,6 +1424,13 @@ $transition-base: all 0.2s ease-in-out !default;
 
 .mat-drawer-content {
     overflow: initial !important;
+    z-index: auto !important;
+}
+
+.leaflet-container {
+    background: #fff !important;
+    width: 95% !important;
+    height: 85% !important;
 }
 
 .leaflet-sidebar {
@@ -1502,9 +1514,13 @@ $transition-base: all 0.2s ease-in-out !default;
     margin: -0px;
 }
 
-#mosaicToolTip {
-    position: absolute;
-}
+// #matrixToolTip {
+//     position: fixed;
+// }
+
+// #mosaicToolTip {
+//     position: fixed;
+// }
 
 #mosaicToolTip div.row {
     line-height: 1;
@@ -1784,6 +1800,10 @@ rect {
 // .mat-list-text {
 //     flex-direction: row !important;
 // }
+
+.row-mat-list-options .mat-list-item-content .mat-list-text {
+    flex-direction: row !important;
+}
 
 .mat-list-text-icon {
     display: inline-flex;

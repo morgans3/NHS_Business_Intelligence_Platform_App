@@ -252,8 +252,8 @@ export class PopslicerComponent implements OnInit {
             // TODO: FIX leaflet maps not drawing
             // this.gpChart.render();
         });
-        this.keyToolTip = d3.select("mat-sidenav-content").append("div").attr("class", "tooltip").style("opacity", 0);
-        this.matrixToolTip = d3.select("mat-sidenav-content").append("div").attr("class", "tooltip").style("opacity", 0);
+        this.keyToolTip = d3.select("mat-sidenav-content").append("div").attr("class", "static-tooltip").style("opacity", 0);
+        this.matrixToolTip = d3.select("mat-sidenav-content").append("div").attr("class", "static-tooltip").style("opacity", 0);
         this.myDC = dcFull;
         this.populationManagementService.getCFServer().subscribe((res: any) => {
             this.loading = false;
@@ -1220,7 +1220,7 @@ export class PopslicerComponent implements OnInit {
                 .select("svg")
                 .selectAll("rect");
             graph
-                .on("mouseover.something", (data, index, ar) => this.mosaicMouseEnter(data, index, ar))
+                .on("mouseover.something", (data) => this.mosaicMouseEnter(data))
                 .on("mouseout.something", () => {
                     this.keyToolTip.style("opacity", 0);
                 });
@@ -1232,30 +1232,14 @@ export class PopslicerComponent implements OnInit {
         return this.tiphtml(d, mosaic);
     }
 
-    mosaicMouseEnter(datum: any, index: number, array: any) {
-        const attributes = array[index]["attributes"];
-        const x = parseInt(attributes["x"].nodeValue);
-        const y = parseInt(attributes["y"].nodeValue);
-        const rect = document.getElementById("mosaicChart").getBoundingClientRect();
-        const drawer = document.getElementsByClassName("mat-drawer-content")[0];
+    mosaicMouseEnter(datum: any) {
         this.keyToolTip.transition().duration(200).style("opacity", 0.9);
-        this.keyToolTip
-            .html(this.getTooltipHtml(datum.x))
-            .style("left", x + "px")
-            .style("top", drawer.scrollTop + rect.top - y + "px");
+        this.keyToolTip.html(this.getTooltipHtml(datum.x)).style("left", "5px").style("bottom", "25vh");
     }
 
-    matrixMouseEnter(datum: any, index: number, array: any) {
-        const attributes = array[index]["attributes"];
-        const x = parseInt(attributes["x"].nodeValue);
-        const y = parseInt(attributes["y"].nodeValue);
-        const rect = document.getElementById("matrixChart").getBoundingClientRect();
-        const drawer = document.getElementsByClassName("mat-drawer-content")[0];
+    matrixMouseEnter(datum: any) {
         this.matrixToolTip.transition().duration(200).style("opacity", 0.9);
-        this.matrixToolTip
-            .html(this.getMatrixTooltipHtml(datum))
-            .style("left", x + "px")
-            .style("top", drawer.scrollTop + rect.top + y + "px");
+        this.matrixToolTip.html(this.getMatrixTooltipHtml(datum)).style("left", "5px").style("bottom", "27vh");
     }
 
     exitMosaic() {
@@ -1307,12 +1291,12 @@ export class PopslicerComponent implements OnInit {
                 .select("svg")
                 .selectAll("rect");
             graph
-                .on("mouseover.something", (data: any, val, arr) => {
+                .on("mouseover.something", (data: any) => {
                     const item = this.CareModelExamples.filter((x) => {
                         return x.key[0] === data.key[0] && x.key[1] === data.key[1];
                     });
                     if (item.length > 0) {
-                        this.matrixMouseEnter(item[0], val, arr);
+                        this.matrixMouseEnter(item[0]);
                     }
                 })
                 .on("mouseout.something", () => {
