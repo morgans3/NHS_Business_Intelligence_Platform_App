@@ -1,3 +1,6 @@
-<p *ngFor="let item of feature?.properties | keyvalue; let i = index;">
-    <b>{{ item.key }}: </b>{{ item.value }}
-</p>
+<mat-list>
+    <div mat-subheader>Details</div>
+    <mat-list-item *ngFor="let item of feature?.properties | keyvalue; let i = index;">
+        <p><b class="m-r-5">{{ item.key }}:</b> {{ item.value }}</p>
+    </mat-list-item>
+</mat-list>

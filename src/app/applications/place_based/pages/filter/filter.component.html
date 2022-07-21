@@ -1,0 +1,34 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center">
+    <div fxFlex="60"></div>
+    <div fxFlex="40" class="text-right">
+        <button (click)="add()" type="button" mat-raised-button color="primary">Add new filter</button>
+    </div>
+</div>
+
+<form [formGroup]="form">
+    <div class="filters m-t-15">
+        <div formArrayName="filters" *ngFor="let control of form?.get('filters')['controls']; let i = index;">
+            <div fxLayout="row wrap" [formGroupName]="i">
+                <div fxFlex="50">
+                    <mat-form-field>
+                        <mat-select formControlName="dataset" placeholder="Select dataset">
+                            <mat-option *ngFor="let dataset of datasets | keyvalue" [value]="dataset.key">{{ dataset.value.title }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="50">
+                    <mat-form-field>
+                        <mat-select formControlName="field" placeholder="Dataset field">
+                            <mat-option *ngFor="let filterable of datasets[form?.get('filters')['controls'][i].controls.dataset.value]?.filterables; let i = index;" [value]="filterable.name">{{ filterable.name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100">
+                    <mat-form-field>
+                        <input matInput formControlName="fieldValue" placeholder="Field value" />
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>    
+</form>

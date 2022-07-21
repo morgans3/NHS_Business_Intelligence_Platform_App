@@ -4,6 +4,7 @@ import { HomeComponent } from "./pages/home/home.component";
 import { DatasetComponent } from "./pages/datasets/dataset.component";
 import { SettingsComponent } from "./pages/settings/settings.component";
 import { MapFeatureComponent } from "./pages/map-feature/map-feature.component";
+import { FilterComponent } from "./pages/filter/filter.component";
 
 export const DefaultRoutes: Routes = [
     {
@@ -21,6 +22,10 @@ export const DefaultRoutes: Routes = [
             {
                 path: "datasets",
                 component: DatasetComponent,
+            },
+            {
+                path: "filter",
+                component: FilterComponent
             },
             {
                 path: "settings",

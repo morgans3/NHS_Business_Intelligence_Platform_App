@@ -13,6 +13,7 @@ import { HomeComponent } from "./pages/home/home.component";
 import { SettingsComponent } from "./pages/settings/settings.component";
 import { DatasetComponent } from "./pages/datasets/dataset.component";
 import { MapFeatureComponent } from "./pages/map-feature/map-feature.component";
+import { FilterComponent } from "./pages/filter/filter.component";
 import { MapService } from "./shared/map.service";
 import { DatasetService } from "./shared/dataset.service";
 
@@ -31,7 +32,8 @@ import { DatasetService } from "./shared/dataset.service";
         HomeComponent,
         DatasetComponent,
         MapFeatureComponent,
-        SettingsComponent
+        SettingsComponent,
+        FilterComponent
     ],
     providers: [
         MapService,
